@@ -18,10 +18,11 @@ Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS v4. Dev-порт **3
 
 ```
 src/
-└── app/                # App Router
-    ├── layout.tsx      # корневой layout
-    ├── page.tsx        # /
-    └── globals.css     # глобальные стили + Tailwind
+├── app/                # App Router
+│   ├── layout.tsx      # корневой layout
+│   ├── page.tsx        # /
+│   └── globals.css     # глобальные стили + Tailwind + HeroUI
+└── components/         # переиспользуемые React-компоненты
 public/                 # статика (next.svg, vercel.svg, ...)
 ```
 
@@ -30,6 +31,7 @@ public/                 # статика (next.svg, vercel.svg, ...)
 - **App Router**, серверные компоненты по умолчанию; `"use client"` — только когда нужен клиент.
 - Алиас импорта: `@/*` → `./src/*` (см. `tsconfig.json`).
 - Стили — **Tailwind v4** через `@tailwindcss/postcss` (`postcss.config.mjs`), директивы в `src/app/globals.css`. Отдельного `tailwind.config` нет.
+- UI-библиотека — **HeroUI v3** (`@heroui/react` + `@heroui/styles`, поверх Tailwind v4 и React Aria). Провайдер не нужен; `@import "@heroui/styles"` в `globals.css` идёт **после** `@import "tailwindcss"`. Компоненты — compound-паттерн (`Card.Header` и т.п.), обработчики — `onPress`, а не `onClick`. Интерактивные компоненты рендерятся в клиентских (`"use client"`) обёртках в `src/components/`.
 - Тёмная тема — через классы `dark:` (см. `page.tsx`).
 - Линт — flat-config `eslint.config.mjs` (`core-web-vitals` + `typescript` из `eslint-config-next`).
 - Публичные env-переменные — с префиксом `NEXT_PUBLIC_` (пример: `NEXT_PUBLIC_API_URL` в `.env.example`), доступны в браузере.

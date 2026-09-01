@@ -6,7 +6,7 @@
 
 | Пакет        | Стек                                              | Порт (dev) | Своя инструкция          |
 | ------------ | ------------------------------------------------ | ---------- | ----------------------- |
-| `apps/web`   | Next.js 16 (App Router, React 19, TS, Tailwind v4) | 3000       | `apps/web/CLAUDE.md`    |
+| `apps/web`   | Next.js 16 (App Router, React 19, TS, Tailwind v4, HeroUI v3) | 3000       | `apps/web/CLAUDE.md`    |
 | `apps/api`   | NestJS 12 (TS, ESM, oxlint, vitest)              | 3001       | `apps/api/CLAUDE.md`    |
 | `packages/*` | Общие библиотеки (`@repo/*`), пока пусто          | —          | —                       |
 

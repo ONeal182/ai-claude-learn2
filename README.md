@@ -6,7 +6,7 @@
 
 | Пакет        | Стек                                             | Порт (dev) |
 | ------------ | ----------------------------------------------- | ---------- |
-| `apps/web`   | Next.js 16 (App Router, TS, Tailwind v4, ESLint) | 3000       |
+| `apps/web`   | Next.js 16 (App Router, TS, Tailwind v4, HeroUI v3, ESLint) | 3000       |
 | `apps/api`   | NestJS 12 (TS, ESM, oxlint, vitest)             | 3001       |
 | `packages/*` | место для общих библиотек (пока пусто)           | —          |
 

@@ -15,3 +15,13 @@ model User {
 
   @@map("users")
 }
+
+model Meeting {
+  id        String   @id @default(cuid())
+  title     String
+  startsAt  DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("meetings")
+}

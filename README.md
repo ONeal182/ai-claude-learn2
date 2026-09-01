@@ -57,11 +57,23 @@ monorepo/
 └── .node-version
 ```
 
+## База данных
+
+Postgres в Docker (`docker-compose.yml`, образ `postgres:17-alpine`, порт `5432`):
+
+```bash
+cp .env.example .env
+docker compose up -d postgres   # поднять
+docker compose down             # остановить
+docker compose down -v          # остановить и удалить данные (том postgres-data)
+```
+
 ## Переменные окружения
 
 Скопируйте примеры и заполните значения:
 
 ```bash
+cp .env.example .env
 cp apps/api/.env.example apps/api/.env
 cp apps/web/.env.example apps/web/.env
 ```

@@ -1,35 +1,69 @@
 # CLAUDE.md — apps/api
 
 NestJS 12, TypeScript, **чистый ESM** (`"type": "module"`). Линт — oxlint, тесты — vitest. Dev-порт **3001**.
+БД — Postgres через **Prisma 7** (no-rust-engine, драйвер-адаптер `@prisma/adapter-pg`).
 
 ## Команды
 
 Запускать через корень (`pnpm api <script>`) или из этой папки:
 
-| Команда           | Действие                                        |
-| ----------------- | --------------------------------------------- |
-| `pnpm dev`        | `nest start --watch` (порт 3001)               |
-| `pnpm start`      | `nest start`                                   |
-| `pnpm start:prod` | `node dist/main` (после `build`)               |
-| `pnpm build`      | `nest build` → `dist/`                         |
-| `pnpm lint`       | `oxlint src/ test/`                            |
-| `pnpm typecheck`  | `tsc --noEmit -p tsconfig.json`                |
-| `pnpm test`       | `vitest run` (файлы `**/*.spec.ts`)            |
-| `pnpm test:watch` | `vitest`                                       |
-| `pnpm test:cov`   | `vitest run --coverage`                        |
-| `pnpm test:e2e`   | `vitest run --config ./vitest.config.e2e.ts`   |
+| Команда           | Действие                                     |
+| ----------------- | -------------------------------------------- |
+| `pnpm dev`        | `nest start --watch` (порт 3001)             |
+| `pnpm start`      | `nest start`                                 |
+| `pnpm start:prod` | `node dist/main` (после `build`)             |
+| `pnpm build`      | `nest build` → `dist/`                       |
+| `pnpm lint`       | `oxlint src/ test/`                          |
+| `pnpm typecheck`  | `tsc --noEmit -p tsconfig.json`              |
+| `pnpm test`       | `vitest run` (файлы `**/*.spec.ts`)          |
+| `pnpm test:watch` | `vitest`                                     |
+| `pnpm test:cov`   | `vitest run --coverage`                      |
+| `pnpm test:e2e`   | `vitest run --config ./vitest.config.e2e.ts` |
+
+Prisma (конфиг подключения — `prisma.config.ts`, не `datasource.url` в схеме — так с v7):
+
+| Команда                                      | Действие                                                                                            |
+| -------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| `pnpm exec prisma migrate dev --name <name>` | новая миграция из `schema.prisma` + применить + generate                                            |
+| `pnpm exec prisma generate`                  | перегенерировать Prisma Client (нужно после каждого изменения схемы, если не гонялся `migrate dev`) |
+| `pnpm exec prisma studio`                    | GUI для БД                                                                                          |
 
 ## Структура
 
 ```
+prisma/
+├── schema.prisma       # модели (User, ...)
+└── migrations/
+prisma.config.ts         # datasource url (env DATABASE_URL) — Prisma 7 не читает url из schema.prisma
 src/
 ├── main.ts             # bootstrap, app.listen(PORT ?? 3001)
-├── app.module.ts       # корневой модуль
+├── app.module.ts       # корневой модуль (ConfigModule, PrismaModule, AuthModule, global ValidationPipe)
 ├── app.controller.ts   # GET /
 ├── app.service.ts
-└── app.controller.spec.ts
+├── app.controller.spec.ts
+├── prisma/
+│   ├── prisma.module.ts    # @Global, экспортирует PrismaService
+│   └── prisma.service.ts   # PrismaClient + PrismaPg-адаптер, $connect/$disconnect по lifecycle
+└── auth/                # CQRS (@nestjs/cqrs) — контроллер не содержит бизнес-логики
+    ├── auth.module.ts      # CqrsModule.forRoot() + JwtModule.registerAsync + регистрация хендлеров
+    ├── auth.controller.ts  # POST /auth/register, /auth/login — только CommandBus.execute(...)
+    ├── commands/
+    │   ├── impl/            # RegisterCommand, LoginCommand — { email, password }
+    │   └── handlers/        # RegisterHandler, LoginHandler — бизнес-логика, публикуют события
+    ├── queries/
+    │   ├── impl/            # FindUserByEmailQuery
+    │   └── handlers/        # FindUserByEmailHandler — единственная точка чтения User из Prisma
+    ├── events/
+    │   ├── impl/            # UserRegisteredEvent, UserLoggedInEvent
+    │   └── handlers/        # UserRegisteredHandler, UserLoggedInHandler — сейчас только логируют
+    ├── services/
+    │   └── auth-token.service.ts  # общий для command-хендлеров шаг: issue(user) → { accessToken }
+    └── dto/
+        ├── register.dto.ts # class-validator: email, password (min 8)
+        └── login.dto.ts
 test/
-└── app.e2e-spec.ts     # e2e
+├── app.e2e-spec.ts     # e2e
+└── auth.e2e-spec.ts    # e2e: register/login
 ```
 
 ## Соглашения
@@ -40,8 +74,12 @@ test/
 - Общая библиотека — `pnpm exec nest g library <name>`; path-алиасы из `tsconfig.json` резолвятся в тестах через `vite-tsconfig-paths`.
 - `strict: true`, но `strictPropertyInitialization: false` (под DI и декораторы).
 - vitest с `globals: true` — `describe/it/expect` без импорта; типы через `types: ["vitest/globals", "node"]`.
-- Порт и окружение — из `.env` (`PORT`, `NODE_ENV`); шаблон — `.env.example`.
+- Порт и окружение — из `.env` (`PORT`, `NODE_ENV`, `DATABASE_URL`, `JWT_SECRET`, `JWT_EXPIRES_IN`); шаблон — `.env.example`. Загружается через `ConfigModule.forRoot({ isGlobal: true })` в `AppModule`.
 - Билд-конфиг для сборки — `tsconfig.build.json`, выход в `dist/` (`deleteOutDir: true`).
+- Валидация DTO — глобальный `ValidationPipe` (`class-validator`/`class-transformer`), подключён через `APP_PIPE` в `AppModule` — работает и в реальном приложении, и в e2e-тестах, поднимающих `AppModule` напрямую через `Test.createTestingModule`.
+- Пароли — `bcryptjs` (чистый JS, без нативной сборки). JWT — `@nestjs/jwt`, секрет/TTL — из `JWT_SECRET`/`JWT_EXPIRES_IN`.
+- Prisma — модели в `prisma/schema.prisma`, URL подключения только в `prisma.config.ts` (Prisma 7 запрещает `url` прямо в `datasource` схемы). Клиент подключается через драйвер-адаптер `@prisma/adapter-pg`, а не встроенный rust-движок — так у Prisma 7 по умолчанию.
+- **CQRS** (`@nestjs/cqrs`) — паттерн для модулей с бизнес-логикой (сейчас: `auth`). Контроллер не знает о Prisma/бизнес-правилах — только собирает Command/Query из DTO и зовёт `CommandBus`/`QueryBus`. Структура фичи: `commands/{impl,handlers}`, `queries/{impl,handlers}`, `events/{impl,handlers}`, каждая директория с хендлерами экспортирует barrel-массив (`index.ts`) для регистрации в `providers` модуля. Чтение состояния (даже внутри командного хендлера) — через `QueryBus`, не напрямую через Prisma, чтобы у каждой модели чтения был один источник правды. Побочные эффекты после успешной команды — через `EventBus.publish(...)` и `@EventsHandler`, а не напрямую в хендлере команды.
 
 ## Актуализация документации
 

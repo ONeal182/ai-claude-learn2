@@ -5,7 +5,9 @@ packages:
 # Dependency install/build scripts pnpm is allowed to run.
 # pnpm blocks every postinstall by default; list here only what is needed.
 allowBuilds:
+  '@prisma/engines': true
   '@tailwindcss/oxide': true
   esbuild: true
+  prisma: true
   sharp: true
   unrs-resolver: true

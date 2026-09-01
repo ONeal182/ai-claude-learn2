@@ -41,9 +41,21 @@ pnpm api <script>    # = pnpm --filter api <script>
 - Форматирование — Prettier (`.prettierrc.json`), стиль отступов — `.editorconfig`. Хук `PostToolUse` в `.claude/settings.json` автоматически прогоняет Prettier по каждому файлу после `Write`/`Edit`.
 - Перед коммитом прогонять `pnpm lint && pnpm typecheck && pnpm test`.
 
+## База данных
+
+Postgres поднимается через `docker-compose.yml` в корне (образ `postgres:17-alpine`, порт `5432`, том `postgres-data`).
+
+```bash
+cp .env.example .env          # параметры POSTGRES_* и DATABASE_URL
+docker compose up -d postgres # поднять
+docker compose down           # остановить (том сохраняется)
+docker compose down -v        # остановить и удалить данные
+```
+
 ## Переменные окружения
 
 ```bash
+cp .env.example .env          # Postgres для docker-compose
 cp apps/api/.env.example apps/api/.env
 cp apps/web/.env.example apps/web/.env
 ```

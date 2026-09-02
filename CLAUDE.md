@@ -4,27 +4,28 @@
 
 ## Структура
 
-| Пакет        | Стек                                              | Порт (dev) | Своя инструкция          |
-| ------------ | ------------------------------------------------ | ---------- | ----------------------- |
-| `apps/web`   | Next.js 16 (App Router, React 19, TS, Tailwind v4, HeroUI v3) | 3000       | `apps/web/CLAUDE.md`    |
-| `apps/api`   | NestJS 12 (TS, ESM, oxlint, vitest)              | 3001       | `apps/api/CLAUDE.md`    |
-| `packages/*` | Общие библиотеки (`@repo/*`), пока пусто          | —          | —                       |
+| Пакет        | Стек                                                          | Порт (dev) | Своя инструкция      |
+| ------------ | ------------------------------------------------------------- | ---------- | -------------------- |
+| `apps/web`   | Next.js 16 (App Router, React 19, TS, Tailwind v4, HeroUI v3) | 3000       | `apps/web/CLAUDE.md` |
+| `apps/api`   | NestJS 12 (TS, ESM, oxlint, vitest)                           | 3001       | `apps/api/CLAUDE.md` |
+| `packages/*` | Общие библиотеки (`@repo/*`), пока пусто                      | —          | —                    |
 
 Воркспейсы объявлены в `pnpm-workspace.yaml` (`apps/*`, `packages/*`). Пайплайн задач — `turbo.json`.
 
 ## Команды (из корня)
 
-| Команда             | Действие                                                  |
-| ------------------- | ------------------------------------------------------- |
-| `pnpm install`      | Установка зависимостей всего воркспейса                  |
-| `pnpm dev`          | `web` + `api` в watch-режиме параллельно                 |
-| `pnpm build`        | Продакшн-сборка всех пакетов (`turbo run build`)         |
-| `pnpm start`        | Сборка + запуск                                          |
-| `pnpm lint`         | Линт всех пакетов (ESLint для web, oxlint для api)       |
-| `pnpm typecheck`    | `tsc --noEmit` по всем пакетам                           |
-| `pnpm test`         | Тесты всех пакетов (vitest в api)                        |
-| `pnpm format`       | Prettier по всему репозиторию                            |
-| `pnpm format:check` | Prettier — проверка без изменений                        |
+| Команда             | Действие                                                                           |
+| ------------------- | ---------------------------------------------------------------------------------- |
+| `pnpm install`      | Установка зависимостей всего воркспейса                                            |
+| `pnpm dev`          | `web` + `api` в watch-режиме параллельно                                           |
+| `pnpm build`        | Продакшн-сборка всех пакетов (`turbo run build`)                                   |
+| `pnpm start`        | Сборка + запуск                                                                    |
+| `pnpm lint`         | Линт всех пакетов (ESLint для web, oxlint для api)                                 |
+| `pnpm typecheck`    | `tsc --noEmit` по всем пакетам                                                     |
+| `pnpm test`         | Тесты всех пакетов (vitest в api)                                                  |
+| `pnpm test:e2e`     | E2e-тесты (vitest --config vitest.config.e2e.ts в api), требуют поднятого Postgres |
+| `pnpm format`       | Prettier по всему репозиторию                                                      |
+| `pnpm format:check` | Prettier — проверка без изменений                                                  |
 
 ### Один пакет
 
@@ -40,7 +41,7 @@ pnpm api <script>    # = pnpm --filter api <script>
 - pnpm блокирует postinstall-скрипты; разрешённые сборки перечислены в `pnpm-workspace.yaml` → `allowBuilds`.
 - Форматирование — Prettier (`.prettierrc.json`), стиль отступов — `.editorconfig`. Хук `PostToolUse` в `.claude/settings.json` автоматически прогоняет Prettier по каждому файлу после `Write`/`Edit`.
 - Перед коммитом прогонять `pnpm lint && pnpm typecheck && pnpm test`.
-- Husky: хук `.husky/pre-commit` при каждом `git commit` автоматически запускает `pnpm lint && pnpm test` (см. `prepare` в корневом `package.json`).
+- Husky: хук `.husky/pre-commit` при каждом `git commit` автоматически запускает `pnpm lint && pnpm test && pnpm test:e2e` (см. `prepare` в корневом `package.json`). Для e2e нужен поднятый Postgres (`docker compose up -d postgres`) — без него коммиты будут падать.
 
 ## База данных
 

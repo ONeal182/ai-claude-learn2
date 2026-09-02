@@ -17,9 +17,11 @@
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,mjs,cjs,json,md,css}\"",
     "clean": "turbo run clean && rm -rf node_modules",
     "web": "pnpm --filter web",
-    "api": "pnpm --filter api"
+    "api": "pnpm --filter api",
+    "prepare": "husky"
   },
   "devDependencies": {
+    "husky": "^9.1.7",
     "prettier": "^3.4.2",
     "turbo": "^2.5.6",
     "typescript": "^5.9.2"

@@ -40,6 +40,7 @@ pnpm api <script>    # = pnpm --filter api <script>
 - pnpm блокирует postinstall-скрипты; разрешённые сборки перечислены в `pnpm-workspace.yaml` → `allowBuilds`.
 - Форматирование — Prettier (`.prettierrc.json`), стиль отступов — `.editorconfig`. Хук `PostToolUse` в `.claude/settings.json` автоматически прогоняет Prettier по каждому файлу после `Write`/`Edit`.
 - Перед коммитом прогонять `pnpm lint && pnpm typecheck && pnpm test`.
+- Husky: хук `.husky/pre-commit` при каждом `git commit` автоматически запускает `pnpm lint && pnpm test` (см. `prepare` в корневом `package.json`).
 
 ## База данных
 

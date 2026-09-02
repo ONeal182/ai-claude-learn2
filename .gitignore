@@ -11,6 +11,9 @@ out/
 # turbo
 .turbo/
 
+# husky
+.husky/_/
+
 # test / coverage
 coverage/
 *.lcov

@@ -3,7 +3,7 @@ import { CommandHandler, EventBus, ICommandHandler, QueryBus } from '@nestjs/cqr
 import { compare } from 'bcryptjs';
 import type { User } from '@prisma/client';
 import { AuthTokenService, type AuthResult } from '../../services/auth-token.service.js';
-import { FindUserByEmailQuery } from '../../queries/impl/find-user-by-email.query.js';
+import { FindUserByEmailQuery } from '../../../users/queries/impl/find-user-by-email.query.js';
 import { UserLoggedInEvent } from '../../events/impl/user-logged-in.event.js';
 import { LoginCommand } from '../impl/login.command.js';
 

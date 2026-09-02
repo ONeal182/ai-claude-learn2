@@ -36,23 +36,30 @@ prisma/
 └── migrations/
 prisma.config.ts         # datasource url (env DATABASE_URL) — Prisma 7 не читает url из schema.prisma
 src/
-├── main.ts             # bootstrap, app.listen(PORT ?? 3001)
-├── app.module.ts       # корневой модуль (ConfigModule, PrismaModule, AuthModule, MeetingModule, global ValidationPipe)
+├── main.ts             # bootstrap, app.enableCors(), app.listen(PORT ?? 3001)
+├── app.module.ts       # корневой модуль (ConfigModule, PrismaModule, UsersModule, AuthModule, MeetingModule, global ValidationPipe)
 ├── app.controller.ts   # GET /
 ├── app.service.ts
 ├── app.controller.spec.ts
 ├── prisma/
 │   ├── prisma.module.ts    # @Global, экспортирует PrismaService
 │   └── prisma.service.ts   # PrismaClient + PrismaPg-адаптер, $connect/$disconnect по lifecycle
-├── auth/                # CQRS (@nestjs/cqrs) — контроллер не содержит бизнес-логики
+├── users/               # CQRS; владеет сущностью User (Prisma) — создание и поиск, без токенов/паролей-проверок
+│   ├── users.module.ts     # только регистрирует хендлеры в providers; ничего не импортирует/экспортирует —
+│   │                       # с auth-модулем связи нет, взаимодействие только через общую CommandBus/QueryBus
+│   ├── commands/
+│   │   ├── impl/            # CreateUserCommand — { email, passwordHash } (хеш уже посчитан вызывающей стороной)
+│   │   └── handlers/        # CreateUserHandler — prisma.user.create
+│   └── queries/
+│       ├── impl/            # FindUserByEmailQuery
+│       └── handlers/        # FindUserByEmailHandler — единственная точка чтения User из Prisma
+├── auth/                # CQRS (@nestjs/cqrs) — контроллер не содержит бизнес-логики; отвечает за токены и проверку credentials, не за хранение User
 │   ├── auth.module.ts      # CqrsModule.forRoot() + JwtModule.registerAsync + регистрация хендлеров; экспортирует JwtAuthGuard и JwtModule
 │   ├── auth.controller.ts  # POST /auth/register, /auth/login — только CommandBus.execute(...)
 │   ├── commands/
 │   │   ├── impl/            # RegisterCommand, LoginCommand — { email, password }
-│   │   └── handlers/        # RegisterHandler, LoginHandler — бизнес-логика, публикуют события
-│   ├── queries/
-│   │   ├── impl/            # FindUserByEmailQuery
-│   │   └── handlers/        # FindUserByEmailHandler — единственная точка чтения User из Prisma
+│   │   └── handlers/        # RegisterHandler, LoginHandler — хеширование/сверка пароля (bcryptjs), поиск/создание
+│   │                        # User через QueryBus/CommandBus → users-модуль, публикуют события, выпускают токен
 │   ├── events/
 │   │   ├── impl/            # UserRegisteredEvent, UserLoggedInEvent
 │   │   └── handlers/        # UserRegisteredHandler, UserLoggedInHandler — сейчас только логируют
@@ -92,13 +99,15 @@ test/
 - `strict: true`, но `strictPropertyInitialization: false` (под DI и декораторы).
 - vitest с `globals: true` — `describe/it/expect` без импорта; типы через `types: ["vitest/globals", "node"]`.
 - Порт и окружение — из `.env` (`PORT`, `NODE_ENV`, `DATABASE_URL`, `JWT_SECRET`, `JWT_EXPIRES_IN`); шаблон — `.env.example`. Загружается через `ConfigModule.forRoot({ isGlobal: true })` в `AppModule`.
+- CORS включён глобально в `main.ts` (`app.enableCors()`, все источники) — чтобы `apps/web` (порт 3000) ходил в API из браузера.
 - Билд-конфиг для сборки — `tsconfig.build.json`, выход в `dist/` (`deleteOutDir: true`).
 - Валидация DTO — глобальный `ValidationPipe` (`class-validator`/`class-transformer`), подключён через `APP_PIPE` в `AppModule` — работает и в реальном приложении, и в e2e-тестах, поднимающих `AppModule` напрямую через `Test.createTestingModule`.
 - Пароли — `bcryptjs` (чистый JS, без нативной сборки). JWT — `@nestjs/jwt`, секрет/TTL — из `JWT_SECRET`/`JWT_EXPIRES_IN`.
 - Защита эндпоинтов — `JwtAuthGuard` из `auth` (`src/auth/guards/jwt-auth.guard.ts`). Модуль с приватными ресурсами импортирует `AuthModule` (он реэкспортирует `JwtAuthGuard` и `JwtModule`) и вешает `@UseGuards(JwtAuthGuard)` на контроллер. Guard кладёт `{ userId, email }` в `request.user`. Нет заголовка `Authorization: Bearer <JWT>` или токен невалиден → `401`.
-- Один `CqrsModule.forRoot()` на приложение (в `AuthModule`, `global: true`). Остальные CQRS-модули (`meeting`) только регистрируют свои хендлеры в `providers` — `explorer` из `@nestjs/cqrs` находит их по всему приложению; повторный `forRoot()` не нужен.
+- Один `CqrsModule.forRoot()` на приложение (в `AuthModule`, `global: true`). Остальные CQRS-модули (`meeting`, `users`) только регистрируют свои хендлеры в `providers` — `explorer` из `@nestjs/cqrs` находит их по всему приложению; повторный `forRoot()` не нужен.
 - Prisma — модели в `prisma/schema.prisma`, URL подключения только в `prisma.config.ts` (Prisma 7 запрещает `url` прямо в `datasource` схемы). Клиент подключается через драйвер-адаптер `@prisma/adapter-pg`, а не встроенный rust-движок — так у Prisma 7 по умолчанию.
-- **CQRS** (`@nestjs/cqrs`) — паттерн для модулей с бизнес-логикой (сейчас: `auth`, `meeting`). Контроллер не знает о Prisma/бизнес-правилах — только собирает Command/Query из DTO и зовёт `CommandBus`/`QueryBus`. Структура фичи: `commands/{impl,handlers}`, `queries/{impl,handlers}`, `events/{impl,handlers}`, каждая директория с хендлерами экспортирует barrel-массив (`index.ts`) для регистрации в `providers` модуля. Чтение состояния (даже внутри командного хендлера) — через `QueryBus`, не напрямую через Prisma, чтобы у каждой модели чтения был один источник правды. Побочные эффекты после успешной команды — через `EventBus.publish(...)` и `@EventsHandler`, а не напрямую в хендлере команды.
+- **CQRS** (`@nestjs/cqrs`) — паттерн для модулей с бизнес-логикой (сейчас: `auth`, `users`, `meeting`). Контроллер не знает о Prisma/бизнес-правилах — только собирает Command/Query из DTO и зовёт `CommandBus`/`QueryBus`. Структура фичи: `commands/{impl,handlers}`, `queries/{impl,handlers}`, `events/{impl,handlers}` (если есть), каждая директория с хендлерами экспортирует barrel-массив (`index.ts`) для регистрации в `providers` модуля. Чтение состояния (даже внутри командного хендлера) — через `QueryBus`, не напрямую через Prisma, чтобы у каждой модели чтения был один источник правды. Побочные эффекты после успешной команды — через `EventBus.publish(...)` и `@EventsHandler`, а не напрямую в хендлере команды.
+- **Границы модулей `auth`/`users`**: `auth` не хранит и не читает `User` напрямую через Prisma — только через `CommandBus.execute(new CreateUserCommand(...))` / `QueryBus.execute(new FindUserByEmailQuery(...))`, объявленные в `users`. `users` не импортирует `auth` и ничего не знает про пароли/JWT — принимает уже готовый `passwordHash`. Хеширование (`bcryptjs`) и сверка пароля — ответственность `auth` (`RegisterHandler`/`LoginHandler`). Ни один из модулей не импортирует другой явно (`AppModule` подключает оба независимо) — связь только через общую CQRS-шину, это и есть механизм их взаимодействия.
 
 ## Актуализация документации
 

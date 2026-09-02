@@ -1,6 +1,11 @@
 @import 'tailwindcss';
 @import '@heroui/styles';
 
+/* Тёмная тема — по классу `.dark` на <html> (совпадает с селектором HeroUI v3).
+   Класс проставляет инлайн-скрипт в layout.tsx по системной prefers-color-scheme,
+   чтобы Tailwind-утилиты `dark:` и токены HeroUI переключались синхронно. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -13,11 +18,21 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+}
+
+/* Текст ошибок полей, звёздочка обязательного поля и подпись невалидного поля
+   рисуются цветом --danger. Дефолт HeroUI на белом даёт лишь ~3.6:1 — ниже
+   порога WCAG AA (4.5:1) для мелкого текста; в тёмной теме на карточке ~4.1:1.
+   Затемняем в светлой / осветляем в тёмной до контраста ≥ 5:1, семантику
+   токена сохраняем. Правило вне @layer — перебивает `@layer base` HeroUI. */
+:root {
+  --danger: oklch(0.55 0.21 25.74);
+}
+.dark {
+  --danger: oklch(0.66 0.19 24.63);
 }
 
 body {

@@ -1,4 +1,4 @@
-# Plan: prd-meeting-file-upload-storage-processing-and-display
+# Plan: plan-meeting-file-upload-storage-processing-and-display
 
 **PRD:** @docs/prd-meeting-file-upload-storage-processing-and-display.md
 **Дата:** 2026-09-02

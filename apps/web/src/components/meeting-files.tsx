@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { ChangeEvent, DragEvent } from 'react';
 import { useRouter } from 'next/navigation';
-import { Button, Card, Spinner, cn } from '@heroui/react';
+import { AlertDialog, Button, Card, Spinner, cn } from '@heroui/react';
 import {
   ApiError,
   deleteMeetingFile,
@@ -207,6 +207,13 @@ function FileRow({
     });
   }
 
+  function handleDelete() {
+    void runRowAction('delete', () => deleteMeetingFile(meetingId, file.id, accessToken), {
+      refreshAfter: true,
+      ignoreMissing: true,
+    });
+  }
+
   return (
     <li className="flex flex-col gap-3 rounded-lg border border-border/60 p-3">
       <div className="flex items-start gap-3">
@@ -269,21 +276,39 @@ function FileRow({
           </Button>
         ) : null}
 
-        <Button
-          size="sm"
-          variant="secondary"
-          className="gap-1.5 text-danger"
-          onPress={() =>
-            void runRowAction('delete', () => deleteMeetingFile(meetingId, file.id, accessToken), {
-              refreshAfter: true,
-              ignoreMissing: true,
-            })
-          }
-          isPending={busy === 'delete'}
-        >
-          <TrashIcon className="size-4" />
-          Удалить
-        </Button>
+        <AlertDialog>
+          <Button
+            size="sm"
+            variant="secondary"
+            className="gap-1.5 text-danger"
+            isPending={busy === 'delete'}
+          >
+            <TrashIcon className="size-4" />
+            Удалить
+          </Button>
+          <AlertDialog.Backdrop>
+            <AlertDialog.Container>
+              <AlertDialog.Dialog className="sm:max-w-[400px]">
+                <AlertDialog.CloseTrigger />
+                <AlertDialog.Header>
+                  <AlertDialog.Icon status="danger" />
+                  <AlertDialog.Heading>Удалить файл?</AlertDialog.Heading>
+                </AlertDialog.Header>
+                <AlertDialog.Body>
+                  <p>«{file.originalName}» будет удалён без возможности восстановить.</p>
+                </AlertDialog.Body>
+                <AlertDialog.Footer>
+                  <Button slot="close" variant="tertiary">
+                    Отмена
+                  </Button>
+                  <Button slot="close" variant="danger" onPress={handleDelete}>
+                    Удалить
+                  </Button>
+                </AlertDialog.Footer>
+              </AlertDialog.Dialog>
+            </AlertDialog.Container>
+          </AlertDialog.Backdrop>
+        </AlertDialog>
       </div>
 
       {hasTranscript ? (

@@ -151,8 +151,9 @@ describe('Meeting (e2e)', () => {
   });
 
   describe('GET /meetings/:id', () => {
-    it('возвращает одну встречу по идентификатору', async () => {
-      const created = await createMeeting({ title: 'По id' });
+    it('возвращает одну встречу по идентификатору с id / title / startsAt', async () => {
+      const startsAt = futureIso();
+      const created = await createMeeting({ title: 'По id', startsAt });
 
       const res = await request(app.getHttpServer())
         .get(`/meetings/${created.id}`)
@@ -161,6 +162,7 @@ describe('Meeting (e2e)', () => {
 
       expect(res.body.id).toBe(created.id);
       expect(res.body.title).toBe('По id');
+      expect(new Date(res.body.startsAt).toISOString()).toBe(startsAt);
     });
 
     it('возвращает 404 при отсутствии встречи', async () => {

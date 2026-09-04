@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Card, Spinner } from '@heroui/react';
 import { ApiError, getMeeting } from '@/lib/api';
 import { useAuthedResource } from '@/hooks/use-authed-resource';
+import { MeetingFiles } from '@/components/meeting-files';
 import { ArrowLeftIcon, CalendarIcon } from '@/components/icons';
 
 const dateTimeFormatter = new Intl.DateTimeFormat('ru-RU', {
@@ -25,7 +26,7 @@ function BackLink() {
 
 export function MeetingDetails({ id }: { id: string }) {
   const load = useCallback((accessToken: string) => getMeeting(id, accessToken), [id]);
-  const { status, data: meeting, error } = useAuthedResource(load);
+  const { status, data: meeting, error, session } = useAuthedResource(load);
 
   if (status === 'loading') {
     return (
@@ -42,27 +43,31 @@ export function MeetingDetails({ id }: { id: string }) {
       <div className="flex w-full max-w-2xl flex-col gap-6 py-10">
         <BackLink />
 
-        {status === 'ready' && meeting ? (
-          <Card className="w-full gap-4 border border-border/60 p-6 shadow-xl backdrop-blur">
-            <Card.Header className="gap-3">
-              <span
-                aria-hidden
-                className="flex size-11 shrink-0 items-center justify-center rounded-full bg-foreground/5 text-foreground"
-              >
-                <CalendarIcon className="size-5.5" />
-              </span>
-              <div className="flex min-w-0 flex-col gap-1">
-                <h1 className="text-xl font-semibold tracking-tight text-foreground">
-                  {meeting.title}
-                </h1>
-                <p className="text-sm text-muted">
-                  <time dateTime={meeting.startsAt}>
-                    {dateTimeFormatter.format(new Date(meeting.startsAt))}
-                  </time>
-                </p>
-              </div>
-            </Card.Header>
-          </Card>
+        {status === 'ready' && meeting && session ? (
+          <>
+            <Card className="w-full gap-4 border border-border/60 p-6 shadow-xl backdrop-blur">
+              <Card.Header className="gap-3">
+                <span
+                  aria-hidden
+                  className="flex size-11 shrink-0 items-center justify-center rounded-full bg-foreground/5 text-foreground"
+                >
+                  <CalendarIcon className="size-5.5" />
+                </span>
+                <div className="flex min-w-0 flex-col gap-1">
+                  <h1 className="text-xl font-semibold tracking-tight text-foreground">
+                    {meeting.title}
+                  </h1>
+                  <p className="text-sm text-muted">
+                    <time dateTime={meeting.startsAt}>
+                      {dateTimeFormatter.format(new Date(meeting.startsAt))}
+                    </time>
+                  </p>
+                </div>
+              </Card.Header>
+            </Card>
+
+            <MeetingFiles meetingId={meeting.id} accessToken={session.accessToken} />
+          </>
         ) : null}
 
         {status === 'error' && notFound ? (

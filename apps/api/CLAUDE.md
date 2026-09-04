@@ -44,15 +44,16 @@ src/
 ├── prisma/
 │   ├── prisma.module.ts    # @Global, экспортирует PrismaService
 │   └── prisma.service.ts   # PrismaClient + PrismaPg-адаптер, $connect/$disconnect по lifecycle
-├── users/               # CQRS; владеет сущностью User (Prisma) — создание и поиск, без токенов/паролей-проверок
+├── users/               # CQRS; владеет сущностью User (Prisma) — создание, поиск и обновление профиля, без токенов/паролей-проверок
 │   ├── users.module.ts     # только регистрирует хендлеры в providers; ничего не импортирует/экспортирует —
 │   │                       # с auth-модулем связи нет, взаимодействие только через общую CommandBus/QueryBus
 │   ├── commands/
-│   │   ├── impl/            # CreateUserCommand — { email, passwordHash } (хеш уже посчитан вызывающей стороной)
-│   │   └── handlers/        # CreateUserHandler — prisma.user.create
+│   │   ├── impl/            # CreateUserCommand — { email, passwordHash } (хеш уже посчитан вызывающей стороной);
+│   │   │                    # UpdateUserProfileCommand — { userId, name }
+│   │   └── handlers/        # CreateUserHandler — prisma.user.create; UpdateUserProfileHandler — prisma.user.update (name)
 │   └── queries/
-│       ├── impl/            # FindUserByEmailQuery
-│       └── handlers/        # FindUserByEmailHandler — единственная точка чтения User из Prisma
+│       ├── impl/            # FindUserByEmailQuery; FindUserByIdQuery — { userId }
+│       └── handlers/        # FindUserByEmailHandler / FindUserByIdHandler — единственные точки чтения User из Prisma (по email / по id)
 ├── auth/                # CQRS (@nestjs/cqrs) — контроллер не содержит бизнес-логики; отвечает за токены и проверку credentials, не за хранение User
 │   ├── auth.module.ts      # CqrsModule.forRoot() + JwtModule.registerAsync + регистрация хендлеров; экспортирует JwtAuthGuard и JwtModule
 │   ├── auth.controller.ts  # POST /auth/register, /auth/login — только CommandBus.execute(...)
@@ -70,6 +71,15 @@ src/
 │   └── dto/
 │       ├── register.dto.ts # class-validator: email, password (min 8)
 │       └── login.dto.ts
+├── profile/             # CQRS; контроллер под @UseGuards(JwtAuthGuard) (импортирует AuthModule)
+│   ├── profile.module.ts    # imports: [AuthModule]; регистрирует QueryHandlers в providers
+│   ├── profile.controller.ts # GET /users/me, PATCH /users/me — userId берёт из request.user (JwtAuthGuard)
+│   ├── queries/
+│   │   ├── impl/            # GetProfileQuery { userId }
+│   │   └── handlers/        # GetProfileHandler — читает User через QueryBus(FindUserByIdQuery) из users, собирает ProfileDto
+│   └── dto/
+│       ├── profile.dto.ts          # форма ответа { id, email, name, avatarUrl, createdAt } + toProfileDto (avatarUrl = avatarKey ? '/users/avatars/'+avatarKey : null)
+│       └── update-profile-name.dto.ts # class-validator: name — @Transform trim + @Length(1, 50)
 ├── meeting/             # CQRS; весь контроллер под @UseGuards(JwtAuthGuard) (импортирует AuthModule)
 │   ├── meeting.module.ts   # imports: [AuthModule]; регистрирует хендлеры (CqrsModule берётся из auth, forRoot не дублируется)
 │   ├── meeting.controller.ts  # POST /meetings, GET /meetings, GET /meetings/:id — только CommandBus/QueryBus
@@ -117,7 +127,8 @@ test/
 ├── app.e2e-spec.ts          # e2e
 ├── auth.e2e-spec.ts         # e2e: register/login
 ├── meeting.e2e-spec.ts      # e2e: CRUD встреч под Bearer-токеном
-└── meeting-files.e2e-spec.ts # e2e: загрузка/список/скачивание/удаление; отказы 401/413/400/404; фоновая обработка recording (pending→done + транскрипт), reprocess (200 только для failed, иначе 409); сквозной сценарий пути UI одним прогоном
+├── meeting-files.e2e-spec.ts # e2e: загрузка/список/скачивание/удаление; отказы 401/413/400/404; фоновая обработка recording (pending→done + транскрипт), reprocess (200 только для failed, иначе 409); сквозной сценарий пути UI одним прогоном
+└── profile.e2e-spec.ts      # e2e: GET/PATCH /users/me под Bearer-токеном; 401 без токена; PATCH — 400 для пустого (после trim) и >50 символов имени без изменения в БД
 ```
 
 ## Соглашения
@@ -136,7 +147,8 @@ test/
 - Защита эндпоинтов — `JwtAuthGuard` из `auth` (`src/auth/guards/jwt-auth.guard.ts`). Модуль с приватными ресурсами импортирует `AuthModule` (он реэкспортирует `JwtAuthGuard` и `JwtModule`) и вешает `@UseGuards(JwtAuthGuard)` на контроллер. Guard кладёт `{ userId, email }` в `request.user`. Нет заголовка `Authorization: Bearer <JWT>` или токен невалиден → `401`.
 - Один `CqrsModule.forRoot()` на приложение (в `AuthModule`, `global: true`). Остальные CQRS-модули (`meeting`, `meeting-file`, `users`) только регистрируют свои хендлеры в `providers` — `explorer` из `@nestjs/cqrs` находит их по всему приложению; повторный `forRoot()` не нужен.
 - Prisma — модели в `prisma/schema.prisma`, URL подключения только в `prisma.config.ts` (Prisma 7 запрещает `url` прямо в `datasource` схемы). Клиент подключается через драйвер-адаптер `@prisma/adapter-pg`, а не встроенный rust-движок — так у Prisma 7 по умолчанию.
-- **CQRS** (`@nestjs/cqrs`) — паттерн для модулей с бизнес-логикой (сейчас: `auth`, `users`, `meeting`, `meeting-file`). Контроллер не знает о Prisma/бизнес-правилах — только собирает Command/Query из DTO и зовёт `CommandBus`/`QueryBus`. Структура фичи: `commands/{impl,handlers}`, `queries/{impl,handlers}`, `events/{impl,handlers}` (если есть), каждая директория с хендлерами экспортирует barrel-массив (`index.ts`) для регистрации в `providers` модуля. Чтение состояния (даже внутри командного хендлера) — через `QueryBus`, не напрямую через Prisma, чтобы у каждой модели чтения был один источник правды. Побочные эффекты после успешной команды — через `EventBus.publish(...)` и `@EventsHandler`, а не напрямую в хендлере команды.
+- **Профиль пользователя (`profile`)**. `User.name` (nullable) и `User.avatarKey` (nullable, ключ файла аватара — appears в Фазе 3) — поля Prisma-модели `User`. `GET /users/me` / `PATCH /users/me` отдают/меняют профиль текущего пользователя (`request.user.userId` из `JwtAuthGuard`); `profile` не хранит своих Prisma-моделей — чтение/запись `User` только через `users` (`FindUserByIdQuery`/`UpdateUserProfileCommand`). Ответ (`ProfileDto`) собирает `GetProfileHandler`: `avatarUrl = avatarKey ? '/users/avatars/' + avatarKey : null` (сам эндпоинт отдачи аватара — Фаза 3). `PATCH` принимает `{ name }` (`UpdateProfileNameDto`: `@Transform` trim + `@Length(1, 50)` — пустая после trim строка или длина > 50 → `400`, значение в БД не меняется).
+- **CQRS** (`@nestjs/cqrs`) — паттерн для модулей с бизнес-логикой (сейчас: `auth`, `users`, `meeting`, `meeting-file`, `profile`). Контроллер не знает о Prisma/бизнес-правилах — только собирает Command/Query из DTO и зовёт `CommandBus`/`QueryBus`. Структура фичи: `commands/{impl,handlers}`, `queries/{impl,handlers}`, `events/{impl,handlers}` (если есть), каждая директория с хендлерами экспортирует barrel-массив (`index.ts`) для регистрации в `providers` модуля. Чтение состояния (даже внутри командного хендлера) — через `QueryBus`, не напрямую через Prisma, чтобы у каждой модели чтения был один источник правды. Побочные эффекты после успешной команды — через `EventBus.publish(...)` и `@EventsHandler`, а не напрямую в хендлере команды.
 - **Границы модулей `auth`/`users`**: `auth` не хранит и не читает `User` напрямую через Prisma — только через `CommandBus.execute(new CreateUserCommand(...))` / `QueryBus.execute(new FindUserByEmailQuery(...))`, объявленные в `users`. `users` не импортирует `auth` и ничего не знает про пароли/JWT — принимает уже готовый `passwordHash`. Хеширование (`bcryptjs`) и сверка пароля — ответственность `auth` (`RegisterHandler`/`LoginHandler`). Ни один из модулей не импортирует другой явно (`AppModule` подключает оба независимо) — связь только через общую CQRS-шину, это и есть механизм их взаимодействия.
 - **Хранение файлов встречи (`meeting-file`)**. Бинарники — на диске в `UPLOADS_DIR` (плоско, имя = случайный uuid = `storageKey`), в БД (`meeting_files`) — только метаданные и `storageKey`. Работа с ФС — только через `FileStorageService` (не в хендлерах). Приём — `FileInterceptor('file')` + `MulterModule.registerAsync` (memoryStorage: буфер в памяти, ограничен `MAX_UPLOAD_SIZE_BYTES`; запись на диск — в командном хендлере после проверки встречи, чтобы не плодить «сирот» при 404/400). Порядок отказов: `JwtAuthGuard` (401) → multer `limits`/`fileFilter` (413/400) → хендлер `GetMeetingByIdQuery` (404). Осознанные ограничения этой итерации: доверяем `Content-Type` клиента (детект содержимого/антивирус не делаем); при `onDelete: Cascade` удаление встречи оставит бинарники-сироты на диске (удаление встреч в скоуп фичи не входит); durability очереди/файлов после рестарта не гарантируется; при нескольких инстансах API каталог не общий. Не-ASCII имя файла из multipart перекодируется `latin1 → utf8` в контроллере; отдача — `StreamableFile` с `Content-Disposition` по RFC 5987.
 - **Фоновая обработка записи (`meeting-file/processing`)**. Оба входа в очередь идут через одно событие `MeetingFileProcessingRequestedEvent { fileId }`: `CreateMeetingFileHandler` публикует его для только что загруженной `recording` (решение «нужна ли обработка» — здесь, у издателя), `ReprocessMeetingFileHandler` — после успешного сброса статуса. `MeetingFileProcessingRequestedHandler` безусловно кладёт `fileId` в `MeetingFileProcessingQueue` — in-process воркер без внешнего брокера (`concurrency = 1`), ведёт `pending → processing → done|failed` и по успеху пишет `transcriptText` в ту же строку. `SttService` (токен `STT_SERVICE`) — единственная реализация `StubSttService`: транскрипт детерминированно выводится из метаданных файла (без чтения содержимого, без ветвления по `NODE_ENV` — локальный pre-commit идёт с `development`). Путь ошибки STT в e2e задаётся через `.overrideProvider(STT_SERVICE)` (двойник падает по маркеру `__stt_fail__` в имени) — в проде тестовых веток нет. `POST /meetings/:id/files/:fileId/reprocess` — атомарный `updateMany({ where: { status: failed }, data: { status: pending, transcriptText: null } })`; `count === 0` → `409 Conflict` (гонка/не тот статус не приводит к двойной постановке в очередь), иначе публикуется событие. `DELETE` уносит транскрипт вместе со строкой; если файл в этот момент в обработке — воркер ловит `P2025` и молча останавливается. `MeetingFileProcessingQueue` реализует `OnModuleDestroy` (флаг остановки + `await` текущей задачи) — иначе e2e с `app.close()` в `afterEach` «догорают» и пишут в закрытый `PrismaClient`. Durability между рестартами не гарантируется: зависшие `pending`/`processing` не возобновляются.

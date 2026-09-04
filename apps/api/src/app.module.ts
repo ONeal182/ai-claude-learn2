@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module.js';
 import { UsersModule } from './users/users.module.js';
 import { MeetingModule } from './meeting/meeting.module.js';
 import { MeetingFileModule } from './meeting-file/meeting-file.module.js';
+import { ProfileModule } from './profile/profile.module.js';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { MeetingFileModule } from './meeting-file/meeting-file.module.js';
     AuthModule,
     MeetingModule,
     MeetingFileModule,
+    ProfileModule,
   ],
   controllers: [AppController],
   providers: [

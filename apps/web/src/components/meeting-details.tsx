@@ -1,19 +1,16 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { Card, Spinner } from '@heroui/react';
-import { ApiError, getMeeting, type Meeting } from '@/lib/api';
-import { clearSession, getSession } from '@/lib/session';
+import { ApiError, getMeeting } from '@/lib/api';
+import { useAuthedResource } from '@/hooks/use-authed-resource';
 import { ArrowLeftIcon, CalendarIcon } from '@/components/icons';
 
 const dateTimeFormatter = new Intl.DateTimeFormat('ru-RU', {
   dateStyle: 'long',
   timeStyle: 'short',
 });
-
-type Status = 'loading' | 'ready' | 'not-found' | 'error';
 
 function BackLink() {
   return (
@@ -27,45 +24,8 @@ function BackLink() {
 }
 
 export function MeetingDetails({ id }: { id: string }) {
-  const router = useRouter();
-  const [status, setStatus] = useState<Status>('loading');
-  const [meeting, setMeeting] = useState<Meeting | null>(null);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const session = getSession();
-    if (!session) {
-      router.replace('/login');
-      return;
-    }
-
-    let cancelled = false;
-
-    getMeeting(id, session.accessToken)
-      .then((data) => {
-        if (cancelled) return;
-        setMeeting(data);
-        setStatus('ready');
-      })
-      .catch((fetchError: unknown) => {
-        if (cancelled) return;
-        if (fetchError instanceof ApiError && fetchError.status === 401) {
-          clearSession();
-          router.replace('/login');
-          return;
-        }
-        if (fetchError instanceof ApiError && fetchError.status === 404) {
-          setStatus('not-found');
-          return;
-        }
-        setError(fetchError instanceof Error ? fetchError.message : 'Не удалось загрузить встречу');
-        setStatus('error');
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, [id, router]);
+  const load = useCallback((accessToken: string) => getMeeting(id, accessToken), [id]);
+  const { status, data: meeting, error } = useAuthedResource(load);
 
   if (status === 'loading') {
     return (
@@ -74,6 +34,8 @@ export function MeetingDetails({ id }: { id: string }) {
       </main>
     );
   }
+
+  const notFound = error instanceof ApiError && error.status === 404;
 
   return (
     <main className="flex flex-1 justify-center bg-gradient-to-br from-zinc-50 via-white to-zinc-100 p-6 dark:from-zinc-950 dark:via-black dark:to-zinc-900">
@@ -103,7 +65,7 @@ export function MeetingDetails({ id }: { id: string }) {
           </Card>
         ) : null}
 
-        {status === 'not-found' ? (
+        {status === 'error' && notFound ? (
           <Card className="w-full gap-2 border border-border/60 p-6 text-center shadow-xl backdrop-blur">
             <h1 className="text-lg font-medium text-foreground">Встреча не найдена</h1>
             <p className="text-sm text-muted">
@@ -112,9 +74,9 @@ export function MeetingDetails({ id }: { id: string }) {
           </Card>
         ) : null}
 
-        {status === 'error' ? (
+        {status === 'error' && !notFound ? (
           <p role="alert" className="rounded-lg bg-danger/10 px-3 py-2 text-sm text-danger">
-            {error}
+            {error.message}
           </p>
         ) : null}
       </div>

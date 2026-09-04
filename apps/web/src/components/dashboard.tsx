@@ -1,11 +1,12 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Button, Card, Spinner } from '@heroui/react';
-import { ApiError, getMeetings, type Meeting } from '@/lib/api';
-import { clearSession, getSession } from '@/lib/session';
+import { getMeetings, type Meeting } from '@/lib/api';
+import { clearSession } from '@/lib/session';
+import { useAuthedResource } from '@/hooks/use-authed-resource';
 import { CalendarIcon, ChevronRightIcon, LogOutIcon } from '@/components/icons';
 
 const dateTimeFormatter = new Intl.DateTimeFormat('ru-RU', {
@@ -67,54 +68,21 @@ function MeetingSection({
   );
 }
 
-type Status = 'loading' | 'ready' | 'error';
-
 export function Dashboard() {
   const router = useRouter();
-  const [status, setStatus] = useState<Status>('loading');
-  const [email, setEmail] = useState<string | null>(null);
-  const [upcomingMeetings, setUpcomingMeetings] = useState<Meeting[]>([]);
-  const [recentMeetings, setRecentMeetings] = useState<Meeting[]>([]);
-  const [error, setError] = useState<string | null>(null);
+  const { status, data, error, session } = useAuthedResource(getMeetings);
+  // «сейчас» фиксируем один раз при монтировании — граница «предстоящие/прошедшие»
+  // не должна плыть при перерисовках (и useMemo не имеет права звать Date.now()).
+  const [now] = useState(() => Date.now());
 
-  useEffect(() => {
-    const session = getSession();
-    if (!session) {
-      router.replace('/login');
-      return;
-    }
+  const upcomingMeetings = useMemo(() => {
+    if (!data) return [];
+    return data
+      .filter((meeting) => new Date(meeting.startsAt).getTime() >= now)
+      .sort((a, b) => new Date(a.startsAt).getTime() - new Date(b.startsAt).getTime());
+  }, [data, now]);
 
-    let cancelled = false;
-
-    getMeetings(session.accessToken)
-      .then((data) => {
-        if (cancelled) return;
-        const now = Date.now();
-        const upcoming = data
-          .filter((meeting) => new Date(meeting.startsAt).getTime() >= now)
-          .sort((a, b) => new Date(a.startsAt).getTime() - new Date(b.startsAt).getTime());
-
-        setEmail(session.email);
-        setUpcomingMeetings(upcoming);
-        setRecentMeetings(data.slice(0, 3));
-        setStatus('ready');
-      })
-      .catch((fetchError: unknown) => {
-        if (cancelled) return;
-        if (fetchError instanceof ApiError && fetchError.status === 401) {
-          clearSession();
-          router.replace('/login');
-          return;
-        }
-        setEmail(session.email);
-        setError(fetchError instanceof Error ? fetchError.message : 'Не удалось загрузить встречи');
-        setStatus('error');
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, [router]);
+  const recentMeetings = useMemo(() => data?.slice(0, 3) ?? [], [data]);
 
   function handleLogout() {
     clearSession();
@@ -136,7 +104,8 @@ export function Dashboard() {
           <div className="flex min-w-0 flex-col">
             <h1 className="text-xl font-semibold tracking-tight text-foreground">Ваши встречи</h1>
             <p className="text-sm text-muted">
-              Вы вошли как <span className="truncate font-medium text-foreground">{email}</span>
+              Вы вошли как{' '}
+              <span className="truncate font-medium text-foreground">{session?.email}</span>
             </p>
           </div>
           <Button variant="secondary" onPress={handleLogout} className="min-h-11 gap-2 shrink-0">
@@ -145,9 +114,9 @@ export function Dashboard() {
           </Button>
         </header>
 
-        {error ? (
+        {status === 'error' ? (
           <p role="alert" className="rounded-lg bg-danger/10 px-3 py-2 text-sm text-danger">
-            {error}
+            {error.message}
           </p>
         ) : null}
 

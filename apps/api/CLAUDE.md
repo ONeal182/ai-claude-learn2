@@ -32,12 +32,12 @@ Prisma (конфиг подключения — `prisma.config.ts`, не `dataso
 
 ```
 prisma/
-├── schema.prisma       # модели (User, Meeting)
+├── schema.prisma       # модели (User, Meeting, MeetingFile) + enum'ы MeetingFileType / MeetingFileStatus
 └── migrations/
 prisma.config.ts         # datasource url (env DATABASE_URL) — Prisma 7 не читает url из schema.prisma
 src/
 ├── main.ts             # bootstrap, app.enableCors(), app.listen(PORT ?? 3001)
-├── app.module.ts       # корневой модуль (ConfigModule, PrismaModule, UsersModule, AuthModule, MeetingModule, global ValidationPipe)
+├── app.module.ts       # корневой модуль (ConfigModule, PrismaModule, UsersModule, AuthModule, MeetingModule, MeetingFileModule, global ValidationPipe)
 ├── app.controller.ts   # GET /
 ├── app.service.ts
 ├── app.controller.spec.ts
@@ -70,24 +70,41 @@ src/
 │   └── dto/
 │       ├── register.dto.ts # class-validator: email, password (min 8)
 │       └── login.dto.ts
-└── meeting/             # CQRS; весь контроллер под @UseGuards(JwtAuthGuard) (импортирует AuthModule)
-    ├── meeting.module.ts   # imports: [AuthModule]; регистрирует хендлеры (CqrsModule берётся из auth, forRoot не дублируется)
-    ├── meeting.controller.ts  # POST /meetings, GET /meetings, GET /meetings/:id — только CommandBus/QueryBus
+├── meeting/             # CQRS; весь контроллер под @UseGuards(JwtAuthGuard) (импортирует AuthModule)
+│   ├── meeting.module.ts   # imports: [AuthModule]; регистрирует хендлеры (CqrsModule берётся из auth, forRoot не дублируется)
+│   ├── meeting.controller.ts  # POST /meetings, GET /meetings, GET /meetings/:id — только CommandBus/QueryBus
+│   ├── commands/
+│   │   ├── impl/            # CreateMeetingCommand — { title, startsAt }
+│   │   └── handlers/        # CreateMeetingHandler — prisma.meeting.create + публикует MeetingCreatedEvent
+│   ├── queries/
+│   │   ├── impl/            # ListMeetingsQuery, GetMeetingByIdQuery
+│   │   └── handlers/        # ListMeetingsHandler; GetMeetingByIdHandler — 404 (NotFoundException), если встречи нет
+│   ├── events/
+│   │   ├── impl/            # MeetingCreatedEvent
+│   │   └── handlers/        # MeetingCreatedHandler — сейчас только логирует
+│   └── dto/
+│       └── create-meeting.dto.ts  # class-validator: title (IsNotEmpty), startsAt (IsDateString)
+└── meeting-file/        # CQRS; вложенный ресурс /meetings/:meetingId/files, контроллер под @UseGuards(JwtAuthGuard)
+    ├── meeting-file.module.ts    # imports: [AuthModule, MulterModule.registerAsync] — limits.fileSize из MAX_UPLOAD_SIZE_BYTES (→413), fileFilter по allowed-mime (→400)
+    ├── meeting-file.controller.ts # POST /  ·  GET /  ·  GET /:fileId/content (StreamableFile)  ·  DELETE /:fileId
+    ├── allowed-mime.ts           # ALLOWED_UPLOAD_MIME_TYPES — белый список mime (единый на recording/attachment)
+    ├── file-storage.service.ts   # единственная точка работы с ФС: save/createReadStream/remove, mkdir(UPLOADS_DIR) в onModuleInit
     ├── commands/
-    │   ├── impl/            # CreateMeetingCommand — { title, startsAt }
-    │   └── handlers/        # CreateMeetingHandler — prisma.meeting.create + публикует MeetingCreatedEvent
+    │   ├── impl/            # CreateMeetingFileCommand { meetingId, type, file }, DeleteMeetingFileCommand { meetingId, fileId }
+    │   └── handlers/        # CreateMeetingFileHandler — 404 через QueryBus(GetMeetingByIdQuery), запись файла + prisma.meetingFile.create;
+    │                        # DeleteMeetingFileHandler — findFirst по (id, meetingId) или 404, delete + storage.remove
     ├── queries/
-    │   ├── impl/            # ListMeetingsQuery, GetMeetingByIdQuery
-    │   └── handlers/        # ListMeetingsHandler; GetMeetingByIdHandler — 404 (NotFoundException), если встречи нет
-    ├── events/
-    │   ├── impl/            # MeetingCreatedEvent
-    │   └── handlers/        # MeetingCreatedHandler — сейчас только логирует
+    │   ├── impl/            # ListMeetingFilesQuery { meetingId }, GetMeetingFileContentQuery { meetingId, fileId }
+    │   └── handlers/        # ListMeetingFilesHandler; GetMeetingFileContentHandler — { stream, mimeType, originalName } или 404
     └── dto/
-        └── create-meeting.dto.ts  # class-validator: title (IsNotEmpty), startsAt (IsDateString)
+        ├── upload-meeting-file.dto.ts  # class-validator: type ∈ { recording, attachment }
+        ├── uploaded-file-part.ts       # локальный тип части multipart (без @types/multer)
+        └── meeting-file.dto.ts         # форма ответа (без storageKey) + toMeetingFileDto(prisma → dto)
 test/
-├── app.e2e-spec.ts      # e2e
-├── auth.e2e-spec.ts     # e2e: register/login
-└── meeting.e2e-spec.ts  # e2e: CRUD встреч под Bearer-токеном
+├── app.e2e-spec.ts          # e2e
+├── auth.e2e-spec.ts         # e2e: register/login
+├── meeting.e2e-spec.ts      # e2e: CRUD встреч под Bearer-токеном
+└── meeting-files.e2e-spec.ts # e2e: загрузка/список/скачивание/удаление файлов; отказы 401/413/400/404
 ```
 
 ## Соглашения
@@ -98,16 +115,18 @@ test/
 - Общая библиотека — `pnpm exec nest g library <name>`; path-алиасы из `tsconfig.json` резолвятся в тестах через `vite-tsconfig-paths`.
 - `strict: true`, но `strictPropertyInitialization: false` (под DI и декораторы).
 - vitest с `globals: true` — `describe/it/expect` без импорта; типы через `types: ["vitest/globals", "node"]`.
-- Порт и окружение — из `.env` (`PORT`, `NODE_ENV`, `DATABASE_URL`, `JWT_SECRET`, `JWT_EXPIRES_IN`); шаблон — `.env.example`. Загружается через `ConfigModule.forRoot({ isGlobal: true })` в `AppModule`.
+- Порт и окружение — из `.env` (`PORT`, `NODE_ENV`, `DATABASE_URL`, `JWT_SECRET`, `JWT_EXPIRES_IN`, `UPLOADS_DIR`, `MAX_UPLOAD_SIZE_BYTES`); шаблон — `.env.example`. Загружается через `ConfigModule.forRoot({ isGlobal: true })` в `AppModule`. Читать конфиг только через `ConfigService`, не `process.env` напрямую.
 - CORS включён глобально в `main.ts` (`app.enableCors()`, все источники) — чтобы `apps/web` (порт 3000) ходил в API из браузера.
 - Билд-конфиг для сборки — `tsconfig.build.json`, выход в `dist/` (`deleteOutDir: true`).
 - Валидация DTO — глобальный `ValidationPipe` (`class-validator`/`class-transformer`), подключён через `APP_PIPE` в `AppModule` — работает и в реальном приложении, и в e2e-тестах, поднимающих `AppModule` напрямую через `Test.createTestingModule`.
 - Пароли — `bcryptjs` (чистый JS, без нативной сборки). JWT — `@nestjs/jwt`, секрет/TTL — из `JWT_SECRET`/`JWT_EXPIRES_IN`.
 - Защита эндпоинтов — `JwtAuthGuard` из `auth` (`src/auth/guards/jwt-auth.guard.ts`). Модуль с приватными ресурсами импортирует `AuthModule` (он реэкспортирует `JwtAuthGuard` и `JwtModule`) и вешает `@UseGuards(JwtAuthGuard)` на контроллер. Guard кладёт `{ userId, email }` в `request.user`. Нет заголовка `Authorization: Bearer <JWT>` или токен невалиден → `401`.
-- Один `CqrsModule.forRoot()` на приложение (в `AuthModule`, `global: true`). Остальные CQRS-модули (`meeting`, `users`) только регистрируют свои хендлеры в `providers` — `explorer` из `@nestjs/cqrs` находит их по всему приложению; повторный `forRoot()` не нужен.
+- Один `CqrsModule.forRoot()` на приложение (в `AuthModule`, `global: true`). Остальные CQRS-модули (`meeting`, `meeting-file`, `users`) только регистрируют свои хендлеры в `providers` — `explorer` из `@nestjs/cqrs` находит их по всему приложению; повторный `forRoot()` не нужен.
 - Prisma — модели в `prisma/schema.prisma`, URL подключения только в `prisma.config.ts` (Prisma 7 запрещает `url` прямо в `datasource` схемы). Клиент подключается через драйвер-адаптер `@prisma/adapter-pg`, а не встроенный rust-движок — так у Prisma 7 по умолчанию.
-- **CQRS** (`@nestjs/cqrs`) — паттерн для модулей с бизнес-логикой (сейчас: `auth`, `users`, `meeting`). Контроллер не знает о Prisma/бизнес-правилах — только собирает Command/Query из DTO и зовёт `CommandBus`/`QueryBus`. Структура фичи: `commands/{impl,handlers}`, `queries/{impl,handlers}`, `events/{impl,handlers}` (если есть), каждая директория с хендлерами экспортирует barrel-массив (`index.ts`) для регистрации в `providers` модуля. Чтение состояния (даже внутри командного хендлера) — через `QueryBus`, не напрямую через Prisma, чтобы у каждой модели чтения был один источник правды. Побочные эффекты после успешной команды — через `EventBus.publish(...)` и `@EventsHandler`, а не напрямую в хендлере команды.
+- **CQRS** (`@nestjs/cqrs`) — паттерн для модулей с бизнес-логикой (сейчас: `auth`, `users`, `meeting`, `meeting-file`). Контроллер не знает о Prisma/бизнес-правилах — только собирает Command/Query из DTO и зовёт `CommandBus`/`QueryBus`. Структура фичи: `commands/{impl,handlers}`, `queries/{impl,handlers}`, `events/{impl,handlers}` (если есть), каждая директория с хендлерами экспортирует barrel-массив (`index.ts`) для регистрации в `providers` модуля. Чтение состояния (даже внутри командного хендлера) — через `QueryBus`, не напрямую через Prisma, чтобы у каждой модели чтения был один источник правды. Побочные эффекты после успешной команды — через `EventBus.publish(...)` и `@EventsHandler`, а не напрямую в хендлере команды.
 - **Границы модулей `auth`/`users`**: `auth` не хранит и не читает `User` напрямую через Prisma — только через `CommandBus.execute(new CreateUserCommand(...))` / `QueryBus.execute(new FindUserByEmailQuery(...))`, объявленные в `users`. `users` не импортирует `auth` и ничего не знает про пароли/JWT — принимает уже готовый `passwordHash`. Хеширование (`bcryptjs`) и сверка пароля — ответственность `auth` (`RegisterHandler`/`LoginHandler`). Ни один из модулей не импортирует другой явно (`AppModule` подключает оба независимо) — связь только через общую CQRS-шину, это и есть механизм их взаимодействия.
+- **Хранение файлов встречи (`meeting-file`)**. Бинарники — на диске в `UPLOADS_DIR` (плоско, имя = случайный uuid = `storageKey`), в БД (`meeting_files`) — только метаданные и `storageKey`. Работа с ФС — только через `FileStorageService` (не в хендлерах). Приём — `FileInterceptor('file')` + `MulterModule.registerAsync` (memoryStorage: буфер в памяти, ограничен `MAX_UPLOAD_SIZE_BYTES`; запись на диск — в командном хендлере после проверки встречи, чтобы не плодить «сирот» при 404/400). Порядок отказов: `JwtAuthGuard` (401) → multer `limits`/`fileFilter` (413/400) → хендлер `GetMeetingByIdQuery` (404). Осознанные ограничения этой итерации: доверяем `Content-Type` клиента (детект содержимого/антивирус не делаем); при `onDelete: Cascade` удаление встречи оставит бинарники-сироты на диске (удаление встреч в скоуп фичи не входит); durability очереди/файлов после рестарта не гарантируется; при нескольких инстансах API каталог не общий. Не-ASCII имя файла из multipart перекодируется `latin1 → utf8` в контроллере; отдача — `StreamableFile` с `Content-Disposition` по RFC 5987.
+- **E2e и файлы на диске**. `test/meeting-files.e2e-spec.ts` в `beforeAll` подменяет `process.env.UPLOADS_DIR` на временный каталог (`os.tmpdir()`) и удаляет его в `afterAll`, а `MAX_UPLOAD_SIZE_BYTES` ставит маленьким — чтобы дёшево проверить 413 и не мусорить в рабочем `uploads/`. `@nestjs/config` не перетирает уже заданные `process.env`, поэтому подмену делаем до импорта `AppModule` (динамический `import()` в `beforeEach`).
 
 ## Актуализация документации
 

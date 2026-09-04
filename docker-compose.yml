@@ -19,3 +19,8 @@ services:
 
 volumes:
   postgres-data:
+  # Хранилище бинарников файлов встречи (apps/api, env UPLOADS_DIR).
+  # Пока в compose нет сервиса `api` — том объявлен заранее; монтировать в
+  # контейнер API (`/app/apps/api/uploads`) при его контейнеризации.
+  # До тех пор API в dev пишет файлы в локальный каталог UPLOADS_DIR (по умолчанию ./uploads).
+  uploads-data:

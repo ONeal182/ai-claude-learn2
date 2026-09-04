@@ -10,6 +10,8 @@ env:
   JWT_SECRET: change-me
   JWT_EXPIRES_IN: 1d
   NODE_ENV: test
+  UPLOADS_DIR: ./uploads
+  MAX_UPLOAD_SIZE_BYTES: '26214400'
 
 jobs:
   ci:
@@ -46,6 +48,9 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+
+      - name: Generate Prisma client
+        run: pnpm --filter api exec prisma generate
 
       - name: Lint
         run: pnpm lint

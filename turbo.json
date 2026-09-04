@@ -1,6 +1,15 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "ui": "tui",
+  "globalPassThroughEnv": [
+    "DATABASE_URL",
+    "JWT_SECRET",
+    "JWT_EXPIRES_IN",
+    "NODE_ENV",
+    "PORT",
+    "UPLOADS_DIR",
+    "MAX_UPLOAD_SIZE_BYTES"
+  ],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],

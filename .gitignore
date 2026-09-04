@@ -28,6 +28,9 @@ pnpm-debug.log*
 .env.*
 !.env.example
 
+# uploaded meeting files (бинарники — вне git, только метаданные в БД)
+apps/api/uploads/
+
 # editors / OS
 .DS_Store
 .idea/

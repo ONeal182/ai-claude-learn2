@@ -230,7 +230,7 @@ describe('Meeting files (e2e)', () => {
       const res = await request(app.getHttpServer())
         .get(`/meetings/${meetingId}/files/${upload.body.id}/content`)
         .set('Authorization', auth())
-        .buffer(true)
+        .responseType('blob')
         .expect(200);
 
       expect(res.headers['content-type']).toContain('text/plain');

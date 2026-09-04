@@ -7,6 +7,7 @@ import { PrismaModule } from './prisma/prisma.module.js';
 import { AuthModule } from './auth/auth.module.js';
 import { UsersModule } from './users/users.module.js';
 import { MeetingModule } from './meeting/meeting.module.js';
+import { MeetingFileModule } from './meeting-file/meeting-file.module.js';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { MeetingModule } from './meeting/meeting.module.js';
     UsersModule,
     AuthModule,
     MeetingModule,
+    MeetingFileModule,
   ],
   controllers: [AppController],
   providers: [

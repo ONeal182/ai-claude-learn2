@@ -1,3 +1,3 @@
-import { MeetingFileUploadedHandler } from './meeting-file-uploaded.handler.js';
+import { MeetingFileProcessingRequestedHandler } from './meeting-file-processing-requested.handler.js';
 
-export const EventHandlers = [MeetingFileUploadedHandler];
+export const EventHandlers = [MeetingFileProcessingRequestedHandler];

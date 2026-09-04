@@ -1,4 +1,5 @@
 import { Inject, Injectable, Logger, OnModuleDestroy } from '@nestjs/common';
+import { MeetingFileStatus } from '@prisma/client';
 import { PrismaService } from '../../prisma/prisma.service.js';
 import { STT_SERVICE, type SttService } from './stt.service.js';
 
@@ -7,7 +8,7 @@ import { STT_SERVICE, type SttService } from './stt.service.js';
  *
  * Один воркер (`concurrency = 1`): для каждого `fileId` ведёт `pending → processing → done|failed`
  * и по успеху пишет `transcriptText`. Триггерится доменным событием
- * `MeetingFileUploadedEvent` (см. `events/`), а также `reprocess`.
+ * `MeetingFileProcessingRequestedEvent` (см. `events/`) — от загрузки `recording` и от `reprocess`.
  *
  * `OnModuleDestroy` обязателен: e2e в `afterEach` делают `app.close()`, и «догорающая» задача
  * не должна писать в уже отключённый `PrismaClient` (иначе плавающие падения e2e и pre-commit).
@@ -56,7 +57,7 @@ export class MeetingFileProcessingQueue implements OnModuleDestroy {
 
       await this.prisma.meetingFile.update({
         where: { id: fileId },
-        data: { status: 'processing' },
+        data: { status: MeetingFileStatus.processing },
       });
 
       const transcriptText = await this.stt.transcribe({
@@ -67,7 +68,7 @@ export class MeetingFileProcessingQueue implements OnModuleDestroy {
 
       await this.prisma.meetingFile.update({
         where: { id: fileId },
-        data: { status: 'done', transcriptText },
+        data: { status: MeetingFileStatus.done, transcriptText },
       });
     } catch (error) {
       if (this.stopped) return;
@@ -75,7 +76,7 @@ export class MeetingFileProcessingQueue implements OnModuleDestroy {
       if (isRecordNotFound(error)) return;
       this.logger.warn(`Обработка файла ${fileId} упала: ${errorMessage(error)}`);
       await this.prisma.meetingFile
-        .update({ where: { id: fileId }, data: { status: 'failed' } })
+        .update({ where: { id: fileId }, data: { status: MeetingFileStatus.failed } })
         .catch(() => undefined);
     }
   }

@@ -6,6 +6,30 @@ import { mkdtemp, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import request from 'supertest';
+import {
+  STT_SERVICE,
+  StubSttService,
+  type SttInput,
+  type SttService,
+} from '../src/meeting-file/processing/stt.service.js';
+
+/** Подстрока в имени файла, по которой e2e-двойник STT детерминированно падает (нужно для `reprocess`). */
+const STT_FAIL_MARKER = '__stt_fail__';
+
+/**
+ * STT только для e2e: успех = как у прод-заглушки, но имя с маркером `__stt_fail__` уходит в ошибку.
+ * Подставляется через `.overrideProvider(STT_SERVICE)` — прод-код тестовых веток не содержит.
+ */
+class E2eSttService implements SttService {
+  private readonly real = new StubSttService();
+
+  transcribe(input: SttInput): Promise<string> {
+    if (input.originalName.includes(STT_FAIL_MARKER)) {
+      return Promise.reject(new Error(`e2e STT: имитация сбоя для «${input.originalName}»`));
+    }
+    return this.real.transcribe(input);
+  }
+}
 
 /**
  * Контракт модуля «Файлы встречи», Фаза 1 (пока не реализован — тесты специально красные, TDD).
@@ -69,7 +93,10 @@ describe('Meeting files (e2e)', () => {
     const { AppModule } = await import('./../src/app.module.js');
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
-    }).compile();
+    })
+      .overrideProvider(STT_SERVICE)
+      .useValue(new E2eSttService())
+      .compile();
 
     app = moduleFixture.createNestApplication();
     await app.init();

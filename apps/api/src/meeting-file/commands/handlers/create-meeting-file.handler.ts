@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { CommandHandler, EventBus, ICommandHandler, QueryBus } from '@nestjs/cqrs';
+import { MeetingFileStatus, MeetingFileType } from '@prisma/client';
 import { randomUUID } from 'node:crypto';
 import { PrismaService } from '../../../prisma/prisma.service.js';
 import { GetMeetingByIdQuery } from '../../../meeting/queries/impl/get-meeting-by-id.query.js';
 import { toMeetingFileDto, type MeetingFileDto } from '../../dto/meeting-file.dto.js';
-import { MeetingFileUploadedEvent } from '../../events/impl/meeting-file-uploaded.event.js';
+import { MeetingFileProcessingRequestedEvent } from '../../events/impl/meeting-file-processing-requested.event.js';
 import { FileStorageService } from '../../file-storage.service.js';
 import { CreateMeetingFileCommand } from '../impl/create-meeting-file.command.js';
 
@@ -29,11 +30,12 @@ export class CreateMeetingFileHandler implements ICommandHandler<
     await this.storage.save(storageKey, command.file.buffer);
 
     try {
+      const isRecording = command.type === MeetingFileType.recording;
       const file = await this.prisma.meetingFile.create({
         data: {
           meetingId: command.meetingId,
           type: command.type,
-          status: command.type === 'recording' ? 'pending' : 'done',
+          status: isRecording ? MeetingFileStatus.pending : MeetingFileStatus.done,
           originalName: command.file.originalname,
           mimeType: command.file.mimetype,
           size: command.file.size,
@@ -41,9 +43,11 @@ export class CreateMeetingFileHandler implements ICommandHandler<
         },
       });
 
-      // побочный эффект после успешной команды — через EventBus (paттерн проекта);
-      // обработчик события запускает фоновую обработку для `recording`
-      this.eventBus.publish(new MeetingFileUploadedEvent(file.id, file.type));
+      // побочный эффект после успешной команды — через EventBus (паттерн проекта);
+      // фоновой обработке подлежит только `recording` — решаем здесь, обработчик события безусловен
+      if (isRecording) {
+        this.eventBus.publish(new MeetingFileProcessingRequestedEvent(file.id));
+      }
 
       return toMeetingFileDto(file);
     } catch (error) {

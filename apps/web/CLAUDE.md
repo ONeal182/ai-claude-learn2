@@ -12,7 +12,7 @@ Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS v4. Dev-порт **3
 | `pnpm build`       | `next build`                      |
 | `pnpm start`       | `next start` (после `build`)      |
 | `pnpm lint`        | `eslint`                          |
-| `pnpm typecheck`   | `tsc --noEmit`                    |
+| `pnpm typecheck`   | `next typegen && tsc --noEmit` (typegen генерит типы роутов/лейаутов) |
 
 ## Структура
 

@@ -4,9 +4,10 @@ import type { Server } from 'node:http';
 import { randomUUID } from 'node:crypto';
 import request from 'supertest';
 import { AppModule } from './../src/app.module.js';
+import { MAX_PROFILE_NAME_LENGTH } from './../src/profile/dto/update-profile-name.dto.js';
 
 /**
- * Контракт модуля Profile (пока не реализован — тесты специально красные, TDD).
+ * Контракт модуля Profile.
  *
  * Все эндпоинты — под авторизацией: заголовок `Authorization: Bearer <accessToken>`.
  * Токен берётся из уже реализованного auth-модуля (POST /auth/register -> { accessToken }).
@@ -21,8 +22,6 @@ import { AppModule } from './../src/app.module.js';
  *   -> 400                 name из одних пробелов (после trim пусто) или длиннее 50 символов — значение в БД не меняется
  *   -> 401                 без токена
  */
-
-const MAX_NAME_LENGTH = 50;
 
 function uniqueEmail(): string {
   return `${randomUUID()}@example.com`;
@@ -128,7 +127,7 @@ describe('Profile (e2e)', () => {
       await request(app.getHttpServer())
         .patch('/users/me')
         .set('Authorization', auth())
-        .send({ name: 'a'.repeat(MAX_NAME_LENGTH + 1) })
+        .send({ name: 'a'.repeat(MAX_PROFILE_NAME_LENGTH + 1) })
         .expect(400);
 
       const getRes = await request(app.getHttpServer())

@@ -86,18 +86,27 @@ src/
 │       └── create-meeting.dto.ts  # class-validator: title (IsNotEmpty), startsAt (IsDateString)
 └── meeting-file/        # CQRS; вложенный ресурс /meetings/:meetingId/files, контроллер под @UseGuards(JwtAuthGuard)
     ├── meeting-file.module.ts    # imports: [AuthModule, MulterModule.registerAsync] — limits.fileSize из MAX_UPLOAD_SIZE_BYTES (→413), fileFilter по allowed-mime (→400)
-    ├── meeting-file.controller.ts # POST /  ·  GET /  ·  GET /:fileId/content (StreamableFile)  ·  DELETE /:fileId
+    ├── meeting-file.controller.ts # POST /  ·  GET /  ·  GET /:fileId/content (StreamableFile)  ·  POST /:fileId/reprocess (200)  ·  DELETE /:fileId
     ├── allowed-mime.ts           # ALLOWED_UPLOAD_MIME_TYPES — белый список mime (единый на recording/attachment)
     ├── attachment-disposition.ts # attachmentDisposition(name) — значение Content-Disposition: filename* (UTF-8) + ASCII-фолбэк
     ├── file-storage.service.ts   # единственная точка работы с ФС: save/exists/createReadStream/remove, mkdir(UPLOADS_DIR) в onModuleInit
+    ├── processing/
+    │   ├── stt.service.ts        # токен STT_SERVICE + StubSttService (детерминированная заглушка: транскрипт из метаданных;
+    │   │                         # маркер `__stt_fail__` в имени → throw, для e2e reprocess) + STT_FAIL_MARKER
+    │   └── meeting-file-processing.queue.ts # in-process воркер (concurrency 1): pending→processing→done|failed + transcriptText;
+    │                             # OnModuleDestroy гасит очередь (иначе e2e с app.close() «догорают»); P2025 при DELETE — молча
     ├── commands/
-    │   ├── impl/            # CreateMeetingFileCommand { meetingId, type, file }, DeleteMeetingFileCommand { meetingId, fileId }
-    │   └── handlers/        # CreateMeetingFileHandler — 404 через QueryBus(GetMeetingByIdQuery), запись файла + prisma.meetingFile.create;
-    │                        # DeleteMeetingFileHandler — 404 через QueryBus(GetMeetingFileQuery), delete + storage.remove
+    │   ├── impl/            # CreateMeetingFileCommand { meetingId, type, file }, DeleteMeetingFileCommand / ReprocessMeetingFileCommand { meetingId, fileId }
+    │   └── handlers/        # CreateMeetingFileHandler — 404 через QueryBus(GetMeetingByIdQuery), запись файла + prisma.meetingFile.create + publish MeetingFileUploadedEvent;
+    │                        # DeleteMeetingFileHandler — 404 через QueryBus(GetMeetingFileQuery), delete (транскрипт — та же строка) + storage.remove;
+    │                        # ReprocessMeetingFileHandler — только status `failed` (иначе 409), сброс в pending + queue.enqueue
     ├── queries/
     │   ├── impl/            # ListMeetingFilesQuery { meetingId }, GetMeetingFileQuery / GetMeetingFileContentQuery { meetingId, fileId }
     │   └── handlers/        # ListMeetingFilesHandler; GetMeetingFileHandler — единственная точка чтения одной записи MeetingFile (404);
     │                        # GetMeetingFileContentHandler — { stream, mimeType, originalName }, 404 и если бинарник пропал с диска
+    ├── events/
+    │   ├── impl/            # MeetingFileUploadedEvent { fileId, type }
+    │   └── handlers/        # MeetingFileUploadedHandler — для type `recording` кладёт файл в MeetingFileProcessingQueue
     └── dto/
         ├── upload-meeting-file.dto.ts  # class-validator: type ∈ Object.values(MeetingFileType)
         ├── uploaded-file-part.ts       # локальный тип части multipart (без @types/multer)
@@ -107,7 +116,7 @@ test/
 ├── app.e2e-spec.ts          # e2e
 ├── auth.e2e-spec.ts         # e2e: register/login
 ├── meeting.e2e-spec.ts      # e2e: CRUD встреч под Bearer-токеном
-└── meeting-files.e2e-spec.ts # e2e: загрузка/список/скачивание/удаление файлов; отказы 401/413/400/404
+└── meeting-files.e2e-spec.ts # e2e: загрузка/список/скачивание/удаление; отказы 401/413/400/404; фоновая обработка recording (pending→done + транскрипт), reprocess (200 только для failed, иначе 409)
 ```
 
 ## Соглашения
@@ -129,6 +138,7 @@ test/
 - **CQRS** (`@nestjs/cqrs`) — паттерн для модулей с бизнес-логикой (сейчас: `auth`, `users`, `meeting`, `meeting-file`). Контроллер не знает о Prisma/бизнес-правилах — только собирает Command/Query из DTO и зовёт `CommandBus`/`QueryBus`. Структура фичи: `commands/{impl,handlers}`, `queries/{impl,handlers}`, `events/{impl,handlers}` (если есть), каждая директория с хендлерами экспортирует barrel-массив (`index.ts`) для регистрации в `providers` модуля. Чтение состояния (даже внутри командного хендлера) — через `QueryBus`, не напрямую через Prisma, чтобы у каждой модели чтения был один источник правды. Побочные эффекты после успешной команды — через `EventBus.publish(...)` и `@EventsHandler`, а не напрямую в хендлере команды.
 - **Границы модулей `auth`/`users`**: `auth` не хранит и не читает `User` напрямую через Prisma — только через `CommandBus.execute(new CreateUserCommand(...))` / `QueryBus.execute(new FindUserByEmailQuery(...))`, объявленные в `users`. `users` не импортирует `auth` и ничего не знает про пароли/JWT — принимает уже готовый `passwordHash`. Хеширование (`bcryptjs`) и сверка пароля — ответственность `auth` (`RegisterHandler`/`LoginHandler`). Ни один из модулей не импортирует другой явно (`AppModule` подключает оба независимо) — связь только через общую CQRS-шину, это и есть механизм их взаимодействия.
 - **Хранение файлов встречи (`meeting-file`)**. Бинарники — на диске в `UPLOADS_DIR` (плоско, имя = случайный uuid = `storageKey`), в БД (`meeting_files`) — только метаданные и `storageKey`. Работа с ФС — только через `FileStorageService` (не в хендлерах). Приём — `FileInterceptor('file')` + `MulterModule.registerAsync` (memoryStorage: буфер в памяти, ограничен `MAX_UPLOAD_SIZE_BYTES`; запись на диск — в командном хендлере после проверки встречи, чтобы не плодить «сирот» при 404/400). Порядок отказов: `JwtAuthGuard` (401) → multer `limits`/`fileFilter` (413/400) → хендлер `GetMeetingByIdQuery` (404). Осознанные ограничения этой итерации: доверяем `Content-Type` клиента (детект содержимого/антивирус не делаем); при `onDelete: Cascade` удаление встречи оставит бинарники-сироты на диске (удаление встреч в скоуп фичи не входит); durability очереди/файлов после рестарта не гарантируется; при нескольких инстансах API каталог не общий. Не-ASCII имя файла из multipart перекодируется `latin1 → utf8` в контроллере; отдача — `StreamableFile` с `Content-Disposition` по RFC 5987.
+- **Фоновая обработка записи (`meeting-file/processing`)**. После успешной загрузки `CreateMeetingFileHandler` публикует `MeetingFileUploadedEvent`; `MeetingFileUploadedHandler` для `type = recording` кладёт файл в `MeetingFileProcessingQueue` — in-process воркер без внешнего брокера (`concurrency = 1`), ведёт `pending → processing → done|failed` и по успеху пишет `transcriptText` в ту же строку. `SttService` (токен `STT_SERVICE`) — единственная реализация `StubSttService`: транскрипт детерминированно выводится из метаданных файла (без чтения содержимого, без ветвления по `NODE_ENV` — локальный pre-commit идёт с `development`); если в имени файла есть маркер `__stt_fail__` (`STT_FAIL_MARKER`) — заглушка бросает ошибку, файл уходит в `failed` (так e2e детерминированно получает `failed` для `reprocess`). `POST /meetings/:id/files/:fileId/reprocess` — только для `status = failed` (иначе `409 Conflict`): сбрасывает в `pending`, чистит `transcriptText`, ставит в очередь. `DELETE` уносит транскрипт вместе со строкой; если файл в этот момент в обработке — воркер ловит `P2025` и молча останавливается. `MeetingFileProcessingQueue` реализует `OnModuleDestroy` (флаг остановки + `await` текущей задачи) — иначе e2e с `app.close()` в `afterEach` «догорают» и пишут в закрытый `PrismaClient`. Durability между рестартами не гарантируется: зависшие `pending`/`processing` не возобновляются.
 - **E2e и файлы на диске**. `test/meeting-files.e2e-spec.ts` в `beforeAll` подменяет `process.env.UPLOADS_DIR` на временный каталог (`os.tmpdir()`) и удаляет его в `afterAll`, а `MAX_UPLOAD_SIZE_BYTES` ставит маленьким — чтобы дёшево проверить 413 и не мусорить в рабочем `uploads/`. `@nestjs/config` не перетирает уже заданные `process.env`, поэтому подмену делаем до импорта `AppModule` (динамический `import()` в `beforeEach`).
 
 ## Актуализация документации

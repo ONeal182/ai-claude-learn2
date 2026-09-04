@@ -1,7 +1,7 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { createReadStream, type ReadStream } from 'node:fs';
-import { mkdir, rm, writeFile } from 'node:fs/promises';
+import { access, mkdir, rm, writeFile } from 'node:fs/promises';
 import { isAbsolute, join, resolve } from 'node:path';
 
 /**
@@ -24,8 +24,18 @@ export class FileStorageService implements OnModuleInit {
   }
 
   async save(storageKey: string, data: Buffer): Promise<void> {
-    await mkdir(this.baseDir, { recursive: true });
+    // каталог гарантирован `onModuleInit`
     await writeFile(this.resolvePath(storageKey), data);
+  }
+
+  /** Есть ли бинарник на диске — запись в БД может пережить пропавший файл. */
+  async exists(storageKey: string): Promise<boolean> {
+    try {
+      await access(this.resolvePath(storageKey));
+      return true;
+    } catch {
+      return false;
+    }
   }
 
   createReadStream(storageKey: string): ReadStream {

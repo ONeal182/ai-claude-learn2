@@ -238,6 +238,8 @@ describe('Meeting files (e2e)', () => {
       expect(res.headers['content-disposition']).toContain(
         `filename*=UTF-8''${encodeURIComponent('отчёт.txt')}`,
       );
+      // ASCII-фолбэк строится из настоящего имени и сохраняет расширение (не буквальное "file")
+      expect(res.headers['content-disposition']).toMatch(/filename="[^"]*\.txt"/);
       expect(Buffer.from(res.body).equals(body)).toBe(true);
     });
 

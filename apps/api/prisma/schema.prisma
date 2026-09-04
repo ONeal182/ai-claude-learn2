@@ -44,7 +44,8 @@ model MeetingFile {
   meetingId      String
   meeting        Meeting           @relation(fields: [meetingId], references: [id], onDelete: Cascade)
   type           MeetingFileType
-  status         MeetingFileStatus @default(done)
+  // без @default: статус всегда задаёт CreateMeetingFileHandler (recording → pending, attachment → done)
+  status         MeetingFileStatus
   originalName   String
   mimeType       String
   size           Int

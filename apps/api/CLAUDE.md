@@ -88,17 +88,20 @@ src/
     ├── meeting-file.module.ts    # imports: [AuthModule, MulterModule.registerAsync] — limits.fileSize из MAX_UPLOAD_SIZE_BYTES (→413), fileFilter по allowed-mime (→400)
     ├── meeting-file.controller.ts # POST /  ·  GET /  ·  GET /:fileId/content (StreamableFile)  ·  DELETE /:fileId
     ├── allowed-mime.ts           # ALLOWED_UPLOAD_MIME_TYPES — белый список mime (единый на recording/attachment)
-    ├── file-storage.service.ts   # единственная точка работы с ФС: save/createReadStream/remove, mkdir(UPLOADS_DIR) в onModuleInit
+    ├── attachment-disposition.ts # attachmentDisposition(name) — значение Content-Disposition: filename* (UTF-8) + ASCII-фолбэк
+    ├── file-storage.service.ts   # единственная точка работы с ФС: save/exists/createReadStream/remove, mkdir(UPLOADS_DIR) в onModuleInit
     ├── commands/
     │   ├── impl/            # CreateMeetingFileCommand { meetingId, type, file }, DeleteMeetingFileCommand { meetingId, fileId }
     │   └── handlers/        # CreateMeetingFileHandler — 404 через QueryBus(GetMeetingByIdQuery), запись файла + prisma.meetingFile.create;
-    │                        # DeleteMeetingFileHandler — findFirst по (id, meetingId) или 404, delete + storage.remove
+    │                        # DeleteMeetingFileHandler — 404 через QueryBus(GetMeetingFileQuery), delete + storage.remove
     ├── queries/
-    │   ├── impl/            # ListMeetingFilesQuery { meetingId }, GetMeetingFileContentQuery { meetingId, fileId }
-    │   └── handlers/        # ListMeetingFilesHandler; GetMeetingFileContentHandler — { stream, mimeType, originalName } или 404
+    │   ├── impl/            # ListMeetingFilesQuery { meetingId }, GetMeetingFileQuery / GetMeetingFileContentQuery { meetingId, fileId }
+    │   └── handlers/        # ListMeetingFilesHandler; GetMeetingFileHandler — единственная точка чтения одной записи MeetingFile (404);
+    │                        # GetMeetingFileContentHandler — { stream, mimeType, originalName }, 404 и если бинарник пропал с диска
     └── dto/
-        ├── upload-meeting-file.dto.ts  # class-validator: type ∈ { recording, attachment }
+        ├── upload-meeting-file.dto.ts  # class-validator: type ∈ Object.values(MeetingFileType)
         ├── uploaded-file-part.ts       # локальный тип части multipart (без @types/multer)
+        ├── meeting-file-content.ts     # тело ответа GET :fileId/content (поток + заголовки)
         └── meeting-file.dto.ts         # форма ответа (без storageKey) + toMeetingFileDto(prisma → dto)
 test/
 ├── app.e2e-spec.ts          # e2e

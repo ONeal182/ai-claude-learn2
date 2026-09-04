@@ -9,7 +9,7 @@ CREATE TABLE "meeting_files" (
     "id" TEXT NOT NULL,
     "meetingId" TEXT NOT NULL,
     "type" "MeetingFileType" NOT NULL,
-    "status" "MeetingFileStatus" NOT NULL DEFAULT 'done',
+    "status" "MeetingFileStatus" NOT NULL,
     "originalName" TEXT NOT NULL,
     "mimeType" TEXT NOT NULL,
     "size" INTEGER NOT NULL,

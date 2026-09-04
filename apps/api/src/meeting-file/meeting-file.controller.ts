@@ -18,7 +18,8 @@ import { CreateMeetingFileCommand } from './commands/impl/create-meeting-file.co
 import { DeleteMeetingFileCommand } from './commands/impl/delete-meeting-file.command.js';
 import { ListMeetingFilesQuery } from './queries/impl/list-meeting-files.query.js';
 import { GetMeetingFileContentQuery } from './queries/impl/get-meeting-file-content.query.js';
-import type { MeetingFileContent } from './queries/handlers/get-meeting-file-content.handler.js';
+import { attachmentDisposition } from './attachment-disposition.js';
+import type { MeetingFileContent } from './dto/meeting-file-content.js';
 import type { MeetingFileDto } from './dto/meeting-file.dto.js';
 import type { UploadedFilePart } from './dto/uploaded-file-part.js';
 import { UploadMeetingFileDto } from './dto/upload-meeting-file.dto.js';
@@ -71,7 +72,7 @@ export class MeetingFileController {
     );
     return new StreamableFile(stream, {
       type: mimeType,
-      disposition: `attachment; filename="file"; filename*=UTF-8''${encodeURIComponent(originalName)}`,
+      disposition: attachmentDisposition(originalName),
     });
   }
 

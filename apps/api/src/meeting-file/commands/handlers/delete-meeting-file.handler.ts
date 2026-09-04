@@ -1,6 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { Injectable } from '@nestjs/common';
+import { CommandHandler, ICommandHandler, QueryBus } from '@nestjs/cqrs';
+import type { MeetingFile } from '@prisma/client';
 import { PrismaService } from '../../../prisma/prisma.service.js';
+import { GetMeetingFileQuery } from '../../queries/impl/get-meeting-file.query.js';
 import { FileStorageService } from '../../file-storage.service.js';
 import { DeleteMeetingFileCommand } from '../impl/delete-meeting-file.command.js';
 
@@ -9,16 +11,15 @@ import { DeleteMeetingFileCommand } from '../impl/delete-meeting-file.command.js
 export class DeleteMeetingFileHandler implements ICommandHandler<DeleteMeetingFileCommand, void> {
   constructor(
     private readonly prisma: PrismaService,
+    private readonly queryBus: QueryBus,
     private readonly storage: FileStorageService,
   ) {}
 
   async execute(command: DeleteMeetingFileCommand): Promise<void> {
-    const file = await this.prisma.meetingFile.findFirst({
-      where: { id: command.fileId, meetingId: command.meetingId },
-    });
-    if (!file) {
-      throw new NotFoundException(`Файл ${command.fileId} не найден`);
-    }
+    // 404, если файла нет / он у другой встречи — читаем через единый источник, не дублируем findFirst
+    const file = await this.queryBus.execute<GetMeetingFileQuery, MeetingFile>(
+      new GetMeetingFileQuery(command.meetingId, command.fileId),
+    );
 
     await this.prisma.meetingFile.delete({ where: { id: file.id } });
     await this.storage.remove(file.storageKey).catch(() => undefined);

@@ -42,7 +42,7 @@ pnpm api <script>    # = pnpm --filter api <script>
 - Форматирование — Prettier (`.prettierrc.json`), стиль отступов — `.editorconfig`. Хук `PostToolUse` в `.claude/settings.json` автоматически прогоняет Prettier по каждому файлу после `Write`/`Edit`.
 - Перед коммитом прогонять `pnpm lint && pnpm typecheck && pnpm test`.
 - Husky: хук `.husky/pre-commit` при каждом `git commit` автоматически запускает `pnpm lint && pnpm test && pnpm test:e2e` (см. `prepare` в корневом `package.json`). Для e2e нужен поднятый Postgres (`docker compose up -d postgres`) — без него коммиты будут падать.
-- CI: `.github/workflows/ci.yml` на push/PR в `main` поднимает сервис Postgres, ставит зависимости, гоняет `lint`, `typecheck`, `test`, `prisma migrate deploy`, `test:e2e` и `build`.
+- CI: `.github/workflows/ci.yml` на push/PR в `main` поднимает сервис Postgres, ставит зависимости, генерирует Prisma Client (`prisma generate`), гоняет `lint`, `typecheck`, `test`, `prisma migrate deploy`, `test:e2e` и `build`.
 
 ## База данных
 

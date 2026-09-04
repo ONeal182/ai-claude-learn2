@@ -207,6 +207,12 @@ function FileRow({
     });
   }
 
+  function handleReprocess() {
+    void runRowAction('reprocess', () => reprocessMeetingFile(meetingId, file.id, accessToken), {
+      refreshAfter: true,
+    });
+  }
+
   function handleDelete() {
     void runRowAction('delete', () => deleteMeetingFile(meetingId, file.id, accessToken), {
       refreshAfter: true,
@@ -262,13 +268,7 @@ function FileRow({
             size="sm"
             variant="secondary"
             className="gap-1.5"
-            onPress={() =>
-              void runRowAction(
-                'reprocess',
-                () => reprocessMeetingFile(meetingId, file.id, accessToken),
-                { refreshAfter: true },
-              )
-            }
+            onPress={handleReprocess}
             isPending={busy === 'reprocess'}
           >
             <RotateCcwIcon className="size-4" />
@@ -295,12 +295,14 @@ function FileRow({
                   <AlertDialog.Heading>Удалить файл?</AlertDialog.Heading>
                 </AlertDialog.Header>
                 <AlertDialog.Body>
-                  <p>«{file.originalName}» будет удалён без возможности восстановить.</p>
+                  <p>«{file.originalName}» будет удалён без возможности вернуть.</p>
                 </AlertDialog.Body>
                 <AlertDialog.Footer>
                   <Button slot="close" variant="tertiary">
                     Отмена
                   </Button>
+                  {/* slot="close" закрывает оверлей, onPress запускает удаление — порядок не важен,
+                      запрос уходит уже после закрытия диалога. */}
                   <Button slot="close" variant="danger" onPress={handleDelete}>
                     Удалить
                   </Button>

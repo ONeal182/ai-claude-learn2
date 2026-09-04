@@ -21,6 +21,8 @@ export class DeleteMeetingFileHandler implements ICommandHandler<DeleteMeetingFi
       new GetMeetingFileQuery(command.meetingId, command.fileId),
     );
 
+    // транскрипт хранится колонкой `transcriptText` этой же строки — удаляется вместе с ней;
+    // если файл сейчас в очереди/обработке, воркер поймает P2025 и молча остановится
     await this.prisma.meetingFile.delete({ where: { id: file.id } });
     await this.storage.remove(file.storageKey).catch(() => undefined);
   }

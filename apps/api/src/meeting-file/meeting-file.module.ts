@@ -5,8 +5,11 @@ import { AuthModule } from '../auth/auth.module.js';
 import { ALLOWED_UPLOAD_MIME_TYPES } from './allowed-mime.js';
 import { MeetingFileController } from './meeting-file.controller.js';
 import { FileStorageService } from './file-storage.service.js';
+import { MeetingFileProcessingQueue } from './processing/meeting-file-processing.queue.js';
+import { STT_SERVICE, StubSttService } from './processing/stt.service.js';
 import { CommandHandlers } from './commands/handlers/index.js';
 import { QueryHandlers } from './queries/handlers/index.js';
+import { EventHandlers } from './events/handlers/index.js';
 
 /** 25 МиБ — дефолт, если `MAX_UPLOAD_SIZE_BYTES` не задан в окружении. */
 const DEFAULT_MAX_UPLOAD_SIZE_BYTES = 26_214_400;
@@ -39,6 +42,13 @@ const DEFAULT_MAX_UPLOAD_SIZE_BYTES = 26_214_400;
     }),
   ],
   controllers: [MeetingFileController],
-  providers: [FileStorageService, ...CommandHandlers, ...QueryHandlers],
+  providers: [
+    FileStorageService,
+    MeetingFileProcessingQueue,
+    { provide: STT_SERVICE, useClass: StubSttService },
+    ...CommandHandlers,
+    ...QueryHandlers,
+    ...EventHandlers,
+  ],
 })
 export class MeetingFileModule {}

@@ -22,6 +22,8 @@ import { AppModule } from './../src/app.module.js';
  *   -> 401                 без токена
  */
 
+const MAX_NAME_LENGTH = 50;
+
 function uniqueEmail(): string {
   return `${randomUUID()}@example.com`;
 }
@@ -29,6 +31,7 @@ function uniqueEmail(): string {
 describe('Profile (e2e)', () => {
   let app: INestApplication<Server>;
   let accessToken: string;
+  let email: string;
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -38,9 +41,10 @@ describe('Profile (e2e)', () => {
     app = moduleFixture.createNestApplication();
     await app.init();
 
+    email = uniqueEmail();
     const res = await request(app.getHttpServer())
       .post('/auth/register')
-      .send({ email: uniqueEmail(), password: 'correct-horse-battery-staple' })
+      .send({ email, password: 'correct-horse-battery-staple' })
       .expect(201);
     accessToken = res.body.accessToken as string;
   });
@@ -64,7 +68,7 @@ describe('Profile (e2e)', () => {
 
       expect(typeof res.body.id).toBe('string');
       expect(res.body.id.length).toBeGreaterThan(0);
-      expect(typeof res.body.email).toBe('string');
+      expect(res.body.email).toBe(email);
       expect(res.body.name).toBeNull();
       expect(res.body.avatarUrl).toBeNull();
       expect(typeof res.body.createdAt).toBe('string');
@@ -124,7 +128,7 @@ describe('Profile (e2e)', () => {
       await request(app.getHttpServer())
         .patch('/users/me')
         .set('Authorization', auth())
-        .send({ name: 'a'.repeat(51) })
+        .send({ name: 'a'.repeat(MAX_NAME_LENGTH + 1) })
         .expect(400);
 
       const getRes = await request(app.getHttpServer())

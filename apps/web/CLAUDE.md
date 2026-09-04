@@ -26,14 +26,14 @@ src/
 │   ├── login/          # /login — страница входа (email + пароль), после успеха редирект на /
 │   │   └── page.tsx
 │   ├── meetings/
-│   │   └── [id]/       # /meetings/[id] — детали встречи (заголовок, время); server-компонент разворачивает params и рендерит <MeetingDetails id={id} />
+│   │   └── [id]/       # /meetings/[id] — детали встречи (заголовок, время) + блок «Файлы»; server-компонент разворачивает params и рендерит <MeetingDetails id={id} />
 │   │       └── page.tsx
 │   └── globals.css     # глобальные стили + Tailwind + HeroUI
-├── components/         # переиспользуемые React-компоненты (register-form.tsx, login-form.tsx, dashboard.tsx, meeting-details.tsx — клиентские, на HeroUI)
+├── components/         # переиспользуемые React-компоненты (register-form.tsx, login-form.tsx, dashboard.tsx, meeting-details.tsx, meeting-files.tsx — клиентские, на HeroUI)
 ├── hooks/              # клиентские React-хуки
 │   └── use-authed-resource.ts # общий сценарий защищённой страницы: сессия → /login, load(token), 401 → clearSession + /login
 └── lib/                # платформенно-независимая логика без React
-    ├── api.ts          # клиент NestJS-API (registerUser, loginUser, getMeetings, getMeeting, ApiError) поверх fetch
+    ├── api.ts          # клиент NestJS-API (registerUser, loginUser, getMeetings, getMeeting; файлы встречи: getMeetingFiles, uploadMeetingFile, downloadMeetingFile, deleteMeetingFile, reprocessMeetingFile; ApiError) поверх fetch/XMLHttpRequest
     └── session.ts       # сессия в localStorage (saveSession/getSession/clearSession — accessToken + email)
 public/                 # статика (next.svg, vercel.svg, ...)
 ```
@@ -70,7 +70,9 @@ public/                 # статика (next.svg, vercel.svg, ...)
 ## Связь с API
 
 Обращения к NestJS-сервису идут по `process.env.NEXT_PUBLIC_API_URL` (по умолчанию `http://localhost:3001`).
-HTTP-вызовы инкапсулированы в `src/lib/api.ts` (обёртка над `fetch`): `registerUser` → `POST /auth/register`, `loginUser` → `POST /auth/login`, обе возвращают `{ accessToken }`; `getMeetings` → `GET /meetings`, `getMeeting(id, token)` → `GET /meetings/:id` (оба с `Authorization: Bearer <accessToken>` через общий хелпер `bearerGet`, возвращают `Meeting[]` / `Meeting`; `ApiError` с `status === 404` — встречи нет). При ошибке бросается `ApiError` с `status` и `messages` (`status === 0` — сеть недоступна). Клиентские компоненты не дёргают `fetch` напрямую. API отдаёт CORS для всех источников (`app.enableCors()`).
+HTTP-вызовы инкапсулированы в `src/lib/api.ts` (обёртка над `fetch`): `registerUser` → `POST /auth/register`, `loginUser` → `POST /auth/login`, обе возвращают `{ accessToken }`; `getMeetings` → `GET /meetings`, `getMeeting(id, token)` → `GET /meetings/:id` (оба через общий хелпер `bearerRequest(path, token, method='GET')` — `fetch` с `Authorization: Bearer <accessToken>`, возвращают `Meeting[]` / `Meeting`; `ApiError` с `status === 404` — встречи нет). Разбор ответа общий: `networkError()` (`status === 0` — сеть недоступна) и `readBodyOrThrow(response)` (пустое тело → `undefined`, не-`ok` → `ApiError` через `messagesFromBody`). Клиентские компоненты не дёргают `fetch` напрямую. API отдаёт CORS для всех источников (`app.enableCors()`).
+
+Файлы встречи (`/meetings/:id/files`, все под `Authorization: Bearer`): `getMeetingFiles(meetingId, token)` → список `MeetingFile[]` (`bearerRequest`); `uploadMeetingFile({ meetingId, file, type, accessToken, onProgress })` — `POST` multipart через **`XMLHttpRequest`** (нужен `upload.onprogress`); `type` (`recording` | `attachment`) определяет **компонент** (`detectFileType`: mime `audio/*`/`video/*`, при пустом mime — по расширению) с ручным переопределением, а не api-клиент; `413` / `400` / `0` мапятся в понятный текст в компоненте; `downloadMeetingFile(meetingId, fileId, token)` — эндпоинт под guard, поэтому качает `fetch` с заголовком и возвращает `{ blob, filename }` (имя из `Content-Disposition`), сам файл сохраняет вызывающий компонент через скрытый `<a download>`; `deleteMeetingFile` / `reprocessMeetingFile` — `DELETE` / `POST .../reprocess` через `bearerRequest` с нужным методом (тело ошибки Nest разбирает `messagesFromBody`). `reprocess` для не-`failed` → `ApiError` со `status === 409`.
 
 ## Аутентификация на клиенте
 
@@ -79,6 +81,8 @@ HTTP-вызовы инкапсулированы в `src/lib/api.ts` (обёрт
 Сценарий защищённой страницы вынесен в хук `useAuthedResource(load)` (`src/hooks/use-authed-resource.ts`): при монтировании читает сессию через `getSession()`, при её отсутствии редиректит на `/login` (`router.replace`); зовёт `load(accessToken)`; ответ `401` чистит сессию и тоже уводит на `/login`. Возвращает `{ status: 'loading' | 'ready' | 'error', data, error, session }` — прочие ошибки (в т.ч. `ApiError` со `status === 404`) остаются в `error`, страница показывает их сама. `load` должен быть стабильным (импортированная функция или `useCallback`). Защита целиком клиентская (нет middleware/cookies) — согласуется с хранением токена в `localStorage`.
 
 Главная страница (`/`, `Dashboard` в `src/components/dashboard.tsx`) на этом хуке грузит `GET /meetings`; кнопка «Выйти» вызывает `clearSession()` и редиректит на `/login`. Страница встречи (`/meetings/[id]`, `MeetingDetails` в `src/components/meeting-details.tsx`) грузит `getMeeting(id)`; `error` с `ApiError.status === 404` рисует состояние «Встреча не найдена» (без редиректа), прочие ошибки — алерт. Строка встречи на дашборде (`MeetingRow`) — это `next/link` на `/meetings/${id}`.
+
+Блок «Файлы» (`MeetingFiles` в `src/components/meeting-files.tsx`) рендерится под карточкой встречи, когда `useAuthedResource` уже отдал `session` — `accessToken` приходит пропом, `useAuthedResource` здесь не используется. Своё состояние списка (первичная загрузка через `.then/.catch` в эффекте — без синхронного `setState`, иначе ловит `react-hooks/set-state-in-effect`; ручное/фоновое обновление через `refreshFiles`). Пока в списке есть файл в `pending`/`processing` — поллинг `getMeetingFiles` раз в 3 с (`POLL_INTERVAL_MS`), плюс кнопка «Обновить». Любой `ApiError` со `status === 401` (загрузка, список, действие в строке) → `handleAuthError`: `clearSession()` + `router.replace('/login')` и выставляет `deadRef`, чтобы поллинг и отложенные ответы дальше не трогали state. За раз грузится **один** файл (`uploadFile`), сегментный переключатель над зоной задаёт `recording` / `attachment` / авто. Зона загрузки — настоящий `<button>` (drag-n-drop + выбор + нативная клавиатура), статус-«чип» несёт смысл подписью и цветной точкой, текст всегда `text-foreground` (вивидные `--success`/`--warning` мелким текстом на светлом фоне не проходят контраст 4.5:1; ср. правило для `--danger` в `globals.css`).
 
 ## Актуализация документации
 

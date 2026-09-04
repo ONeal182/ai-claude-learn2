@@ -117,7 +117,7 @@ test/
 ├── app.e2e-spec.ts          # e2e
 ├── auth.e2e-spec.ts         # e2e: register/login
 ├── meeting.e2e-spec.ts      # e2e: CRUD встреч под Bearer-токеном
-└── meeting-files.e2e-spec.ts # e2e: загрузка/список/скачивание/удаление; отказы 401/413/400/404; фоновая обработка recording (pending→done + транскрипт), reprocess (200 только для failed, иначе 409)
+└── meeting-files.e2e-spec.ts # e2e: загрузка/список/скачивание/удаление; отказы 401/413/400/404; фоновая обработка recording (pending→done + транскрипт), reprocess (200 только для failed, иначе 409); сквозной сценарий пути UI одним прогоном
 ```
 
 ## Соглашения

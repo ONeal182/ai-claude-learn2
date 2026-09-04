@@ -6,13 +6,13 @@ Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS v4. Dev-порт **3
 
 Запускать через корень (`pnpm web <script>`) или из этой папки:
 
-| Команда            | Действие                          |
-| ------------------ | -------------------------------- |
-| `pnpm dev`         | `next dev` (watch, порт 3000)     |
-| `pnpm build`       | `next build`                      |
-| `pnpm start`       | `next start` (после `build`)      |
-| `pnpm lint`        | `eslint`                          |
-| `pnpm typecheck`   | `next typegen && tsc --noEmit` (typegen генерит типы роутов/лейаутов) |
+| Команда          | Действие                                                              |
+| ---------------- | --------------------------------------------------------------------- |
+| `pnpm dev`       | `next dev` (watch, порт 3000)                                         |
+| `pnpm build`     | `next build`                                                          |
+| `pnpm start`     | `next start` (после `build`)                                          |
+| `pnpm lint`      | `eslint`                                                              |
+| `pnpm typecheck` | `next typegen && tsc --noEmit` (typegen генерит типы роутов/лейаутов) |
 
 ## Структура
 
@@ -25,10 +25,15 @@ src/
 │   │   └── page.tsx
 │   ├── login/          # /login — страница входа (email + пароль), после успеха редирект на /
 │   │   └── page.tsx
+│   ├── meetings/
+│   │   └── [id]/       # /meetings/[id] — детали встречи (заголовок, время); server-компонент разворачивает params и рендерит <MeetingDetails id={id} />
+│   │       └── page.tsx
 │   └── globals.css     # глобальные стили + Tailwind + HeroUI
-├── components/         # переиспользуемые React-компоненты (register-form.tsx, login-form.tsx, dashboard.tsx — клиентские, на HeroUI)
+├── components/         # переиспользуемые React-компоненты (register-form.tsx, login-form.tsx, dashboard.tsx, meeting-details.tsx — клиентские, на HeroUI)
+├── hooks/              # клиентские React-хуки
+│   └── use-authed-resource.ts # общий сценарий защищённой страницы: сессия → /login, load(token), 401 → clearSession + /login
 └── lib/                # платформенно-независимая логика без React
-    ├── api.ts          # клиент NestJS-API (registerUser, loginUser, getMeetings, ApiError) поверх fetch
+    ├── api.ts          # клиент NestJS-API (registerUser, loginUser, getMeetings, getMeeting, ApiError) поверх fetch
     └── session.ts       # сессия в localStorage (saveSession/getSession/clearSession — accessToken + email)
 public/                 # статика (next.svg, vercel.svg, ...)
 ```
@@ -37,6 +42,7 @@ public/                 # статика (next.svg, vercel.svg, ...)
 
 - **App Router**, серверные компоненты по умолчанию; `"use client"` — только когда нужен клиент.
 - Алиас импорта: `@/*` → `./src/*` (см. `tsconfig.json`).
+- Слои: `app/` — роуты, `components/` — клиентские React-компоненты, `hooks/` — переиспользуемые клиентские хуки (`"use client"`), `lib/` — логика без React.
 - Стили — **Tailwind v4** через `@tailwindcss/postcss` (`postcss.config.mjs`), директивы в `src/app/globals.css`. Отдельного `tailwind.config` нет.
 - UI-библиотека — **HeroUI v3** (`@heroui/react` + `@heroui/styles`, поверх Tailwind v4 и React Aria). Провайдер не нужен; `@import "@heroui/styles"` в `globals.css` идёт **после** `@import "tailwindcss"`. Компоненты — compound-паттерн (`Card.Header` и т.п.), обработчики — `onPress`, а не `onClick`. Интерактивные компоненты рендерятся в клиентских (`"use client"`) обёртках в `src/components/`.
 - Тёмная тема — по классу `.dark` на `<html>` (один селектор и для Tailwind `dark:`, и для токенов HeroUI v3). Tailwind-вариант переопределён на классовый в `globals.css` (`@custom-variant dark`), сам класс ставит инлайн-скрипт в `layout.tsx` по системной `prefers-color-scheme` до первой отрисовки.
@@ -64,13 +70,15 @@ public/                 # статика (next.svg, vercel.svg, ...)
 ## Связь с API
 
 Обращения к NestJS-сервису идут по `process.env.NEXT_PUBLIC_API_URL` (по умолчанию `http://localhost:3001`).
-HTTP-вызовы инкапсулированы в `src/lib/api.ts` (обёртка над `fetch`): `registerUser` → `POST /auth/register`, `loginUser` → `POST /auth/login`, обе возвращают `{ accessToken }`; `getMeetings` → `GET /meetings` с `Authorization: Bearer <accessToken>`, возвращает `Meeting[]`. При ошибке бросается `ApiError` с `status` и `messages` (`status === 0` — сеть недоступна). Клиентские компоненты не дёргают `fetch` напрямую. API отдаёт CORS для всех источников (`app.enableCors()`).
+HTTP-вызовы инкапсулированы в `src/lib/api.ts` (обёртка над `fetch`): `registerUser` → `POST /auth/register`, `loginUser` → `POST /auth/login`, обе возвращают `{ accessToken }`; `getMeetings` → `GET /meetings`, `getMeeting(id, token)` → `GET /meetings/:id` (оба с `Authorization: Bearer <accessToken>` через общий хелпер `bearerGet`, возвращают `Meeting[]` / `Meeting`; `ApiError` с `status === 404` — встречи нет). При ошибке бросается `ApiError` с `status` и `messages` (`status === 0` — сеть недоступна). Клиентские компоненты не дёргают `fetch` напрямую. API отдаёт CORS для всех источников (`app.enableCors()`).
 
 ## Аутентификация на клиенте
 
 Сессия (`accessToken` + `email`) хранится в `localStorage` через `src/lib/session.ts` (`saveSession`/`getSession`/`clearSession`) — токен из NestJS не декодируется на клиенте. `LoginForm` и `RegisterForm` вызывают `saveSession` сразу после успешного `loginUser`/`registerUser`. Логин дополнительно редиректит на `/` (`router.push`).
 
-Главная страница (`/`, `Dashboard` в `src/components/dashboard.tsx`) — защищённая: в `useEffect` при монтировании читает сессию через `getSession()`, при её отсутствии редиректит на `/login` (`router.replace`); `GET /meetings`, ответивший `401`, чистит сессию и тоже редиректит на `/login`. Защита целиком клиентская (нет middleware/cookies) — согласуется с хранением токена в `localStorage`. Кнопка «Выйти» вызывает `clearSession()` и редиректит на `/login`.
+Сценарий защищённой страницы вынесен в хук `useAuthedResource(load)` (`src/hooks/use-authed-resource.ts`): при монтировании читает сессию через `getSession()`, при её отсутствии редиректит на `/login` (`router.replace`); зовёт `load(accessToken)`; ответ `401` чистит сессию и тоже уводит на `/login`. Возвращает `{ status: 'loading' | 'ready' | 'error', data, error, session }` — прочие ошибки (в т.ч. `ApiError` со `status === 404`) остаются в `error`, страница показывает их сама. `load` должен быть стабильным (импортированная функция или `useCallback`). Защита целиком клиентская (нет middleware/cookies) — согласуется с хранением токена в `localStorage`.
+
+Главная страница (`/`, `Dashboard` в `src/components/dashboard.tsx`) на этом хуке грузит `GET /meetings`; кнопка «Выйти» вызывает `clearSession()` и редиректит на `/login`. Страница встречи (`/meetings/[id]`, `MeetingDetails` в `src/components/meeting-details.tsx`) грузит `getMeeting(id)`; `error` с `ApiError.status === 404` рисует состояние «Встреча не найдена» (без редиректа), прочие ошибки — алерт. Строка встречи на дашборде (`MeetingRow`) — это `next/link` на `/meetings/${id}`.
 
 ## Актуализация документации
 

@@ -79,12 +79,12 @@ export interface Meeting {
   updatedAt: string;
 }
 
-/** Список встреч. Требует `Authorization: Bearer <accessToken>` — эндпоинт под `JwtAuthGuard`. */
-export async function getMeetings(accessToken: string): Promise<Meeting[]> {
+/** GET к защищённому эндпоинту под `Authorization: Bearer <accessToken>`. Бросает `ApiError`. */
+async function bearerGet<T>(path: string, accessToken: string): Promise<T> {
   let response: Response;
 
   try {
-    response = await fetch(`${API_URL}/meetings`, {
+    response = await fetch(`${API_URL}${path}`, {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
   } catch {
@@ -101,5 +101,18 @@ export async function getMeetings(accessToken: string): Promise<Meeting[]> {
     throw new ApiError(response.status, messages ?? [`Ошибка сервера (${response.status}).`]);
   }
 
-  return body as Meeting[];
+  return body as T;
+}
+
+/** Список встреч. Требует `Authorization: Bearer <accessToken>` — эндпоинт под `JwtAuthGuard`. */
+export function getMeetings(accessToken: string): Promise<Meeting[]> {
+  return bearerGet<Meeting[]>('/meetings', accessToken);
+}
+
+/**
+ * Одна встреча по идентификатору (`GET /meetings/:id` под `JwtAuthGuard`).
+ * `ApiError` с `status === 404` — встречи нет, `status === 401` — токен невалиден.
+ */
+export function getMeeting(id: string, accessToken: string): Promise<Meeting> {
+  return bearerGet<Meeting>(`/meetings/${encodeURIComponent(id)}`, accessToken);
 }

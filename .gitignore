@@ -18,6 +18,9 @@ out/
 coverage/
 *.lcov
 
+# playwright mcp (снимки/логи ручной проверки UI — вне git)
+.playwright-mcp/
+
 # logs
 *.log
 npm-debug.log*

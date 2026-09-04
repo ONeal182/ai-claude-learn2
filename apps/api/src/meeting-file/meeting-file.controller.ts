@@ -4,6 +4,8 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
+  HttpStatus,
   Param,
   Post,
   StreamableFile,
@@ -16,6 +18,7 @@ import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard.js';
 import { CreateMeetingFileCommand } from './commands/impl/create-meeting-file.command.js';
 import { DeleteMeetingFileCommand } from './commands/impl/delete-meeting-file.command.js';
+import { ReprocessMeetingFileCommand } from './commands/impl/reprocess-meeting-file.command.js';
 import { ListMeetingFilesQuery } from './queries/impl/list-meeting-files.query.js';
 import { GetMeetingFileContentQuery } from './queries/impl/get-meeting-file-content.query.js';
 import { attachmentDisposition } from './attachment-disposition.js';
@@ -74,6 +77,15 @@ export class MeetingFileController {
       type: mimeType,
       disposition: attachmentDisposition(originalName),
     });
+  }
+
+  @Post(':fileId/reprocess')
+  @HttpCode(HttpStatus.OK)
+  reprocess(
+    @Param('meetingId') meetingId: string,
+    @Param('fileId') fileId: string,
+  ): Promise<MeetingFileDto> {
+    return this.commandBus.execute(new ReprocessMeetingFileCommand(meetingId, fileId));
   }
 
   @Delete(':fileId')

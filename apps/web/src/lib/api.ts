@@ -39,6 +39,20 @@ function messagesFromBody(body: unknown, status: number): string[] {
   return normalizeMessages(raw) ?? [`Ошибка сервера (${status}).`];
 }
 
+/** `ApiError` со `status === 0` — сервер не ответил (сеть недоступна). */
+function networkError(): ApiError {
+  return new ApiError(0, ['Не удалось связаться с сервером. Проверьте, что API запущен.']);
+}
+
+/** Читает тело ответа как JSON (может быть пустым) и бросает `ApiError`, если ответ не `ok`. */
+async function readBodyOrThrow(response: Response): Promise<unknown> {
+  const body: unknown = await response.json().catch(() => null);
+  if (!response.ok) {
+    throw new ApiError(response.status, messagesFromBody(body, response.status));
+  }
+  return body;
+}
+
 /** Общий POST-запрос к эндпоинтам аутентификации. Возвращает JWT при успехе. */
 async function authRequest(path: string, credentials: Credentials): Promise<AuthResult> {
   let response: Response;
@@ -50,16 +64,10 @@ async function authRequest(path: string, credentials: Credentials): Promise<Auth
       body: JSON.stringify(credentials),
     });
   } catch {
-    throw new ApiError(0, ['Не удалось связаться с сервером. Проверьте, что API запущен.']);
+    throw networkError();
   }
 
-  const body: unknown = await response.json().catch(() => null);
-
-  if (!response.ok) {
-    throw new ApiError(response.status, messagesFromBody(body, response.status));
-  }
-
-  return body as AuthResult;
+  return (await readBodyOrThrow(response)) as AuthResult;
 }
 
 /** Регистрация пользователя по email + паролю. */
@@ -81,30 +89,33 @@ export interface Meeting {
   updatedAt: string;
 }
 
-/** GET к защищённому эндпоинту под `Authorization: Bearer <accessToken>`. Бросает `ApiError`. */
-async function bearerGet<T>(path: string, accessToken: string): Promise<T> {
+/**
+ * Запрос без тела к защищённому эндпоинту под `Authorization: Bearer <accessToken>`
+ * (`GET` / `POST` / `DELETE`). Пустой ответ (204 / `void`) → `undefined`. Бросает `ApiError`
+ * (`status === 0` — сеть недоступна).
+ */
+async function bearerRequest<T>(
+  path: string,
+  accessToken: string,
+  method: 'GET' | 'POST' | 'DELETE' = 'GET',
+): Promise<T> {
   let response: Response;
 
   try {
     response = await fetch(`${API_URL}${path}`, {
+      method,
       headers: { Authorization: `Bearer ${accessToken}` },
     });
   } catch {
-    throw new ApiError(0, ['Не удалось связаться с сервером. Проверьте, что API запущен.']);
+    throw networkError();
   }
 
-  const body: unknown = await response.json().catch(() => null);
-
-  if (!response.ok) {
-    throw new ApiError(response.status, messagesFromBody(body, response.status));
-  }
-
-  return body as T;
+  return (await readBodyOrThrow(response)) as T;
 }
 
 /** Список встреч. Требует `Authorization: Bearer <accessToken>` — эндпоинт под `JwtAuthGuard`. */
 export function getMeetings(accessToken: string): Promise<Meeting[]> {
-  return bearerGet<Meeting[]>('/meetings', accessToken);
+  return bearerRequest<Meeting[]>('/meetings', accessToken);
 }
 
 /**
@@ -112,7 +123,7 @@ export function getMeetings(accessToken: string): Promise<Meeting[]> {
  * `ApiError` с `status === 404` — встречи нет, `status === 401` — токен невалиден.
  */
 export function getMeeting(id: string, accessToken: string): Promise<Meeting> {
-  return bearerGet<Meeting>(`/meetings/${encodeURIComponent(id)}`, accessToken);
+  return bearerRequest<Meeting>(`/meetings/${encodeURIComponent(id)}`, accessToken);
 }
 
 // ── Файлы встречи (`/meetings/:id/files`) ─────────────────────────────────────
@@ -144,35 +155,12 @@ export interface UploadProgress {
   fraction: number | undefined;
 }
 
-/** Запрос под `Authorization: Bearer` без тела (POST/DELETE). Пустой ответ (204/void) → `undefined`. */
-async function bearerSend<T>(
-  path: string,
-  method: 'POST' | 'DELETE',
-  accessToken: string,
-): Promise<T> {
-  let response: Response;
-
-  try {
-    response = await fetch(`${API_URL}${path}`, {
-      method,
-      headers: { Authorization: `Bearer ${accessToken}` },
-    });
-  } catch {
-    throw new ApiError(0, ['Не удалось связаться с сервером. Проверьте, что API запущен.']);
-  }
-
-  const body: unknown = await response.json().catch(() => null);
-
-  if (!response.ok) {
-    throw new ApiError(response.status, messagesFromBody(body, response.status));
-  }
-
-  return body as T;
-}
-
 /** Список файлов встречи. `ApiError` со `status === 404` — встречи нет. */
 export function getMeetingFiles(meetingId: string, accessToken: string): Promise<MeetingFile[]> {
-  return bearerGet<MeetingFile[]>(`/meetings/${encodeURIComponent(meetingId)}/files`, accessToken);
+  return bearerRequest<MeetingFile[]>(
+    `/meetings/${encodeURIComponent(meetingId)}/files`,
+    accessToken,
+  );
 }
 
 /**
@@ -221,7 +209,7 @@ export function uploadMeetingFile(params: {
     });
 
     xhr.addEventListener('error', () => {
-      reject(new ApiError(0, ['Не удалось связаться с сервером. Проверьте, что API запущен.']));
+      reject(networkError());
     });
 
     const form = new FormData();
@@ -267,7 +255,7 @@ export async function downloadMeetingFile(
       { headers: { Authorization: `Bearer ${accessToken}` } },
     );
   } catch {
-    throw new ApiError(0, ['Не удалось связаться с сервером. Проверьте, что API запущен.']);
+    throw networkError();
   }
 
   if (!response.ok) {
@@ -287,10 +275,10 @@ export function deleteMeetingFile(
   fileId: string,
   accessToken: string,
 ): Promise<void> {
-  return bearerSend<void>(
+  return bearerRequest<void>(
     `/meetings/${encodeURIComponent(meetingId)}/files/${encodeURIComponent(fileId)}`,
-    'DELETE',
     accessToken,
+    'DELETE',
   );
 }
 
@@ -304,9 +292,9 @@ export function reprocessMeetingFile(
   fileId: string,
   accessToken: string,
 ): Promise<MeetingFile> {
-  return bearerSend<MeetingFile>(
+  return bearerRequest<MeetingFile>(
     `/meetings/${encodeURIComponent(meetingId)}/files/${encodeURIComponent(fileId)}/reprocess`,
-    'POST',
     accessToken,
+    'POST',
   );
 }

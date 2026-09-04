@@ -52,10 +52,53 @@ function formatSize(bytes: number): string {
   return `${sizeFormatter.format(mb / 1024)} ГБ`;
 }
 
-/** Аудио/видео → фоновая обработка (`recording`); всё остальное — `attachment`. */
-function fileTypeFromMime(mime: string): MeetingFileType {
-  return mime.startsWith('audio/') || mime.startsWith('video/') ? 'recording' : 'attachment';
+/** Расширения, по которым файл считаем записью, когда браузер не прислал mime. */
+const RECORDING_EXTENSIONS = new Set([
+  'mp3',
+  'wav',
+  'm4a',
+  'aac',
+  'flac',
+  'ogg',
+  'oga',
+  'opus',
+  'weba',
+  'mp4',
+  'm4v',
+  'mov',
+  'webm',
+  'mkv',
+  'avi',
+]);
+
+/**
+ * Предполагаемый вид файла: `audio/*` / `video/*` → `recording`, при пустом mime — по
+ * расширению, иначе `attachment`. Догадку можно переопределить вручную (`typeChoice`):
+ * при drag-n-drop браузер часто отдаёт пустой `file.type`, а запись, залитую как
+ * `attachment`, уже не отправить в обработку.
+ */
+function detectFileType(file: File): MeetingFileType {
+  if (file.type.startsWith('audio/') || file.type.startsWith('video/')) return 'recording';
+  if (!file.type && RECORDING_EXTENSIONS.has(file.name.split('.').pop()?.toLowerCase() ?? '')) {
+    return 'recording';
+  }
+  return 'attachment';
 }
+
+/** Выбор в сегментном переключателе над зоной загрузки. */
+type TypeChoice = 'auto' | MeetingFileType;
+
+const TYPE_CHOICES: ReadonlyArray<{ value: TypeChoice; label: string }> = [
+  { value: 'auto', label: 'Определить' },
+  { value: 'recording', label: 'Запись' },
+  { value: 'attachment', label: 'Вложение' },
+];
+
+const DROPZONE_HINT: Record<TypeChoice, string> = {
+  auto: 'Аудио и видео обрабатываются автоматически, остальные файлы — как вложения',
+  recording: 'Файл будет загружен как запись и отправлен в обработку',
+  attachment: 'Файл будет загружен как вложение, без обработки',
+};
 
 function uploadErrorMessage(error: unknown): string {
   if (error instanceof ApiError) {
@@ -71,8 +114,6 @@ function uploadErrorMessage(error: unknown): string {
 interface UploadState {
   name: string;
   fraction: number | undefined;
-  index: number;
-  total: number;
 }
 
 function ProgressRow({ upload }: { upload: UploadState }) {
@@ -81,10 +122,7 @@ function ProgressRow({ upload }: { upload: UploadState }) {
   return (
     <div className="flex flex-col gap-1.5">
       <div className="flex items-center justify-between gap-3 text-sm">
-        <span className="truncate text-foreground">
-          {upload.total > 1 ? `(${upload.index}/${upload.total}) ` : ''}
-          {upload.name}
-        </span>
+        <span className="truncate text-foreground">{upload.name}</span>
         <span className="shrink-0 text-muted">{percent == null ? 'Загрузка…' : `${percent}%`}</span>
       </div>
       <div
@@ -129,22 +167,23 @@ function FileRow({
   const hasTranscript =
     file.type === 'recording' && file.status === 'done' && Boolean(file.transcriptText);
 
-  async function run(
-    action: 'download' | 'delete' | 'reprocess',
+  async function runRowAction(
+    key: 'download' | 'delete' | 'reprocess',
     fn: () => Promise<unknown>,
+    opts: { refreshAfter?: boolean; ignoreMissing?: boolean } = {},
   ): Promise<void> {
-    setBusy(action);
+    setBusy(key);
     setRowError(null);
     try {
       await fn();
-      if (action !== 'download') onChanged();
+      if (opts.refreshAfter) onChanged();
     } catch (error) {
       if (error instanceof ApiError && error.status === 401) {
         onAuthError();
         return;
       }
       // файл уже удалён на сервере — просто синхронизируемся со списком
-      if (error instanceof ApiError && error.status === 404 && action === 'delete') {
+      if (error instanceof ApiError && error.status === 404 && opts.ignoreMissing) {
         onChanged();
         return;
       }
@@ -155,7 +194,7 @@ function FileRow({
   }
 
   function handleDownload() {
-    void run('download', async () => {
+    void runRowAction('download', async () => {
       const { blob, filename } = await downloadMeetingFile(meetingId, file.id, accessToken);
       const url = URL.createObjectURL(blob);
       const anchor = document.createElement('a');
@@ -217,7 +256,11 @@ function FileRow({
             variant="secondary"
             className="gap-1.5"
             onPress={() =>
-              void run('reprocess', () => reprocessMeetingFile(meetingId, file.id, accessToken))
+              void runRowAction(
+                'reprocess',
+                () => reprocessMeetingFile(meetingId, file.id, accessToken),
+                { refreshAfter: true },
+              )
             }
             isPending={busy === 'reprocess'}
           >
@@ -231,7 +274,10 @@ function FileRow({
           variant="secondary"
           className="gap-1.5 text-danger"
           onPress={() =>
-            void run('delete', () => deleteMeetingFile(meetingId, file.id, accessToken))
+            void runRowAction('delete', () => deleteMeetingFile(meetingId, file.id, accessToken), {
+              refreshAfter: true,
+              ignoreMissing: true,
+            })
           }
           isPending={busy === 'delete'}
         >
@@ -284,7 +330,10 @@ export function MeetingFiles({
 }) {
   const router = useRouter();
 
+  // Один раз словили 401 — уходим на /login; поллинг и запросы дальше не дёргаем.
+  const deadRef = useRef(false);
   const handleAuthError = useCallback(() => {
+    deadRef.current = true;
     clearSession();
     router.replace('/login');
   }, [router]);
@@ -299,13 +348,13 @@ export function MeetingFiles({
     let cancelled = false;
     getMeetingFiles(meetingId, accessToken)
       .then((list) => {
-        if (cancelled) return;
+        if (cancelled || deadRef.current) return;
         setFiles(list);
         setListStatus('ready');
         setListError(null);
       })
       .catch((error: unknown) => {
-        if (cancelled) return;
+        if (cancelled || deadRef.current) return;
         if (error instanceof ApiError && error.status === 401) {
           handleAuthError();
           return;
@@ -321,6 +370,7 @@ export function MeetingFiles({
   // Обновление вручную / поллингом: не трогает listStatus как «loading», при ошибке
   // оставляет уже показанный список (фон не должен мигать сообщением об ошибке).
   const refreshFiles = useCallback(async (): Promise<void> => {
+    if (deadRef.current) return;
     setIsRefreshing(true);
     try {
       const list = await getMeetingFiles(meetingId, accessToken);
@@ -338,48 +388,46 @@ export function MeetingFiles({
     files?.some((file) => file.status === 'pending' || file.status === 'processing') ?? false;
 
   useEffect(() => {
-    if (!hasActive) return;
+    if (!hasActive || deadRef.current) return;
     const timer = window.setInterval(() => void refreshFiles(), POLL_INTERVAL_MS);
     return () => window.clearInterval(timer);
   }, [hasActive, refreshFiles]);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [typeChoice, setTypeChoice] = useState<TypeChoice>('auto');
   const [upload, setUpload] = useState<UploadState | null>(null);
   const [uploadError, setUploadError] = useState<string | null>(null);
+  const [uploadNote, setUploadNote] = useState<string | null>(null);
 
-  const uploadFiles = useCallback(
-    async (picked: File[]): Promise<void> => {
-      if (picked.length === 0) return;
+  // За раз грузим один файл (PRD: «файл перетаскивается или выбирается»); при нескольких
+  // перетащенных берём первый и сообщаем об этом. `skipped` — сколько файлов проигнорировали.
+  const uploadFile = useCallback(
+    async (file: File, skipped = 0): Promise<void> => {
       setUploadError(null);
-
-      for (let index = 0; index < picked.length; index += 1) {
-        const file = picked[index];
-        setUpload({ name: file.name, fraction: 0, index: index + 1, total: picked.length });
-        try {
-          await uploadMeetingFile({
-            meetingId,
-            file,
-            type: fileTypeFromMime(file.type),
-            accessToken,
-            onProgress: ({ fraction }) =>
-              setUpload((prev) => (prev ? { ...prev, fraction } : prev)),
-          });
-        } catch (error) {
-          if (error instanceof ApiError && error.status === 401) {
-            handleAuthError();
-            return;
-          }
-          setUploadError(`«${file.name}»: ${uploadErrorMessage(error)}`);
-          setUpload(null);
+      setUploadNote(skipped > 0 ? 'Загружается только первый файл — добавляйте по одному.' : null);
+      setUpload({ name: file.name, fraction: 0 });
+      try {
+        await uploadMeetingFile({
+          meetingId,
+          file,
+          type: typeChoice === 'auto' ? detectFileType(file) : typeChoice,
+          accessToken,
+          onProgress: ({ fraction }) => setUpload((prev) => (prev ? { ...prev, fraction } : prev)),
+        });
+      } catch (error) {
+        if (error instanceof ApiError && error.status === 401) {
+          handleAuthError();
           return;
         }
+        setUploadError(`«${file.name}»: ${uploadErrorMessage(error)}`);
+        return;
+      } finally {
+        setUpload(null);
       }
-
-      setUpload(null);
       void refreshFiles();
     },
-    [meetingId, accessToken, handleAuthError, refreshFiles],
+    [meetingId, accessToken, typeChoice, handleAuthError, refreshFiles],
   );
 
   const locked = upload != null;
@@ -392,12 +440,14 @@ export function MeetingFiles({
     event.preventDefault();
     setIsDragging(false);
     if (locked) return;
-    void uploadFiles(Array.from(event.dataTransfer.files));
+    const dropped = event.dataTransfer.files;
+    if (dropped.length > 0) void uploadFile(dropped[0], dropped.length - 1);
   }
 
   function handleInputChange(event: ChangeEvent<HTMLInputElement>) {
-    void uploadFiles(Array.from(event.target.files ?? []));
+    const [file] = Array.from(event.target.files ?? []);
     event.target.value = '';
+    if (file) void uploadFile(file);
   }
 
   return (
@@ -418,6 +468,33 @@ export function MeetingFiles({
       </Card.Header>
 
       <Card.Content className="flex flex-col gap-4">
+        <div className="flex flex-wrap items-center gap-2 text-sm">
+          <span className="text-muted">Загрузить как:</span>
+          <div
+            role="group"
+            aria-label="Вид загружаемого файла"
+            className="inline-flex overflow-hidden rounded-lg border border-border/60"
+          >
+            {TYPE_CHOICES.map(({ value, label }, index) => (
+              <button
+                key={value}
+                type="button"
+                aria-pressed={typeChoice === value}
+                onClick={() => setTypeChoice(value)}
+                className={cn(
+                  'min-h-9 px-3 text-xs font-medium transition-colors focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-focus',
+                  index > 0 && 'border-s border-border/60',
+                  typeChoice === value
+                    ? 'bg-foreground text-background'
+                    : 'text-muted hover:bg-foreground/[0.04] hover:text-foreground',
+                )}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+
         <button
           type="button"
           disabled={locked}
@@ -445,14 +522,14 @@ export function MeetingFiles({
           <span className="text-sm font-medium text-foreground">
             Перетащите файл сюда или нажмите, чтобы выбрать
           </span>
-          <span className="text-xs text-muted">
-            Аудио и видео обрабатываются автоматически, остальные файлы — как вложения
-          </span>
+          <span className="text-xs text-muted">{DROPZONE_HINT[typeChoice]}</span>
         </button>
 
-        <input ref={inputRef} type="file" multiple hidden onChange={handleInputChange} />
+        <input ref={inputRef} type="file" hidden onChange={handleInputChange} />
 
         {upload ? <ProgressRow upload={upload} /> : null}
+
+        {uploadNote ? <p className="text-xs text-muted">{uploadNote}</p> : null}
 
         {uploadError ? (
           <div

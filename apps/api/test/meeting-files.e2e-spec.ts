@@ -546,9 +546,15 @@ describe('Meeting files (e2e)', () => {
       const recording = await uploadRecording(meetingId, 'запись-встречи.mp3');
       expect(recording.status).toBe('pending');
 
-      // 3. Список показывает оба файла с их статусами.
+      // 3. Список показывает оба файла с их статусами (то, что рисует блок «Файлы»).
       const listed = await listFiles(meetingId);
       expect(listed.map((f) => f.id).sort()).toEqual([attachment.body.id, recording.id].sort());
+      const attachmentInList = listed.find((f) => f.id === attachment.body.id);
+      const recordingInList = listed.find((f) => f.id === recording.id);
+      expect(attachmentInList).toMatchObject({ type: 'attachment', status: 'done' });
+      expect(attachmentInList?.transcriptText).toBeNull();
+      expect(recordingInList?.type).toBe('recording');
+      expect(['pending', 'processing', 'done']).toContain(recordingInList?.status);
 
       // 4. Запись сама доходит до done и получает транскрипт — без доп. вызова.
       const processed = await waitForStatus(meetingId, recording.id, 'done');

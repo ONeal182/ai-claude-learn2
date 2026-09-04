@@ -518,4 +518,81 @@ describe('Meeting files (e2e)', () => {
         .expect(401);
     });
   });
+
+  // ── Фаза 4: сквозной сценарий пути UI ────────────────────────────────────────
+  //
+  // Один прогон всего пути, который проходит страница встречи в вебе:
+  // загрузка вложения и записи → список со статусами → появление транскрипта для
+  // recording → скачивание обоих файлов → reprocess упавшей записи → удаление.
+  // Контракт уже покрыт точечными тестами фаз 1–2; здесь важна связность шагов.
+
+  describe('сквозной сценарий пути UI (e2e)', () => {
+    it('загрузка → список → транскрипт → скачивание → reprocess → удаление', async () => {
+      const meetingId = await createMeeting();
+
+      // 1. Пустой список до загрузок.
+      expect(await listFiles(meetingId)).toHaveLength(0);
+
+      // 2. Загрузка вложения (сразу done) и записи (pending, уходит в обработку).
+      const attachmentBytes = Buffer.from('повестка встречи', 'utf8');
+      const attachment = await request(app.getHttpServer())
+        .post(`/meetings/${meetingId}/files`)
+        .set('Authorization', auth())
+        .field('type', 'attachment')
+        .attach('file', attachmentBytes, { filename: 'повестка.txt', contentType: 'text/plain' })
+        .expect(201);
+      expect(attachment.body.status).toBe('done');
+
+      const recording = await uploadRecording(meetingId, 'запись-встречи.mp3');
+      expect(recording.status).toBe('pending');
+
+      // 3. Список показывает оба файла с их статусами.
+      const listed = await listFiles(meetingId);
+      expect(listed.map((f) => f.id).sort()).toEqual([attachment.body.id, recording.id].sort());
+
+      // 4. Запись сама доходит до done и получает транскрипт — без доп. вызова.
+      const processed = await waitForStatus(meetingId, recording.id, 'done');
+      expect(typeof processed.transcriptText).toBe('string');
+      expect(processed.transcriptText).toContain('запись-встречи.mp3');
+
+      // 5. Скачивание обоих файлов.
+      const downloadedAttachment = await request(app.getHttpServer())
+        .get(`/meetings/${meetingId}/files/${attachment.body.id}/content`)
+        .set('Authorization', auth())
+        .responseType('blob')
+        .expect(200);
+      expect(downloadedAttachment.headers['content-disposition']).toContain('attachment');
+      expect(Buffer.from(downloadedAttachment.body).equals(attachmentBytes)).toBe(true);
+
+      await request(app.getHttpServer())
+        .get(`/meetings/${meetingId}/files/${recording.id}/content`)
+        .set('Authorization', auth())
+        .responseType('blob')
+        .expect(200);
+
+      // 6. Упавшая запись: reprocess возвращает её в pending, затем снова failed.
+      const failing = await uploadRecording(meetingId, `сбой${STT_FAIL_MARKER}.mp3`);
+      await waitForStatus(meetingId, failing.id, 'failed');
+
+      const reprocessed = await request(app.getHttpServer())
+        .post(`/meetings/${meetingId}/files/${failing.id}/reprocess`)
+        .set('Authorization', auth())
+        .expect(200);
+      expect(reprocessed.body.status).toBe('pending');
+      await waitForStatus(meetingId, failing.id, 'failed');
+
+      // 7. Удаление всех файлов — список снова пуст.
+      for (const id of [attachment.body.id, recording.id, failing.id]) {
+        await request(app.getHttpServer())
+          .delete(`/meetings/${meetingId}/files/${id}`)
+          .set('Authorization', auth())
+          .expect((r) => {
+            if (![200, 204].includes(r.status)) {
+              throw new Error(`ожидался 200/204, получен ${r.status}`);
+            }
+          });
+      }
+      expect(await listFiles(meetingId)).toHaveLength(0);
+    });
+  });
 });

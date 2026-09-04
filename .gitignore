@@ -21,6 +21,9 @@ coverage/
 # playwright mcp (снимки/логи ручной проверки UI — вне git)
 .playwright-mcp/
 
+# ralph loop — рантайм-счётчик итераций
+.claude/ralph.iterations.json
+
 # logs
 *.log
 npm-debug.log*

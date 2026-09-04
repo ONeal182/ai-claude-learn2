@@ -1,11 +1,12 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Button, Card, Spinner } from '@heroui/react';
 import { ApiError, getMeetings, type Meeting } from '@/lib/api';
 import { clearSession, getSession } from '@/lib/session';
-import { CalendarIcon, LogOutIcon } from '@/components/icons';
+import { CalendarIcon, ChevronRightIcon, LogOutIcon } from '@/components/icons';
 
 const dateTimeFormatter = new Intl.DateTimeFormat('ru-RU', {
   dateStyle: 'medium',
@@ -14,19 +15,25 @@ const dateTimeFormatter = new Intl.DateTimeFormat('ru-RU', {
 
 function MeetingRow({ meeting }: { meeting: Meeting }) {
   return (
-    <li className="flex items-center gap-3 rounded-lg border border-border/60 px-4 py-3">
-      <span
-        aria-hidden
-        className="flex size-9 shrink-0 items-center justify-center rounded-full bg-foreground/5 text-foreground"
+    <li>
+      <Link
+        href={`/meetings/${meeting.id}`}
+        className="flex items-center gap-3 rounded-lg border border-border/60 px-4 py-3 transition-colors hover:bg-foreground/[0.03] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
       >
-        <CalendarIcon className="size-4.5" />
-      </span>
-      <div className="flex min-w-0 flex-col">
-        <span className="truncate text-sm font-medium text-foreground">{meeting.title}</span>
-        <span className="text-xs text-muted">
-          {dateTimeFormatter.format(new Date(meeting.startsAt))}
+        <span
+          aria-hidden
+          className="flex size-9 shrink-0 items-center justify-center rounded-full bg-foreground/5 text-foreground"
+        >
+          <CalendarIcon className="size-4.5" />
         </span>
-      </div>
+        <div className="flex min-w-0 flex-col">
+          <span className="truncate text-sm font-medium text-foreground">{meeting.title}</span>
+          <span className="text-xs text-muted">
+            {dateTimeFormatter.format(new Date(meeting.startsAt))}
+          </span>
+        </div>
+        <ChevronRightIcon aria-hidden className="ml-auto size-4 shrink-0 text-muted" />
+      </Link>
     </li>
   );
 }

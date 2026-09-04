@@ -14,18 +14,18 @@
 
 ## Команды (из корня)
 
-| Команда             | Действие                                                                           |
-| ------------------- | ---------------------------------------------------------------------------------- |
-| `pnpm install`      | Установка зависимостей всего воркспейса                                            |
-| `pnpm dev`          | `web` + `api` в watch-режиме параллельно                                           |
-| `pnpm build`        | Продакшн-сборка всех пакетов (`turbo run build`)                                   |
-| `pnpm start`        | Сборка + запуск                                                                    |
-| `pnpm lint`         | Линт всех пакетов (ESLint для web, oxlint для api)                                 |
-| `pnpm typecheck`    | `tsc --noEmit` по всем пакетам                                                     |
-| `pnpm test`         | Тесты всех пакетов (vitest в api)                                                  |
-| `pnpm test:e2e`     | E2e-тесты (vitest --config vitest.config.e2e.ts в api), требуют поднятого Postgres |
-| `pnpm format`       | Prettier по всему репозиторию                                                      |
-| `pnpm format:check` | Prettier — проверка без изменений                                                  |
+| Команда             | Действие                                                                                         |
+| ------------------- | ------------------------------------------------------------------------------------------------ |
+| `pnpm install`      | Установка зависимостей всего воркспейса                                                          |
+| `pnpm dev`          | `web` + `api` в watch-режиме параллельно                                                         |
+| `pnpm build`        | Продакшн-сборка всех пакетов (`turbo run build`)                                                 |
+| `pnpm start`        | Сборка + запуск                                                                                  |
+| `pnpm lint`         | Линт всех пакетов (ESLint для web, oxlint для api)                                               |
+| `pnpm typecheck`    | `tsc --noEmit` по всем пакетам (в `web` перед ним `next typegen` — генерит типы роутов/лейаутов) |
+| `pnpm test`         | Тесты всех пакетов (vitest в api)                                                                |
+| `pnpm test:e2e`     | E2e-тесты (vitest --config vitest.config.e2e.ts в api), требуют поднятого Postgres               |
+| `pnpm format`       | Prettier по всему репозиторию                                                                    |
+| `pnpm format:check` | Prettier — проверка без изменений                                                                |
 
 ### Один пакет
 

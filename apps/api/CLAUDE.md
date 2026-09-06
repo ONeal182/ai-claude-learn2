@@ -90,6 +90,7 @@ test/
 
 Detailed cross-cutting rules are split into focused files (not auto-loaded — read them via the link):
 
+- [`code-style.md`](../../.claude/rules/code-style.md) — naming, file/method size, enums over literals, constants over magic numbers, explicit types + `Logger`
 - [`esm.md`](../../.claude/rules/esm.md) — pure ESM, `.js` in imports
 - [`cqrs.md`](../../.claude/rules/cqrs.md) — module layout, bus, events
 - [`prisma.md`](../../.claude/rules/prisma.md) — Prisma 7, schema, migrations, access
@@ -104,7 +105,7 @@ Here — cross-cutting rules only. A specific module's behaviour lives in its `s
 
 - **ESM** — pure ESM (`"type": "module"`, `nodenext`); relative imports carry the `.js` extension even for `.ts`. Rules and checklist: [`.claude/rules/esm.md`](../../.claude/rules/esm.md).
 - Standard Nest architecture: module → controller → service; DI via the constructor.
-- Every service method: explicit TS types for all parameters and the return value (`Promise<T>`); no `console.log` — `Logger` from `@nestjs/common`; name variables meaningfully, not `x` / `data` / `result`.
+- Code style — file/method size, naming, enums over string literals, named constants over magic numbers, explicit types + `Logger` on every service method: [`.claude/rules/code-style.md`](../../.claude/rules/code-style.md).
 - New resource — `pnpm exec nest g resource <name>` (schematics in `nest-cli.json`, `sourceRoot: src`).
 - Shared library — `pnpm exec nest g library <name>`; path aliases from `tsconfig.json` are resolved in tests via `vite-tsconfig-paths`.
 - `strict: true`, but `strictPropertyInitialization: false` (for DI and decorators).
@@ -127,6 +128,6 @@ Change `api` architecture — update the docs in the same change:
 
 - a new top-level module or a change to `src/` structure → the "Modules" table and the "Structure" section here; if the module has non-trivial logic — create `src/<module>/CLAUDE.md` and keep it there;
 - the behaviour of a module that has its own `CLAUDE.md` changed → edit that file, not this one;
-- new rules for ESM, DI, configuration, tests, authentication, file upload → the matching file in `.claude/rules/` (and a row in the "Rules" list if the file is new); small rules with no file of their own → the "Conventions" section;
+- new rules for code style, ESM, DI, configuration, tests, authentication, file upload → the matching file in `.claude/rules/` (and a row in the "Rules" list if the file is new); small rules with no file of their own → the "Conventions" section;
 - new/renamed scripts or a port → the "Commands" table (and the root `CLAUDE.md` if the shared pipeline is affected);
 - new env variables → `.env.example` and the "Conventions" section.

@@ -18,6 +18,7 @@ Run from the root (`pnpm web <script>`) or from this folder:
 
 Detailed cross-cutting rules — in focused files (not auto-loaded, read them via the link):
 
+- [`code-style.md`](../../.claude/rules/code-style.md) — naming, file/method size, enums over literals, constants over magic numbers, dependency hygiene
 - [`heroui.md`](../../.claude/rules/heroui.md) — HeroUI v3: `onPress`, compound components, `@import` order, client wrappers
 - [`dark-theme.md`](../../.claude/rules/dark-theme.md) — `.dark` on `<html>`, `@custom-variant dark`, pre-paint script, 4.5:1 contrast
 - [`web-api-client.md`](../../.claude/rules/web-api-client.md) — `src/lib/api.ts`, `bearerRequest`, `ApiError.status`, upload via `XMLHttpRequest`, polling
@@ -47,6 +48,7 @@ public/                 # static assets
 ## Conventions
 
 - **App Router**, server components by default; `"use client"` — only when the client is needed.
+- Code style — naming, file/method size, enums over string literals, named constants over magic numbers, no circular deps: [`.claude/rules/code-style.md`](../../.claude/rules/code-style.md).
 - Import alias: `@/*` → `./src/*` (`tsconfig.json`).
 - Layers: `app/` — routes, `components/` — client components, `hooks/` — client hooks (`"use client"`), `lib/` — non-React logic.
 - Styling — Tailwind v4 via `@tailwindcss/postcss` (`postcss.config.mjs`), directives in `src/app/globals.css`; there is no separate `tailwind.config`. HeroUI v3 — see [`heroui.md`](../../.claude/rules/heroui.md).

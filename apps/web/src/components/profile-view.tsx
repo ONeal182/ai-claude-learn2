@@ -31,7 +31,8 @@ export function ProfileView() {
     );
   }
 
-  const displayName = me?.name?.trim() || me?.email;
+  const trimmedName = me?.name?.trim();
+  const displayName = trimmedName || me?.email;
 
   return (
     <main className="flex flex-1 justify-center bg-gradient-to-br from-zinc-50 via-white to-zinc-100 p-6 dark:from-zinc-950 dark:via-black dark:to-zinc-900">
@@ -41,18 +42,13 @@ export function ProfileView() {
         {status === 'ready' && me ? (
           <Card className="w-full gap-6 border border-border/60 p-6 shadow-xl backdrop-blur">
             <Card.Header className="gap-4">
-              <Avatar
-                avatarUrl={me.avatarUrl}
-                name={me.name}
-                email={me.email}
-                size={72}
-                alt="Аватар профиля"
-              />
+              {/* Декоративный — рядом стоит заголовок с именем/почтой (см. AvatarProps.alt). */}
+              <Avatar avatarUrl={me.avatarUrl} name={me.name} email={me.email} size={72} />
               <div className="flex min-w-0 flex-col gap-1">
                 <h1 className="truncate text-xl font-semibold tracking-tight text-foreground">
                   {displayName}
                 </h1>
-                {me.name?.trim() ? <p className="truncate text-sm text-muted">{me.email}</p> : null}
+                {trimmedName ? <p className="truncate text-sm text-muted">{me.email}</p> : null}
               </div>
             </Card.Header>
 

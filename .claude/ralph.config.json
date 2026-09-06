@@ -6,6 +6,6 @@
     "6": "api-password-change"
   },
   "maxIterations": 5,
-  "maxTurns": 50,
+  "maxTurns": 90,
   "prompt": "Прочитай .claude/ralph.md и следуй правилам оттуда. Реализуй Issue #{issue} из milestone '{milestone}' (id {milestoneId}) в ветке '{branch}'."
 }

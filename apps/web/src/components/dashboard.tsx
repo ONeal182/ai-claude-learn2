@@ -4,9 +4,10 @@ import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Button, Card, Spinner } from '@heroui/react';
-import { getMeetings, type Meeting } from '@/lib/api';
+import { getMe, getMeetings, type Meeting } from '@/lib/api';
 import { clearSession } from '@/lib/session';
 import { useAuthedResource } from '@/hooks/use-authed-resource';
+import { Avatar } from '@/components/avatar';
 import { CalendarIcon, ChevronRightIcon, LogOutIcon } from '@/components/icons';
 
 const dateTimeFormatter = new Intl.DateTimeFormat('ru-RU', {
@@ -71,6 +72,10 @@ function MeetingSection({
 export function Dashboard() {
   const router = useRouter();
   const { status, data, error, session } = useAuthedResource(getMeetings);
+  // Профиль для шапки — необязателен: пока грузится или упал, показываем email из сессии.
+  const { data: profile } = useAuthedResource(getMe);
+  const accountEmail = profile?.email ?? session?.email ?? null;
+  const accountName = profile?.name?.trim() || accountEmail;
   // «сейчас» фиксируем один раз при монтировании — граница «предстоящие/прошедшие»
   // не должна плыть при перерисовках (и useMemo не имеет права звать Date.now()).
   const [now] = useState(() => Date.now());
@@ -101,12 +106,21 @@ export function Dashboard() {
     <main className="flex flex-1 justify-center bg-gradient-to-br from-zinc-50 via-white to-zinc-100 p-6 dark:from-zinc-950 dark:via-black dark:to-zinc-900">
       <div className="flex w-full max-w-2xl flex-col gap-6 py-10">
         <header className="flex items-center justify-between gap-4">
-          <div className="flex min-w-0 flex-col">
+          <div className="flex min-w-0 flex-col gap-1">
             <h1 className="text-xl font-semibold tracking-tight text-foreground">Ваши встречи</h1>
-            <p className="text-sm text-muted">
-              Вы вошли как{' '}
-              <span className="truncate font-medium text-foreground">{session?.email}</span>
-            </p>
+            <Link
+              href="/profile"
+              className="-ml-1 inline-flex min-h-9 min-w-0 items-center gap-2 self-start rounded-md px-1 transition-colors hover:bg-foreground/[0.03] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
+            >
+              {/* Декоративный — рядом стоит подпись с именем/почтой (см. AvatarProps.alt). */}
+              <Avatar
+                avatarUrl={profile?.avatarUrl}
+                name={profile?.name}
+                email={accountEmail}
+                size={28}
+              />
+              <span className="truncate text-sm font-medium text-foreground">{accountName}</span>
+            </Link>
           </div>
           <Button variant="secondary" onPress={handleLogout} className="min-h-11 gap-2 shrink-0">
             <LogOutIcon className="size-4.5" />

@@ -105,6 +105,36 @@ function ensureBranch(branch) {
   }
 }
 
+// Пушит ветку майлстоуна в origin. Без этого `gh pr create` падает
+// ("Head ref must be a branch") — GitHub не знает локальную ветку.
+function pushBranch(branch) {
+  run(`git push -u origin ${JSON.stringify(branch)}`);
+}
+
+// origin/<baseBranch> должен быть не позади локального: PR майлстоунов
+// создаются против origin/<baseBranch>, и если он отстаёт — в диф каждого PR
+// попадут посторонние коммиты (или базы вообще не будет нужного кода).
+function assertBaseBranchPushed() {
+  let hasRemote = true;
+  try {
+    runOut(`git rev-parse --verify --quiet ${JSON.stringify(`origin/${baseBranch}`)}`);
+  } catch {
+    hasRemote = false;
+  }
+  if (!hasRemote) return;
+  const ahead = runOut(
+    `git rev-list --count ${JSON.stringify(`origin/${baseBranch}..${baseBranch}`)}`,
+  ).trim();
+  if (ahead !== '0') {
+    console.error(
+      `Локальная ${baseBranch} опережает origin/${baseBranch} на ${ahead} коммит(ов). ` +
+        `PR майлстоунов создаются против origin/${baseBranch} и покажут лишний диф.\n` +
+        `Сначала выполните: git push origin ${baseBranch}`,
+    );
+    process.exit(1);
+  }
+}
+
 // Открытые issue майлстона, по возрастанию номера. `--state open` гарантирует,
 // что уже закрытые задачи в работу не попадут (их не берём и не переоткрываем).
 function fetchOpenIssues(id) {
@@ -160,6 +190,7 @@ function processMilestone(id) {
     const issues = fetchOpenIssues(id);
 
     if (issues.length === 0) {
+      pushBranch(branch);
       let prUrl = openPrUrl(branch);
       if (prUrl) {
         console.log(
@@ -207,8 +238,13 @@ function processMilestone(id) {
       );
       process.exit(1);
     }
+    // Пушим прогресс после каждой итерации: краш на следующей issue не потеряет
+    // сделанное, и ход работы виден в origin.
+    pushBranch(branch);
   }
 }
+
+assertBaseBranchPushed();
 
 console.log(`Milestone к обработке (по порядку): ${milestoneIds.join(', ')}`);
 for (const id of milestoneIds) {

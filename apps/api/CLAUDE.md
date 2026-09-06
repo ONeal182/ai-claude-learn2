@@ -104,6 +104,7 @@ test/
 
 - **ESM** — чистый ESM (`"type": "module"`, `nodenext`); относительные импорты с расширением `.js` даже для `.ts`. Правила и чек-лист: [`.claude/rules/esm.md`](../../.claude/rules/esm.md).
 - Стандартная архитектура Nest: модуль → контроллер → сервис; DI через конструктор.
+- Каждый метод сервиса: явные TS-типы всех параметров и возвращаемого значения (`Promise<T>`); без `console.log` — `Logger` из `@nestjs/common`; имена переменных по смыслу, не `x` / `data` / `result`.
 - Новый ресурс — `pnpm exec nest g resource <name>` (schematics в `nest-cli.json`, `sourceRoot: src`).
 - Общая библиотека — `pnpm exec nest g library <name>`; path-алиасы из `tsconfig.json` резолвятся в тестах через `vite-tsconfig-paths`.
 - `strict: true`, но `strictPropertyInitialization: false` (под DI и декораторы).

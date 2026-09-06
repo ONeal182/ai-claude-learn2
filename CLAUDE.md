@@ -16,6 +16,7 @@ Written in **English**; keep it that way.
 
 ## Rules
 
+- Before writing code: read the applicable `CLAUDE.md` and `.claude/rules/*.md` first — they outrank the existing code — then mirror a nearby file that already follows them.
 - pnpm only (version in `package.json` → `packageManager`); never npm / yarn.
 - Before committing: `pnpm lint && pnpm typecheck && pnpm test && pnpm test:e2e`. The `.husky/pre-commit` hook runs `lint` always and `test` + `test:e2e` unless the commit is docs/config only (`*.md`, `.claude/**`, `.agents/**`, `docs/**`, `plan/**`); it never runs `typecheck`. `test:e2e` needs Postgres up (`docker compose up -d postgres`).
 - Prettier runs after every `Write` / `Edit` via a `PostToolUse` hook — don't run `pnpm format` yourself.

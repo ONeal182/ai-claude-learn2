@@ -48,7 +48,9 @@ const {
   maxTurns,
   // Бюджет ходов для веб-фаз (Playwright + проверка UI съедают больше).
   browserMaxTurns = maxTurns,
-  // id майлстонов, которым нужен браузер (Playwright MCP). Плюс к эвристике по названию.
+  // Ручной форс браузера для конкретных фаз. Обычно НЕ нужен: решение и так
+  // берётся из названия фазы и её issue (см. needsBrowser). Оставь [] —
+  // список нужен только если эвристика по названию промахивается.
   browserMilestones = [],
   // Точечный оверрайд бюджета ходов: { "<id>": 70 }.
   maxTurnsOverrides = {},
@@ -184,12 +186,26 @@ function newUsageAcc() {
 
 const grandTotal = newUsageAcc();
 
-// Нужен ли майлстону браузер (Playwright MCP): явный список в конфиге либо
-// эвристика по названию ("Веб", "web", "фронт", "UI"/"UX").
-function needsBrowser(id, title) {
+// Признаки фронтенд-задачи в названии (→ проверка в браузере через Playwright MCP).
+// \b ненадёжен с кириллицей в JS-регекспе без флага u — ключевые слова без границ.
+const WEB_HINT_RE =
+  /веб|web|фронт|front|\bui\b|\bux\b|страниц|экран|компонент|вёрстк|верстк|интерфейс|дашборд|dashboard|layout|tailwind|heroui|\breact\b|next\.?js|\.tsx|apps\/web/i;
+// Признаки чисто бэкенд-задачи (→ браузер не нужен).
+const API_HINT_RE =
+  /\bapi\b|бэкенд|бекенд|backend|сервер|endpoint|контроллер|controller|роут\b|route handler|миграци|migration|prisma|nest|\bdto\b|guard|\be2e\b|apps\/api/i;
+
+// Нужен ли фазе браузер. Решение по НАЗВАНИЯМ: фаза + все её открытые issue.
+// Фронтенд-подсказка перевешивает бэкенд. Порядок:
+//   1) явный список config.browserMilestones — форсит браузер;
+//   2) есть веб-признак в названии фазы или любой issue → да;
+//   3) всё выглядит как бэкенд → нет;
+//   4) неоднозначно → нет (без браузера дешевле).
+function needsBrowser(id, milestoneTitle, issueTitles = []) {
   if (browserMilestones.map(Number).includes(Number(id))) return true;
-  // \b ненадёжен с кириллицей в JS-регекспе без флага u — по «веб»/«фронт» без границ.
-  return /веб|web|фронт|frontend|\bui\b|\bux\b/i.test(title);
+  const haystack = [milestoneTitle, ...issueTitles].join(' • ');
+  if (WEB_HINT_RE.test(haystack)) return true;
+  if (API_HINT_RE.test(haystack)) return false;
+  return false;
 }
 
 // Резолвит числовой id майлстона в его название через GitHub API.
@@ -371,7 +387,14 @@ function processMilestone(id) {
     return;
   }
 
-  const browser = needsBrowser(id, title);
+  // Решение про браузер — по названию фазы И названиям всех её открытых issue.
+  // Фиксируем один раз на фазу (сессия claude общая через --resume, менять
+  // набор MCP-серверов посреди неё нельзя).
+  const browser = needsBrowser(
+    id,
+    title,
+    fetchOpenIssues(id).map((i) => i.title),
+  );
   const turnBudget = maxTurnsOverrides[String(id)] ?? (browser ? browserMaxTurns : maxTurns);
   // Единый UUID сессии на всю фазу: 1-я issue создаёт (--session-id),
   // следующие продолжают (--resume) — контекст не остывает между issue.

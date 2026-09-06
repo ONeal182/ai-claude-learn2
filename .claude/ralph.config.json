@@ -8,7 +8,7 @@
   "maxIterations": 5,
   "maxTurns": 45,
   "browserMaxTurns": 80,
-  "browserMilestones": [8, 9],
+  "browserMilestones": [],
   "maxTurnsOverrides": {},
   "resumeWithinMilestone": true,
   "prompt": "Прочитай .claude/ralph.md и следуй правилам оттуда. Реализуй Issue #{issue} из milestone '{milestone}' (id {milestoneId}) в ветке '{branch}'."

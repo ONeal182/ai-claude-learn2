@@ -27,6 +27,9 @@ coverage/
 # ralph loop — кэш переведённых slug'ов для имён веток (пишется во время прогона)
 .claude/ralph-branch-names.json
 
+# ralph loop — сайдбенд с расходом токенов/стоимостью последнего прогона claude
+.claude/ralph-session.json
+
 # logs
 *.log
 npm-debug.log*

@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import {
   Button,
   Card,
@@ -71,14 +72,17 @@ function useSaveState() {
     setErrorMessage(message);
   }
 
-  async function run(action: () => Promise<unknown>, successMessage: string) {
+  /** Выполняет запрос блока; возвращает `true` при успехе (для последующего редиректа). */
+  async function run(action: () => Promise<unknown>, successMessage: string): Promise<boolean> {
     reset();
     setPending(true);
     try {
       await action();
       setOkMessage(successMessage);
+      return true;
     } catch (error) {
       setErrorMessage(error instanceof Error ? error.message : 'Не удалось сохранить изменения.');
+      return false;
     } finally {
       setPending(false);
     }
@@ -127,12 +131,16 @@ function SaveButton({ isPending, label = 'Сохранить' }: { isPending: bo
 
 /** Блок смены отображаемого имени. */
 function NameBlock({ accessToken, initialName }: { accessToken: string; initialName: string }) {
+  const router = useRouter();
   const [name, setName] = useState(initialName);
   const { isPending, okMessage, errorMessage, run, reset } = useSaveState();
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    void run(() => updateProfileName(accessToken, name.trim()), 'Имя обновлено.');
+    // Успех → уходим на /profile: страница перечитывает getMe, новое имя видно там и в шапке дашборда.
+    if (await run(() => updateProfileName(accessToken, name.trim()), 'Имя обновлено.')) {
+      router.push('/profile');
+    }
   }
 
   return (
@@ -183,6 +191,7 @@ function NameBlock({ accessToken, initialName }: { accessToken: string; initialN
 
 /** Блок загрузки аватара: выбор файла, превью выбранного изображения, «Сохранить». */
 function AvatarBlock({ accessToken, me }: { accessToken: string; me: Me }) {
+  const router = useRouter();
   const [file, setFile] = useState<File | null>(null);
   const { isPending, okMessage, errorMessage, run, reset, fail } = useSaveState();
 
@@ -207,7 +216,7 @@ function AvatarBlock({ accessToken, me }: { accessToken: string; me: Me }) {
     setFile(selected);
   }
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!file) return;
     const validationError = validateAvatarFile(file);
@@ -215,10 +224,12 @@ function AvatarBlock({ accessToken, me }: { accessToken: string; me: Me }) {
       fail(validationError);
       return;
     }
-    void run(async () => {
+    // Успех → на /profile: страница перечитывает getMe, новый аватар виден там и в шапке дашборда.
+    const saved = await run(async () => {
       await uploadAvatar(accessToken, file);
       setFile(null);
     }, 'Аватар обновлён.');
+    if (saved) router.push('/profile');
   }
 
   return (
@@ -313,6 +324,9 @@ function PasswordBlock({ accessToken }: { accessToken: string }) {
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    // Неверный текущий пароль → `changePassword` бросает ApiError(401) → ошибка блока
+    // (сессия не чистится — это не 401 загрузки страницы), поля остаются заполненными,
+    // повторной отправки нет. Успех → сообщение, пользователь остаётся на странице.
     void run(async () => {
       await changePassword(accessToken, { currentPassword, newPassword });
       setCurrentPassword('');

@@ -6,7 +6,7 @@ import { PrismaService } from '../../../prisma/prisma.service.js';
 import { GetMeetingByIdQuery } from '../../../meeting/queries/impl/get-meeting-by-id.query.js';
 import { toMeetingFileDto, type MeetingFileDto } from '../../dto/meeting-file.dto.js';
 import { MeetingFileProcessingRequestedEvent } from '../../events/impl/meeting-file-processing-requested.event.js';
-import { FileStorageService } from '../../file-storage.service.js';
+import { FileStorageService } from '../../../storage/file-storage.service.js';
 import { CreateMeetingFileCommand } from '../impl/create-meeting-file.command.js';
 
 @Injectable()

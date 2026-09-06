@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { IQueryHandler, QueryBus, QueryHandler } from '@nestjs/cqrs';
 import type { MeetingFile } from '@prisma/client';
 import type { MeetingFileContent } from '../../dto/meeting-file-content.js';
-import { FileStorageService } from '../../file-storage.service.js';
+import { FileStorageService } from '../../../storage/file-storage.service.js';
 import { GetMeetingFileQuery } from '../impl/get-meeting-file.query.js';
 import { GetMeetingFileContentQuery } from '../impl/get-meeting-file-content.query.js';
 

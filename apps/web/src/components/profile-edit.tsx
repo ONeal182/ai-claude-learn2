@@ -316,7 +316,7 @@ function AvatarBlock({ accessToken, me }: { accessToken: string; me: Me }) {
 }
 
 /** Блок смены пароля: текущий / новый / подтверждение. */
-function PasswordBlock({ accessToken }: { accessToken: string }) {
+function PasswordBlock({ accessToken, email }: { accessToken: string; email: string }) {
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -347,6 +347,16 @@ function PasswordBlock({ accessToken }: { accessToken: string }) {
       <Form validationBehavior="native" className="flex flex-col gap-5" onSubmit={handleSubmit}>
         <Card.Content>
           <div className="flex flex-col gap-4">
+            {/* Скрытое поле username — чтобы менеджеры паролей связали смену с записью (реком. Chrome). */}
+            <input
+              type="text"
+              name="username"
+              autoComplete="username"
+              value={email}
+              readOnly
+              hidden
+            />
+
             <TextField
               isRequired
               name="currentPassword"
@@ -450,7 +460,7 @@ export function ProfileEdit() {
           <>
             <NameBlock accessToken={session.accessToken} initialName={me.name ?? ''} />
             <AvatarBlock accessToken={session.accessToken} me={me} />
-            <PasswordBlock accessToken={session.accessToken} />
+            <PasswordBlock accessToken={session.accessToken} email={me.email} />
           </>
         ) : null}
       </div>

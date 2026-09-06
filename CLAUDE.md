@@ -1,37 +1,26 @@
 # CLAUDE.md
 
 Monorepo — pnpm workspaces + Turborepo. Node >= 24, pnpm 11 (`corepack enable`).
-This file is written in **English**; keep it that way.
+Written in **English**; keep it that way.
 
 ## Token economy
 
-- **Never read or grep wholesale:** `node_modules/` (~2 GB), `apps/web/.next/` (~350 MB), `apps/api/dist/`, `.turbo/`, `pnpm-lock.yaml` (~300 KB), `ralph.log` / `*.log`. The Prisma client is generated — read `apps/api/prisma/schema.prisma` (the source, one small file), not client output, and don't reconstruct models from `apps/api/prisma/migrations/` SQL.
-- **Scope every search** to `apps/api/src` or `apps/web/src` (both small), not the repo root. Skill data under `.agents/skills/**/data/` holds multi-hundred-KB catalogs — reach it through the skill, never a raw read.
-- **API is CQRS:** each domain is `apps/api/src/<domain>/` with `commands/handlers`, `queries/handlers`, `dto`, `events`. Jump straight to the domain folder instead of grepping.
-- **Read the package `CLAUDE.md`** (`apps/api`, `apps/web`) before exploring that app — it usually already answers the question.
-- **Don't repeat automation:** Prettier runs via the `PostToolUse` hook, so never run `pnpm format` after an edit; the `pre-commit` hook already runs lint / test / e2e.
-- Prefer `Grep` / `Glob` with a path filter and targeted line-range `Read`s over `cat`, `find` from root, or reading whole files.
+- Never read or grep wholesale: `node_modules/`, `apps/web/.next/`, `apps/api/dist/`, `.turbo/`, `pnpm-lock.yaml`, `*.log`. For DB shape read `apps/api/prisma/schema.prisma`, not the generated client or migration SQL.
+- Scope searches to `apps/api/src` / `apps/web/src`; reach skill data (`.agents/skills/**/data/`) through the skill, not raw reads.
+- API is CQRS — go straight to `apps/api/src/<domain>/` (`commands/handlers`, `queries/handlers`, `dto`, `events`) instead of grepping; check the package `CLAUDE.md` first.
+- Keep command output terse, widen only when debugging a specific failure:
+  - `git log --oneline -n 20`, `git diff --stat` (then `--unified=0 -- <path>`), `git show --stat`
+  - `gh` with `--json <fields>`, never the paginated tables
+  - `pnpm --filter api test -- --reporter=dot`; `pnpm typecheck 2>&1 | tail -n 20`
+  - anything noisy: `--quiet` / `--silent`, or pipe through `head` / `tail`
 
-### Keep command output small
+## Rules
 
-Default to the terse form; widen only when you actually need the detail.
-
-- `git log --oneline -n 20`, `git diff --stat` (then `git diff --unified=0 -- <path>` for one file), `git show --stat`.
-- `gh` always with `--json <fields>` (e.g. `gh issue list --json number,title,state`, `gh pr view --json title,body,files`) — never the default paginated tables.
-- Sweep tests with `pnpm --filter api test -- --reporter=dot`; switch to the full reporter only for a file that failed.
-- `pnpm typecheck 2>&1 | tail -n 20`, `pnpm lint 2>&1 | tail -n 30` — the tail holds the errors.
-- Any other noisy command: add `--quiet` / `--silent` / `--reporter=dot` or pipe through `head` / `tail`.
-
-These forms drop context lines and error tails, so run the full command when you are debugging a specific failure.
-
-## Rules for the agent
-
-- Package manager is **pnpm only** (version pinned in `package.json` → `packageManager`). Never use npm or yarn.
-- Before committing, run `pnpm lint && pnpm typecheck && pnpm test && pnpm test:e2e`. The `.husky/pre-commit` hook runs all of these **except `typecheck`** on every `git commit`.
-- `pnpm test:e2e` and every `git commit` need a running Postgres: `docker compose up -d postgres`.
-- Prettier runs on every file after `Write` / `Edit` via a `PostToolUse` hook (`.claude/settings.json`).
-- When you change the architecture, update the affected docs in the same PR — a stale `CLAUDE.md` is a bug: the Structure table + a package `CLAUDE.md` for new packages; the command / port / stack tables here and in `README.md`; `.env.example` for env vars.
-- Commit messages follow Conventional Commits (`type(scope): summary`, e.g. `feat(api): …`); branch names are `feature/<slug>`.
+- pnpm only (version in `package.json` → `packageManager`); never npm / yarn.
+- Before committing: `pnpm lint && pnpm typecheck && pnpm test && pnpm test:e2e`. The `.husky/pre-commit` hook runs all but `typecheck`; `test:e2e` and every commit need Postgres up (`docker compose up -d postgres`).
+- Prettier runs after every `Write` / `Edit` via a `PostToolUse` hook — don't run `pnpm format` yourself.
+- Change the architecture → update the affected docs in the same PR (a stale `CLAUDE.md` is a bug): Structure table + a package `CLAUDE.md` for new packages; command / port / stack tables here and in `README.md`; `.env.example` for env vars.
+- Conventional Commits (`type(scope): summary`); branches `feature/<slug>`.
 
 ## Structure
 
@@ -41,23 +30,21 @@ These forms drop context lines and error tails, so run the full command when you
 | `apps/api`   | NestJS 12 (TS, ESM, oxlint, vitest)                         | 3001     |
 | `packages/*` | Shared libraries (`@repo/*`), empty for now                | —        |
 
-Each app has its own `CLAUDE.md`. Workspaces: `pnpm-workspace.yaml`. Task pipeline: `turbo.json`.
-
-Feature docs: `docs/` holds PRDs and research notes, `plan/` holds phase-by-phase implementation plans (one file per feature). Node version is pinned in `.node-version` / `.nvmrc`.
+Each app has its own `CLAUDE.md`. `docs/` holds PRDs + research, `plan/` holds phase plans. Workspaces: `pnpm-workspace.yaml`; task pipeline: `turbo.json`.
 
 ## Commands
 
-Run scripts with `pnpm <script>` — the list is in [`package.json`](package.json). `pnpm web <script>` / `pnpm api <script>` proxy to `pnpm --filter web|api`. Not visible there: `pnpm typecheck` runs `next typegen` first in `web`.
+Scripts are in [`package.json`](package.json) (`pnpm <script>`; `pnpm web|api <script>` = `pnpm --filter …`). Not obvious there: `pnpm typecheck` runs `next typegen` first in `web`.
 
 ## Setup
 
-- Postgres: `docker compose up -d postgres` (config in `docker-compose.yml`; details in `README.md`).
-- Env: copy `.env.example`, `apps/api/.env.example` and `apps/web/.env.example` to `.env` — the examples are self-documenting.
+- Postgres: `docker compose up -d postgres` (`docker-compose.yml`; details in `README.md`).
+- Env: copy the three `.env.example` files (root, `apps/api`, `apps/web`) — self-documenting.
 
 ## CI
 
-`.github/workflows/ci.yml` runs on push to `main` and on every pull request: the same checks as local plus `prisma generate` and `prisma migrate deploy`, on a Postgres service.
+`.github/workflows/ci.yml` — on push to `main` and every PR: the local checks plus `prisma generate` / `prisma migrate deploy`, on Postgres.
 
 ## Shared code
 
-Extract reusable logic into `packages/*` as `@repo/<name>` and wire it via `workspace:*`.
+Reusable logic → `packages/*` as `@repo/<name>`, wired via `workspace:*`.

@@ -1,89 +1,89 @@
 # CLAUDE.md — apps/web
 
-Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS v4, HeroUI v3. Dev-порт **3000**.
+Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS v4, HeroUI v3. Dev port **3000**.
 
-## Команды
+## Commands
 
-Запускать через корень (`pnpm web <script>`) или из этой папки:
+Run from the root (`pnpm web <script>`) or from this folder:
 
-| Команда          | Действие                                                             |
-| ---------------- | ------------------------------------------------------------------- |
-| `pnpm dev`       | `next dev` (watch, порт 3000)                                       |
-| `pnpm build`     | `next build`                                                        |
-| `pnpm start`     | `next start` (после `build`)                                        |
-| `pnpm lint`      | `eslint` (flat-config `eslint.config.mjs`)                          |
-| `pnpm typecheck` | `next typegen && tsc --noEmit` (typegen генерит типы роутов)        |
+| Command          | Action                                                             |
+| ---------------- | ----------------------------------------------------------------- |
+| `pnpm dev`       | `next dev` (watch, port 3000)                                      |
+| `pnpm build`     | `next build`                                                       |
+| `pnpm start`     | `next start` (after `build`)                                       |
+| `pnpm lint`      | `eslint` (flat config `eslint.config.mjs`)                         |
+| `pnpm typecheck` | `next typegen && tsc --noEmit` (typegen generates route types)     |
 
-## Правила (`.claude/rules/`)
+## Rules (`.claude/rules/`)
 
-Детальные сквозные правила — в focused-файлах (автозагрузкой не подхватываются, читать по ссылке):
+Detailed cross-cutting rules — in focused files (not auto-loaded, read them via the link):
 
-- [`heroui.md`](../../.claude/rules/heroui.md) — HeroUI v3: `onPress`, compound, порядок `@import`, клиентские обёртки
-- [`dark-theme.md`](../../.claude/rules/dark-theme.md) — `.dark` на `<html>`, `@custom-variant dark`, скрипт до отрисовки, контраст 4.5:1
-- [`web-api-client.md`](../../.claude/rules/web-api-client.md) — `src/lib/api.ts`, `bearerRequest`, `ApiError.status`, загрузка через `XMLHttpRequest`, поллинг
-- [`client-auth.md`](../../.claude/rules/client-auth.md) — сессия в `localStorage`, `useAuthedResource(load)`, `401 → clearSession`
+- [`heroui.md`](../../.claude/rules/heroui.md) — HeroUI v3: `onPress`, compound components, `@import` order, client wrappers
+- [`dark-theme.md`](../../.claude/rules/dark-theme.md) — `.dark` on `<html>`, `@custom-variant dark`, pre-paint script, 4.5:1 contrast
+- [`web-api-client.md`](../../.claude/rules/web-api-client.md) — `src/lib/api.ts`, `bearerRequest`, `ApiError.status`, upload via `XMLHttpRequest`, polling
+- [`client-auth.md`](../../.claude/rules/client-auth.md) — session in `localStorage`, `useAuthedResource(load)`, `401 → clearSession`
 
-## Структура
+## Structure
 
 ```
 src/
-├── app/                # App Router (роуты — server-компоненты)
-│   ├── layout.tsx      # корневой layout + скрипт темы (см. dark-theme.md)
-│   ├── page.tsx        # / — защищённая главная, рендерит <Dashboard />
+├── app/                # App Router (routes are server components)
+│   ├── layout.tsx      # root layout + theme script (see dark-theme.md)
+│   ├── page.tsx        # / — protected home, renders <Dashboard />
 │   ├── register/page.tsx  # /register
-│   ├── login/page.tsx     # /login, после успеха → /
-│   ├── meetings/[id]/page.tsx # детали встречи + блок «Файлы»; рендерит <MeetingDetails id={id} />
-│   └── globals.css     # Tailwind + HeroUI + токены темы
-├── components/         # клиентские (`"use client"`) React-компоненты на HeroUI
+│   ├── login/page.tsx     # /login, on success → /
+│   ├── meetings/[id]/page.tsx # meeting details + "Files" block; renders <MeetingDetails id={id} />
+│   └── globals.css     # Tailwind + HeroUI + theme tokens
+├── components/         # client (`"use client"`) React components on HeroUI
 │   │                   # register-form, login-form, dashboard, meeting-details, meeting-files, icons
 ├── hooks/
-│   └── use-authed-resource.ts # сценарий защищённой страницы (см. client-auth.md)
-└── lib/                # логика без React
-    ├── api.ts          # клиент NestJS-API (см. web-api-client.md)
-    └── session.ts      # сессия в localStorage
-public/                 # статика
+│   └── use-authed-resource.ts # protected-page flow (see client-auth.md)
+└── lib/                # non-React logic
+    ├── api.ts          # NestJS API client (see web-api-client.md)
+    └── session.ts      # session in localStorage
+public/                 # static assets
 ```
 
-## Соглашения
+## Conventions
 
-- **App Router**, серверные компоненты по умолчанию; `"use client"` — только когда нужен клиент.
-- Алиас импорта: `@/*` → `./src/*` (`tsconfig.json`).
-- Слои: `app/` — роуты, `components/` — клиентские компоненты, `hooks/` — клиентские хуки (`"use client"`), `lib/` — логика без React.
-- Стили — Tailwind v4 через `@tailwindcss/postcss` (`postcss.config.mjs`), директивы в `src/app/globals.css`; отдельного `tailwind.config` нет. HeroUI v3 — см. [`heroui.md`](../../.claude/rules/heroui.md).
-- Тёмная тема, контраст — см. [`dark-theme.md`](../../.claude/rules/dark-theme.md).
-- Публичные env — с префиксом `NEXT_PUBLIC_` (`NEXT_PUBLIC_API_URL` в `.env.example`); см. [`.claude/rules/env.md`](../../.claude/rules/env.md).
-- Конфиг фреймворка — `next.config.ts`.
+- **App Router**, server components by default; `"use client"` — only when the client is needed.
+- Import alias: `@/*` → `./src/*` (`tsconfig.json`).
+- Layers: `app/` — routes, `components/` — client components, `hooks/` — client hooks (`"use client"`), `lib/` — non-React logic.
+- Styling — Tailwind v4 via `@tailwindcss/postcss` (`postcss.config.mjs`), directives in `src/app/globals.css`; there is no separate `tailwind.config`. HeroUI v3 — see [`heroui.md`](../../.claude/rules/heroui.md).
+- Dark theme, contrast — see [`dark-theme.md`](../../.claude/rules/dark-theme.md).
+- Public env vars — prefixed `NEXT_PUBLIC_` (`NEXT_PUBLIC_API_URL` in `.env.example`); see [`.claude/rules/env.md`](../../.claude/rules/env.md).
+- Framework config — `next.config.ts`.
 
-## Проверка UI-изменений (обязательно)
+## Verifying UI changes (mandatory)
 
-Любое изменение, затрагивающее интерфейс (вёрстка, стили, компоненты, страницы,
-`globals.css`, токены, тема), **не считается завершённым**, пока не сделано и то и другое:
+Any change that touches the interface (layout, styles, components, pages,
+`globals.css`, tokens, theme) is **not done** until both of these are complete:
 
-1. **Визуальная проверка через Playwright MCP** — только этим инструментом, не «на глаз»
-   по коду и не скриншотами из другого источника. Открыть запущенный dev-сервер
-   (`http://localhost:3000` — сервер всегда поднят, самому не запускать) и проверить:
-   светлую и тёмную тему, мобильную и десктопную ширину, интерактивные состояния
-   (фокус, ошибки валидации, загрузка, hover/active), отсутствие ошибок в консоли.
-2. **Ревью по скиллу `ui-ux-pro-max`** — прогнать изменение через его данные
-   (поиск по нужным доменам: accessibility, forms, typography/color, layout и т.п.)
-   и убедиться, что правки не нарушают его правил (контраст ≥ 4.5:1, тач-цели,
-   иерархия заголовков, семантика форм и пр.).
+1. **Visual check via Playwright MCP** — with that tool only, not "by eye"
+   from the code and not with screenshots from another source. Open the running dev server
+   (`http://localhost:3000` — the server is always up, do not start it yourself) and check:
+   light and dark theme, mobile and desktop width, interactive states
+   (focus, validation errors, loading, hover/active), no console errors.
+2. **Review via the `ui-ux-pro-max` skill** — run the change through its data
+   (search the relevant domains: accessibility, forms, typography/color, layout, etc.)
+   and confirm the edits do not break its rules (contrast ≥ 4.5:1, touch targets,
+   heading hierarchy, form semantics, and so on).
 
-Прохождение `typecheck` / `lint` / `build` — необходимое, но **недостаточное** условие.
+Passing `typecheck` / `lint` / `build` is necessary but **not sufficient**.
 
-## Связь с API и аутентификация
+## API access and authentication
 
-Клиент API — `src/lib/api.ts` (компоненты не зовут `fetch` напрямую), правила в
-[`web-api-client.md`](../../.claude/rules/web-api-client.md). Сессия и защита страниц — целиком на
-клиенте (`localStorage` + `useAuthedResource`), правила в
-[`client-auth.md`](../../.claude/rules/client-auth.md). Форма ответов и коды ошибок API — в
-`apps/api/CLAUDE.md` и его модульных `CLAUDE.md`.
+The API client is `src/lib/api.ts` (components never call `fetch` directly), rules in
+[`web-api-client.md`](../../.claude/rules/web-api-client.md). Session and page protection are entirely
+client-side (`localStorage` + `useAuthedResource`), rules in
+[`client-auth.md`](../../.claude/rules/client-auth.md). API response shape and error codes — in
+`apps/api/CLAUDE.md` and its per-module `CLAUDE.md` files.
 
-## Актуализация документации
+## Keeping the docs in sync
 
-Меняешь архитектуру `web` — обновляй документацию в том же изменении:
+Change `web` architecture — update the docs in the same change:
 
-- новая верхнеуровневая директория в `src/`, изменение структуры роутинга или слоёв → раздел «Структура»;
-- новое сквозное правило (стили, тема, работа с API, аутентификация) → соответствующий файл в `.claude/rules/` (и строка в списке «Правила», если файл новый); мелкие правила — раздел «Соглашения»;
-- новые/переименованные скрипты или порт → таблица «Команды» (и корневой `CLAUDE.md`, если затронут общий пайплайн);
-- новые `NEXT_PUBLIC_*` переменные → `.env.example` и [`.claude/rules/env.md`](../../.claude/rules/env.md).
+- a new top-level directory in `src/`, a change to the routing structure or layers → the "Structure" section;
+- a new cross-cutting rule (styles, theme, API access, authentication) → the matching file in `.claude/rules/` (and a row in the "Rules" list if the file is new); small rules — the "Conventions" section;
+- new/renamed scripts or a port → the "Commands" table (and the root `CLAUDE.md` if the shared pipeline is affected);
+- new `NEXT_PUBLIC_*` variables → `.env.example` and [`.claude/rules/env.md`](../../.claude/rules/env.md).

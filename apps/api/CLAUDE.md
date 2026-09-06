@@ -1,132 +1,132 @@
 # CLAUDE.md — apps/api
 
-NestJS 12, TypeScript, **чистый ESM** (`"type": "module"`). Линт — oxlint, тесты — vitest. Dev-порт **3001**.
-БД — Postgres через **Prisma 7** (no-rust-engine, драйвер-адаптер `@prisma/adapter-pg`).
+NestJS 12, TypeScript, **pure ESM** (`"type": "module"`). Lint — oxlint, tests — vitest. Dev port **3001**.
+DB — Postgres via **Prisma 7** (no-rust-engine, driver adapter `@prisma/adapter-pg`).
 
-## Команды
+## Commands
 
-Запускать через корень (`pnpm api <script>`) или из этой папки:
+Run from the root (`pnpm api <script>`) or from this folder:
 
-| Команда           | Действие                                     |
+| Command           | Action                                       |
 | ----------------- | -------------------------------------------- |
-| `pnpm dev`        | `nest start --watch` (порт 3001)             |
+| `pnpm dev`        | `nest start --watch` (port 3001)             |
 | `pnpm start`      | `nest start`                                 |
-| `pnpm start:prod` | `node dist/main` (после `build`)             |
+| `pnpm start:prod` | `node dist/main` (after `build`)             |
 | `pnpm build`      | `nest build` → `dist/`                       |
 | `pnpm lint`       | `oxlint src/ test/`                          |
 | `pnpm typecheck`  | `tsc --noEmit -p tsconfig.json`              |
-| `pnpm test`       | `vitest run` (файлы `**/*.spec.ts`)          |
+| `pnpm test`       | `vitest run` (files `**/*.spec.ts`)          |
 | `pnpm test:watch` | `vitest`                                     |
 | `pnpm test:cov`   | `vitest run --coverage`                      |
 | `pnpm test:e2e`   | `vitest run --config ./vitest.config.e2e.ts` |
 
-Prisma-команды, схема, миграции и правила доступа — в [`.claude/rules/prisma.md`](../../.claude/rules/prisma.md).
+Prisma commands, schema, migrations, and access rules — in [`.claude/rules/prisma.md`](../../.claude/rules/prisma.md).
 
-## Модули
+## Modules
 
-Сквозные правила — ниже в «Соглашениях». Модуль с нетривиальным поведением держит свою логику
-(структуру + правила) в собственном `src/<module>/CLAUDE.md`; здесь — одна строка и ссылка.
+Cross-cutting rules — below in "Conventions". A module with non-trivial behaviour keeps its logic
+(structure + rules) in its own `src/<module>/CLAUDE.md`; here — one row and a link.
 
-| Модуль             | Что делает                                                                                          | Документирован                                        |
+| Module             | What it does                                                                                       | Documented                                           |
 | ------------------ | ------------------------------------------------------------------------------------------------- | ---------------------------------------------------- |
-| `src/prisma/`      | `@Global` `PrismaService` (PrismaClient + PrismaPg-адаптер, `$connect`/`$disconnect` по lifecycle) | [`.claude/rules/prisma.md`](../../.claude/rules/prisma.md) |
-| `src/auth/`        | CQRS; токены и проверка credentials, **не** хранение `User`; `JwtAuthGuard`, `AuthTokenService`, события | здесь                                          |
-| `src/users/`       | CQRS; владелец сущности `User` (Prisma) — создание, поиск, обновление профиля; без паролей/токенов | здесь                                                |
-| `src/storage/`     | не CQRS; `FileStorageService` — единственная точка работы с ФС для всех загруженных бинарников      | здесь                                                |
-| `src/meeting/`     | CQRS; CRUD встреч под `JwtAuthGuard`, событие `MeetingCreatedEvent`                                 | здесь                                                |
-| `src/profile/`     | CQRS; `GET`/`PATCH /users/me`, `PUT /users/me/avatar`, публичный `GET /users/avatars/:key`          | [`src/profile/CLAUDE.md`](src/profile/CLAUDE.md)       |
-| `src/meeting-file/`| CQRS; вложенный `/meetings/:id/files`, загрузка на диск, фоновая обработка записи (STT-заглушка)     | [`src/meeting-file/CLAUDE.md`](src/meeting-file/CLAUDE.md) |
+| `src/prisma/`      | `@Global` `PrismaService` (PrismaClient + PrismaPg adapter, `$connect`/`$disconnect` on lifecycle) | [`.claude/rules/prisma.md`](../../.claude/rules/prisma.md) |
+| `src/auth/`        | CQRS; tokens and credential verification, **not** `User` storage; `JwtAuthGuard`, `AuthTokenService`, events | here                                       |
+| `src/users/`       | CQRS; owner of the `User` entity (Prisma) — create, find, update profile; no passwords/tokens     | here                                                 |
+| `src/storage/`     | not CQRS; `FileStorageService` — the single point of filesystem access for every uploaded binary  | here                                                 |
+| `src/meeting/`     | CQRS; meeting CRUD behind `JwtAuthGuard`, `MeetingCreatedEvent`                                    | here                                                 |
+| `src/profile/`     | CQRS; `GET`/`PATCH /users/me`, `PUT /users/me/avatar`, public `GET /users/avatars/:key`            | [`src/profile/CLAUDE.md`](src/profile/CLAUDE.md)      |
+| `src/meeting-file/`| CQRS; nested `/meetings/:id/files`, upload to disk, background recording processing (STT stub)     | [`src/meeting-file/CLAUDE.md`](src/meeting-file/CLAUDE.md) |
 
-## Структура
+## Structure
 
 ```
 prisma/
-├── schema.prisma       # модели (User, Meeting, MeetingFile) + enum'ы MeetingFileType / MeetingFileStatus
+├── schema.prisma       # models (User, Meeting, MeetingFile) + enums MeetingFileType / MeetingFileStatus
 └── migrations/
-prisma.config.ts         # datasource url (env DATABASE_URL) — Prisma 7 не читает url из schema.prisma
+prisma.config.ts         # datasource url (env DATABASE_URL) — Prisma 7 does not read url from schema.prisma
 src/
 ├── main.ts             # bootstrap, app.enableCors(), app.listen(PORT ?? 3001)
-├── app.module.ts       # корневой модуль (ConfigModule, PrismaModule, UsersModule, AuthModule, MeetingModule, MeetingFileModule, ProfileModule, global ValidationPipe)
+├── app.module.ts       # root module (ConfigModule, PrismaModule, UsersModule, AuthModule, MeetingModule, MeetingFileModule, ProfileModule, global ValidationPipe)
 ├── app.controller.ts   # GET /
 ├── prisma/
-│   ├── prisma.module.ts    # @Global, экспортирует PrismaService
-│   └── prisma.service.ts   # PrismaClient + PrismaPg-адаптер, $connect/$disconnect по lifecycle
-├── users/              # CQRS; владеет сущностью User — создание, поиск, обновление профиля, без токенов/проверок пароля
-│   ├── users.module.ts     # только регистрирует хендлеры; с auth связи нет — взаимодействие через общую CommandBus/QueryBus
+│   ├── prisma.module.ts    # @Global, exports PrismaService
+│   └── prisma.service.ts   # PrismaClient + PrismaPg adapter, $connect/$disconnect on lifecycle
+├── users/              # CQRS; owns the User entity — create, find, update profile, no tokens/password checks
+│   ├── users.module.ts     # only registers handlers; no link to auth — interaction via the shared CommandBus/QueryBus
 │   ├── commands/           # CreateUserCommand { email, passwordHash }; UpdateUserProfileCommand { userId, name };
 │   │                       # UpdateUserAvatarCommand { userId, avatarKey } → prisma.user.create / update
-│   └── queries/            # FindUserBy{Email,Id,AvatarKey}Query — единственные точки чтения User из Prisma
-├── auth/               # CQRS; контроллер без бизнес-логики; токены и проверка credentials, не хранение User
-│   ├── auth.module.ts      # CqrsModule.forRoot() + JwtModule.registerAsync + хендлеры; экспортирует JwtAuthGuard и JwtModule
-│   ├── auth.controller.ts  # POST /auth/register, /auth/login — только CommandBus.execute(...)
-│   ├── commands/           # RegisterCommand, LoginCommand { email, password } — хеш/сверка пароля (bcryptjs),
-│   │                       # поиск/создание User через шину → users, публикация событий, выпуск токена
-│   ├── events/             # UserRegisteredEvent, UserLoggedInEvent — хендлеры сейчас только логируют
-│   ├── guards/jwt-auth.guard.ts        # проверяет `Authorization: Bearer <JWT>`, кладёт { userId, email } в request.user
+│   └── queries/            # FindUserBy{Email,Id,AvatarKey}Query — the only points that read User from Prisma
+├── auth/               # CQRS; controller with no business logic; tokens and credential verification, not User storage
+│   ├── auth.module.ts      # CqrsModule.forRoot() + JwtModule.registerAsync + handlers; exports JwtAuthGuard and JwtModule
+│   ├── auth.controller.ts  # POST /auth/register, /auth/login — only CommandBus.execute(...)
+│   ├── commands/           # RegisterCommand, LoginCommand { email, password } — hash/verify password (bcryptjs),
+│   │                       # find/create User over the bus → users, publish events, issue token
+│   ├── events/             # UserRegisteredEvent, UserLoggedInEvent — handlers currently just log
+│   ├── guards/jwt-auth.guard.ts        # verifies `Authorization: Bearer <JWT>`, puts { userId, email } on request.user
 │   ├── services/auth-token.service.ts  # issue(user) → { accessToken }
 │   └── dto/                # register.dto.ts (email, password min 8), login.dto.ts
-├── storage/            # переиспользуемое файловое хранилище (не CQRS)
-│   ├── storage.module.ts        # провайдит и экспортирует FileStorageService; импортируется meeting-file и profile
-│   └── file-storage.service.ts  # save/exists/createReadStream/remove, ключ = uuid, mkdir(UPLOADS_DIR) в onModuleInit
+├── storage/            # reusable file storage (not CQRS)
+│   ├── storage.module.ts        # provides and exports FileStorageService; imported by meeting-file and profile
+│   └── file-storage.service.ts  # save/exists/createReadStream/remove, key = uuid, mkdir(UPLOADS_DIR) in onModuleInit
 ├── profile/            # → src/profile/CLAUDE.md
-├── meeting/            # CQRS; весь контроллер под @UseGuards(JwtAuthGuard) (импортирует AuthModule)
-│   ├── meeting.module.ts      # imports: [AuthModule]; хендлеры (CqrsModule берётся из auth, forRoot не дублируется)
-│   ├── meeting.controller.ts  # POST /meetings, GET /meetings, GET /meetings/:id — только CommandBus/QueryBus
+├── meeting/            # CQRS; whole controller behind @UseGuards(JwtAuthGuard) (imports AuthModule)
+│   ├── meeting.module.ts      # imports: [AuthModule]; handlers (CqrsModule comes from auth, forRoot not duplicated)
+│   ├── meeting.controller.ts  # POST /meetings, GET /meetings, GET /meetings/:id — only CommandBus/QueryBus
 │   ├── commands/              # CreateMeetingCommand { title, startsAt } → prisma.meeting.create + MeetingCreatedEvent
-│   ├── queries/              # ListMeetingsQuery; GetMeetingByIdQuery — 404, если встречи нет
-│   ├── events/               # MeetingCreatedEvent — хендлер сейчас только логирует
+│   ├── queries/              # ListMeetingsQuery; GetMeetingByIdQuery — 404 if the meeting is missing
+│   ├── events/               # MeetingCreatedEvent — handler currently just logs
 │   └── dto/create-meeting.dto.ts  # class-validator: title (IsNotEmpty), startsAt (IsDateString)
 └── meeting-file/       # → src/meeting-file/CLAUDE.md
 test/
 ├── app.e2e-spec.ts
 ├── auth.e2e-spec.ts            # register/login
-├── meeting.e2e-spec.ts         # CRUD встреч под Bearer-токеном
+├── meeting.e2e-spec.ts         # meeting CRUD behind a Bearer token
 ├── meeting-files.e2e-spec.ts   # → src/meeting-file/CLAUDE.md
 ├── profile.e2e-spec.ts         # → src/profile/CLAUDE.md
 └── profile-avatar.e2e-spec.ts  # → src/profile/CLAUDE.md
 ```
 
-## Правила (`.claude/rules/`)
+## Rules (`.claude/rules/`)
 
-Детальные сквозные правила вынесены в focused-файлы (автозагрузкой не подхватываются — читать по ссылке):
+Detailed cross-cutting rules are split into focused files (not auto-loaded — read them via the link):
 
-- [`esm.md`](../../.claude/rules/esm.md) — чистый ESM, `.js` в импортах
-- [`cqrs.md`](../../.claude/rules/cqrs.md) — раскладка модуля, шина, события
-- [`prisma.md`](../../.claude/rules/prisma.md) — Prisma 7, схема, миграции, доступ
-- [`auth.md`](../../.claude/rules/auth.md) — JWT-guard, защита эндпоинтов, границы `auth`↔`users`
-- [`file-upload.md`](../../.claude/rules/file-upload.md) — multer, порядок отказов, отдача файлов
-- [`testing.md`](../../.claude/rules/testing.md) — vitest, e2e, стабы, подмена env
-- [`env.md`](../../.claude/rules/env.md) — новая переменная = 3 места
+- [`esm.md`](../../.claude/rules/esm.md) — pure ESM, `.js` in imports
+- [`cqrs.md`](../../.claude/rules/cqrs.md) — module layout, bus, events
+- [`prisma.md`](../../.claude/rules/prisma.md) — Prisma 7, schema, migrations, access
+- [`auth.md`](../../.claude/rules/auth.md) — JWT guard, protecting endpoints, `auth`↔`users` boundaries
+- [`file-upload.md`](../../.claude/rules/file-upload.md) — multer, failure order, serving files
+- [`testing.md`](../../.claude/rules/testing.md) — vitest, e2e, stubs, swapping env
+- [`env.md`](../../.claude/rules/env.md) — a new variable = 3 places
 
-## Соглашения
+## Conventions
 
-Здесь — только сквозные правила. Поведение конкретного модуля — в его `src/<module>/CLAUDE.md`.
+Here — cross-cutting rules only. A specific module's behaviour lives in its `src/<module>/CLAUDE.md`.
 
-- **ESM** — чистый ESM (`"type": "module"`, `nodenext`); относительные импорты с расширением `.js` даже для `.ts`. Правила и чек-лист: [`.claude/rules/esm.md`](../../.claude/rules/esm.md).
-- Стандартная архитектура Nest: модуль → контроллер → сервис; DI через конструктор.
-- Каждый метод сервиса: явные TS-типы всех параметров и возвращаемого значения (`Promise<T>`); без `console.log` — `Logger` из `@nestjs/common`; имена переменных по смыслу, не `x` / `data` / `result`.
-- Новый ресурс — `pnpm exec nest g resource <name>` (schematics в `nest-cli.json`, `sourceRoot: src`).
-- Общая библиотека — `pnpm exec nest g library <name>`; path-алиасы из `tsconfig.json` резолвятся в тестах через `vite-tsconfig-paths`.
-- `strict: true`, но `strictPropertyInitialization: false` (под DI и декораторы).
-- Тесты (vitest, `*.spec.ts` / `test/*.e2e-spec.ts`, `globals: true`, e2e через `Test.createTestingModule`, `.overrideProvider`, подмена env до динамического импорта) — [`.claude/rules/testing.md`](../../.claude/rules/testing.md).
-- Окружение — переменные из `.env` (шаблон `.env.example`), читать только через `ConfigService`, не `process.env`. Новая переменная = 3 места: [`.claude/rules/env.md`](../../.claude/rules/env.md).
-- CORS включён глобально в `main.ts` (`app.enableCors()`, все источники) — чтобы `apps/web` (порт 3000) ходил в API из браузера.
-- Билд-конфиг для сборки — `tsconfig.build.json`, выход в `dist/` (`deleteOutDir: true`).
-- Валидация DTO — глобальный `ValidationPipe` (`class-validator`/`class-transformer`), подключён через `APP_PIPE` в `AppModule` — работает и в реальном приложении, и в e2e-тестах, поднимающих `AppModule` напрямую через `Test.createTestingModule`.
-- Аутентификация — JWT bearer, пароли `bcryptjs`, `@nestjs/jwt`. Защита эндпоинта (`imports: [AuthModule]` → `@UseGuards(JwtAuthGuard)` → `request.user.userId`), публичный контроллер, границы `auth`↔`users`: [`.claude/rules/auth.md`](../../.claude/rules/auth.md).
-- Один `CqrsModule.forRoot()` на приложение (в `AuthModule`, `global: true`). Остальные CQRS-модули (`meeting`, `meeting-file`, `users`, `profile`) только регистрируют свои хендлеры в `providers` — `explorer` из `@nestjs/cqrs` находит их по всему приложению; повторный `forRoot()` не нужен.
-- Prisma — все правила (Prisma 7, драйвер-адаптер `@prisma/adapter-pg`, `url` только в `prisma.config.ts`, доступ только из CQRS-хендлеров) в [`.claude/rules/prisma.md`](../../.claude/rules/prisma.md).
-- **CQRS** (`@nestjs/cqrs`) — паттерн для модулей с бизнес-логикой (`auth`, `users`, `meeting`, `meeting-file`, `profile`): контроллер без логики, чтение через `QueryBus`, эффекты через `EventBus`, раскладка `commands|queries|events/{impl,handlers}` + barrel `index.ts`. Полные правила: [`.claude/rules/cqrs.md`](../../.claude/rules/cqrs.md).
-- **Границы модулей `auth`/`users`** — `auth` не трогает Prisma `User` напрямую, только через команды/запросы `users`; `users` не знает про пароли/JWT (принимает готовый `passwordHash`). Ни один не импортирует другой — связь через CQRS-шину. Подробнее — [`.claude/rules/auth.md`](../../.claude/rules/auth.md).
-- **Файловое хранилище (`storage`)** — `FileStorageService` (`src/storage/`), единственная точка работы с ФС для любых загруженных бинарников: `save` / `exists` / `createReadStream` / `remove` поверх `${UPLOADS_DIR}/${storageKey}`, каталог создаётся в `onModuleInit`. Провайдится через `StorageModule` (импортируют `meeting-file` и `profile`) — не дублировать провайдер, не трогать `fs` в хендлерах. Правила загрузки (multer, порядок отказов 401→413/400→404, запись после валидации, отдача): [`.claude/rules/file-upload.md`](../../.claude/rules/file-upload.md).
-- **Новый модуль с нетривиальной логикой** → заведи `src/<module>/CLAUDE.md` (структура модуля + его правила), а в этом файле оставь только строку в таблице «Модули» со ссылкой.
+- **ESM** — pure ESM (`"type": "module"`, `nodenext`); relative imports carry the `.js` extension even for `.ts`. Rules and checklist: [`.claude/rules/esm.md`](../../.claude/rules/esm.md).
+- Standard Nest architecture: module → controller → service; DI via the constructor.
+- Every service method: explicit TS types for all parameters and the return value (`Promise<T>`); no `console.log` — `Logger` from `@nestjs/common`; name variables meaningfully, not `x` / `data` / `result`.
+- New resource — `pnpm exec nest g resource <name>` (schematics in `nest-cli.json`, `sourceRoot: src`).
+- Shared library — `pnpm exec nest g library <name>`; path aliases from `tsconfig.json` are resolved in tests via `vite-tsconfig-paths`.
+- `strict: true`, but `strictPropertyInitialization: false` (for DI and decorators).
+- Tests (vitest, `*.spec.ts` / `test/*.e2e-spec.ts`, `globals: true`, e2e via `Test.createTestingModule`, `.overrideProvider`, swapping env before the dynamic import) — [`.claude/rules/testing.md`](../../.claude/rules/testing.md).
+- Environment — variables from `.env` (template `.env.example`), read only through `ConfigService`, not `process.env`. A new variable = 3 places: [`.claude/rules/env.md`](../../.claude/rules/env.md).
+- CORS is enabled globally in `main.ts` (`app.enableCors()`, all origins) — so `apps/web` (port 3000) can reach the API from the browser.
+- Build config for the bundle — `tsconfig.build.json`, output to `dist/` (`deleteOutDir: true`).
+- DTO validation — the global `ValidationPipe` (`class-validator`/`class-transformer`), wired via `APP_PIPE` in `AppModule` — active both in the real app and in e2e tests that boot `AppModule` directly through `Test.createTestingModule`.
+- Authentication — JWT bearer, passwords `bcryptjs`, `@nestjs/jwt`. Protecting an endpoint (`imports: [AuthModule]` → `@UseGuards(JwtAuthGuard)` → `request.user.userId`), a public controller, `auth`↔`users` boundaries: [`.claude/rules/auth.md`](../../.claude/rules/auth.md).
+- One `CqrsModule.forRoot()` per app (in `AuthModule`, `global: true`). The other CQRS modules (`meeting`, `meeting-file`, `users`, `profile`) only register their handlers in `providers` — the `explorer` from `@nestjs/cqrs` finds them across the whole app; a second `forRoot()` is not needed.
+- Prisma — all rules (Prisma 7, driver adapter `@prisma/adapter-pg`, `url` only in `prisma.config.ts`, access only from CQRS handlers) in [`.claude/rules/prisma.md`](../../.claude/rules/prisma.md).
+- **CQRS** (`@nestjs/cqrs`) — the pattern for modules with business logic (`auth`, `users`, `meeting`, `meeting-file`, `profile`): controller with no logic, reads through the `QueryBus`, side effects through the `EventBus`, layout `commands|queries|events/{impl,handlers}` + a barrel `index.ts`. Full rules: [`.claude/rules/cqrs.md`](../../.claude/rules/cqrs.md).
+- **`auth`/`users` module boundaries** — `auth` never touches Prisma `User` directly, only via `users` commands/queries; `users` knows nothing about passwords/JWT (it takes a ready `passwordHash`). Neither imports the other — they talk over the CQRS bus. More — [`.claude/rules/auth.md`](../../.claude/rules/auth.md).
+- **File storage (`storage`)** — `FileStorageService` (`src/storage/`), the single point of filesystem access for any uploaded binary: `save` / `exists` / `createReadStream` / `remove` over `${UPLOADS_DIR}/${storageKey}`, the directory is created in `onModuleInit`. Provided via `StorageModule` (imported by `meeting-file` and `profile`) — do not re-provide the service, do not touch `fs` in handlers. Upload rules (multer, failure order 401→413/400→404, write after validation, serving): [`.claude/rules/file-upload.md`](../../.claude/rules/file-upload.md).
+- **A new module with non-trivial logic** → create `src/<module>/CLAUDE.md` (module structure + its rules), and leave only a row in the "Modules" table with a link in this file.
 
-## Актуализация документации
+## Keeping the docs in sync
 
-Меняешь архитектуру `api` — обновляй документацию в том же изменении:
+Change `api` architecture — update the docs in the same change:
 
-- новый модуль верхнего уровня или смена структуры `src/` → таблица «Модули» и раздел «Структура» здесь; если у модуля нетривиальная логика — заведи `src/<module>/CLAUDE.md` и держи её там;
-- изменилось поведение модуля, у которого есть свой `CLAUDE.md` → правь тот файл, не этот;
-- новые правила по ESM, DI, конфигурации, тестам, аутентификации, загрузке файлов → соответствующий файл в `.claude/rules/` (и строка в списке «Правила», если файл новый); мелкие правила без своего файла → раздел «Соглашения»;
-- новые/переименованные скрипты или порт → таблица «Команды» (и корневой `CLAUDE.md`, если затронут общий пайплайн);
-- новые env-переменные → `.env.example` и раздел «Соглашения».
+- a new top-level module or a change to `src/` structure → the "Modules" table and the "Structure" section here; if the module has non-trivial logic — create `src/<module>/CLAUDE.md` and keep it there;
+- the behaviour of a module that has its own `CLAUDE.md` changed → edit that file, not this one;
+- new rules for ESM, DI, configuration, tests, authentication, file upload → the matching file in `.claude/rules/` (and a row in the "Rules" list if the file is new); small rules with no file of their own → the "Conventions" section;
+- new/renamed scripts or a port → the "Commands" table (and the root `CLAUDE.md` if the shared pipeline is affected);
+- new env variables → `.env.example` and the "Conventions" section.

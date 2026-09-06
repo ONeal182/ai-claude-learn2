@@ -1,7 +1,10 @@
 {
-  "milestones": [5],
+  "milestones": [6, 7, 8, 9],
   "baseBranch": "main",
-  "branchPrefix": "ralph/milestone-",
+  "branchPrefix": "feature/",
+  "branchNames": {
+    "6": "api-password-change"
+  },
   "maxIterations": 5,
   "maxTurns": 50,
   "prompt": "Прочитай .claude/ralph.md и следуй правилам оттуда. Реализуй Issue #{issue} из milestone '{milestone}' (id {milestoneId}) в ветке '{branch}'."

@@ -27,7 +27,7 @@ const path = require('path');
 
 const configPath = path.join(__dirname, 'ralph.config.json');
 const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
-const { baseBranch = 'main', branchPrefix = 'ralph/milestone-', maxIterations, maxTurns } = config;
+const { baseBranch = 'main', branchPrefix = 'feature/', maxIterations, maxTurns } = config;
 
 // id майлстонов: аргументы командной строки важнее поля "milestones" в конфиге.
 const cliIds = process.argv.slice(2);
@@ -96,6 +96,72 @@ function branchExists(branch) {
   return runOut(`git branch --list ${JSON.stringify(branch)}`).trim().length > 0;
 }
 
+// Номер фазы из названия майлстоуна ("Фаза 3: API — ..." → 3).
+function phaseNumber(title) {
+  const m = title.match(/фаза\s+(\d+)/i);
+  if (!m) {
+    console.error(`Не удалось извлечь номер фазы из названия майлстоуна: "${title}"`);
+    process.exit(1);
+  }
+  return Number(m[1]);
+}
+
+// Отрезает префикс "Фаза N:" — на перевод уходит только смысловая часть.
+function stripPhasePrefix(title) {
+  return title.replace(/^\s*фаза\s+\d+\s*[:.\-–—]?\s*/i, '').trim();
+}
+
+function normalizeSlug(s) {
+  return s
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+// Переводит русское название майлстоуна в английский kebab-case slug через
+// разовый вызов `claude -p` (haiku, 1 turn). Результат кэшируется в
+// ralph.config.json → "branchNames", чтобы повторные запуски брали то же имя
+// ветки и не плодили дубликаты PR.
+function slugFromClaude(descriptivePart) {
+  const prompt =
+    `Переведи название задачи на английский и верни ТОЛЬКО kebab-case slug ` +
+    `(строчные латинские буквы, цифры, дефисы), 2–5 слов, без номера фазы, ` +
+    `без слова "phase", без кавычек и пояснений. Название: "${descriptivePart}"`;
+  let out;
+  try {
+    out = runOut(
+      `claude -p ${JSON.stringify(prompt)} --model claude-haiku-4-5-20251001 --max-turns 1 ${SKIP_FLAG}`,
+    );
+  } catch (err) {
+    console.error(`Не удалось получить перевод названия через claude -p:\n${err.message}`);
+    process.exit(1);
+  }
+  const slug = normalizeSlug(out.trim().split('\n').filter(Boolean).pop() ?? '');
+  if (!slug) {
+    console.error(`claude -p вернул пустой/непригодный slug для: "${descriptivePart}"`);
+    process.exit(1);
+  }
+  return slug;
+}
+
+function persistBranchName(id, slug) {
+  config.branchNames = { ...(config.branchNames ?? {}), [String(id)]: slug };
+  fs.writeFileSync(configPath, `${JSON.stringify(config, null, 2)}\n`);
+}
+
+// Имя ветки майлстоуна: feature/<англ-slug>-phase-<номер фазы>.
+// slug берётся из кэша config.branchNames, иначе — разовый перевод и запись в кэш.
+function resolveBranch(id, title) {
+  const phase = phaseNumber(title);
+  const cached = (config.branchNames ?? {})[String(id)];
+  const slug = cached ?? slugFromClaude(stripPhasePrefix(title));
+  if (!cached) {
+    persistBranchName(id, slug);
+    console.log(`🌿 Milestone #${id}: slug "${slug}" (записан в ralph.config.json → branchNames)`);
+  }
+  return `${branchPrefix}${slug}-phase-${phase}`;
+}
+
 function ensureBranch(branch) {
   if (branchExists(branch)) {
     run(`git checkout ${JSON.stringify(branch)}`);
@@ -158,7 +224,7 @@ function openPrUrl(branch) {
 
 function processMilestone(id) {
   const title = resolveMilestoneTitle(id);
-  const branch = `${branchPrefix}${id}`;
+  const branch = resolveBranch(id, title);
   const hadBranch = branchExists(branch);
 
   // Защита: если открытых задач в майлстоне нет и ветку под него мы ещё не

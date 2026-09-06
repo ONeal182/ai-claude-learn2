@@ -24,7 +24,7 @@ import request from 'supertest';
  * GET /users/me всегда отражает актуальный avatarUrl.
  *
  * По образцу meeting-files.e2e-spec.ts: изолированный UPLOADS_DIR во временном каталоге и маленький
- * MAX_UPLOAD_SIZE_BYTES — чтобы дёшево проверить 413 и не мусорить в рабочем uploads/.
+ * AVATAR_MAX_UPLOAD_SIZE_BYTES — чтобы дёшево проверить 413 и не мусорить в рабочем uploads/.
  */
 
 const TEST_MAX_UPLOAD_SIZE_BYTES = 8 * 1024;
@@ -46,7 +46,7 @@ describe('Profile avatar (e2e)', () => {
   beforeAll(async () => {
     uploadsDir = await mkdtemp(join(tmpdir(), 'profile-avatar-e2e-'));
     process.env.UPLOADS_DIR = uploadsDir;
-    process.env.MAX_UPLOAD_SIZE_BYTES = String(TEST_MAX_UPLOAD_SIZE_BYTES);
+    process.env.AVATAR_MAX_UPLOAD_SIZE_BYTES = String(TEST_MAX_UPLOAD_SIZE_BYTES);
   });
 
   afterAll(async () => {

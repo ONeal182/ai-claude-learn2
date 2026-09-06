@@ -9,7 +9,11 @@ import { ProfileController } from './profile.controller.js';
 import { CommandHandlers } from './commands/handlers/index.js';
 import { QueryHandlers } from './queries/handlers/index.js';
 
-/** 5 МиБ — дефолт лимита аватара, если `MAX_UPLOAD_SIZE_BYTES` не задан в окружении. */
+/**
+ * 5 МиБ — дефолт лимита аватара, если `AVATAR_MAX_UPLOAD_SIZE_BYTES` не задан в окружении.
+ * Отдельная от `MAX_UPLOAD_SIZE_BYTES` (файлы встреч, 25 МиБ) переменная: у аватара свой,
+ * жёстко меньший потолок (Issue #39 — «5 МБ → 413»).
+ */
 const DEFAULT_AVATAR_MAX_SIZE_BYTES = 5_242_880;
 
 @Module({
@@ -23,7 +27,10 @@ const DEFAULT_AVATAR_MAX_SIZE_BYTES = 5_242_880;
         // memoryStorage по умолчанию: файл в буфере, на диск пишем в хендлере после проверок
         limits: {
           fileSize: Number(
-            config.get<string | number>('MAX_UPLOAD_SIZE_BYTES', DEFAULT_AVATAR_MAX_SIZE_BYTES),
+            config.get<string | number>(
+              'AVATAR_MAX_UPLOAD_SIZE_BYTES',
+              DEFAULT_AVATAR_MAX_SIZE_BYTES,
+            ),
           ),
         },
         fileFilter: (

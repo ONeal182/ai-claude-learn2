@@ -1,19 +1,23 @@
 ---
 name: prd
-description: Создаю PRD-документацию для фичи по стандартной структуре проекта, использую, когда нужно описать требования к новой фиче перед реализацией.
+description: Create PRD documentation for a feature following the project's standard structure. Use when a new feature's requirements need to be described before implementation.
 ---
 
-# PRD генератор
+# PRD generator
 
-Создай PRD (Product Requirements Document) для следующей фичи:
+Create a PRD (Product Requirements Document) for the following feature:
 $ARGUMENTS
 
-Сохрани результат в файл `docs/prd-<slug>.md`, где `<slug>` — название фичи, переведённое на английский, в kebab-case, без пунктуации (например `docs/prd-meeting-file-upload.md`).
+Save the result to `docs/prd-<slug>.md`, where `<slug>` is the feature name translated to
+English, in kebab-case, without punctuation (e.g. `docs/prd-meeting-file-upload.md`).
 
-Если нет папки `docs` — создай.
+Create the `docs` folder if it does not exist.
 
-## Структура документа
+**Write the document itself in Russian**, using the template below verbatim (headings unchanged).
 
+## Document template
+
+```markdown
 # PRD: {название фичи}
 
 **Дата**: {текущая дата}
@@ -38,10 +42,13 @@ $ARGUMENTS
 ## Критерии готовности
 - [ ] Критерий 1
 - [ ] Критерий 2
+```
 
-## Правила
+## Rules
 
-- Пиши конкретно — никакой воды.
-- Каждый критерий готовности формулируй как наблюдаемый результат, который можно проверить: запрос -> код ответа, действие -> видимое состояние экрана, событие -> сохранённые данные.
-- Не описывай, как реализовать — только что и зачем.
-- Если описание короткое — задавай уточняющие вопросы до полного понимания, до создания файла.
+- Be concrete — no filler.
+- Phrase every acceptance criterion as an observable, checkable outcome: request -> response code,
+  action -> visible screen state, event -> stored data.
+- Do not describe how to implement — only what and why.
+- If the description is short, ask clarifying questions until you fully understand it, before
+  creating the file.

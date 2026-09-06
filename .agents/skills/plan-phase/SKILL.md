@@ -1,18 +1,25 @@
 ---
 name: plan-phase
-description: Разбивай PRD на фазы реализации. Использую, когда есть готовый PRD и нужно составить план разработки с независимыми фазами.
+description: Break a PRD into implementation phases. Use when a PRD is ready and a development plan with independent phases is needed.
 ---
 
-# План генерации
+# Plan generator
 
-Прочитай PRD из файла: $ARGUMENTS
+Read the PRD from the file: $ARGUMENTS
 
-Сохрани результат в файл `plan/plan-<slug>.md`, где `<slug>` — имя файла PRD без пути, расширения и префикса `prd-` (например PRD `docs/prd-meeting-file-upload.md` -> план `plan/plan-meeting-file-upload.md`). Slug уже на английском и в kebab-case — не меняй его, только замени префикс `prd-` на `plan-`.
+Save the result to `plan/plan-<slug>.md`, where `<slug>` is the PRD file name without the path,
+extension, and `prd-` prefix (e.g. PRD `docs/prd-meeting-file-upload.md` -> plan
+`plan/plan-meeting-file-upload.md`). The slug is already English kebab-case — do not change it,
+only swap the `prd-` prefix for `plan-`.
 
-Если нет папки `plan` — создай.
+Create the `plan` folder if it does not exist.
 
-## Структура плана
+**Write the plan itself in Russian**, using the template below verbatim (headings unchanged) —
+the `issues` skill parses these exact Russian headings.
 
+## Plan template
+
+```markdown
 # Plan: {имя файла плана}
 
 **PRD:** $ARGUMENTS
@@ -32,18 +39,20 @@ description: Разбивай PRD на фазы реализации. Испол
 
 ### Фаза 2: {название}
 ...
+```
 
-## Правило разбивки на фазы
+## Phase-splitting rules
 
-- Каждая фаза должна давать рабочий результат.
-- Фазы независимы, можно остановиться после любой.
-- Первая фаза — минимальный рабочий путь (Tracer Bullet).
-- Не больше пяти задач в одной фазе.
-- Backend и frontend одной фичи — разные фазы.
-- В каждой фазе есть запланированные тесты, покрывающие её функционал; тесты пишутся до реализации фазы, критерий готовности включает их позеленение.
+- Every phase must deliver a working result.
+- Phases are independent — you can stop after any of them.
+- The first phase is the minimal working path (Tracer Bullet).
+- No more than five tasks per phase.
+- Backend and frontend of one feature are separate phases.
+- Every phase has planned tests covering its functionality; tests are written before the phase is
+  implemented, and the acceptance criterion includes them passing.
 
-## Правила
+## Rules
 
-- Читай PRD внимательно — план должен покрывать все критерии готовности.
-- Не добавляй задачи, которых нет в PRD.
-- Если PRD не полный — задай уточняющие вопросы до создания плана.
+- Read the PRD carefully — the plan must cover every acceptance criterion.
+- Do not add tasks that are not in the PRD.
+- If the PRD is incomplete, ask clarifying questions before creating the plan.

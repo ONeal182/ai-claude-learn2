@@ -1,25 +1,25 @@
 ---
 name: read
-description: Читай файл или часть файла эффективно без лишних токенов
+description: Read a file, or part of one, efficiently without spending extra tokens
 ---
 
 # Read File
 
-Прочитай $ARGUMENTS эффективно:
+Read $ARGUMENTS efficiently:
 
-1. Если передан файл целиком — сначала посмотри структуру:
+1. Whole file passed — look at its structure first:
    head -50 {file}
 
-2. Найди нужную часть через grep:
+2. Find the part you need with grep:
    grep -n "function\|class\|export" {file}
 
-3. Читай только нужные строки:
+3. Read only the lines you need:
    sed -n 'N,Mp' {file}
 
-4. Для JSON файлов используй jq:
-   cat {file} | jq '.нужное_поле'
+4. For JSON files use jq:
+   cat {file} | jq '.the_field_you_need'
 
-5. Для Prisma схемы — только нужную модель:
+5. For a Prisma schema — only the model you need:
    sed -n '/model {Name}/,/^}/p' {file}
 
-6. Никогда не читай целиком: node_modules/, dist/, .next/, .turbo/, pnpm-lock.yaml, *.log если нужна одна функция.
+6. Never read wholesale when you only need one function: node_modules/, dist/, .next/, .turbo/, pnpm-lock.yaml, *.log.

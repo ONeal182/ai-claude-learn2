@@ -1,25 +1,30 @@
 ---
 name: issues
-description: Создаёт GitHub issues и milestones из файла плана. Использую, когда есть готовый план с фазами и нужно создать бэклог на GitHub.
+description: Create GitHub issues and milestones from a plan file. Use when a phased plan is ready and the backlog needs to be created on GitHub.
 ---
 
-# Генератор issues из плана
+# Issues-from-plan generator
 
-Прочитай план из файла: $ARGUMENTS
+Read the plan from the file: $ARGUMENTS
 
-Для каждой фазы плана создай milestone и по issue на каждую задачу фазы. Работай через `gh` CLI.
+For each phase of the plan, create a milestone and one issue per task in that phase. Work through
+the `gh` CLI.
 
-## Порядок действий
+**Milestone and issue text stays in Russian** (titles and bodies) — see the formats below.
 
-1. Прочитай файл плана и выпиши фазы и их задачи.
-2. Для каждой фазы создай milestone (заголовок — `Фаза N: название`):
+## Steps
+
+1. Read the plan file and list the phases and their tasks.
+2. For each phase create a milestone (title — `Фаза N: название`):
    `gh api repos/{owner}/{repo}/milestones -f title="Фаза N: название"`
-3. Для каждой задачи фазы создай issue, привязанный к milestone этой фазы:
+3. For each task in the phase create an issue linked to that phase's milestone:
    `gh issue create --title "..." --body "..." --milestone "Фаза N: название"`
-4. Не создавай дубли: перед созданием проверь существующие milestones (`gh api repos/{owner}/{repo}/milestones`) и issues (`gh issue list`).
+4. No duplicates: before creating, check the existing milestones
+   (`gh api repos/{owner}/{repo}/milestones`) and issues (`gh issue list`).
 
-## Формат issue
+## Issue format
 
-- **Title**: текст задачи из плана (без `- [ ]`).
-- **Body**: описание задачи + строка `Фаза: N — название` + ссылка на файл плана.
-- **Labels**: опционально; `--label` можно добавить, только если лейбл уже существует в репозитории (иначе `gh issue create` упадёт) — при необходимости заранее создай его через `gh label create`.
+- **Title**: the task text from the plan (without `- [ ]`).
+- **Body**: the task description + a line `Фаза: N — название` + a link to the plan file.
+- **Labels**: optional; add `--label` only if the label already exists in the repo (otherwise
+  `gh issue create` fails) — create it first with `gh label create` if needed.

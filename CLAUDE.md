@@ -17,9 +17,9 @@ Written in **English**; keep it that way.
 ## Rules
 
 - pnpm only (version in `package.json` → `packageManager`); never npm / yarn.
-- Before committing: `pnpm lint && pnpm typecheck && pnpm test && pnpm test:e2e`. The `.husky/pre-commit` hook runs all but `typecheck`; `test:e2e` and every commit need Postgres up (`docker compose up -d postgres`).
+- Before committing: `pnpm lint && pnpm typecheck && pnpm test && pnpm test:e2e`. The `.husky/pre-commit` hook runs `lint` always and `test` + `test:e2e` unless the commit is docs/config only (`*.md`, `.claude/**`, `.agents/**`, `docs/**`, `plan/**`); it never runs `typecheck`. `test:e2e` needs Postgres up (`docker compose up -d postgres`).
 - Prettier runs after every `Write` / `Edit` via a `PostToolUse` hook — don't run `pnpm format` yourself.
-- Change the architecture → update the affected docs in the same PR (a stale `CLAUDE.md` is a bug): Structure table + a package `CLAUDE.md` for new packages; command / port / stack tables here and in `README.md`; `.env.example` for env vars.
+- Change the architecture → update the affected docs in the same PR (a stale `CLAUDE.md` is a bug): Structure table + a package `CLAUDE.md` for new packages; a module with non-trivial logic gets its own `src/<module>/CLAUDE.md`; a cross-cutting convention goes in `.claude/rules/*.md` (not auto-loaded — link it from the package `CLAUDE.md`); command / port / stack tables here and in `README.md`; `.env.example` for env vars.
 - Conventional Commits (`type(scope): summary`); branches `feature/<slug>`.
 
 ## Structure

@@ -1,53 +1,57 @@
 # CLAUDE.md — apps/web
 
-Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS v4. Dev-порт **3000**.
+Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS v4, HeroUI v3. Dev-порт **3000**.
 
 ## Команды
 
 Запускать через корень (`pnpm web <script>`) или из этой папки:
 
-| Команда          | Действие                                                              |
-| ---------------- | --------------------------------------------------------------------- |
-| `pnpm dev`       | `next dev` (watch, порт 3000)                                         |
-| `pnpm build`     | `next build`                                                          |
-| `pnpm start`     | `next start` (после `build`)                                          |
-| `pnpm lint`      | `eslint`                                                              |
-| `pnpm typecheck` | `next typegen && tsc --noEmit` (typegen генерит типы роутов/лейаутов) |
+| Команда          | Действие                                                             |
+| ---------------- | ------------------------------------------------------------------- |
+| `pnpm dev`       | `next dev` (watch, порт 3000)                                       |
+| `pnpm build`     | `next build`                                                        |
+| `pnpm start`     | `next start` (после `build`)                                        |
+| `pnpm lint`      | `eslint` (flat-config `eslint.config.mjs`)                          |
+| `pnpm typecheck` | `next typegen && tsc --noEmit` (typegen генерит типы роутов)        |
+
+## Правила (`.claude/rules/`)
+
+Детальные сквозные правила — в focused-файлах (автозагрузкой не подхватываются, читать по ссылке):
+
+- [`heroui.md`](../../.claude/rules/heroui.md) — HeroUI v3: `onPress`, compound, порядок `@import`, клиентские обёртки
+- [`dark-theme.md`](../../.claude/rules/dark-theme.md) — `.dark` на `<html>`, `@custom-variant dark`, скрипт до отрисовки, контраст 4.5:1
+- [`web-api-client.md`](../../.claude/rules/web-api-client.md) — `src/lib/api.ts`, `bearerRequest`, `ApiError.status`, загрузка через `XMLHttpRequest`, поллинг
+- [`client-auth.md`](../../.claude/rules/client-auth.md) — сессия в `localStorage`, `useAuthedResource(load)`, `401 → clearSession`
 
 ## Структура
 
 ```
 src/
-├── app/                # App Router
-│   ├── layout.tsx      # корневой layout (+ инлайн-скрипт темы: класс `.dark` по системной prefers-color-scheme)
-│   ├── page.tsx        # / — защищённая главная (email пользователя, список встреч, выход); рендерит <Dashboard />
-│   ├── register/       # /register — страница регистрации (email + пароль)
-│   │   └── page.tsx
-│   ├── login/          # /login — страница входа (email + пароль), после успеха редирект на /
-│   │   └── page.tsx
-│   ├── meetings/
-│   │   └── [id]/       # /meetings/[id] — детали встречи (заголовок, время) + блок «Файлы»; server-компонент разворачивает params и рендерит <MeetingDetails id={id} />
-│   │       └── page.tsx
-│   └── globals.css     # глобальные стили + Tailwind + HeroUI
-├── components/         # переиспользуемые React-компоненты (register-form.tsx, login-form.tsx, dashboard.tsx, meeting-details.tsx, meeting-files.tsx — клиентские, на HeroUI)
-├── hooks/              # клиентские React-хуки
-│   └── use-authed-resource.ts # общий сценарий защищённой страницы: сессия → /login, load(token), 401 → clearSession + /login
-└── lib/                # платформенно-независимая логика без React
-    ├── api.ts          # клиент NestJS-API (registerUser, loginUser, getMeetings, getMeeting; файлы встречи: getMeetingFiles, uploadMeetingFile, downloadMeetingFile, deleteMeetingFile, reprocessMeetingFile; ApiError) поверх fetch/XMLHttpRequest
-    └── session.ts       # сессия в localStorage (saveSession/getSession/clearSession — accessToken + email)
-public/                 # статика (next.svg, vercel.svg, ...)
+├── app/                # App Router (роуты — server-компоненты)
+│   ├── layout.tsx      # корневой layout + скрипт темы (см. dark-theme.md)
+│   ├── page.tsx        # / — защищённая главная, рендерит <Dashboard />
+│   ├── register/page.tsx  # /register
+│   ├── login/page.tsx     # /login, после успеха → /
+│   ├── meetings/[id]/page.tsx # детали встречи + блок «Файлы»; рендерит <MeetingDetails id={id} />
+│   └── globals.css     # Tailwind + HeroUI + токены темы
+├── components/         # клиентские (`"use client"`) React-компоненты на HeroUI
+│   │                   # register-form, login-form, dashboard, meeting-details, meeting-files, icons
+├── hooks/
+│   └── use-authed-resource.ts # сценарий защищённой страницы (см. client-auth.md)
+└── lib/                # логика без React
+    ├── api.ts          # клиент NestJS-API (см. web-api-client.md)
+    └── session.ts      # сессия в localStorage
+public/                 # статика
 ```
 
 ## Соглашения
 
 - **App Router**, серверные компоненты по умолчанию; `"use client"` — только когда нужен клиент.
-- Алиас импорта: `@/*` → `./src/*` (см. `tsconfig.json`).
-- Слои: `app/` — роуты, `components/` — клиентские React-компоненты, `hooks/` — переиспользуемые клиентские хуки (`"use client"`), `lib/` — логика без React.
-- Стили — **Tailwind v4** через `@tailwindcss/postcss` (`postcss.config.mjs`), директивы в `src/app/globals.css`. Отдельного `tailwind.config` нет.
-- UI-библиотека — **HeroUI v3** (`@heroui/react` + `@heroui/styles`, поверх Tailwind v4 и React Aria). Провайдер не нужен; `@import "@heroui/styles"` в `globals.css` идёт **после** `@import "tailwindcss"`. Компоненты — compound-паттерн (`Card.Header` и т.п.), обработчики — `onPress`, а не `onClick`. Интерактивные компоненты рендерятся в клиентских (`"use client"`) обёртках в `src/components/`.
-- Тёмная тема — по классу `.dark` на `<html>` (один селектор и для Tailwind `dark:`, и для токенов HeroUI v3). Tailwind-вариант переопределён на классовый в `globals.css` (`@custom-variant dark`), сам класс ставит инлайн-скрипт в `layout.tsx` по системной `prefers-color-scheme` до первой отрисовки.
-- Линт — flat-config `eslint.config.mjs` (`core-web-vitals` + `typescript` из `eslint-config-next`).
-- Публичные env-переменные — с префиксом `NEXT_PUBLIC_` (пример: `NEXT_PUBLIC_API_URL` в `.env.example`), доступны в браузере.
+- Алиас импорта: `@/*` → `./src/*` (`tsconfig.json`).
+- Слои: `app/` — роуты, `components/` — клиентские компоненты, `hooks/` — клиентские хуки (`"use client"`), `lib/` — логика без React.
+- Стили — Tailwind v4 через `@tailwindcss/postcss` (`postcss.config.mjs`), директивы в `src/app/globals.css`; отдельного `tailwind.config` нет. HeroUI v3 — см. [`heroui.md`](../../.claude/rules/heroui.md).
+- Тёмная тема, контраст — см. [`dark-theme.md`](../../.claude/rules/dark-theme.md).
+- Публичные env — с префиксом `NEXT_PUBLIC_` (`NEXT_PUBLIC_API_URL` в `.env.example`); см. [`.claude/rules/env.md`](../../.claude/rules/env.md).
 - Конфиг фреймворка — `next.config.ts`.
 
 ## Проверка UI-изменений (обязательно)
@@ -67,28 +71,19 @@ public/                 # статика (next.svg, vercel.svg, ...)
 
 Прохождение `typecheck` / `lint` / `build` — необходимое, но **недостаточное** условие.
 
-## Связь с API
+## Связь с API и аутентификация
 
-Обращения к NestJS-сервису идут по `process.env.NEXT_PUBLIC_API_URL` (по умолчанию `http://localhost:3001`).
-HTTP-вызовы инкапсулированы в `src/lib/api.ts` (обёртка над `fetch`): `registerUser` → `POST /auth/register`, `loginUser` → `POST /auth/login`, обе возвращают `{ accessToken }`; `getMeetings` → `GET /meetings`, `getMeeting(id, token)` → `GET /meetings/:id` (оба через общий хелпер `bearerRequest(path, token, method='GET')` — `fetch` с `Authorization: Bearer <accessToken>`, возвращают `Meeting[]` / `Meeting`; `ApiError` с `status === 404` — встречи нет). Разбор ответа общий: `networkError()` (`status === 0` — сеть недоступна) и `readBodyOrThrow(response)` (пустое тело → `undefined`, не-`ok` → `ApiError` через `messagesFromBody`). Клиентские компоненты не дёргают `fetch` напрямую. API отдаёт CORS для всех источников (`app.enableCors()`).
-
-Файлы встречи (`/meetings/:id/files`, все под `Authorization: Bearer`): `getMeetingFiles(meetingId, token)` → список `MeetingFile[]` (`bearerRequest`); `uploadMeetingFile({ meetingId, file, type, accessToken, onProgress })` — `POST` multipart через **`XMLHttpRequest`** (нужен `upload.onprogress`); `type` (`recording` | `attachment`) определяет **компонент** (`detectFileType`: mime `audio/*`/`video/*`, при пустом mime — по расширению) с ручным переопределением, а не api-клиент; `413` / `400` / `0` мапятся в понятный текст в компоненте; `downloadMeetingFile(meetingId, fileId, token)` — эндпоинт под guard, поэтому качает `fetch` с заголовком и возвращает `{ blob, filename }` (имя из `Content-Disposition`), сам файл сохраняет вызывающий компонент через скрытый `<a download>`; `deleteMeetingFile` / `reprocessMeetingFile` — `DELETE` / `POST .../reprocess` через `bearerRequest` с нужным методом (тело ошибки Nest разбирает `messagesFromBody`). `reprocess` для не-`failed` → `ApiError` со `status === 409`.
-
-## Аутентификация на клиенте
-
-Сессия (`accessToken` + `email`) хранится в `localStorage` через `src/lib/session.ts` (`saveSession`/`getSession`/`clearSession`) — токен из NestJS не декодируется на клиенте. `LoginForm` и `RegisterForm` вызывают `saveSession` сразу после успешного `loginUser`/`registerUser`. Логин дополнительно редиректит на `/` (`router.push`).
-
-Сценарий защищённой страницы вынесен в хук `useAuthedResource(load)` (`src/hooks/use-authed-resource.ts`): при монтировании читает сессию через `getSession()`, при её отсутствии редиректит на `/login` (`router.replace`); зовёт `load(accessToken)`; ответ `401` чистит сессию и тоже уводит на `/login`. Возвращает `{ status: 'loading' | 'ready' | 'error', data, error, session }` — прочие ошибки (в т.ч. `ApiError` со `status === 404`) остаются в `error`, страница показывает их сама. `load` должен быть стабильным (импортированная функция или `useCallback`). Защита целиком клиентская (нет middleware/cookies) — согласуется с хранением токена в `localStorage`.
-
-Главная страница (`/`, `Dashboard` в `src/components/dashboard.tsx`) на этом хуке грузит `GET /meetings`; кнопка «Выйти» вызывает `clearSession()` и редиректит на `/login`. Страница встречи (`/meetings/[id]`, `MeetingDetails` в `src/components/meeting-details.tsx`) грузит `getMeeting(id)`; `error` с `ApiError.status === 404` рисует состояние «Встреча не найдена» (без редиректа), прочие ошибки — алерт. Строка встречи на дашборде (`MeetingRow`) — это `next/link` на `/meetings/${id}`.
-
-Блок «Файлы» (`MeetingFiles` в `src/components/meeting-files.tsx`) рендерится под карточкой встречи, когда `useAuthedResource` уже отдал `session` — `accessToken` приходит пропом, `useAuthedResource` здесь не используется. Своё состояние списка (первичная загрузка через `.then/.catch` в эффекте — без синхронного `setState`, иначе ловит `react-hooks/set-state-in-effect`; ручное/фоновое обновление через `refreshFiles`). Пока в списке есть файл в `pending`/`processing` — поллинг `getMeetingFiles` раз в 3 с (`POLL_INTERVAL_MS`), плюс кнопка «Обновить». Любой `ApiError` со `status === 401` (загрузка, список, действие в строке) → `handleAuthError`: `clearSession()` + `router.replace('/login')` и выставляет `deadRef`, чтобы поллинг и отложенные ответы дальше не трогали state. За раз грузится **один** файл (`uploadFile`), сегментный переключатель над зоной задаёт `recording` / `attachment` / авто. Зона загрузки — настоящий `<button>` (drag-n-drop + выбор + нативная клавиатура), статус-«чип» несёт смысл подписью и цветной точкой, текст всегда `text-foreground` (вивидные `--success`/`--warning` мелким текстом на светлом фоне не проходят контраст 4.5:1; ср. правило для `--danger` в `globals.css`). «Удалить» — необратимое действие, поэтому идёт через HeroUI `AlertDialog` (подтверждение с именем файла), а не сразу по клику.
+Клиент API — `src/lib/api.ts` (компоненты не зовут `fetch` напрямую), правила в
+[`web-api-client.md`](../../.claude/rules/web-api-client.md). Сессия и защита страниц — целиком на
+клиенте (`localStorage` + `useAuthedResource`), правила в
+[`client-auth.md`](../../.claude/rules/client-auth.md). Форма ответов и коды ошибок API — в
+`apps/api/CLAUDE.md` и его модульных `CLAUDE.md`.
 
 ## Актуализация документации
 
-Меняешь архитектуру `web` — обновляй этот файл в том же изменении:
+Меняешь архитектуру `web` — обновляй документацию в том же изменении:
 
 - новая верхнеуровневая директория в `src/`, изменение структуры роутинга или слоёв → раздел «Структура»;
-- новые алиасы импортов, правила линта, переход на другой подход к стилям/данным → раздел «Соглашения»;
+- новое сквозное правило (стили, тема, работа с API, аутентификация) → соответствующий файл в `.claude/rules/` (и строка в списке «Правила», если файл новый); мелкие правила — раздел «Соглашения»;
 - новые/переименованные скрипты или порт → таблица «Команды» (и корневой `CLAUDE.md`, если затронут общий пайплайн);
-- новые `NEXT_PUBLIC_*` переменные → `.env.example` и раздел «Связь с API».
+- новые `NEXT_PUBLIC_*` переменные → `.env.example` и [`.claude/rules/env.md`](../../.claude/rules/env.md).

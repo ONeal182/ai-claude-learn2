@@ -33,7 +33,7 @@ src/
 ├── hooks/              # клиентские React-хуки
 │   └── use-authed-resource.ts # общий сценарий защищённой страницы: сессия → /login, load(token), 401 → clearSession + /login
 └── lib/                # платформенно-независимая логика без React
-    ├── api.ts          # клиент NestJS-API (registerUser, loginUser, getMeetings, getMeeting; файлы встречи: getMeetingFiles, uploadMeetingFile, downloadMeetingFile, deleteMeetingFile, reprocessMeetingFile; ApiError) поверх fetch/XMLHttpRequest
+    ├── api.ts          # клиент NestJS-API (registerUser, loginUser, getMeetings, getMeeting; профиль: getMe, avatarSrc; файлы встречи: getMeetingFiles, uploadMeetingFile, downloadMeetingFile, deleteMeetingFile, reprocessMeetingFile; ApiError) поверх fetch/XMLHttpRequest
     └── session.ts       # сессия в localStorage (saveSession/getSession/clearSession — accessToken + email)
 public/                 # статика (next.svg, vercel.svg, ...)
 ```
@@ -71,6 +71,8 @@ public/                 # статика (next.svg, vercel.svg, ...)
 
 Обращения к NestJS-сервису идут по `process.env.NEXT_PUBLIC_API_URL` (по умолчанию `http://localhost:3001`).
 HTTP-вызовы инкапсулированы в `src/lib/api.ts` (обёртка над `fetch`): `registerUser` → `POST /auth/register`, `loginUser` → `POST /auth/login`, обе возвращают `{ accessToken }`; `getMeetings` → `GET /meetings`, `getMeeting(id, token)` → `GET /meetings/:id` (оба через общий хелпер `bearerRequest(path, token, method='GET')` — `fetch` с `Authorization: Bearer <accessToken>`, возвращают `Meeting[]` / `Meeting`; `ApiError` с `status === 404` — встречи нет). Разбор ответа общий: `networkError()` (`status === 0` — сеть недоступна) и `readBodyOrThrow(response)` (пустое тело → `undefined`, не-`ok` → `ApiError` через `messagesFromBody`). Клиентские компоненты не дёргают `fetch` напрямую. API отдаёт CORS для всех источников (`app.enableCors()`).
+
+Профиль (`/users/me` под `Authorization: Bearer`): `getMe(token)` → `Me { id, email, name: string | null, avatarUrl: string | null, createdAt }` (`bearerRequest`). `avatarSrc(avatarUrl)` — чистый хелпер: `null` → `null`, уже абсолютная ссылка → без изменений, относительный путь API (`/users/avatars/<key>`) → с дописанным `NEXT_PUBLIC_API_URL`. `session.ts` профиль не хранит — он всегда тянется из API.
 
 Файлы встречи (`/meetings/:id/files`, все под `Authorization: Bearer`): `getMeetingFiles(meetingId, token)` → список `MeetingFile[]` (`bearerRequest`); `uploadMeetingFile({ meetingId, file, type, accessToken, onProgress })` — `POST` multipart через **`XMLHttpRequest`** (нужен `upload.onprogress`); `type` (`recording` | `attachment`) определяет **компонент** (`detectFileType`: mime `audio/*`/`video/*`, при пустом mime — по расширению) с ручным переопределением, а не api-клиент; `413` / `400` / `0` мапятся в понятный текст в компоненте; `downloadMeetingFile(meetingId, fileId, token)` — эндпоинт под guard, поэтому качает `fetch` с заголовком и возвращает `{ blob, filename }` (имя из `Content-Disposition`), сам файл сохраняет вызывающий компонент через скрытый `<a download>`; `deleteMeetingFile` / `reprocessMeetingFile` — `DELETE` / `POST .../reprocess` через `bearerRequest` с нужным методом (тело ошибки Nest разбирает `messagesFromBody`). `reprocess` для не-`failed` → `ApiError` со `status === 409`.
 

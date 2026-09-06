@@ -82,5 +82,5 @@ cp apps/web/.env.example apps/web/.env   # web: NEXT_PUBLIC_API_URL
 
 ## Проверки
 
-- Перед коммитом: `pnpm lint && pnpm typecheck && pnpm test && pnpm test:e2e`. Хук `.husky/pre-commit` запускает всё это, кроме `typecheck`, на каждом `git commit` — для e2e нужен поднятый Postgres.
+- Перед коммитом: `pnpm lint && pnpm typecheck && pnpm test && pnpm test:e2e`. Хук `.husky/pre-commit` всегда гонит `lint`, а `test` + `test:e2e` — если коммит не только по докам/конфигу (`*.md`, `.claude/**`, `.agents/**`, `docs/**`, `plan/**`); `typecheck` хук не запускает. Для e2e нужен поднятый Postgres.
 - CI (`.github/workflows/ci.yml`) на push в `main` и на любой PR прогоняет те же проверки на сервисе Postgres плюс `prisma generate` и `prisma migrate deploy`.

@@ -1,1 +1,23 @@
-pnpm lint && pnpm test && pnpm test:e2e
+staged=$(git diff --cached --name-only --diff-filter=ACMR)
+
+# Меняются только доки/конфиг агента? Тогда unit/e2e гонять незачем — CI на push/PR
+# всё равно прогонит полный набор.
+code_touched=0
+while IFS= read -r f; do
+  [ -z "$f" ] && continue
+  case "$f" in
+    *.md | .claude/* | .agents/* | docs/* | plan/*) ;;
+    *) code_touched=1 ;;
+  esac
+done <<EOF
+$staged
+EOF
+
+pnpm lint || exit 1
+
+if [ "$code_touched" -eq 0 ]; then
+  echo "pre-commit: только доки/конфиг — пропускаю test и test:e2e (CI прогонит полностью)"
+  exit 0
+fi
+
+pnpm test && pnpm test:e2e

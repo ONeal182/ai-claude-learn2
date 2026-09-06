@@ -128,7 +128,8 @@ test/
 ├── auth.e2e-spec.ts         # e2e: register/login
 ├── meeting.e2e-spec.ts      # e2e: CRUD встреч под Bearer-токеном
 ├── meeting-files.e2e-spec.ts # e2e: загрузка/список/скачивание/удаление; отказы 401/413/400/404; фоновая обработка recording (pending→done + транскрипт), reprocess (200 только для failed, иначе 409); сквозной сценарий пути UI одним прогоном
-└── profile.e2e-spec.ts      # e2e: GET/PATCH /users/me под Bearer-токеном; 401 без токена; PATCH — 400 для пустого (после trim) и >50 символов имени без изменения в БД
+├── profile.e2e-spec.ts      # e2e: GET/PATCH /users/me под Bearer-токеном; 401 без токена; PATCH — 400 для пустого (после trim) и >50 символов имени без изменения в БД
+└── profile-avatar.e2e-spec.ts # e2e (Фаза 3, пока красные): PUT /users/me/avatar — 401 без токена, 200 + avatarUrl для image/* ≤ лимита, 413 сверх MAX_UPLOAD_SIZE_BYTES, 400 для не-image (аватар не меняется); публичный GET /users/avatars/:key отдаёт бинарник с его mime, 404 для неизвестного ключа; повторная загрузка меняет avatarUrl, прежний URL → 404
 ```
 
 ## Соглашения

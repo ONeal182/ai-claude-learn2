@@ -11,5 +11,11 @@
   "browserMilestones": [],
   "maxTurnsOverrides": {},
   "resumeWithinMilestone": true,
+  "verify": true,
+  "verifyCmd": "pnpm lint && pnpm typecheck && pnpm test",
+  "iterationTimeoutMin": 45,
+  "maxRetries": 2,
+  "retryDelaySec": 30,
+  "maxContinuationsPerIssue": 2,
   "prompt": "Прочитай .claude/ralph.md и следуй правилам оттуда. Реализуй Issue #{issue} из milestone '{milestone}' (id {milestoneId}) в ветке '{branch}'."
 }

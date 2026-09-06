@@ -27,6 +27,16 @@
 //  - расход токенов/стоимость каждого прогона claude берётся из stream-json
 //    (ralph-format.js) и суммируется по фазе и за весь прогон.
 //
+// Устойчивость (не всякий ненулевой exit фатален):
+//  - у каждого прогона claude есть таймаут (iterationTimeoutMin); таймаут и
+//    крах/транзиент API ретраятся (maxRetries) с паузой;
+//  - исчерпание --max-turns НЕ ошибка: прогресс, как правило, закоммичен —
+//    issue продолжается в следующей итерации (лимит maxContinuationsPerIssue);
+//  - после каждой итерации — гейт verifyCmd (lint/typecheck/test) + проверка,
+//    что нет незакоммиченного: красно → issue переоткрывается, прогон встаёт;
+//  - git push и gh pr create обёрнуты: push с ретраями, оба при провале —
+//    чистая остановка с инструкцией, а не сырой стектрейс.
+//
 // Claude Code hooks (Stop и т.п.) ограничены по времени выполнения (по
 // умолчанию порядка минуты) и не предназначены для синхронного ожидания
 // целого вложенного `claude -p` прогона в десятки минут — попытка сделать
@@ -57,6 +67,20 @@ const {
   // Все issue одной фазы гоняются в одной сессии claude (--resume): контекст
   // и уже прочитанные файлы остаются прогретыми между issue. Сброс на новой фазе.
   resumeWithinMilestone = true,
+  // Гейт качества после каждой итерации. Красный гейт (или незакоммиченные
+  // правки) => issue переоткрывается, прогон останавливается — дальше не идём.
+  verify = true,
+  verifyCmd = 'pnpm lint && pnpm typecheck && pnpm test',
+  // Таймаут одного прогона claude (мин). По истечении процесс убивается,
+  // сбой классифицируется как транзиентный и ретраится.
+  iterationTimeoutMin = 45,
+  // Ретраи, когда claude не завершился штатно (таймаут / краш / транзиент API).
+  // Исчерпание --max-turns и claude-репорт об ошибке НЕ ретраятся.
+  maxRetries = 2,
+  retryDelaySec = 30,
+  // Сколько раз подряд продолжать одну issue (после исчерпания ходов), пока
+  // гейт зелёный, прежде чем остановиться с явным сообщением.
+  maxContinuationsPerIssue = 2,
 } = config;
 
 // Сайдбенд-файл: ralph-format.js пишет сюда расход токенов/стоимость последнего
@@ -123,8 +147,15 @@ const SKIP_FLAG = '--dangerously-skip-permissions';
 //   resume     — true → --resume sessionId вместо --session-id
 //   noBrowser  — true → --strict-mcp-config: не поднимать Playwright MCP
 //                (для API-фаз и ревью PR схемы browser_* в контексте — лишний расход)
+//   timeoutMin — таймаут прогона (мин), по умолчанию iterationTimeoutMin
+//
+// НЕ бросает на сбой подпроцесса — возвращает объект:
+//   { ok, info, err, timedOut, sessionExists }
+//   info          — распарсенный сайдбенд (usage/cost/num_turns/is_error) либо null
+//   timedOut      — прибит по таймауту
+//   sessionExists — claude успел создать сессию (сайдбенд записан) — ретраить через --resume
 function runClaudeStreamed(prompt, opts = {}) {
-  const { turns, model, sessionId, resume, noBrowser } = opts;
+  const { turns, model, sessionId, resume, noBrowser, timeoutMin } = opts;
   const flags = ['--output-format stream-json', '--verbose', SKIP_FLAG];
   if (model) flags.push(`--model ${model}`);
   if (typeof turns === 'number') flags.push(`--max-turns ${turns}`);
@@ -138,12 +169,32 @@ function runClaudeStreamed(prompt, opts = {}) {
     /* нет файла — ок */
   }
 
-  const cmd = `set -o pipefail; claude -p ${JSON.stringify(prompt)} ${flags.join(' ')} | node ${JSON.stringify(formatterPath)}`;
-  execSync(cmd, {
-    stdio: 'inherit',
-    shell: '/bin/bash',
-    env: { ...process.env, RALPH_SESSION_FILE: sessionInfoPath },
-  });
+  // `timeout` CLI прибивает именно claude (SIGTERM, затем SIGKILL через 30s) —
+  // надёжнее таймаута execSync, который шлёт сигнал bash, а тот не всегда
+  // пробрасывает его в claude (процесс осиротеет и продолжит жечь токены).
+  // Код выхода при таймауте — 124. execSync-таймаут оставлен как страховка выше.
+  const tSec = Math.round((timeoutMin ?? iterationTimeoutMin) * 60);
+  const cmd =
+    `set -o pipefail; timeout --kill-after=30s ${tSec}s ` +
+    `claude -p ${JSON.stringify(prompt)} ${flags.join(' ')} | node ${JSON.stringify(formatterPath)}`;
+  try {
+    execSync(cmd, {
+      stdio: 'inherit',
+      shell: '/bin/bash',
+      timeout: (tSec + 120) * 1000,
+      killSignal: 'SIGKILL',
+      env: { ...process.env, RALPH_SESSION_FILE: sessionInfoPath },
+    });
+    return { ok: true, info: readRunInfo(), sessionExists: true };
+  } catch (err) {
+    const info = readRunInfo();
+    const timedOut =
+      err.status === 124 || err.status === 137 || err.killed === true || err.code === 'ETIMEDOUT';
+    const already = /session id .*already|already in use|already exists/i.test(
+      `${err.message}${err.stderr || ''}`,
+    );
+    return { ok: false, info, err, timedOut, sessionExists: !!info || already };
+  }
 }
 
 // Читает расход последнего прогона claude из сайдбенд-файла (пишет ralph-format.js).
@@ -185,6 +236,70 @@ function newUsageAcc() {
 }
 
 const grandTotal = newUsageAcc();
+
+// Синхронная пауза (скрипт целиком синхронный).
+function sleepSec(s) {
+  try {
+    execSync(`sleep ${Number(s) || 0}`, { stdio: 'ignore' });
+  } catch {
+    /* прервали — ок */
+  }
+}
+
+// Чистая остановка: сообщение + ненулевой код. Дальше по майлстонам не идём.
+function safeStop(msg) {
+  console.error(`\n🛑 ${msg}`);
+  process.exit(1);
+}
+
+// Есть ли незакоммиченные правки в ОТСЛЕЖИВАЕМЫХ файлах (untracked не в счёт —
+// это обычно артефакты вроде скриншотов проверки UI).
+function hasUncommittedTrackedChanges() {
+  return runOut('git status --porcelain')
+    .split('\n')
+    .some((l) => l.trim() && !l.startsWith('??'));
+}
+
+// Гейт качества после итерации. Вывод глушим, при красном печатаем хвост.
+function verifyGate() {
+  if (!verify) return true;
+  console.log(`🔍 Гейт: ${verifyCmd}`);
+  try {
+    execSync(verifyCmd, {
+      stdio: ['ignore', 'pipe', 'pipe'],
+      shell: '/bin/bash',
+      timeout: 15 * 60_000,
+    });
+    console.log('   ✅ зелёно');
+    return true;
+  } catch (err) {
+    const out = `${err.stdout || ''}${err.stderr || ''}`.trim();
+    console.error(`   ❌ красно:\n${out.split('\n').slice(-40).join('\n')}`);
+    return false;
+  }
+}
+
+// Пуш ветки в origin с ретраями на транзиентных сбоях. Если не вышло за
+// maxRetries+1 попыток — чистая остановка (ветку мог кто-то двигать и т.п.).
+function pushBranchSafe(branch) {
+  for (let attempt = 1; ; attempt++) {
+    try {
+      run(`git push -u origin ${JSON.stringify(branch)}`);
+      return;
+    } catch (err) {
+      if (attempt > maxRetries) {
+        safeStop(
+          `git push ветки ${branch} не удался после ${attempt} попыток:\n${err.message}\n` +
+            `Разберитесь вручную и перезапустите скрипт.`,
+        );
+      }
+      console.error(
+        `⚠️  git push (попытка ${attempt}/${maxRetries + 1}) не удался, повтор через ${retryDelaySec}s…`,
+      );
+      sleepSec(retryDelaySec);
+    }
+  }
+}
 
 // Признаки фронтенд-задачи в названии (→ проверка в браузере через Playwright MCP).
 // \b ненадёжен с кириллицей в JS-регекспе без флага u — ключевые слова без границ.
@@ -316,12 +431,6 @@ function ensureBranch(branch) {
   }
 }
 
-// Пушит ветку майлстоуна в origin. Без этого `gh pr create` падает
-// ("Head ref must be a branch") — GitHub не знает локальную ветку.
-function pushBranch(branch) {
-  run(`git push -u origin ${JSON.stringify(branch)}`);
-}
-
 // origin/<baseBranch> должен быть не позади локального: PR майлстоунов
 // создаются против origin/<baseBranch>, и если он отстаёт — в диф каждого PR
 // попадут посторонние коммиты (или базы вообще не будет нужного кода).
@@ -396,15 +505,19 @@ function processMilestone(id) {
     fetchOpenIssues(id).map((i) => i.title),
   );
   const turnBudget = maxTurnsOverrides[String(id)] ?? (browser ? browserMaxTurns : maxTurns);
-  // Единый UUID сессии на всю фазу: 1-я issue создаёт (--session-id),
-  // следующие продолжают (--resume) — контекст не остывает между issue.
+  // Единый UUID сессии на всю фазу (при resumeWithinMilestone): 1-я issue
+  // создаёт (--session-id), следующие продолжают (--resume) — контекст не
+  // остывает между issue.
   const sessionId = crypto.randomUUID();
+  let sessionExists = false; // сессия claude уже создана — переживает ретраи и итерации
   const milestoneUsage = newUsageAcc();
+  const continuations = {}; // issueNumber -> сколько раз подряд продолжали (после исчерпания ходов)
 
   console.log(
     `\n════════ Milestone #${id}: ${title}  →  ветка ${branch} ════════\n` +
       `        браузер: ${browser ? 'да (Playwright MCP)' : 'нет (--strict-mcp-config)'} · ` +
-      `бюджет ходов: ${turnBudget} · resume в фазе: ${resumeWithinMilestone ? 'да' : 'нет'}`,
+      `бюджет ходов: ${turnBudget} · resume в фазе: ${resumeWithinMilestone ? 'да' : 'нет'} · ` +
+      `гейт: ${verify ? verifyCmd : 'выключен'}`,
   );
   ensureBranch(branch);
 
@@ -419,7 +532,7 @@ function processMilestone(id) {
     const issues = fetchOpenIssues(id);
 
     if (issues.length === 0) {
-      pushBranch(branch);
+      pushBranchSafe(branch);
       let prUrl = openPrUrl(branch);
       if (prUrl) {
         console.log(
@@ -427,19 +540,32 @@ function processMilestone(id) {
         );
       } else {
         console.log(`✅ Milestone #${id} завершён за ${iterationsUsed} итераций. Создаём PR.`);
-        prUrl = runOut(
-          `gh pr create --title ${JSON.stringify(`feat: ${title}`)} --body ${JSON.stringify(`Closes all issues in milestone #${id}: ${title}`)} --base ${JSON.stringify(baseBranch)} --head ${JSON.stringify(branch)}`,
-        ).trim();
+        try {
+          prUrl = runOut(
+            `gh pr create --title ${JSON.stringify(`feat: ${title}`)} --body ${JSON.stringify(`Closes all issues in milestone #${id}: ${title}`)} --base ${JSON.stringify(baseBranch)} --head ${JSON.stringify(branch)}`,
+          ).trim();
+        } catch (err) {
+          safeStop(
+            `Milestone #${id}: не удалось создать PR:\n${err.message}\n` +
+              `Ветка запушена. Создайте PR вручную (gh pr create --base ${baseBranch} --head ${branch}) ` +
+              `и перезапустите скрипт — ralph подхватит открытый PR и запустит ревью.`,
+          );
+        }
       }
       // Финальное ревью всей фазы — намеренно на opus и в свежей сессии
       // (не продолжаем контекст реализации). Браузер — по типу фазы.
-      runClaudeStreamed(
+      const rev = runClaudeStreamed(
         `Сделай детальное code review PR ${prUrl}. Проверь архитектуру, безопасность, производительность и соответствие PRD. Оставь комментарии прямо в PR через gh cli.`,
         { model: 'claude-opus-5', noBrowser: !browser },
       );
-      const reviewInfo = readRunInfo();
-      addUsage(milestoneUsage, reviewInfo);
-      addUsage(grandTotal, reviewInfo);
+      addUsage(milestoneUsage, rev.info);
+      addUsage(grandTotal, rev.info);
+      if (!rev.ok) {
+        console.error(
+          `⚠️  Финальное ревью Milestone #${id} не завершилось штатно — PR ${prUrl} создан, ` +
+            `прогоните ревью вручную.`,
+        );
+      }
       console.log(`\n💰 Milestone #${id} итого: ${fmtUsage(milestoneUsage)}`);
       return;
     }
@@ -460,32 +586,125 @@ function processMilestone(id) {
       .replaceAll('{branch}', branch);
 
     iterationsUsed++;
+    const contN = continuations[next.number] || 0;
     console.log(
-      `🔄 Milestone #${id} · итерация ${iterationsUsed}/${maxIterations}. ` +
-        `Открытых issue: ${issues.length}. Следующий: #${next.number} ${next.title}`,
+      `🔄 Milestone #${id} · итерация ${iterationsUsed}/${maxIterations}` +
+        (contN ? ` (продолжение #${next.number} ${contN}/${maxContinuationsPerIssue})` : '') +
+        `. Открытых issue: ${issues.length}. Следующий: #${next.number} ${next.title}`,
     );
-    try {
-      runClaudeStreamed(prompt, {
+
+    // Сессия: при resumeWithinMilestone — общая на фазу; иначе своя на каждую issue.
+    const sid = resumeWithinMilestone ? sessionId : crypto.randomUUID();
+    let sidExists = resumeWithinMilestone ? sessionExists : false;
+
+    // Прогон claude с ретраями транзиентных сбоев (таймаут / краш / транзиент
+    // API). Исчерпание --max-turns и claude-репорт об ошибке НЕ ретраятся.
+    let hitTurnLimit = false;
+    for (let attempt = 1; ; attempt++) {
+      const outcome = runClaudeStreamed(prompt, {
         turns: turnBudget,
-        sessionId,
-        resume: resumeWithinMilestone && iterationsUsed > 1,
+        sessionId: sid,
+        resume: sidExists,
         noBrowser: !browser,
       });
-    } catch (err) {
-      addUsage(milestoneUsage, readRunInfo());
+      addUsage(milestoneUsage, outcome.info);
+      addUsage(grandTotal, outcome.info);
+      if (outcome.sessionExists) {
+        sidExists = true;
+        if (resumeWithinMilestone) sessionExists = true;
+      }
+
+      if (outcome.ok) break;
+
+      const info = outcome.info;
+      if (
+        info &&
+        !info.is_error &&
+        typeof info.num_turns === 'number' &&
+        info.num_turns >= turnBudget
+      ) {
+        // Кончился бюджет ходов: прогресс, как правило, уже закоммичен. Не
+        // ретраим и не останавливаемся — ниже отработают гейт и продолжение issue.
+        hitTurnLimit = true;
+        console.log(
+          `ℹ️  Issue #${next.number}: исчерпан бюджет ходов (${info.num_turns}/${turnBudget}). Проверяю гейтом.`,
+        );
+        break;
+      }
+      if (info && info.is_error) {
+        safeStop(
+          `Milestone #${id}, итерация ${iterationsUsed} (issue #${next.number}): claude завершился ошибкой. ` +
+            `Не продвигаюсь.\n💰 Milestone #${id} до сбоя: ${fmtUsage(milestoneUsage)}`,
+        );
+      }
+      // Сайдбенд не записан → claude не доработал: таймаут / краш / транзиент API.
+      if (attempt > maxRetries) {
+        safeStop(
+          `Milestone #${id}, итерация ${iterationsUsed} (issue #${next.number}): claude не завершился ` +
+            `после ${attempt} попыток${outcome.timedOut ? ' (таймаут)' : ''}.\n` +
+            `${outcome.err ? outcome.err.message : ''}\n💰 Milestone #${id} до сбоя: ${fmtUsage(milestoneUsage)}`,
+        );
+      }
       console.error(
-        `\n🛑 Milestone #${id}, итерация ${iterationsUsed} (issue #${next.number}) упала с ошибкой, ` +
-          `останавливаюсь без перехода к следующей:\n${err.message}\n` +
-          `💰 Milestone #${id} до сбоя: ${fmtUsage(milestoneUsage)}`,
+        `⚠️  claude не завершился${outcome.timedOut ? ' (таймаут)' : ''}, попытка ${attempt}/${maxRetries + 1}. ` +
+          `Повтор через ${retryDelaySec}s…`,
       );
-      process.exit(1);
+      sleepSec(retryDelaySec);
     }
-    const runInfo = readRunInfo();
-    addUsage(milestoneUsage, runInfo);
-    addUsage(grandTotal, runInfo);
-    // Пушим прогресс после каждой итерации: краш на следующей issue не потеряет
+
+    // Прогресс — в origin (с ретраями). Краш на следующей issue не потеряет
     // сделанное, и ход работы виден в origin.
-    pushBranch(branch);
+    pushBranchSafe(branch);
+
+    // Гейт: незакоммиченного быть не должно + lint/typecheck/test зелёные.
+    const dirty = hasUncommittedTrackedChanges();
+    const green = verifyGate();
+    const stillOpen = fetchOpenIssues(id).some((i) => i.number === next.number);
+
+    if (dirty || !green) {
+      const reason = dirty
+        ? 'агент оставил незакоммиченные правки в отслеживаемых файлах'
+        : `гейт качества красный (${verifyCmd})`;
+      if (!stillOpen) {
+        try {
+          run(`gh issue reopen ${next.number}`);
+          run(
+            `gh issue comment ${next.number} --body ${JSON.stringify(
+              `ralph-loop: после итерации ${iterationsUsed} — ${reason}. ` +
+                `Issue переоткрыт, автопрогон остановлен, нужна ручная проверка.`,
+            )}`,
+          );
+          console.error(`↩️  Issue #${next.number} переоткрыт.`);
+        } catch (e) {
+          console.error(
+            `⚠️  не смог переоткрыть/прокомментировать issue #${next.number}: ${e.message}`,
+          );
+        }
+      }
+      safeStop(
+        `Milestone #${id}, issue #${next.number}: ${reason}. Дальше не иду.\n` +
+          `💰 Milestone #${id}: ${fmtUsage(milestoneUsage)}`,
+      );
+    }
+
+    // Гейт зелёный.
+    if (stillOpen) {
+      continuations[next.number] = (continuations[next.number] || 0) + 1;
+      if (continuations[next.number] > maxContinuationsPerIssue) {
+        safeStop(
+          `Milestone #${id}, issue #${next.number}: гейт зелёный, но issue не закрыт за ` +
+            `${maxContinuationsPerIssue} продолжений подряд. Останавливаюсь — посмотрите, ` +
+            `что мешает агенту его закрыть.\n💰 Milestone #${id}: ${fmtUsage(milestoneUsage)}`,
+        );
+      }
+      console.log(
+        `↻ Issue #${next.number} ещё открыт${hitTurnLimit ? ' (кончились ходы)' : ''}, гейт зелёный — ` +
+          `продолжу в следующей итерации (${continuations[next.number]}/${maxContinuationsPerIssue}).`,
+      );
+    } else {
+      delete continuations[next.number];
+      console.log(`✅ Issue #${next.number} закрыт, гейт зелёный.`);
+    }
   }
 }
 

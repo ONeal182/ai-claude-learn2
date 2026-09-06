@@ -3,7 +3,7 @@ import { CommandHandler, ICommandHandler, QueryBus } from '@nestjs/cqrs';
 import type { MeetingFile } from '@prisma/client';
 import { PrismaService } from '../../../prisma/prisma.service.js';
 import { GetMeetingFileQuery } from '../../queries/impl/get-meeting-file.query.js';
-import { FileStorageService } from '../../file-storage.service.js';
+import { FileStorageService } from '../../../storage/file-storage.service.js';
 import { DeleteMeetingFileCommand } from '../impl/delete-meeting-file.command.js';
 
 @Injectable()

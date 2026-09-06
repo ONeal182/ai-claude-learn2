@@ -2,9 +2,9 @@ import { BadRequestException, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MulterModule } from '@nestjs/platform-express';
 import { AuthModule } from '../auth/auth.module.js';
+import { StorageModule } from '../storage/storage.module.js';
 import { ALLOWED_UPLOAD_MIME_TYPES } from './allowed-mime.js';
 import { MeetingFileController } from './meeting-file.controller.js';
-import { FileStorageService } from './file-storage.service.js';
 import { MeetingFileProcessingQueue } from './processing/meeting-file-processing.queue.js';
 import { STT_SERVICE, StubSttService } from './processing/stt.service.js';
 import { CommandHandlers } from './commands/handlers/index.js';
@@ -17,6 +17,7 @@ const DEFAULT_MAX_UPLOAD_SIZE_BYTES = 26_214_400;
 @Module({
   imports: [
     AuthModule,
+    StorageModule,
     MulterModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -43,7 +44,6 @@ const DEFAULT_MAX_UPLOAD_SIZE_BYTES = 26_214_400;
   ],
   controllers: [MeetingFileController],
   providers: [
-    FileStorageService,
     MeetingFileProcessingQueue,
     { provide: STT_SERVICE, useClass: StubSttService },
     ...CommandHandlers,

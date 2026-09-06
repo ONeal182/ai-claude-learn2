@@ -21,7 +21,17 @@ import { MAX_PROFILE_NAME_LENGTH } from './../src/profile/dto/update-profile-nam
  *   -> 200 <profile>       имя обновлено, поле name в дальнейших GET /users/me отражает новое значение
  *   -> 400                 name из одних пробелов (после trim пусто) или длиннее 50 символов — значение в БД не меняется
  *   -> 401                 без токена
+ *
+ * POST /users/me/password { currentPassword, newPassword }
+ *   -> 200                 currentPassword верный, newPassword валиден: пароль сменён
+ *                          (login по старому паролю -> 401, по новому -> 200);
+ *                          ранее выданный accessToken остаётся валиден (GET /users/me -> 200)
+ *   -> 400 | 401           currentPassword неверный — пароль не меняется (login по старому -> 200)
+ *   -> 400                 newPassword короче 8 символов — пароль не меняется
+ *   -> 401                 без токена
  */
+
+const MIN_PASSWORD_LENGTH = 8;
 
 function uniqueEmail(): string {
   return `${randomUUID()}@example.com`;
@@ -31,6 +41,7 @@ describe('Profile (e2e)', () => {
   let app: INestApplication<Server>;
   let accessToken: string;
   let email: string;
+  const oldPassword = 'correct-horse-battery-staple';
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -43,7 +54,7 @@ describe('Profile (e2e)', () => {
     email = uniqueEmail();
     const res = await request(app.getHttpServer())
       .post('/auth/register')
-      .send({ email, password: 'correct-horse-battery-staple' })
+      .send({ email, password: oldPassword })
       .expect(201);
     accessToken = res.body.accessToken as string;
   });
@@ -136,6 +147,78 @@ describe('Profile (e2e)', () => {
         .expect(200);
 
       expect(getRes.body.name).toBe('Иван');
+    });
+  });
+
+  describe('POST /users/me/password', () => {
+    const newPassword = 'brand-new-secret-password';
+
+    it('возвращает 401 без токена', async () => {
+      await request(app.getHttpServer())
+        .post('/users/me/password')
+        .send({ currentPassword: oldPassword, newPassword })
+        .expect(401);
+    });
+
+    it('меняет пароль при верном currentPassword: старый пароль больше не логинит, новый — логинит', async () => {
+      await request(app.getHttpServer())
+        .post('/users/me/password')
+        .set('Authorization', auth())
+        .send({ currentPassword: oldPassword, newPassword })
+        .expect(200);
+
+      await request(app.getHttpServer())
+        .post('/auth/login')
+        .send({ email, password: oldPassword })
+        .expect(401);
+
+      await request(app.getHttpServer())
+        .post('/auth/login')
+        .send({ email, password: newPassword })
+        .expect(200);
+    });
+
+    it('после успешной смены пароля ранее выданный accessToken остаётся валиден', async () => {
+      await request(app.getHttpServer())
+        .post('/users/me/password')
+        .set('Authorization', auth())
+        .send({ currentPassword: oldPassword, newPassword })
+        .expect(200);
+
+      await request(app.getHttpServer()).get('/users/me').set('Authorization', auth()).expect(200);
+    });
+
+    it('отвергает неверный currentPassword (400/401) и не меняет пароль', async () => {
+      const res = await request(app.getHttpServer())
+        .post('/users/me/password')
+        .set('Authorization', auth())
+        .send({ currentPassword: 'not-the-current-password', newPassword });
+
+      expect([400, 401]).toContain(res.status);
+
+      // старый пароль всё ещё действует
+      await request(app.getHttpServer())
+        .post('/auth/login')
+        .send({ email, password: oldPassword })
+        .expect(200);
+
+      await request(app.getHttpServer())
+        .post('/auth/login')
+        .send({ email, password: newPassword })
+        .expect(401);
+    });
+
+    it('возвращает 400 для newPassword короче 8 символов и не меняет пароль', async () => {
+      await request(app.getHttpServer())
+        .post('/users/me/password')
+        .set('Authorization', auth())
+        .send({ currentPassword: oldPassword, newPassword: 'a'.repeat(MIN_PASSWORD_LENGTH - 1) })
+        .expect(400);
+
+      await request(app.getHttpServer())
+        .post('/auth/login')
+        .send({ email, password: oldPassword })
+        .expect(200);
     });
   });
 });

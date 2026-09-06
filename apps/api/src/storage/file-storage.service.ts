@@ -5,10 +5,12 @@ import { access, mkdir, rm, writeFile } from 'node:fs/promises';
 import { isAbsolute, join, resolve } from 'node:path';
 
 /**
- * Единственная точка работы с файловой системой для файлов встречи (`arch-single-responsibility`).
+ * Единственная точка работы с файловой системой для загруженных бинарников
+ * (файлы встречи, аватары пользователей — `arch-single-responsibility`).
  * Раскладка плоская: `${UPLOADS_DIR}/${storageKey}`, где `storageKey` — случайный uuid
  * (пользовательский ввод в путь не попадает → нет path traversal).
  * В БД хранится только `storageKey`; абсолютный путь собирается здесь на чтении/удалении.
+ * Провайдится через `StorageModule`, который импортируют и `meeting-file`, и `profile`.
  */
 @Injectable()
 export class FileStorageService implements OnModuleInit {

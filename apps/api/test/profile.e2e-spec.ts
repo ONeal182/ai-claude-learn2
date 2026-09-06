@@ -5,6 +5,7 @@ import { randomUUID } from 'node:crypto';
 import request from 'supertest';
 import { AppModule } from './../src/app.module.js';
 import { MAX_PROFILE_NAME_LENGTH } from './../src/profile/dto/update-profile-name.dto.js';
+import { MIN_PASSWORD_LENGTH } from './../src/profile/dto/change-password.dto.js';
 
 /**
  * Контракт модуля Profile.
@@ -30,8 +31,6 @@ import { MAX_PROFILE_NAME_LENGTH } from './../src/profile/dto/update-profile-nam
  *   -> 400                 newPassword короче 8 символов — пароль не меняется
  *   -> 401                 без токена
  */
-
-const MIN_PASSWORD_LENGTH = 8;
 
 function uniqueEmail(): string {
   return `${randomUUID()}@example.com`;

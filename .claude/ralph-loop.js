@@ -8,11 +8,13 @@
 //
 // Milestone задаётся ЧИСЛОВЫМ id (number из URL майлстона / `gh api .../milestones`),
 // а НЕ названием. Можно передать несколько id — они обрабатываются строго
-// последовательно: для каждого создаётся своя ветка `${branchPrefix}${id}` от
-// baseBranch, гоняется цикл по его открытым issue, а после закрытия последней
-// issue создаётся отдельный PR и запускается code review. Затем оркестратор
-// переходит к следующему id. maxIterations — лимит на КАЖДЫЙ milestone
-// (счётчик сбрасывается при переходе к следующему).
+// последовательно: для каждого создаётся своя ветка вида
+// `feature/<англ-slug>-phase-<номер фазы>` (номер фазы — из названия "Фаза N:",
+// slug — перевод названия на английский через claude -p, кэш в
+// ralph-branch-names.json) от baseBranch, гоняется цикл по его открытым issue,
+// а после закрытия последней issue создаётся отдельный PR и запускается code
+// review. Затем оркестратор переходит к следующему id. maxIterations — лимит на
+// КАЖДЫЙ milestone (счётчик сбрасывается при переходе к следующему).
 //
 // Claude Code hooks (Stop и т.п.) ограничены по времени выполнения (по
 // умолчанию порядка минуты) и не предназначены для синхронного ожидания
@@ -28,6 +30,15 @@ const path = require('path');
 const configPath = path.join(__dirname, 'ralph.config.json');
 const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
 const { baseBranch = 'main', branchPrefix = 'feature/', maxIterations, maxTurns } = config;
+
+// Кэш переведённых slug'ов для имён веток. ОТДЕЛЬНЫЙ файл вне git (в .gitignore):
+// оркестратор пишет его прямо во время прогона, а трогать в этот момент
+// закоммиченный файл нельзя — иначе следующий `git checkout` между майлстоунами
+// падает на "local changes would be overwritten".
+const branchCachePath = path.join(__dirname, 'ralph-branch-names.json');
+const branchNameCache = fs.existsSync(branchCachePath)
+  ? JSON.parse(fs.readFileSync(branchCachePath, 'utf8'))
+  : {};
 
 // id майлстонов: аргументы командной строки важнее поля "milestones" в конфиге.
 const cliIds = process.argv.slice(2);
@@ -120,8 +131,8 @@ function normalizeSlug(s) {
 
 // Переводит русское название майлстоуна в английский kebab-case slug через
 // разовый вызов `claude -p` (haiku, 1 turn). Результат кэшируется в
-// ralph.config.json → "branchNames", чтобы повторные запуски брали то же имя
-// ветки и не плодили дубликаты PR.
+// ralph-branch-names.json, чтобы повторные запуски брали то же имя ветки
+// и не плодили дубликаты PR.
 function slugFromClaude(descriptivePart) {
   const prompt =
     `Переведи название задачи на английский и верни ТОЛЬКО kebab-case slug ` +
@@ -144,25 +155,38 @@ function slugFromClaude(descriptivePart) {
   return slug;
 }
 
-function persistBranchName(id, slug) {
-  config.branchNames = { ...(config.branchNames ?? {}), [String(id)]: slug };
-  fs.writeFileSync(configPath, `${JSON.stringify(config, null, 2)}\n`);
+function cacheBranchName(id, slug) {
+  branchNameCache[String(id)] = slug;
+  fs.writeFileSync(branchCachePath, `${JSON.stringify(branchNameCache, null, 2)}\n`);
 }
 
 // Имя ветки майлстоуна: feature/<англ-slug>-phase-<номер фазы>.
-// slug берётся из кэша config.branchNames, иначе — разовый перевод и запись в кэш.
+// slug ищется по порядку: ручной оверрайд config.branchNames → кэш переводов →
+// разовый перевод через claude -p (с записью в кэш).
 function resolveBranch(id, title) {
   const phase = phaseNumber(title);
-  const cached = (config.branchNames ?? {})[String(id)];
-  const slug = cached ?? slugFromClaude(stripPhasePrefix(title));
-  if (!cached) {
-    persistBranchName(id, slug);
-    console.log(`🌿 Milestone #${id}: slug "${slug}" (записан в ralph.config.json → branchNames)`);
+  const manual = (config.branchNames ?? {})[String(id)];
+  const cached = branchNameCache[String(id)];
+  let slug = manual ?? cached;
+  if (!slug) {
+    slug = slugFromClaude(stripPhasePrefix(title));
+    cacheBranchName(id, slug);
+    console.log(`🌿 Milestone #${id}: slug "${slug}" (кэш ${path.basename(branchCachePath)})`);
   }
   return `${branchPrefix}${slug}-phase-${phase}`;
 }
 
 function ensureBranch(branch) {
+  // Незакоммиченные правки в отслеживаемых файлах ломают переключение веток.
+  // Останавливаемся с внятным сообщением вместо сырого стек-трейса git.
+  const dirty = runOut('git status --porcelain').trim();
+  if (dirty) {
+    console.error(
+      `Рабочее дерево не чистое — не могу переключиться на ветку ${branch}:\n${dirty}\n` +
+        `Закоммитьте или откатите изменения и запустите скрипт снова.`,
+    );
+    process.exit(1);
+  }
   if (branchExists(branch)) {
     run(`git checkout ${JSON.stringify(branch)}`);
   } else {

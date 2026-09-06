@@ -24,6 +24,9 @@ coverage/
 # ralph loop — рантайм-счётчик итераций
 .claude/ralph.iterations.json
 
+# ralph loop — кэш переведённых slug'ов для имён веток (пишется во время прогона)
+.claude/ralph-branch-names.json
+
 # logs
 *.log
 npm-debug.log*

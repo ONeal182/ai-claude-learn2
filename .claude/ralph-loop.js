@@ -12,9 +12,20 @@
 // `feature/<англ-slug>-phase-<номер фазы>` (номер фазы — из названия "Фаза N:",
 // slug — перевод названия на английский через claude -p, кэш в
 // ralph-branch-names.json) от baseBranch, гоняется цикл по его открытым issue,
-// а после закрытия последней issue создаётся отдельный PR и запускается code
-// review. Затем оркестратор переходит к следующему id. maxIterations — лимит на
-// КАЖДЫЙ milestone (счётчик сбрасывается при переходе к следующему).
+// а после закрытия последней issue создаётся отдельный PR и запускается
+// детальное code review на opus. Затем оркестратор переходит к следующему id.
+// maxIterations — лимит на КАЖДЫЙ milestone (счётчик сбрасывается при переходе
+// к следующему).
+//
+// Экономия токенов:
+//  - code review двумя субагентами — ОДИН раз на фазу (тут), а не на каждую
+//    issue (см. .claude/ralph.md);
+//  - API-фазам и ревью PR браузер не нужен → --strict-mcp-config, схемы
+//    Playwright MCP не грузятся (см. needsBrowser / browserMilestones);
+//  - issue одной фазы идут в общей сессии claude (--session-id + --resume),
+//    контекст и прочитанные файлы не остывают между issue;
+//  - расход токенов/стоимость каждого прогона claude берётся из stream-json
+//    (ralph-format.js) и суммируется по фазе и за весь прогон.
 //
 // Claude Code hooks (Stop и т.п.) ограничены по времени выполнения (по
 // умолчанию порядка минуты) и не предназначены для синхронного ожидания
@@ -24,12 +35,31 @@
 // так что их завершение снова триггерит Stop hook). Поэтому цикл живёт здесь,
 // как обычный процесс вне системы хуков.
 const { execSync } = require('child_process');
+const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
 
 const configPath = path.join(__dirname, 'ralph.config.json');
 const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
-const { baseBranch = 'main', branchPrefix = 'feature/', maxIterations, maxTurns } = config;
+const {
+  baseBranch = 'main',
+  branchPrefix = 'feature/',
+  maxIterations,
+  maxTurns,
+  // Бюджет ходов для веб-фаз (Playwright + проверка UI съедают больше).
+  browserMaxTurns = maxTurns,
+  // id майлстонов, которым нужен браузер (Playwright MCP). Плюс к эвристике по названию.
+  browserMilestones = [],
+  // Точечный оверрайд бюджета ходов: { "<id>": 70 }.
+  maxTurnsOverrides = {},
+  // Все issue одной фазы гоняются в одной сессии claude (--resume): контекст
+  // и уже прочитанные файлы остаются прогретыми между issue. Сброс на новой фазе.
+  resumeWithinMilestone = true,
+} = config;
+
+// Сайдбенд-файл: ralph-format.js пишет сюда расход токенов/стоимость последнего
+// прогона claude, оркестратор читает и суммирует. Вне git (в .gitignore).
+const sessionInfoPath = path.join(__dirname, 'ralph-session.json');
 
 // Кэш переведённых slug'ов для имён веток. ОТДЕЛЬНЫЙ файл вне git (в .gitignore):
 // оркестратор пишет его прямо во время прогона, а трогать в этот момент
@@ -76,16 +106,91 @@ function runOut(cmd) {
 
 const formatterPath = path.join(__dirname, 'ralph-format.js');
 
+const SKIP_FLAG = '--dangerously-skip-permissions';
+
 // Гоняет `claude -p` с построчным стримом (--output-format stream-json --verbose)
 // через ralph-format.js, чтобы в ralph.log было видно ход работы по шагам,
 // а не только финальный ответ по завершении итерации. `set -o pipefail` в
 // bash нужен, чтобы код выхода claude (а не форматтера) долетал до нас.
-function runClaudeStreamed(prompt, extraArgs) {
-  const cmd = `set -o pipefail; claude -p ${JSON.stringify(prompt)} --output-format stream-json --verbose ${extraArgs} | node ${JSON.stringify(formatterPath)}`;
-  execSync(cmd, { stdio: 'inherit', shell: '/bin/bash' });
+//
+// opts:
+//   turns      — --max-turns (число); пропустить для безлимита
+//   model      — --model (напр. 'claude-opus-5')
+//   sessionId  — UUID: на первом прогоне фазы → --session-id (фиксируем id),
+//                на последующих с resume:true → --resume (продолжаем ту же сессию)
+//   resume     — true → --resume sessionId вместо --session-id
+//   noBrowser  — true → --strict-mcp-config: не поднимать Playwright MCP
+//                (для API-фаз и ревью PR схемы browser_* в контексте — лишний расход)
+function runClaudeStreamed(prompt, opts = {}) {
+  const { turns, model, sessionId, resume, noBrowser } = opts;
+  const flags = ['--output-format stream-json', '--verbose', SKIP_FLAG];
+  if (model) flags.push(`--model ${model}`);
+  if (typeof turns === 'number') flags.push(`--max-turns ${turns}`);
+  if (sessionId && resume) flags.push(`--resume ${sessionId}`);
+  else if (sessionId) flags.push(`--session-id ${sessionId}`);
+  if (noBrowser) flags.push('--strict-mcp-config');
+
+  try {
+    fs.rmSync(sessionInfoPath, { force: true });
+  } catch {
+    /* нет файла — ок */
+  }
+
+  const cmd = `set -o pipefail; claude -p ${JSON.stringify(prompt)} ${flags.join(' ')} | node ${JSON.stringify(formatterPath)}`;
+  execSync(cmd, {
+    stdio: 'inherit',
+    shell: '/bin/bash',
+    env: { ...process.env, RALPH_SESSION_FILE: sessionInfoPath },
+  });
 }
 
-const SKIP_FLAG = '--dangerously-skip-permissions';
+// Читает расход последнего прогона claude из сайдбенд-файла (пишет ralph-format.js).
+function readRunInfo() {
+  try {
+    return JSON.parse(fs.readFileSync(sessionInfoPath, 'utf8'));
+  } catch {
+    return null;
+  }
+}
+
+function fmtTok(n) {
+  const v = Number(n) || 0;
+  if (v >= 1e6) return `${(v / 1e6).toFixed(1)}M`;
+  if (v >= 1e3) return `${(v / 1e3).toFixed(1)}k`;
+  return String(v);
+}
+
+function addUsage(acc, info) {
+  if (!info) return;
+  const u = info.usage || {};
+  acc.usd += Number(info.total_cost_usd) || 0;
+  acc.in += Number(u.input_tokens) || 0;
+  acc.out += Number(u.output_tokens) || 0;
+  acc.cacheRead += Number(u.cache_read_input_tokens) || 0;
+  acc.cacheWrite += Number(u.cache_creation_input_tokens) || 0;
+  acc.runs += 1;
+}
+
+function fmtUsage(acc) {
+  return (
+    `$${acc.usd.toFixed(2)} · in ${fmtTok(acc.in)} · out ${fmtTok(acc.out)} · ` +
+    `cache ${fmtTok(acc.cacheRead)}r/${fmtTok(acc.cacheWrite)}w · прогонов ${acc.runs}`
+  );
+}
+
+function newUsageAcc() {
+  return { usd: 0, in: 0, out: 0, cacheRead: 0, cacheWrite: 0, runs: 0 };
+}
+
+const grandTotal = newUsageAcc();
+
+// Нужен ли майлстону браузер (Playwright MCP): явный список в конфиге либо
+// эвристика по названию ("Веб", "web", "фронт", "UI"/"UX").
+function needsBrowser(id, title) {
+  if (browserMilestones.map(Number).includes(Number(id))) return true;
+  // \b ненадёжен с кириллицей в JS-регекспе без флага u — по «веб»/«фронт» без границ.
+  return /веб|web|фронт|frontend|\bui\b|\bux\b/i.test(title);
+}
 
 // Резолвит числовой id майлстона в его название через GitHub API.
 // Название нужно только для читаемого промпта и заголовка PR; фильтрация
@@ -266,7 +371,18 @@ function processMilestone(id) {
     return;
   }
 
-  console.log(`\n════════ Milestone #${id}: ${title}  →  ветка ${branch} ════════`);
+  const browser = needsBrowser(id, title);
+  const turnBudget = maxTurnsOverrides[String(id)] ?? (browser ? browserMaxTurns : maxTurns);
+  // Единый UUID сессии на всю фазу: 1-я issue создаёт (--session-id),
+  // следующие продолжают (--resume) — контекст не остывает между issue.
+  const sessionId = crypto.randomUUID();
+  const milestoneUsage = newUsageAcc();
+
+  console.log(
+    `\n════════ Milestone #${id}: ${title}  →  ветка ${branch} ════════\n` +
+      `        браузер: ${browser ? 'да (Playwright MCP)' : 'нет (--strict-mcp-config)'} · ` +
+      `бюджет ходов: ${turnBudget} · resume в фазе: ${resumeWithinMilestone ? 'да' : 'нет'}`,
+  );
   ensureBranch(branch);
 
   let iterationsUsed = 0;
@@ -292,10 +408,16 @@ function processMilestone(id) {
           `gh pr create --title ${JSON.stringify(`feat: ${title}`)} --body ${JSON.stringify(`Closes all issues in milestone #${id}: ${title}`)} --base ${JSON.stringify(baseBranch)} --head ${JSON.stringify(branch)}`,
         ).trim();
       }
+      // Финальное ревью всей фазы — намеренно на opus и в свежей сессии
+      // (не продолжаем контекст реализации). Браузер — по типу фазы.
       runClaudeStreamed(
         `Сделай детальное code review PR ${prUrl}. Проверь архитектуру, безопасность, производительность и соответствие PRD. Оставь комментарии прямо в PR через gh cli.`,
-        `--model claude-opus-5 ${SKIP_FLAG}`,
+        { model: 'claude-opus-5', noBrowser: !browser },
       );
+      const reviewInfo = readRunInfo();
+      addUsage(milestoneUsage, reviewInfo);
+      addUsage(grandTotal, reviewInfo);
+      console.log(`\n💰 Milestone #${id} итого: ${fmtUsage(milestoneUsage)}`);
       return;
     }
 
@@ -320,14 +442,24 @@ function processMilestone(id) {
         `Открытых issue: ${issues.length}. Следующий: #${next.number} ${next.title}`,
     );
     try {
-      runClaudeStreamed(prompt, `--max-turns ${maxTurns} ${SKIP_FLAG}`);
+      runClaudeStreamed(prompt, {
+        turns: turnBudget,
+        sessionId,
+        resume: resumeWithinMilestone && iterationsUsed > 1,
+        noBrowser: !browser,
+      });
     } catch (err) {
+      addUsage(milestoneUsage, readRunInfo());
       console.error(
         `\n🛑 Milestone #${id}, итерация ${iterationsUsed} (issue #${next.number}) упала с ошибкой, ` +
-          `останавливаюсь без перехода к следующей:\n${err.message}`,
+          `останавливаюсь без перехода к следующей:\n${err.message}\n` +
+          `💰 Milestone #${id} до сбоя: ${fmtUsage(milestoneUsage)}`,
       );
       process.exit(1);
     }
+    const runInfo = readRunInfo();
+    addUsage(milestoneUsage, runInfo);
+    addUsage(grandTotal, runInfo);
     // Пушим прогресс после каждой итерации: краш на следующей issue не потеряет
     // сделанное, и ход работы виден в origin.
     pushBranch(branch);
@@ -340,4 +472,7 @@ console.log(`Milestone к обработке (по порядку): ${milestoneI
 for (const id of milestoneIds) {
   processMilestone(id);
 }
-console.log(`\n🏁 Все milestone (${milestoneIds.join(', ')}) обработаны.`);
+console.log(
+  `\n🏁 Все milestone (${milestoneIds.join(', ')}) обработаны.\n` +
+    `💰 Всего за прогон: ${fmtUsage(grandTotal)}`,
+);

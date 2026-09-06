@@ -325,3 +325,117 @@ export function reprocessMeetingFile(
     'POST',
   );
 }
+
+// ── Смена имени / пароля / аватара (`/users/me`, `/users/me/password`, `/users/me/avatar`) ──
+
+/**
+ * Запрос с JSON-телом к защищённому эндпоинту под `Authorization: Bearer <accessToken>`
+ * (`POST` / `PATCH`). Пустой ответ (200 без тела) → `undefined`. Бросает `ApiError`
+ * (`status === 0` — сеть недоступна).
+ */
+async function bearerJsonRequest<T>(
+  path: string,
+  accessToken: string,
+  method: 'POST' | 'PATCH',
+  body: unknown,
+): Promise<T> {
+  let response: Response;
+
+  try {
+    response = await fetch(`${API_URL}${path}`, {
+      method,
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    });
+  } catch {
+    throw networkError();
+  }
+
+  return (await readBodyOrThrow(response)) as T;
+}
+
+/**
+ * Подменяет текст `ApiError` понятным сообщением из `friendly` по HTTP-статусу;
+ * для статусов без своей записи (и для сетевой ошибки `status === 0`) оставляет
+ * исходное сообщение сервера.
+ */
+async function withFriendlyErrors<T>(
+  friendly: Record<number, string>,
+  run: () => Promise<T>,
+): Promise<T> {
+  try {
+    return await run();
+  } catch (error) {
+    if (error instanceof ApiError && error.status in friendly) {
+      throw new ApiError(error.status, [friendly[error.status]]);
+    }
+    throw error;
+  }
+}
+
+/**
+ * Смена отображаемого имени (`PATCH /users/me`, тело `{ name }`). Возвращает обновлённый
+ * профиль. `ApiError`: `400` — имя не 1..50 символов после trim, `401` — сессия истекла.
+ */
+export function updateProfileName(accessToken: string, name: string): Promise<Me> {
+  return withFriendlyErrors(
+    {
+      400: 'Имя должно быть от 1 до 50 символов.',
+      401: 'Сессия истекла — войдите заново.',
+    },
+    () => bearerJsonRequest<Me>('/users/me', accessToken, 'PATCH', { name }),
+  );
+}
+
+/**
+ * Смена пароля (`POST /users/me/password`). Текущая сессия (JWT) при этом не отзывается.
+ * `ApiError`: `400` — новый пароль короче 8 символов, `401` — текущий пароль неверен.
+ */
+export function changePassword(
+  accessToken: string,
+  input: { currentPassword: string; newPassword: string },
+): Promise<void> {
+  return withFriendlyErrors(
+    {
+      400: 'Новый пароль должен быть не короче 8 символов.',
+      401: 'Текущий пароль указан неверно.',
+    },
+    () => bearerJsonRequest<void>('/users/me/password', accessToken, 'POST', input),
+  );
+}
+
+/**
+ * Загрузка аватара (`PUT /users/me/avatar`, multipart, поле `file`). Возвращает обновлённый
+ * профиль с новым `avatarUrl`. `ApiError`: `400` — формат не JPEG/PNG/WebP, `413` — файл
+ * больше 5 МБ, `401` — сессия истекла.
+ */
+export function uploadAvatar(accessToken: string, file: File): Promise<Me> {
+  const form = new FormData();
+  form.append('file', file);
+
+  return withFriendlyErrors(
+    {
+      400: 'Загрузите изображение в формате JPEG, PNG или WebP.',
+      401: 'Сессия истекла — войдите заново.',
+      413: 'Файл слишком большой — максимум 5 МБ.',
+    },
+    async () => {
+      let response: Response;
+
+      try {
+        response = await fetch(`${API_URL}/users/me/avatar`, {
+          method: 'PUT',
+          headers: { Authorization: `Bearer ${accessToken}` },
+          body: form,
+        });
+      } catch {
+        throw networkError();
+      }
+
+      return (await readBodyOrThrow(response)) as Me;
+    },
+  );
+}

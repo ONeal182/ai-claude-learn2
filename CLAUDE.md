@@ -3,6 +3,15 @@
 Monorepo — pnpm workspaces + Turborepo. Node >= 24, pnpm 11 (`corepack enable`).
 This file is written in **English**; keep it that way.
 
+## Token economy
+
+- **Never read or grep wholesale:** `node_modules/` (~2 GB), `apps/web/.next/` (~350 MB), `apps/api/dist/`, `.turbo/`, `pnpm-lock.yaml` (~300 KB), `ralph.log` / `*.log`. The Prisma client is generated — read `apps/api/prisma/schema.prisma` (the source, one small file), not client output, and don't reconstruct models from `apps/api/prisma/migrations/` SQL.
+- **Scope every search** to `apps/api/src` or `apps/web/src` (both small), not the repo root. Skill data under `.agents/skills/**/data/` holds multi-hundred-KB catalogs — reach it through the skill, never a raw read.
+- **API is CQRS:** each domain is `apps/api/src/<domain>/` with `commands/handlers`, `queries/handlers`, `dto`, `events`. Jump straight to the domain folder instead of grepping.
+- **Read the package `CLAUDE.md`** (`apps/api`, `apps/web`) before exploring that app — it usually already answers the question.
+- **Don't repeat automation:** Prettier runs via the `PostToolUse` hook, so never run `pnpm format` after an edit; the `pre-commit` hook already runs lint / test / e2e.
+- Prefer `Grep` / `Glob` with a path filter and targeted line-range `Read`s over `cat`, `find` from root, or reading whole files.
+
 ### Keep command output small
 
 Default to the terse form; widen only when you actually need the detail.
@@ -12,6 +21,8 @@ Default to the terse form; widen only when you actually need the detail.
 - Sweep tests with `pnpm --filter api test -- --reporter=dot`; switch to the full reporter only for a file that failed.
 - `pnpm typecheck 2>&1 | tail -n 20`, `pnpm lint 2>&1 | tail -n 30` — the tail holds the errors.
 - Any other noisy command: add `--quiet` / `--silent` / `--reporter=dot` or pipe through `head` / `tail`.
+
+These forms drop context lines and error tails, so run the full command when you are debugging a specific failure.
 
 ## Rules for the agent
 
@@ -50,14 +61,3 @@ Run scripts with `pnpm <script>` — the list is in [`package.json`](package.jso
 ## Shared code
 
 Extract reusable logic into `packages/*` as `@repo/<name>` and wire it via `workspace:*`.
-
-## Token economy
-
-- **Never read or grep wholesale:** `node_modules/` (~2 GB), `apps/web/.next/` (~350 MB), `apps/api/dist/`, `.turbo/`, `pnpm-lock.yaml` (~300 KB), `ralph.log` / `*.log`. The Prisma client is generated — read `apps/api/prisma/schema.prisma` (the source, one small file), not client output, and don't reconstruct models from `apps/api/prisma/migrations/` SQL.
-- **Scope every search** to `apps/api/src` or `apps/web/src` (both small), not the repo root. Skill data under `.agents/skills/**/data/` holds multi-hundred-KB catalogs — reach it through the skill, never a raw read.
-- **API is CQRS:** each domain is `apps/api/src/<domain>/` with `commands/handlers`, `queries/handlers`, `dto`, `events`. Jump straight to the domain folder instead of grepping.
-- **Read the package `CLAUDE.md`** (`apps/api`, `apps/web`) before exploring that app — it usually already answers the question.
-- **Don't repeat automation:** Prettier runs via the `PostToolUse` hook, so never run `pnpm format` after an edit; the `pre-commit` hook already runs lint / test / e2e.
-- Prefer `Grep` / `Glob` with a path filter and targeted line-range `Read`s over `cat`, `find` from root, or reading whole files.
-
-These forms drop context lines and error tails, so run the full command when you are debugging a specific failure.

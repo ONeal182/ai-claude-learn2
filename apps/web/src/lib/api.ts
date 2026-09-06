@@ -126,6 +126,33 @@ export function getMeeting(id: string, accessToken: string): Promise<Meeting> {
   return bearerRequest<Meeting>(`/meetings/${encodeURIComponent(id)}`, accessToken);
 }
 
+// ── Профиль пользователя (`/users/me`) ───────────────────────────────────────
+
+/** Профиль текущего пользователя — ответ `GET /users/me` (даты — ISO-строки). */
+export interface Me {
+  id: string;
+  email: string;
+  name: string | null;
+  avatarUrl: string | null;
+  createdAt: string;
+}
+
+/** Профиль текущего пользователя. Требует `Authorization: Bearer <accessToken>` (`JwtAuthGuard`). */
+export function getMe(accessToken: string): Promise<Me> {
+  return bearerRequest<Me>('/users/me', accessToken);
+}
+
+/**
+ * Абсолютный URL аватара: API отдаёт `avatarUrl` относительным путём
+ * (`/users/avatars/<key>`), а картинку раздаёт сам сервис — дописываем `API_URL`.
+ * `null` (аватара нет) и уже абсолютные ссылки возвращаются без изменений.
+ */
+export function avatarSrc(avatarUrl: string | null | undefined): string | null {
+  if (!avatarUrl) return null;
+  if (/^https?:\/\//i.test(avatarUrl)) return avatarUrl;
+  return `${API_URL}${avatarUrl}`;
+}
+
 // ── Файлы встречи (`/meetings/:id/files`) ─────────────────────────────────────
 
 /** Вид файла: `recording` уходит в фоновую обработку, `attachment` — нет. */

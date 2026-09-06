@@ -134,7 +134,7 @@ test/
 ├── auth.e2e-spec.ts         # e2e: register/login
 ├── meeting.e2e-spec.ts      # e2e: CRUD встреч под Bearer-токеном
 ├── meeting-files.e2e-spec.ts # e2e: загрузка/список/скачивание/удаление; отказы 401/413/400/404; фоновая обработка recording (pending→done + транскрипт), reprocess (200 только для failed, иначе 409); сквозной сценарий пути UI одним прогоном
-└── profile.e2e-spec.ts      # e2e: GET/PATCH /users/me под Bearer-токеном; 401 без токена; PATCH — 400 для пустого (после trim) и >50 символов имени без изменения в БД; POST /users/me/password — смена по верному currentPassword (login по старому → 401, по новому → 200), неверный currentPassword → 400/401 без изменения, короткий newPassword → 400, старый accessToken после смены остаётся валиден
+└── profile.e2e-spec.ts      # e2e: GET/PATCH /users/me под Bearer-токеном; 401 без токена; PATCH — 400 для пустого (после trim) и >50 символов имени без изменения в БД; POST /users/me/password — смена по верному currentPassword (login по старому → 401, по новому → 200), неверный currentPassword → 401 без изменения (тест допускает 400/401), короткий newPassword → 400, старый accessToken после смены остаётся валиден
 ```
 
 ## Соглашения

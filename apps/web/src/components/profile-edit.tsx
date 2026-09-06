@@ -22,6 +22,38 @@ import { Avatar } from '@/components/avatar';
 const CONTROL_HEIGHT = 'min-h-11';
 const AVATAR_SIZE = 72;
 
+const MAX_NAME_LENGTH = 50;
+const MIN_PASSWORD_LENGTH = 8;
+const ACCEPTED_AVATAR_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+const MAX_AVATAR_BYTES = 5 * 1024 * 1024;
+
+/** Имя после trim: 1..50 символов. `null` — валидно. */
+function validateName(value: string): string | null {
+  const trimmed = value.trim();
+  if (!trimmed) return 'Введите имя';
+  if (trimmed.length > MAX_NAME_LENGTH) return `Имя не длиннее ${MAX_NAME_LENGTH} символов`;
+  return null;
+}
+
+/** Новый пароль: не короче 8 символов. `null` — валидно. */
+function validateNewPassword(value: string): string | null {
+  if (!value) return 'Введите новый пароль';
+  return value.length >= MIN_PASSWORD_LENGTH
+    ? null
+    : `Пароль должен быть не короче ${MIN_PASSWORD_LENGTH} символов`;
+}
+
+/** Файл аватара: тип JPEG/PNG/WebP и размер ≤ 5 МБ. `null` — валидно. */
+function validateAvatarFile(file: File): string | null {
+  if (!ACCEPTED_AVATAR_TYPES.includes(file.type)) {
+    return 'Выберите изображение в формате JPEG, PNG или WebP.';
+  }
+  if (file.size > MAX_AVATAR_BYTES) {
+    return 'Файл больше 5 МБ — выберите поменьше.';
+  }
+  return null;
+}
+
 /** Общее состояние «Сохранить» для блока формы: ожидание + свои сообщения успеха/ошибки. */
 function useSaveState() {
   const [isPending, setPending] = useState(false);
@@ -31,6 +63,12 @@ function useSaveState() {
   function reset() {
     setOkMessage(null);
     setErrorMessage(null);
+  }
+
+  /** Показать ошибку блока без запроса (клиентская валидация). */
+  function fail(message: string) {
+    setOkMessage(null);
+    setErrorMessage(message);
   }
 
   async function run(action: () => Promise<unknown>, successMessage: string) {
@@ -46,7 +84,7 @@ function useSaveState() {
     }
   }
 
-  return { isPending, okMessage, errorMessage, run, reset };
+  return { isPending, okMessage, errorMessage, run, reset, fail };
 }
 
 /** Строка успеха/ошибки под конкретным блоком. Текст всегда `text-foreground` — контраст ≥ 4.5:1. */
@@ -113,7 +151,8 @@ function NameBlock({ accessToken, initialName }: { accessToken: string; initialN
               isRequired
               name="name"
               value={name}
-              maxLength={50}
+              maxLength={MAX_NAME_LENGTH}
+              validate={validateName}
               onChange={(value) => {
                 setName(value);
                 reset();
@@ -145,7 +184,7 @@ function NameBlock({ accessToken, initialName }: { accessToken: string; initialN
 /** Блок загрузки аватара: выбор файла, превью выбранного изображения, «Сохранить». */
 function AvatarBlock({ accessToken, me }: { accessToken: string; me: Me }) {
   const [file, setFile] = useState<File | null>(null);
-  const { isPending, okMessage, errorMessage, run, reset } = useSaveState();
+  const { isPending, okMessage, errorMessage, run, reset, fail } = useSaveState();
 
   // Превью выбранного файла — object URL считаем при рендере (без setState в эффекте),
   // а эффект лишь освобождает его при смене файла/размонтировании.
@@ -157,12 +196,25 @@ function AvatarBlock({ accessToken, me }: { accessToken: string; me: Me }) {
 
   function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
     reset();
-    setFile(event.target.files?.[0] ?? null);
+    const selected = event.target.files?.[0] ?? null;
+    const validationError = selected ? validateAvatarFile(selected) : null;
+    if (validationError) {
+      event.target.value = '';
+      setFile(null);
+      fail(validationError);
+      return;
+    }
+    setFile(selected);
   }
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!file) return;
+    const validationError = validateAvatarFile(file);
+    if (validationError) {
+      fail(validationError);
+      return;
+    }
     void run(async () => {
       await uploadAvatar(accessToken, file);
       setFile(null);
@@ -305,7 +357,8 @@ function PasswordBlock({ accessToken }: { accessToken: string }) {
               name="newPassword"
               type="password"
               value={newPassword}
-              minLength={8}
+              minLength={MIN_PASSWORD_LENGTH}
+              validate={validateNewPassword}
               onChange={(value) => {
                 setNewPassword(value);
                 reset();
@@ -313,7 +366,7 @@ function PasswordBlock({ accessToken }: { accessToken: string }) {
             >
               <Label>Новый пароль</Label>
               <Input className={CONTROL_HEIGHT} variant="secondary" autoComplete="new-password" />
-              <Description>Минимум 8 символов</Description>
+              <Description>Минимум {MIN_PASSWORD_LENGTH} символов</Description>
               <FieldError />
             </TextField>
 
@@ -322,6 +375,7 @@ function PasswordBlock({ accessToken }: { accessToken: string }) {
               name="confirmPassword"
               type="password"
               value={confirmPassword}
+              validate={(value) => (value === newPassword ? null : 'Пароли не совпадают')}
               onChange={(value) => {
                 setConfirmPassword(value);
                 reset();

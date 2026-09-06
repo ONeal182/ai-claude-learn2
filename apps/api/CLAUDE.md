@@ -59,9 +59,13 @@ src/
 │   ├── auth.module.ts      # CqrsModule.forRoot() + JwtModule.registerAsync + регистрация хендлеров; экспортирует JwtAuthGuard и JwtModule
 │   ├── auth.controller.ts  # POST /auth/register, /auth/login — только CommandBus.execute(...)
 │   ├── commands/
-│   │   ├── impl/            # RegisterCommand, LoginCommand — { email, password }
+│   │   ├── impl/            # RegisterCommand, LoginCommand — { email, password };
+│   │   │                    # ChangePasswordCommand — { userId, currentPassword, newPassword }
 │   │   └── handlers/        # RegisterHandler, LoginHandler — хеширование/сверка пароля (bcryptjs), поиск/создание
-│   │                        # User через QueryBus/CommandBus → users-модуль, публикуют события, выпускают токен
+│   │                        # User через QueryBus/CommandBus → users-модуль, публикуют события, выпускают токен;
+│   │                        # ChangePasswordHandler — читает User (FindUserByIdQuery), сверяет currentPassword
+│   │                        # (compare, иначе UnauthorizedException), хеширует новый (hash, 10 rounds),
+│   │                        # зовёт UpdateUserPasswordCommand; JWT не отзывает
 │   ├── events/
 │   │   ├── impl/            # UserRegisteredEvent, UserLoggedInEvent
 │   │   └── handlers/        # UserRegisteredHandler, UserLoggedInHandler — сейчас только логируют

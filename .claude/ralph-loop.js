@@ -2,8 +2,17 @@
 // Внешний оркестратор Ralph loop.
 //
 // Запускать НАПРЯМУЮ пользователем (не как Claude Code hook):
-//   node .claude/ralph-loop.js
-//   nohup node .claude/ralph-loop.js > ralph.log 2>&1 &   # в фоне
+//   node .claude/ralph-loop.js              # id майлстонов берутся из ralph.config.json
+//   node .claude/ralph-loop.js 5 6 7        # id майлстонов из аргументов (переопределяют конфиг)
+//   nohup node .claude/ralph-loop.js 5 6 > ralph.log 2>&1 &   # в фоне
+//
+// Milestone задаётся ЧИСЛОВЫМ id (number из URL майлстона / `gh api .../milestones`),
+// а НЕ названием. Можно передать несколько id — они обрабатываются строго
+// последовательно: для каждого создаётся своя ветка `${branchPrefix}${id}` от
+// baseBranch, гоняется цикл по его открытым issue, а после закрытия последней
+// issue создаётся отдельный PR и запускается code review. Затем оркестратор
+// переходит к следующему id. maxIterations — лимит на КАЖДЫЙ milestone
+// (счётчик сбрасывается при переходе к следующему).
 //
 // Claude Code hooks (Stop и т.п.) ограничены по времени выполнения (по
 // умолчанию порядка минуты) и не предназначены для синхронного ожидания
@@ -18,14 +27,31 @@ const path = require('path');
 
 const configPath = path.join(__dirname, 'ralph.config.json');
 const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
-const { milestone, branch, maxIterations, maxTurns } = config;
+const { baseBranch = 'main', branchPrefix = 'ralph/milestone-', maxIterations, maxTurns } = config;
 
-if (!milestone) {
-  console.error('ralph.config.json: не задан milestone');
+// id майлстонов: аргументы командной строки важнее поля "milestones" в конфиге.
+const cliIds = process.argv.slice(2);
+const rawIds = cliIds.length > 0 ? cliIds : (config.milestones ?? []);
+const milestoneIds = rawIds.map((v) => Number(String(v).trim()));
+
+if (milestoneIds.length === 0) {
+  const hint = config.milestone
+    ? ' (поле "milestone" со строкой-названием больше не поддерживается — используйте "milestones": [<id>, ...] или аргументы командной строки)'
+    : '';
+  console.error(
+    'Не заданы milestone id: передайте их аргументами (node .claude/ralph-loop.js 5 6) ' +
+      `или полем "milestones" в .claude/ralph.config.json${hint}`,
+  );
   process.exit(1);
 }
-if (!branch) {
-  console.error('ralph.config.json: не задан branch');
+if (milestoneIds.some((n) => !Number.isInteger(n) || n <= 0)) {
+  console.error(
+    `milestone id должны быть положительными целыми числами, получено: ${rawIds.join(', ')}`,
+  );
+  process.exit(1);
+}
+if (!maxIterations || !maxTurns) {
+  console.error('ralph.config.json: не заданы maxIterations / maxTurns');
   process.exit(1);
 }
 
@@ -48,60 +74,144 @@ function runClaudeStreamed(prompt, extraArgs) {
   execSync(cmd, { stdio: 'inherit', shell: '/bin/bash' });
 }
 
-const branchExists = runOut(`git branch --list ${JSON.stringify(branch)}`).trim().length > 0;
-run(branchExists ? `git checkout ${branch}` : `git checkout -b ${branch}`);
-
 const SKIP_FLAG = '--dangerously-skip-permissions';
 
-let iterationsUsed = 0;
-
-// while(true), а не for(i<=maxIterations): проверка "issues кончились - пора
-// делать PR" не должна зависеть от того, остался ли ещё бюджет итераций.
-// Иначе если число открытых issue ровно совпадёт с maxIterations, цикл
-// выйдет по лимиту сразу после закрытия последней issue и ни разу не
-// проверит, что milestone уже завершён - PR не создастся.
-while (true) {
-  const issues = JSON.parse(
-    runOut(
-      `gh issue list --milestone ${JSON.stringify(milestone)} --state open --json number,title`,
-    ),
-  ).sort((a, b) => a.number - b.number);
-
-  if (issues.length === 0) {
-    console.log(`✅ Milestone завершён после ${iterationsUsed} итераций. Создаём PR.`);
-    const prUrl = runOut(
-      `gh pr create --title ${JSON.stringify(`feat: ${milestone}`)} --body ${JSON.stringify(`Closes all issues in milestone: ${milestone}`)} --base main --head ${branch}`,
-    ).trim();
-    runClaudeStreamed(
-      `Сделай детальное code review PR ${prUrl}. Проверь архитектуру, безопасность, производительность и соответствие PRD. Оставь комментарии прямо в PR через gh cli.`,
-      `--model claude-opus-5 ${SKIP_FLAG}`,
-    );
-    process.exit(0);
-  }
-
-  if (iterationsUsed >= maxIterations) {
-    console.log(
-      `⏸ Достигнут лимит итераций (${maxIterations}), открытых issue ещё ${issues.length}. Запустите скрипт снова, чтобы продолжить.`,
-    );
-    process.exit(0);
-  }
-
-  const next = issues[0];
-  const prompt = config.prompt
-    .replace('{issue}', next.number)
-    .replace('{milestone}', milestone)
-    .replace('{branch}', branch);
-
-  iterationsUsed++;
-  console.log(
-    `🔄 Итерация ${iterationsUsed}/${maxIterations}. Открытых issue: ${issues.length}. Следующий: #${next.number} ${next.title}`,
-  );
+// Резолвит числовой id майлстона в его название через GitHub API.
+// Название нужно только для читаемого промпта и заголовка PR; фильтрация
+// issue идёт строго по id.
+function resolveMilestoneTitle(id) {
   try {
-    runClaudeStreamed(prompt, `--max-turns ${maxTurns} ${SKIP_FLAG}`);
-  } catch (err) {
+    return runOut(
+      `gh api ${JSON.stringify(`repos/{owner}/{repo}/milestones/${id}`)} --jq .title`,
+    ).trim();
+  } catch {
     console.error(
-      `\n🛑 Итерация ${iterationsUsed} (issue #${next.number}) упала с ошибкой, останавливаюсь без перехода к следующей:\n${err.message}`,
+      `Не удалось получить milestone #${id} через gh api — проверьте id и доступ к репозиторию.`,
     );
     process.exit(1);
   }
 }
+
+function branchExists(branch) {
+  return runOut(`git branch --list ${JSON.stringify(branch)}`).trim().length > 0;
+}
+
+function ensureBranch(branch) {
+  if (branchExists(branch)) {
+    run(`git checkout ${JSON.stringify(branch)}`);
+  } else {
+    run(`git checkout ${JSON.stringify(baseBranch)}`);
+    run(`git checkout -b ${JSON.stringify(branch)}`);
+  }
+}
+
+// Открытые issue майлстона, по возрастанию номера. `--state open` гарантирует,
+// что уже закрытые задачи в работу не попадут (их не берём и не переоткрываем).
+function fetchOpenIssues(id) {
+  return JSON.parse(
+    runOut(`gh issue list --milestone ${id} --state open --json number,title`),
+  ).sort((a, b) => a.number - b.number);
+}
+
+// Всего issue в майлстоне (открытых + закрытых) — чтобы отличить
+// "всё уже сделано" от "в майлстоне вообще нет задач".
+function countAllIssues(id) {
+  return JSON.parse(runOut(`gh issue list --milestone ${id} --state all --json number`)).length;
+}
+
+// Возвращает url уже открытого PR для ветки, либо null.
+function openPrUrl(branch) {
+  const out = runOut(`gh pr list --head ${JSON.stringify(branch)} --state open --json url`).trim();
+  const parsed = JSON.parse(out || '[]');
+  return parsed.length > 0 ? parsed[0].url : null;
+}
+
+function processMilestone(id) {
+  const title = resolveMilestoneTitle(id);
+  const branch = `${branchPrefix}${id}`;
+  const hadBranch = branchExists(branch);
+
+  // Защита: если открытых задач в майлстоне нет и ветку под него мы ещё не
+  // заводили (т.е. в этом прогоне по нему не работали) — майлстоун уже закрыт
+  // целиком или пуст. Пропускаем полностью: ни ветки, ни PR, ни review.
+  // Если ветка уже была — значит по майлстоуну шла работа в прошлом прогоне,
+  // и её надо довести до PR (ниже, в основном цикле).
+  if (!hadBranch && fetchOpenIssues(id).length === 0) {
+    const total = countAllIssues(id);
+    console.log(
+      total === 0
+        ? `⏭  Milestone #${id}: ${title} — в майлстоне нет задач. Пропускаем.`
+        : `⏭  Milestone #${id}: ${title} — все ${total} задач(и) уже закрыты. Пропускаем.`,
+    );
+    return;
+  }
+
+  console.log(`\n════════ Milestone #${id}: ${title}  →  ветка ${branch} ════════`);
+  ensureBranch(branch);
+
+  let iterationsUsed = 0;
+
+  // while(true), а не for(i<=maxIterations): проверка "issues кончились - пора
+  // делать PR" не должна зависеть от того, остался ли ещё бюджет итераций.
+  // Иначе если число открытых issue ровно совпадёт с maxIterations, цикл
+  // выйдет по лимиту сразу после закрытия последней issue и ни разу не
+  // проверит, что milestone уже завершён - PR не создастся.
+  while (true) {
+    const issues = fetchOpenIssues(id);
+
+    if (issues.length === 0) {
+      let prUrl = openPrUrl(branch);
+      if (prUrl) {
+        console.log(
+          `✅ Milestone #${id} завершён за ${iterationsUsed} итераций. PR уже открыт: ${prUrl}`,
+        );
+      } else {
+        console.log(`✅ Milestone #${id} завершён за ${iterationsUsed} итераций. Создаём PR.`);
+        prUrl = runOut(
+          `gh pr create --title ${JSON.stringify(`feat: ${title}`)} --body ${JSON.stringify(`Closes all issues in milestone #${id}: ${title}`)} --base ${JSON.stringify(baseBranch)} --head ${JSON.stringify(branch)}`,
+        ).trim();
+      }
+      runClaudeStreamed(
+        `Сделай детальное code review PR ${prUrl}. Проверь архитектуру, безопасность, производительность и соответствие PRD. Оставь комментарии прямо в PR через gh cli.`,
+        `--model claude-opus-5 ${SKIP_FLAG}`,
+      );
+      return;
+    }
+
+    if (iterationsUsed >= maxIterations) {
+      console.log(
+        `⏸ Milestone #${id}: достигнут лимит итераций (${maxIterations}), открытых issue ещё ${issues.length}. ` +
+          `Запустите скрипт снова с этим id, чтобы продолжить.`,
+      );
+      process.exit(0);
+    }
+
+    const next = issues[0];
+    const prompt = config.prompt
+      .replaceAll('{issue}', String(next.number))
+      .replaceAll('{milestone}', title)
+      .replaceAll('{milestoneId}', String(id))
+      .replaceAll('{branch}', branch);
+
+    iterationsUsed++;
+    console.log(
+      `🔄 Milestone #${id} · итерация ${iterationsUsed}/${maxIterations}. ` +
+        `Открытых issue: ${issues.length}. Следующий: #${next.number} ${next.title}`,
+    );
+    try {
+      runClaudeStreamed(prompt, `--max-turns ${maxTurns} ${SKIP_FLAG}`);
+    } catch (err) {
+      console.error(
+        `\n🛑 Milestone #${id}, итерация ${iterationsUsed} (issue #${next.number}) упала с ошибкой, ` +
+          `останавливаюсь без перехода к следующей:\n${err.message}`,
+      );
+      process.exit(1);
+    }
+  }
+}
+
+console.log(`Milestone к обработке (по порядку): ${milestoneIds.join(', ')}`);
+for (const id of milestoneIds) {
+  processMilestone(id);
+}
+console.log(`\n🏁 Все milestone (${milestoneIds.join(', ')}) обработаны.`);

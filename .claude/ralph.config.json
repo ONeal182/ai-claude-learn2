@@ -1,7 +1,8 @@
 {
-  "milestone": "Фаза 1: API — поля профиля, чтение профиля и смена имени (Tracer Bullet)",
+  "milestones": [5],
+  "baseBranch": "main",
+  "branchPrefix": "ralph/milestone-",
   "maxIterations": 5,
   "maxTurns": 50,
-  "branch": "feature/phase-5",
-  "prompt": "Прочитай .claude/ralph.md и следуй правилам оттуда. Реализуй Issue #{issue} из milestone '{milestone}' в ветке '{branch}'."
+  "prompt": "Прочитай .claude/ralph.md и следуй правилам оттуда. Реализуй Issue #{issue} из milestone '{milestone}' (id {milestoneId}) в ветке '{branch}'."
 }

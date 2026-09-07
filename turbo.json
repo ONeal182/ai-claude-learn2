@@ -12,7 +12,8 @@
     "STT_ENGINE",
     "WHISPER_BIN_PATH",
     "WHISPER_MODEL_PATH",
-    "WHISPER_LANGUAGE"
+    "WHISPER_LANGUAGE",
+    "WHISPER_TMP_DIR"
   ],
   "tasks": {
     "build": {

@@ -63,6 +63,8 @@ export class MeetingFileProcessingQueue implements OnModuleDestroy {
       const transcriptText = await this.stt.transcribe({
         originalName: file.originalName,
         size: file.size,
+        storageKey: file.storageKey,
+        mimeType: file.mimeType,
       });
       if (this.stopped) return;
 

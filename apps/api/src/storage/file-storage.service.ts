@@ -1,8 +1,8 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { BadRequestException, Injectable, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { createReadStream, type ReadStream } from 'node:fs';
 import { access, mkdir, rm, writeFile } from 'node:fs/promises';
-import { isAbsolute, join, resolve } from 'node:path';
+import { isAbsolute, resolve, sep } from 'node:path';
 
 /**
  * Единственная точка работы с файловой системой для загруженных бинарников
@@ -48,7 +48,35 @@ export class FileStorageService implements OnModuleInit {
     await rm(this.resolvePath(storageKey), { force: true });
   }
 
+  /**
+   * Абсолютный путь к бинарнику по ключу — для потребителей, которым нужен путь на диске
+   * (STT-движок отдаёт файл внешнему процессу). Тонкая обёртка над тем же барьером
+   * `resolvePath`, что и у `save`/`exists`/`createReadStream`/`remove`.
+   */
+  absolutePath(storageKey: string): string {
+    return this.resolvePath(storageKey);
+  }
+
+  /**
+   * Единственная точка построения пути. `storageKey` обязан быть одиночным сегментом
+   * (как `randomUUID` — так его и формируют все вызывающие стороны): пустой ключ, `..`,
+   * разделители пути и абсолютный путь отклоняются, а собранный путь не должен выходить
+   * за пределы `baseDir` (defense-in-depth — барьер не зависит от вызывающей стороны).
+   */
   private resolvePath(storageKey: string): string {
-    return join(this.baseDir, storageKey);
+    if (
+      storageKey.length === 0 ||
+      storageKey === '..' ||
+      storageKey.includes('/') ||
+      storageKey.includes('\\') ||
+      isAbsolute(storageKey)
+    ) {
+      throw new BadRequestException('Некорректный ключ файла');
+    }
+    const full = resolve(this.baseDir, storageKey);
+    if (full !== this.baseDir && !full.startsWith(this.baseDir + sep)) {
+      throw new BadRequestException('Некорректный ключ файла');
+    }
+    return full;
   }
 }

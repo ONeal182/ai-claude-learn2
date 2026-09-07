@@ -6,7 +6,15 @@ import { StorageModule } from '../storage/storage.module.js';
 import { ALLOWED_UPLOAD_MIME_TYPES } from './allowed-mime.js';
 import { MeetingFileController } from './meeting-file.controller.js';
 import { MeetingFileProcessingQueue } from './processing/meeting-file-processing.queue.js';
-import { STT_SERVICE, StubSttService } from './processing/stt.service.js';
+import { PROCESS_RUNNER, SpawnProcessRunner } from './processing/process-runner.js';
+import {
+  DEFAULT_STT_ENGINE,
+  STT_SERVICE,
+  StubSttService,
+  type SttEngine,
+  type SttService,
+} from './processing/stt.service.js';
+import { WhisperSttService } from './processing/whisper-stt.service.js';
 import { CommandHandlers } from './commands/handlers/index.js';
 import { QueryHandlers } from './queries/handlers/index.js';
 import { EventHandlers } from './events/handlers/index.js';
@@ -45,7 +53,26 @@ const DEFAULT_MAX_UPLOAD_SIZE_BYTES = 26_214_400;
   controllers: [MeetingFileController],
   providers: [
     MeetingFileProcessingQueue,
-    { provide: STT_SERVICE, useClass: StubSttService },
+    { provide: PROCESS_RUNNER, useClass: SpawnProcessRunner },
+    StubSttService,
+    WhisperSttService,
+    {
+      // Выбор движка по `STT_ENGINE` (`whisper` | `stub`). Дефолт на Фазе 1 — `stub`:
+      // безопасно для локалки без установленного whisper.cpp. Фаза 4 переключит на `whisper`.
+      // Обе реализации инстанцирует Nest (со своими зависимостями) — фабрика лишь выбирает.
+      provide: STT_SERVICE,
+      inject: [ConfigService, StubSttService, WhisperSttService],
+      useFactory: (
+        config: ConfigService,
+        stub: StubSttService,
+        whisper: WhisperSttService,
+      ): SttService => {
+        const engine = (config.get<string>('STT_ENGINE') ?? DEFAULT_STT_ENGINE) as SttEngine;
+        if (engine === 'whisper') return whisper;
+        if (engine === 'stub') return stub;
+        throw new Error(`Unknown STT_ENGINE: ${engine}`);
+      },
+    },
     ...CommandHandlers,
     ...QueryHandlers,
     ...EventHandlers,

@@ -1,9 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { BadRequestException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { randomUUID } from 'node:crypto';
 import { mkdtemp, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
-import { join } from 'node:path';
+import { join, sep } from 'node:path';
 import { buffer } from 'node:stream/consumers';
 import { setTimeout as delay } from 'node:timers/promises';
 import { FileStorageService } from './file-storage.service.js';
@@ -65,5 +66,27 @@ describe('FileStorageService', () => {
     await storage.save(key, Buffer.from('новое', 'utf8'));
 
     expect((await readAll(key)).toString('utf8')).toBe('новое');
+  });
+
+  // absolutePath — для потребителей, которым нужен путь на диске (STT-движок отдаёт файл
+  // внешнему процессу). Барьер: ключ должен быть одиночным сегментом (как `randomUUID`).
+  describe('absolutePath', () => {
+    it('валидный ключ → абсолютный путь внутри baseDir', () => {
+      const key = randomUUID();
+
+      expect(storage.absolutePath(key)).toBe(join(baseDir, key));
+    });
+
+    it.each([
+      ['пустой ключ', ''],
+      ['родительский каталог', '..'],
+      ['обход вверх', `..${sep}..${sep}etc${sep}passwd`],
+      ['вложенный путь', `sub${sep}file`],
+      ['слэш', 'a/b'],
+      ['обратный слэш', 'a\\b'],
+      ['абсолютный путь', `${sep}etc${sep}passwd`],
+    ])('отклоняет %s', (_label, key) => {
+      expect(() => storage.absolutePath(key)).toThrow(BadRequestException);
+    });
   });
 });

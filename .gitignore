@@ -43,6 +43,9 @@ pnpm-debug.log*
 # uploaded meeting files (бинарники — вне git, только метаданные в БД)
 apps/api/uploads/
 
+# локальные модели whisper.cpp (ggml-*.bin — качаются отдельно, вне git)
+apps/api/.whisper/
+
 # editors / OS
 .DS_Store
 .idea/

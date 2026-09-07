@@ -17,6 +17,7 @@ env:
   WHISPER_BIN_PATH: ''
   WHISPER_MODEL_PATH: ''
   WHISPER_LANGUAGE: ''
+  WHISPER_TMP_DIR: ''
 
 jobs:
   ci:

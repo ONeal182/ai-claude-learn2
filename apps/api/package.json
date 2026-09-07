@@ -22,6 +22,7 @@
     "test:debug": "vitest --inspect-brk --no-file-parallelism",
     "test:e2e": "vitest run --config ./vitest.config.e2e.ts",
     "typecheck": "tsc --noEmit -p tsconfig.json",
+    "whisper:model": "node scripts/download-whisper-model.mjs",
     "clean": "rm -rf dist .turbo node_modules"
   },
   "dependencies": {

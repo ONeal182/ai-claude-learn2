@@ -3,14 +3,7 @@ import { Injectable } from '@nestjs/common';
 /** DI-токен для реализации распознавания речи — потребители зависят от интерфейса, не от класса. */
 export const STT_SERVICE = Symbol('STT_SERVICE');
 
-/** Движок распознавания: `whisper` — реальный whisper.cpp, `stub` — детерминированная заглушка. */
-export type SttEngine = 'whisper' | 'stub';
-
-/**
- * Дефолт `STT_ENGINE`, если переменная не задана.
- * Фаза 1: `stub` — безопасно для локалки без установленного whisper.cpp. Фаза 4 → `whisper`.
- */
-export const DEFAULT_STT_ENGINE: SttEngine = 'stub';
+// `SttEngine` / `DEFAULT_STT_ENGINE` / `resolveSttEngine` — в `stt-engine.ts` (модуль без зависимостей).
 
 export interface SttInput {
   originalName: string;

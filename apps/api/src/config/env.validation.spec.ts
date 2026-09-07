@@ -74,6 +74,10 @@ describe('validateEnv', () => {
     expect(() => validateEnv({ NODE_ENV: 'production' })).toThrow(/WHISPER_/);
   });
 
+  it('STT_ENGINE="" (пустая строка) → тоже дефолт whisper → в production без путей бросает', () => {
+    expect(() => validateEnv({ NODE_ENV: 'production', STT_ENGINE: '   ' })).toThrow(/WHISPER_/);
+  });
+
   it('возвращает переданный конфиг без изменений', () => {
     const config = { NODE_ENV: 'test', STT_ENGINE: 'stub', FOO: 'bar' };
     expect(validateEnv(config)).toEqual(config);

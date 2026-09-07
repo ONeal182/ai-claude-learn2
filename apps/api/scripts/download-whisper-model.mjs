@@ -9,7 +9,7 @@
  *   pnpm --filter api whisper:model
  */
 import { createWriteStream } from 'node:fs';
-import { mkdir, stat } from 'node:fs/promises';
+import { mkdir, rename, rm, stat } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 import { pipeline } from 'node:stream/promises';
 import { Readable } from 'node:stream';
@@ -36,19 +36,28 @@ async function main() {
 
   await mkdir(dirname(modelPath), { recursive: true });
 
+  // качаем во временный файл и переименовываем по успеху — оборванная загрузка не должна
+  // остаться под именем модели (следующий прогон счёл бы её готовой)
+  const partPath = `${modelPath}.part`;
   console.log(`Качаю ggml-tiny → ${modelPath}`);
-  const response = await fetch(MODEL_URL);
-  if (!response.ok || !response.body) {
-    throw new Error(`Загрузка не удалась: HTTP ${response.status} ${response.statusText}`);
+  try {
+    const response = await fetch(MODEL_URL);
+    if (!response.ok || !response.body) {
+      throw new Error(`Загрузка не удалась: HTTP ${response.status} ${response.statusText}`);
+    }
+
+    await pipeline(Readable.fromWeb(response.body), createWriteStream(partPath));
+
+    if ((await fileSize(partPath)) === 0) {
+      throw new Error('Скачан пустой файл модели');
+    }
+    await rename(partPath, modelPath);
+  } catch (error) {
+    await rm(partPath, { force: true });
+    throw error;
   }
 
-  await pipeline(Readable.fromWeb(response.body), createWriteStream(modelPath));
-
-  const size = await fileSize(modelPath);
-  if (size === 0) {
-    throw new Error('Скачан пустой файл модели');
-  }
-  console.log(`Готово: ${size} байт → ${modelPath}`);
+  console.log(`Готово: ${await fileSize(modelPath)} байт → ${modelPath}`);
 }
 
 main().catch((error) => {

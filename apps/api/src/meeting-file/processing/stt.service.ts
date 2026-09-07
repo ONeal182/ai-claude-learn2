@@ -3,8 +3,7 @@ import { Injectable } from '@nestjs/common';
 /** DI-токен для реализации распознавания речи — потребители зависят от интерфейса, не от класса. */
 export const STT_SERVICE = Symbol('STT_SERVICE');
 
-// Выбор движка вынесен в `stt-engine.ts` (без зависимостей) — реэкспорт для обратной совместимости.
-export { DEFAULT_STT_ENGINE, type SttEngine } from './stt-engine.js';
+// `SttEngine` / `DEFAULT_STT_ENGINE` / `resolveSttEngine` — в `stt-engine.ts` (модуль без зависимостей).
 
 export interface SttInput {
   originalName: string;

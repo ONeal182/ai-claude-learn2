@@ -8,7 +8,7 @@ import { MeetingFileController } from './meeting-file.controller.js';
 import { MeetingFileProcessingQueue } from './processing/meeting-file-processing.queue.js';
 import { PROCESS_RUNNER, SpawnProcessRunner } from './processing/process-runner.js';
 import { STT_SERVICE, StubSttService, type SttService } from './processing/stt.service.js';
-import { DEFAULT_STT_ENGINE, type SttEngine } from './processing/stt-engine.js';
+import { resolveSttEngine } from './processing/stt-engine.js';
 import { WhisperSttService } from './processing/whisper-stt.service.js';
 import { CommandHandlers } from './commands/handlers/index.js';
 import { QueryHandlers } from './queries/handlers/index.js';
@@ -52,8 +52,8 @@ const DEFAULT_MAX_UPLOAD_SIZE_BYTES = 26_214_400;
     StubSttService,
     WhisperSttService,
     {
-      // Выбор движка по `STT_ENGINE` (`whisper` | `stub`). Дефолт на Фазе 1 — `stub`:
-      // безопасно для локалки без установленного whisper.cpp. Фаза 4 переключит на `whisper`.
+      // Выбор движка по `STT_ENGINE` (`whisper` | `stub`, дефолт `DEFAULT_STT_ENGINE` = `whisper`).
+      // Нормализация значения — общий `resolveSttEngine` (тот же, что в `validateEnv`).
       // Обе реализации инстанцирует Nest (со своими зависимостями) — фабрика лишь выбирает.
       provide: STT_SERVICE,
       inject: [ConfigService, StubSttService, WhisperSttService],
@@ -62,10 +62,7 @@ const DEFAULT_MAX_UPLOAD_SIZE_BYTES = 26_214_400;
         stub: StubSttService,
         whisper: WhisperSttService,
       ): SttService => {
-        const engine = (config.get<string>('STT_ENGINE') ?? DEFAULT_STT_ENGINE) as SttEngine;
-        if (engine === 'whisper') return whisper;
-        if (engine === 'stub') return stub;
-        throw new Error(`Unknown STT_ENGINE: ${engine}`);
+        return resolveSttEngine(config.get<string>('STT_ENGINE')) === 'whisper' ? whisper : stub;
       },
     },
     ...CommandHandlers,

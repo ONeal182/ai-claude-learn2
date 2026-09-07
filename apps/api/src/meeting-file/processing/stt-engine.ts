@@ -12,3 +12,18 @@ export type SttEngine = 'whisper' | 'stub';
  * локальный dev без движка получает `warn` и может явно выставить `STT_ENGINE=stub`.
  */
 export const DEFAULT_STT_ENGINE: SttEngine = 'whisper';
+
+const STT_ENGINES: readonly SttEngine[] = ['whisper', 'stub'];
+
+/**
+ * Единая нормализация значения `STT_ENGINE` для фабрики `STT_SERVICE` и `validateEnv` —
+ * иначе `||`/`??` и trim/не-trim расходятся (пустая строка → фабрика падала `Unknown`).
+ * Пусто / пробелы → `DEFAULT_STT_ENGINE`; неизвестное значение → `Error` (типоопечатка не должна
+ * тихо превращаться в дефолт).
+ */
+export function resolveSttEngine(raw: string | undefined): SttEngine {
+  const value = (raw ?? '').trim();
+  if (!value) return DEFAULT_STT_ENGINE;
+  if ((STT_ENGINES as readonly string[]).includes(value)) return value as SttEngine;
+  throw new Error(`Unknown STT_ENGINE: "${raw}" (ожидается ${STT_ENGINES.join(' | ')} или пусто)`);
+}

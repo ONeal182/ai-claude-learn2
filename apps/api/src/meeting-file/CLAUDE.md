@@ -38,10 +38,11 @@ mid-processing surfaces as Prisma `P2025` and is swallowed. Durability across re
 guaranteed — stuck `pending`/`processing` rows are not resumed.
 
 **Engine selection.** `SttService` (token `STT_SERVICE`) has two implementations, chosen by a
-`useFactory` in `MeetingFileModule` keyed on `STT_ENGINE` (`whisper` | `stub`); the default when the
-var is unset is `DEFAULT_STT_ENGINE` in `processing/stt-engine.ts` — **`whisper`** since phase 4.
-`stt-engine.ts` is dependency-free so both `meeting-file/` and `config/` (`validateEnv`) can import it
-without coupling layers.
+`useFactory` in `MeetingFileModule` keyed on `STT_ENGINE` (`whisper` | `stub`). `processing/stt-engine.ts`
+is dependency-free (so both the factory and `config/`'s `validateEnv` import it without coupling
+layers) and owns the single resolver `resolveSttEngine(raw)`: blank/whitespace → `DEFAULT_STT_ENGINE`
+(**`whisper`** since phase 4), an unknown value → `throw`. Use it on both sides — never re-derive with
+ad-hoc `??`/`||`.
 
 - `StubSttService` — deterministic stub, transcript derived from file metadata, no content read, no
   `NODE_ENV` branching. Used in every e2e run via `.overrideProvider(STT_SERVICE)` (a double that

@@ -123,9 +123,9 @@ src/
     ├── allowed-mime.ts           # ALLOWED_UPLOAD_MIME_TYPES — белый список mime (единый на recording/attachment)
     ├── attachment-disposition.ts # attachmentDisposition(name) — значение Content-Disposition: filename* (UTF-8) + ASCII-фолбэк
     ├── processing/
-    │   ├── stt-engine.ts         # SttEngine + DEFAULT_STT_ENGINE ('whisper' с Фазы 4); без зависимостей — общий для meeting-file/ и config/
+    │   ├── stt-engine.ts         # SttEngine + DEFAULT_STT_ENGINE ('whisper' с Фазы 4) + resolveSttEngine (пусто→дефолт, неизвестное→throw); без зависимостей — общий для фабрики STT_SERVICE и validateEnv
     │   ├── stt.service.ts        # токен STT_SERVICE + интерфейс SttService/SttInput (originalName, size, storageKey, mimeType, signal?);
-    │   │                         # StubSttService — детерминированная заглушка (транскрипт из метаданных); реэкспорт SttEngine/DEFAULT_STT_ENGINE из stt-engine.ts
+    │   │                         # StubSttService — детерминированная заглушка (транскрипт из метаданных)
     │   ├── process-runner.ts     # токен PROCESS_RUNNER + SpawnProcessRunner — обёртка child_process.spawn (stdout/stderr в UTF-8,
     │   │                         # reject по ненулевому коду / ENOENT / убит сигналом (code === null)); signal → spawn (по abort Node шлёт SIGTERM),
     │   │                         # если процесс не умер за killGraceMs (деф. 3с) — добивающий SIGKILL
@@ -172,7 +172,7 @@ scripts/
 - Общая библиотека — `pnpm exec nest g library <name>`; path-алиасы из `tsconfig.json` резолвятся в тестах через `vite-tsconfig-paths`.
 - `strict: true`, но `strictPropertyInitialization: false` (под DI и декораторы).
 - vitest с `globals: true` — `describe/it/expect` без импорта; типы через `types: ["vitest/globals", "node"]`.
-- Порт и окружение — из `.env` (`PORT`, `NODE_ENV`, `DATABASE_URL`, `JWT_SECRET`, `JWT_EXPIRES_IN`, `UPLOADS_DIR`, `MAX_UPLOAD_SIZE_BYTES`, `AVATAR_MAX_UPLOAD_SIZE_BYTES`, `STT_ENGINE`, `WHISPER_BIN_PATH`, `WHISPER_MODEL_PATH`, `WHISPER_LANGUAGE`, `WHISPER_TIMEOUT_MS`, `WHISPER_TMP_DIR`); шаблон — `.env.example`. Загружается через `ConfigModule.forRoot({ isGlobal: true, validate: validateEnv })` в `AppModule`. `validateEnv` (`src/config/env.validation.ts`) — единая точка boot-time проверок окружения: сейчас при `STT_ENGINE=whisper` (в т.ч. по дефолту) требует существующие `WHISPER_BIN_PATH`/`WHISPER_MODEL_PATH` — в `production` `throw`, вне — `Logger.warn`. Читать конфиг только через `ConfigService`, не `process.env` напрямую. Новая env-переменная — сразу в трёх местах: `.env.example`, `turbo.json` → `globalPassThroughEnv`, `.github/workflows/ci.yml` → `env`.
+- Порт и окружение — из `.env` (`PORT`, `NODE_ENV`, `DATABASE_URL`, `JWT_SECRET`, `JWT_EXPIRES_IN`, `UPLOADS_DIR`, `MAX_UPLOAD_SIZE_BYTES`, `AVATAR_MAX_UPLOAD_SIZE_BYTES`, `STT_ENGINE`, `WHISPER_BIN_PATH`, `WHISPER_MODEL_PATH`, `WHISPER_LANGUAGE`, `WHISPER_TIMEOUT_MS`, `WHISPER_TMP_DIR`); шаблон — `.env.example`. Загружается через `ConfigModule.forRoot({ isGlobal: true, validate: validateEnv })` в `AppModule`. `validateEnv` (`src/config/env.validation.ts`) — boot-time проверка окружения (пока только STT-движок; `JWT_SECRET` по-прежнему на ленивом `getOrThrow` в `auth.module.ts`): при `STT_ENGINE=whisper` (в т.ч. по дефолту) требует существующие `WHISPER_BIN_PATH`/`WHISPER_MODEL_PATH` — в `production` `throw`, вне — `Logger.warn`. Читать конфиг только через `ConfigService`, не `process.env` напрямую. Новая env-переменная — сразу в трёх местах: `.env.example`, `turbo.json` → `globalPassThroughEnv`, `.github/workflows/ci.yml` → `env`.
 - CORS включён глобально в `main.ts` (`app.enableCors()`, все источники) — чтобы `apps/web` (порт 3000) ходил в API из браузера.
 - Билд-конфиг для сборки — `tsconfig.build.json`, выход в `dist/` (`deleteOutDir: true`).
 - Валидация DTO — глобальный `ValidationPipe` (`class-validator`/`class-transformer`), подключён через `APP_PIPE` в `AppModule` — работает и в реальном приложении, и в e2e-тестах, поднимающих `AppModule` напрямую через `Test.createTestingModule`.

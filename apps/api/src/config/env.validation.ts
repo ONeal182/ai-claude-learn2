@@ -1,6 +1,6 @@
 import { Logger } from '@nestjs/common';
 import { existsSync } from 'node:fs';
-import { DEFAULT_STT_ENGINE } from '../meeting-file/processing/stt-engine.js';
+import { resolveSttEngine } from '../meeting-file/processing/stt-engine.js';
 
 /**
  * Валидатор окружения для `ConfigModule.forRoot({ validate })` — выполняется один раз на старте.
@@ -15,8 +15,9 @@ import { DEFAULT_STT_ENGINE } from '../meeting-file/processing/stt-engine.js';
 export function validateEnv(config: Record<string, unknown>): Record<string, unknown> {
   const problems: string[] = [];
 
-  const rawEngine = typeof config.STT_ENGINE === 'string' ? config.STT_ENGINE.trim() : '';
-  const engine = rawEngine || DEFAULT_STT_ENGINE;
+  const engine = resolveSttEngine(
+    typeof config.STT_ENGINE === 'string' ? config.STT_ENGINE : undefined,
+  );
 
   if (engine === 'whisper') {
     const bin = typeof config.WHISPER_BIN_PATH === 'string' ? config.WHISPER_BIN_PATH.trim() : '';

@@ -13,6 +13,7 @@
     "WHISPER_BIN_PATH",
     "WHISPER_MODEL_PATH",
     "WHISPER_LANGUAGE",
+    "WHISPER_TIMEOUT_MS",
     "WHISPER_TMP_DIR"
   ],
   "tasks": {

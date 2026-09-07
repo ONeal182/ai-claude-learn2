@@ -35,4 +35,32 @@ describe('SpawnProcessRunner', () => {
   it('неизвестная команда (ENOENT) → reject', async () => {
     await expect(runner.run('definitely-not-a-real-binary-xyzzy', [])).rejects.toThrow();
   });
+
+  it('процесс, убитый сигналом (code=null), → reject, а не ложный успех', async () => {
+    await expect(
+      runner.run('node', ['-e', 'process.kill(process.pid, "SIGKILL")']),
+    ).rejects.toThrow(/сигнал/i);
+  });
+
+  it('abort сигнала прерывает запущенный процесс → reject', async () => {
+    await expect(
+      runner.run('node', ['-e', 'setInterval(() => {}, 1000)'], {
+        signal: AbortSignal.timeout(50),
+      }),
+    ).rejects.toThrow();
+  });
+
+  it('добивает SIGKILL процесс, игнорирующий SIGTERM, после grace-таймера', async () => {
+    const startedAt = Date.now();
+
+    await expect(
+      runner.run('node', ['-e', "process.on('SIGTERM', () => {}); setInterval(() => {}, 1000);"], {
+        signal: AbortSignal.timeout(50),
+        killGraceMs: 150,
+      }),
+    ).rejects.toThrow();
+
+    // без добивающего SIGKILL процесс пережил бы SIGTERM и висел до таймаута теста
+    expect(Date.now() - startedAt).toBeLessThan(3000);
+  });
 });

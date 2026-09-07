@@ -1,9 +1,8 @@
 /**
  * Чистая сборка аргументов запуска whisper.cpp (`whisper-cli`).
  *
- * Фаза 1 — только `buildWhisperArgs`. Конвертация не-WAV (`needsConversion` / `buildFfmpegArgs`)
- * добавляется в Фазе 2. Вывод берётся из `stdout` с флагом `--no-timestamps` (`-nt`) — это
- * plain-text транскрипт без таймкодов.
+ * Вывод берётся из `stdout` с флагом `--no-timestamps` (`-nt`) — это plain-text транскрипт
+ * без таймкодов. Фаза 2 добавит сюда сборку аргументов конвертации не-WAV через ffmpeg.
  */
 
 export interface WhisperArgsInput {

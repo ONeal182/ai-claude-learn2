@@ -14,6 +14,9 @@ env:
   MAX_UPLOAD_SIZE_BYTES: '26214400'
   # e2e гоняются на stub-override — реальный whisper.cpp/ffmpeg в CI не нужен.
   STT_ENGINE: stub
+  WHISPER_BIN_PATH: ''
+  WHISPER_MODEL_PATH: ''
+  WHISPER_LANGUAGE: ''
 
 jobs:
   ci:

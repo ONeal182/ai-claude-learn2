@@ -2,16 +2,11 @@ import { BadRequestException, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MulterModule } from '@nestjs/platform-express';
 import { AuthModule } from '../auth/auth.module.js';
-import { FileStorageService } from '../storage/file-storage.service.js';
 import { StorageModule } from '../storage/storage.module.js';
 import { ALLOWED_UPLOAD_MIME_TYPES } from './allowed-mime.js';
 import { MeetingFileController } from './meeting-file.controller.js';
 import { MeetingFileProcessingQueue } from './processing/meeting-file-processing.queue.js';
-import {
-  PROCESS_RUNNER,
-  SpawnProcessRunner,
-  type ProcessRunner,
-} from './processing/process-runner.js';
+import { PROCESS_RUNNER, SpawnProcessRunner } from './processing/process-runner.js';
 import {
   DEFAULT_STT_ENGINE,
   STT_SERVICE,
@@ -64,17 +59,18 @@ const DEFAULT_MAX_UPLOAD_SIZE_BYTES = 26_214_400;
     {
       // Выбор движка по `STT_ENGINE` (`whisper` | `stub`). Дефолт на Фазе 1 — `stub`:
       // безопасно для локалки без установленного whisper.cpp. Фаза 4 переключит на `whisper`.
+      // Обе реализации инстанцирует Nest (со своими зависимостями) — фабрика лишь выбирает.
       provide: STT_SERVICE,
-      inject: [ConfigService, PROCESS_RUNNER, FileStorageService],
+      inject: [ConfigService, StubSttService, WhisperSttService],
       useFactory: (
         config: ConfigService,
-        runner: ProcessRunner,
-        storage: FileStorageService,
+        stub: StubSttService,
+        whisper: WhisperSttService,
       ): SttService => {
         const engine = (config.get<string>('STT_ENGINE') ?? DEFAULT_STT_ENGINE) as SttEngine;
-        if (engine === 'whisper') return new WhisperSttService(runner, config, storage);
-        if (engine === 'stub') return new StubSttService();
-        throw new Error(`Неизвестный STT_ENGINE: ${engine}`);
+        if (engine === 'whisper') return whisper;
+        if (engine === 'stub') return stub;
+        throw new Error(`Unknown STT_ENGINE: ${engine}`);
       },
     },
     ...CommandHandlers,

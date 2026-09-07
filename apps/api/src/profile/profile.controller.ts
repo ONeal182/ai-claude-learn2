@@ -16,6 +16,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { ChangePasswordCommand } from '../auth/commands/impl/change-password.command.js';
 import { JwtAuthGuard, type AuthenticatedRequest } from '../auth/guards/jwt-auth.guard.js';
+import { RateLimit } from '../common/rate-limit.guard.js';
 import { UpdateUserProfileCommand } from '../users/commands/impl/update-user-profile.command.js';
 import { UploadAvatarCommand } from './commands/impl/upload-avatar.command.js';
 import { ChangePasswordDto } from './dto/change-password.dto.js';
@@ -49,6 +50,7 @@ export class ProfileController {
 
   @Post('me/password')
   @HttpCode(200)
+  @RateLimit({ name: 'password', limit: 5, windowMs: 60_000 })
   async changePassword(
     @Req() request: AuthenticatedRequest,
     @Body() dto: ChangePasswordDto,

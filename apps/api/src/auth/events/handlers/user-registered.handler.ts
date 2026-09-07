@@ -8,6 +8,7 @@ export class UserRegisteredHandler implements IEventHandler<UserRegisteredEvent>
   private readonly logger = new Logger(UserRegisteredHandler.name);
 
   handle(event: UserRegisteredEvent): void {
-    this.logger.log(`Пользователь зарегистрирован: ${event.email} (${event.userId})`);
+    // без email в логах (PII) — достаточно идентификатора
+    this.logger.log(`Пользователь зарегистрирован: ${event.userId}`);
   }
 }

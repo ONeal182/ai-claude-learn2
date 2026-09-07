@@ -30,10 +30,27 @@ import request from 'supertest';
 const TEST_MAX_UPLOAD_SIZE_BYTES = 8 * 1024;
 let uploadsDir: string;
 
-// Содержимое не парсится сервером (Content-Type берётся у клиента) — важен только round-trip байтов.
-const PNG_BYTES = Buffer.from('фейковые байты PNG-аватара', 'utf8');
-const JPEG_BYTES = Buffer.from('фейковые байты JPEG-аватара', 'utf8');
-const WEBP_BYTES = Buffer.from('фейковые байты WEBP-аватара', 'utf8');
+// Тип аватара сервер определяет по magic bytes (защита от загрузки не-картинки), поэтому
+// заголовки должны быть настоящими. Дальше — произвольный «хвост»: важен round-trip байтов.
+const PNG_BYTES = Buffer.concat([
+  // настоящий 1×1 PNG (magic bytes + IHDR) + произвольный хвост
+  Buffer.from(
+    'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwAEhQGAhKmMIQAAAABJRU5ErkJggg==',
+    'base64',
+  ),
+  Buffer.from('фейковый хвост PNG-аватара', 'utf8'),
+]);
+const JPEG_BYTES = Buffer.concat([
+  Buffer.from([0xff, 0xd8, 0xff, 0xe0, 0x00, 0x10, 0x4a, 0x46, 0x49, 0x46, 0x00, 0x01]),
+  Buffer.from('фейковый хвост JPEG-аватара', 'utf8'),
+  Buffer.from([0xff, 0xd9]),
+]);
+const WEBP_BYTES = Buffer.concat([
+  Buffer.from('RIFF', 'ascii'),
+  Buffer.from([0x24, 0x00, 0x00, 0x00]),
+  Buffer.from('WEBP', 'ascii'),
+  Buffer.from('фейковый хвост WEBP-аватара', 'utf8'),
+]);
 
 function uniqueEmail(): string {
   return `${randomUUID()}@example.com`;

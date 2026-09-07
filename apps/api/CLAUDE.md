@@ -32,15 +32,19 @@ Prisma (конфиг подключения — `prisma.config.ts`, не `dataso
 
 ```
 prisma/
-├── schema.prisma       # модели (User, Meeting, MeetingFile) + enum'ы MeetingFileType / MeetingFileStatus
+├── schema.prisma       # модели (User, Meeting c ownerId → User, MeetingFile) + enum'ы MeetingFileType / MeetingFileStatus
 └── migrations/
 prisma.config.ts         # datasource url (env DATABASE_URL) — Prisma 7 не читает url из schema.prisma
 src/
-├── main.ts             # bootstrap, app.enableCors(), app.listen(PORT ?? 3001)
-├── app.module.ts       # корневой модуль (ConfigModule, PrismaModule, UsersModule, AuthModule, MeetingModule, MeetingFileModule, global ValidationPipe)
+├── main.ts             # bootstrap: helmet + app.disable('x-powered-by'), CORS только для WEB_ORIGIN, app.listen(PORT ?? 3001)
+├── app.module.ts       # корневой модуль (ConfigModule.forRoot({ validate: validateEnv }), PrismaModule, *Module, global ValidationPipe + global RateLimitGuard)
 ├── app.controller.ts   # GET /
 ├── app.service.ts
 ├── app.controller.spec.ts
+├── common/
+│   └── rate-limit.guard.ts # RateLimitGuard (APP_GUARD) + @RateLimit({ name, limit, windowMs }) — in-process скользящее окно на IP, действует только на роуты с декоратором; env-оверрайды RATE_LIMIT_<NAME>_LIMIT / _WINDOW_MS (0 — выкл.)
+├── config/
+│   └── env.validation.ts   # validateEnv — на старте: слабый/короткий JWT_SECRET фатален в production, иначе warn
 ├── prisma/
 │   ├── prisma.module.ts    # @Global, экспортирует PrismaService
 │   └── prisma.service.ts   # PrismaClient + PrismaPg-адаптер, $connect/$disconnect по lifecycle
@@ -56,37 +60,37 @@ src/
 │       ├── impl/            # FindUserByEmailQuery; FindUserByIdQuery — { userId }; FindUserByAvatarKeyQuery — { avatarKey }
 │       └── handlers/        # FindUserBy{Email,Id,AvatarKey}Handler — единственные точки чтения User из Prisma (по email / id / ключу аватара)
 ├── auth/                # CQRS (@nestjs/cqrs) — контроллер не содержит бизнес-логики; отвечает за токены и проверку credentials, не за хранение User
-│   ├── auth.module.ts      # CqrsModule.forRoot() + JwtModule.registerAsync + регистрация хендлеров; экспортирует JwtAuthGuard и JwtModule
-│   ├── auth.controller.ts  # POST /auth/register, /auth/login — только CommandBus.execute(...)
+│   ├── auth.module.ts      # CqrsModule.forRoot() + JwtModule.registerAsync (HS256 pinned: signOptions.algorithm + verifyOptions.algorithms) + регистрация хендлеров; экспортирует JwtAuthGuard и JwtModule
+│   ├── auth.controller.ts  # POST /auth/register, /auth/login — только CommandBus.execute(...); @RateLimit({ name: 'auth', 10/60c })
 │   ├── commands/
 │   │   ├── impl/            # RegisterCommand, LoginCommand — { email, password };
 │   │   │                    # ChangePasswordCommand — { userId, currentPassword, newPassword }
 │   │   └── handlers/        # RegisterHandler, LoginHandler — хеширование/сверка пароля (bcryptjs), поиск/создание
 │   │                        # User через QueryBus/CommandBus → users-модуль, публикуют события, выпускают токен;
 │   │                        # ChangePasswordHandler — читает User (FindUserByIdQuery), сверяет currentPassword
-│   │                        # (compare, иначе UnauthorizedException), хеширует новый (hash, 10 rounds),
-│   │                        # зовёт UpdateUserPasswordCommand; JWT не отзывает
+│   │                        # (compare, иначе UnauthorizedException), newPassword === currentPassword → BadRequest,
+│   │                        # хеширует новый (hash, 10 rounds), зовёт UpdateUserPasswordCommand; JWT не отзывает
 │   ├── events/
 │   │   ├── impl/            # UserRegisteredEvent, UserLoggedInEvent
-│   │   └── handlers/        # UserRegisteredHandler, UserLoggedInHandler — сейчас только логируют
+│   │   └── handlers/        # UserRegisteredHandler, UserLoggedInHandler — логируют только userId (без email/PII)
 │   ├── guards/
-│   │   └── jwt-auth.guard.ts     # JwtAuthGuard — проверяет `Authorization: Bearer <JWT>`, кладёт { userId, email } в request.user
+│   │   └── jwt-auth.guard.ts     # JwtAuthGuard — проверяет `Authorization: Bearer <JWT>` (verifyAsync с algorithms: ['HS256']), кладёт { userId, email } в request.user
 │   ├── services/
 │   │   └── auth-token.service.ts  # общий для command-хендлеров шаг: issue(user) → { accessToken }
 │   └── dto/
-│       ├── register.dto.ts # class-validator: email, password (min 8)
+│       ├── register.dto.ts # class-validator: email, password (MinLength 8 + MaxLength 72 — граница обрезки bcrypt)
 │       └── login.dto.ts
 ├── storage/             # переиспользуемое файловое хранилище (не CQRS)
 │   ├── storage.module.ts        # провайдит и экспортирует FileStorageService; импортируется meeting-file и profile
-│   └── file-storage.service.ts  # единственная точка работы с ФС: save/exists/createReadStream/remove, ключ = uuid, mkdir(UPLOADS_DIR) в onModuleInit
+│   └── file-storage.service.ts  # единственная точка работы с ФС: save/exists/createReadStream/remove, ключ = uuid, mkdir(UPLOADS_DIR) в onModuleInit; resolvePath проверяет, что путь не вышел за baseDir (defense-in-depth от traversal)
 ├── profile/             # CQRS; ProfileController под @UseGuards(JwtAuthGuard), AvatarController — публичный (импортирует AuthModule)
-│   ├── profile.module.ts    # imports: [AuthModule, StorageModule, MulterModule.registerAsync] — limits.fileSize из AVATAR_MAX_UPLOAD_SIZE_BYTES (деф. 5 МиБ, →413), fileFilter по AVATAR_MIME_TO_EXT (→400); регистрирует Command/QueryHandlers
-│   ├── profile.controller.ts # GET /users/me, PATCH /users/me, POST /users/me/password (@HttpCode 200, делегирует в ChangePasswordCommand), PUT /users/me/avatar (FileInterceptor('file')) — userId из request.user (JwtAuthGuard)
-│   ├── avatar.controller.ts  # публичный (без JwtAuthGuard) GET /users/avatars/:key → StreamableFile с Content-Type из расширения ключа
+│   ├── profile.module.ts    # imports: [AuthModule, StorageModule, MulterModule.registerAsync] — limits { files:1, fields:5, fileSize из AVATAR_MAX_UPLOAD_SIZE_BYTES (деф. 5 МиБ, →413) }, fileFilter по AVATAR_MIME_TO_EXT (→400, первичный барьер); регистрирует Command/QueryHandlers
+│   ├── profile.controller.ts # GET /users/me, PATCH /users/me, POST /users/me/password (@HttpCode 200 + @RateLimit({ name:'password', 5/60c }), делегирует в ChangePasswordCommand), PUT /users/me/avatar (FileInterceptor('file')) — userId из request.user (JwtAuthGuard)
+│   ├── avatar.controller.ts  # публичный (без JwtAuthGuard) GET /users/avatars/:key → StreamableFile с Content-Type из расширения ключа; @Header nosniff + CSP "default-src 'none'; sandbox"
 │   ├── avatar-mime.ts        # AVATAR_MIME_TO_EXT (image/jpeg→jpg, image/png→png, image/webp→webp) + обратная AVATAR_EXT_TO_MIME
 │   ├── commands/
 │   │   ├── impl/            # UploadAvatarCommand { userId, file: { mimetype, buffer } }
-│   │   └── handlers/        # UploadAvatarHandler — пишет <uuid>.<ext> в storage, UpdateUserAvatarCommand, стирает прежний файл; при ошибке убирает свежий; возвращает ProfileDto
+│   │   └── handlers/        # UploadAvatarHandler — тип по magic bytes (file-type), не по клиентскому mime; <uuid>.<ext> в storage, UpdateUserAvatarCommand, стирает прежний файл; при ошибке убирает свежий; возвращает ProfileDto
 │   ├── queries/
 │   │   ├── impl/            # GetProfileQuery { userId }; GetAvatarContentQuery { key }
 │   │   └── handlers/        # GetProfileHandler — читает User через QueryBus(FindUserByIdQuery), собирает ProfileDto;
@@ -94,25 +98,25 @@ src/
 │   └── dto/
 │       ├── profile.dto.ts          # форма ответа { id, email, name, avatarUrl, createdAt } + toProfileDto (avatarUrl = avatarKey ? '/users/avatars/'+avatarKey : null)
 │       ├── update-profile-name.dto.ts # class-validator: name — @Transform trim + @Length(1, 50)
-│       ├── change-password.dto.ts  # class-validator: currentPassword @IsNotEmpty, newPassword @MinLength(8) — как RegisterDto
+│       ├── change-password.dto.ts  # class-validator: currentPassword @IsNotEmpty, newPassword @MinLength(8) + @MaxLength(72) — как RegisterDto
 │       ├── uploaded-avatar-part.ts # узкий тип части multipart аватара { mimetype, buffer } (без @types/multer)
 │       └── avatar-content.ts       # тело ответа GetAvatarContentQuery { stream, mimeType }
 ├── meeting/             # CQRS; весь контроллер под @UseGuards(JwtAuthGuard) (импортирует AuthModule)
 │   ├── meeting.module.ts   # imports: [AuthModule]; регистрирует хендлеры (CqrsModule берётся из auth, forRoot не дублируется)
-│   ├── meeting.controller.ts  # POST /meetings, GET /meetings, GET /meetings/:id — только CommandBus/QueryBus
+│   ├── meeting.controller.ts  # POST /meetings, GET /meetings, GET /meetings/:id — ownerId из request.user в каждую Command/Query
 │   ├── commands/
-│   │   ├── impl/            # CreateMeetingCommand — { title, startsAt }
-│   │   └── handlers/        # CreateMeetingHandler — prisma.meeting.create + публикует MeetingCreatedEvent
+│   │   ├── impl/            # CreateMeetingCommand — { ownerId, title, startsAt }
+│   │   └── handlers/        # CreateMeetingHandler — prisma.meeting.create (ownerId) + публикует MeetingCreatedEvent
 │   ├── queries/
-│   │   ├── impl/            # ListMeetingsQuery, GetMeetingByIdQuery
-│   │   └── handlers/        # ListMeetingsHandler; GetMeetingByIdHandler — 404 (NotFoundException), если встречи нет
+│   │   ├── impl/            # ListMeetingsQuery { ownerId }, GetMeetingByIdQuery { id, ownerId }
+│   │   └── handlers/        # ListMeetingsHandler — where: { ownerId }; GetMeetingByIdHandler — findFirst { id, ownerId }, иначе 404 (чужая встреча ≡ несуществующая, не 403)
 │   ├── events/
 │   │   ├── impl/            # MeetingCreatedEvent
 │   │   └── handlers/        # MeetingCreatedHandler — сейчас только логирует
 │   └── dto/
 │       └── create-meeting.dto.ts  # class-validator: title (IsNotEmpty), startsAt (IsDateString)
 └── meeting-file/        # CQRS; вложенный ресурс /meetings/:meetingId/files, контроллер под @UseGuards(JwtAuthGuard)
-    ├── meeting-file.module.ts    # imports: [AuthModule, StorageModule, MulterModule.registerAsync] — limits.fileSize из MAX_UPLOAD_SIZE_BYTES (→413), fileFilter по allowed-mime (→400)
+    ├── meeting-file.module.ts    # imports: [AuthModule, StorageModule, MulterModule.registerAsync] — limits { files:1, fields:5, fileSize из MAX_UPLOAD_SIZE_BYTES (→413) }, fileFilter по allowed-mime (→400)
     ├── meeting-file.controller.ts # POST /  ·  GET /  ·  GET /:fileId/content (StreamableFile)  ·  POST /:fileId/reprocess (200)  ·  DELETE /:fileId
     ├── allowed-mime.ts           # ALLOWED_UPLOAD_MIME_TYPES — белый список mime (единый на recording/attachment)
     ├── attachment-disposition.ts # attachmentDisposition(name) — значение Content-Disposition: filename* (UTF-8) + ASCII-фолбэк
@@ -122,14 +126,14 @@ src/
     │   └── meeting-file-processing.queue.ts # in-process воркер (concurrency 1): pending→processing→done|failed + transcriptText;
     │                             # OnModuleDestroy гасит очередь (иначе e2e с app.close() «догорают»); P2025 при DELETE — молча
     ├── commands/
-    │   ├── impl/            # CreateMeetingFileCommand { meetingId, type, file }, DeleteMeetingFileCommand / ReprocessMeetingFileCommand { meetingId, fileId }
-    │   └── handlers/        # CreateMeetingFileHandler — 404 через QueryBus(GetMeetingByIdQuery), запись файла + prisma.meetingFile.create,
+    │   ├── impl/            # CreateMeetingFileCommand { ownerId, meetingId, type, file }, DeleteMeetingFileCommand / ReprocessMeetingFileCommand { ownerId, meetingId, fileId }
+    │   └── handlers/        # CreateMeetingFileHandler — 404 через QueryBus(GetMeetingByIdQuery{ meetingId, ownerId }), запись файла + prisma.meetingFile.create,
     │                        # для recording publish MeetingFileProcessingRequestedEvent;
     │                        # DeleteMeetingFileHandler — 404 через QueryBus(GetMeetingFileQuery), delete (транскрипт — та же строка) + storage.remove;
     │                        # ReprocessMeetingFileHandler — атомарный updateMany failed→pending (count 0 → 409), publish события
     ├── queries/
-    │   ├── impl/            # ListMeetingFilesQuery { meetingId }, GetMeetingFileQuery / GetMeetingFileContentQuery { meetingId, fileId }
-    │   └── handlers/        # ListMeetingFilesHandler; GetMeetingFileHandler — единственная точка чтения одной записи MeetingFile (404);
+    │   ├── impl/            # ListMeetingFilesQuery { ownerId, meetingId }, GetMeetingFileQuery / GetMeetingFileContentQuery { ownerId, meetingId, fileId }
+    │   └── handlers/        # ListMeetingFilesHandler + GetMeetingFileHandler сперва проверяют владение встречей (GetMeetingByIdQuery{ meetingId, ownerId } → 404), затем читают файл; GetMeetingFileHandler — единственная точка чтения одной записи MeetingFile;
     │                        # GetMeetingFileContentHandler — { stream, mimeType, originalName }, 404 и если бинарник пропал с диска
     ├── events/
     │   ├── impl/            # MeetingFileProcessingRequestedEvent { fileId } — «файлу нужна фоновая обработка»
@@ -143,9 +147,10 @@ test/
 ├── app.e2e-spec.ts          # e2e
 ├── auth.e2e-spec.ts         # e2e: register/login
 ├── meeting.e2e-spec.ts      # e2e: CRUD встреч под Bearer-токеном
+├── meeting-ownership.e2e-spec.ts # e2e: разграничение доступа между пользователями — чужая встреча/файлы → 404, GET /meetings только свои, 401 без токена
 ├── meeting-files.e2e-spec.ts # e2e: загрузка/список/скачивание/удаление; отказы 401/413/400/404; фоновая обработка recording (pending→done + транскрипт), reprocess (200 только для failed, иначе 409); сквозной сценарий пути UI одним прогоном
 ├── profile.e2e-spec.ts      # e2e: GET/PATCH /users/me под Bearer-токеном; 401 без токена; PATCH — 400 для пустого (после trim) и >50 символов имени без изменения в БД; POST /users/me/password — смена по верному currentPassword (login по старому → 401, по новому → 200), неверный currentPassword → 401 без изменения (тест допускает 400/401), короткий newPassword → 400, старый accessToken после смены остаётся валиден
-└── profile-avatar.e2e-spec.ts # e2e: PUT /users/me/avatar — 401 без токена, 200 + avatarUrl для image/* ≤ лимита, 413 сверх AVATAR_MAX_UPLOAD_SIZE_BYTES, 400 для не-image (аватар не меняется); публичный GET /users/avatars/:key отдаёт бинарник с его mime, 404 для неизвестного ключа; повторная загрузка меняет avatarUrl, прежний URL → 404
+└── profile-avatar.e2e-spec.ts # e2e: PUT /users/me/avatar — 401 без токена, 200 + avatarUrl для настоящих image (magic bytes) ≤ лимита, 413 сверх AVATAR_MAX_UPLOAD_SIZE_BYTES, 400 для не-image (аватар не меняется); публичный GET /users/avatars/:key отдаёт бинарник с его mime, 404 для неизвестного ключа; повторная загрузка меняет avatarUrl, прежний URL → 404. Фикстуры — настоящие сигнатуры PNG/JPEG/WebP + произвольный хвост
 ```
 
 ## Соглашения
@@ -156,19 +161,21 @@ test/
 - Общая библиотека — `pnpm exec nest g library <name>`; path-алиасы из `tsconfig.json` резолвятся в тестах через `vite-tsconfig-paths`.
 - `strict: true`, но `strictPropertyInitialization: false` (под DI и декораторы).
 - vitest с `globals: true` — `describe/it/expect` без импорта; типы через `types: ["vitest/globals", "node"]`.
-- Порт и окружение — из `.env` (`PORT`, `NODE_ENV`, `DATABASE_URL`, `JWT_SECRET`, `JWT_EXPIRES_IN`, `UPLOADS_DIR`, `MAX_UPLOAD_SIZE_BYTES`, `AVATAR_MAX_UPLOAD_SIZE_BYTES`); шаблон — `.env.example`. Загружается через `ConfigModule.forRoot({ isGlobal: true })` в `AppModule`. Читать конфиг только через `ConfigService`, не `process.env` напрямую.
-- CORS включён глобально в `main.ts` (`app.enableCors()`, все источники) — чтобы `apps/web` (порт 3000) ходил в API из браузера.
+- Порт и окружение — из `.env` (`PORT`, `NODE_ENV`, `DATABASE_URL`, `WEB_ORIGIN`, `JWT_SECRET`, `JWT_EXPIRES_IN`, `UPLOADS_DIR`, `MAX_UPLOAD_SIZE_BYTES`, `AVATAR_MAX_UPLOAD_SIZE_BYTES`, опц. `RATE_LIMIT_AUTH_*` / `RATE_LIMIT_PASSWORD_*`); шаблон — `.env.example`. Загружается через `ConfigModule.forRoot({ isGlobal: true, validate: validateEnv })` в `AppModule` — `validateEnv` (`src/config/env.validation.ts`) на старте валит `production` при слабом/коротком `JWT_SECRET` (< 32 симв. или известный плейсхолдер), вне `production` — только `warn`. Читать конфиг только через `ConfigService`, не `process.env` напрямую.
+- **Security-заголовки и CORS** — в `main.ts` (только в реальном bootstrap, не в e2e): `helmet()` (без CSP — API отдаёт JSON/бинарники, `crossOriginResourcePolicy: 'cross-origin'`), `app.disable('x-powered-by')`, `app.enableCors({ origin: WEB_ORIGIN (список через запятую), credentials: false })`. Раньше CORS был открыт всем источникам.
+- **Рейт-лимит** — `RateLimitGuard` (`src/common/rate-limit.guard.ts`) как глобальный `APP_GUARD`; действует только на роуты/контроллеры с `@RateLimit({ name, limit, windowMs })`. In-process скользящее окно по IP, без внешнего стора (ок для одного инстанса; для нескольких — нужен общий стор). Навешено на `AuthController` (`name: 'auth'`, деф. 10/60 c) и `POST /users/me/password` (`name: 'password'`, деф. 5/60 c). Env-оверрайды `RATE_LIMIT_<NAME>_LIMIT` / `RATE_LIMIT_<NAME>_WINDOW_MS`; `LIMIT=0` выключает бакет. Превышение → `429`.
 - Билд-конфиг для сборки — `tsconfig.build.json`, выход в `dist/` (`deleteOutDir: true`).
-- Валидация DTO — глобальный `ValidationPipe` (`class-validator`/`class-transformer`), подключён через `APP_PIPE` в `AppModule` — работает и в реальном приложении, и в e2e-тестах, поднимающих `AppModule` напрямую через `Test.createTestingModule`.
-- Пароли — `bcryptjs` (чистый JS, без нативной сборки). JWT — `@nestjs/jwt`, секрет/TTL — из `JWT_SECRET`/`JWT_EXPIRES_IN`.
-- Защита эндпоинтов — `JwtAuthGuard` из `auth` (`src/auth/guards/jwt-auth.guard.ts`). Модуль с приватными ресурсами импортирует `AuthModule` (он реэкспортирует `JwtAuthGuard` и `JwtModule`) и вешает `@UseGuards(JwtAuthGuard)` на контроллер. Guard кладёт `{ userId, email }` в `request.user`. Нет заголовка `Authorization: Bearer <JWT>` или токен невалиден → `401`.
+- Валидация DTO — глобальный `ValidationPipe` (`class-validator`/`class-transformer`, `whitelist` + `forbidNonWhitelisted` + `transform`), подключён через `APP_PIPE` в `AppModule` — лишние поля в теле → `400`; работает и в реальном приложении, и в e2e-тестах, поднимающих `AppModule` напрямую через `Test.createTestingModule`.
+- Пароли — `bcryptjs` (чистый JS, без нативной сборки), `MinLength(8)` + `MaxLength(72)` (граница обрезки bcrypt) в DTO. JWT — `@nestjs/jwt`, секрет/TTL — из `JWT_SECRET`/`JWT_EXPIRES_IN`, алгоритм фиксирован `HS256` (и при подписи, и при проверке).
+- Защита эндпоинтов — `JwtAuthGuard` из `auth` (`src/auth/guards/jwt-auth.guard.ts`). Модуль с приватными ресурсами импортирует `AuthModule` (он реэкспортирует `JwtAuthGuard` и `JwtModule`) и вешает `@UseGuards(JwtAuthGuard)` на контроллер. Guard проверяет токен с `algorithms: ['HS256']`, кладёт `{ userId, email }` в `request.user`. Нет заголовка `Authorization: Bearer <JWT>` или токен невалиден → `401`.
+- **Владение данными (встречи)**. `Meeting.ownerId` → `User` (`onDelete: Cascade`, индекс). Встреча принадлежит создателю: контроллеры `meeting` / `meeting-file` прокидывают `request.user.userId` в каждую Command/Query; чтения фильтруют по `ownerId` в `where` (не проверкой после чтения), чужой ресурс ≡ несуществующий → `404` (не `403`). Все запросы `meeting-file` сперва валидируют владение встречей через `GetMeetingByIdQuery({ meetingId, ownerId })`. Регрессия закрыта `test/meeting-ownership.e2e-spec.ts`.
 - Один `CqrsModule.forRoot()` на приложение (в `AuthModule`, `global: true`). Остальные CQRS-модули (`meeting`, `meeting-file`, `users`, `profile`) только регистрируют свои хендлеры в `providers` — `explorer` из `@nestjs/cqrs` находит их по всему приложению; повторный `forRoot()` не нужен.
-- Prisma — модели в `prisma/schema.prisma`, URL подключения только в `prisma.config.ts` (Prisma 7 запрещает `url` прямо в `datasource` схемы). Клиент подключается через драйвер-адаптер `@prisma/adapter-pg`, а не встроенный rust-движок — так у Prisma 7 по умолчанию.
-- **Профиль пользователя (`profile`)**. `User.name` (nullable) и `User.avatarKey` (nullable, ключ файла аватара `<uuid>.<ext>`) — поля Prisma-модели `User`. `GET /users/me` / `PATCH /users/me` / `POST /users/me/password` / `PUT /users/me/avatar` отдают/меняют профиль текущего пользователя (`request.user.userId` из `JwtAuthGuard`); `profile` не хранит своих Prisma-моделей — чтение/запись `User` только через `users` (`FindUserByIdQuery` / `FindUserByAvatarKeyQuery` / `UpdateUserProfileCommand` / `UpdateUserPasswordCommand` / `UpdateUserAvatarCommand`). Ответ (`ProfileDto`) собирает `GetProfileHandler`: `avatarUrl = avatarKey ? '/users/avatars/' + avatarKey : null`. `PATCH` принимает `{ name }` (`UpdateProfileNameDto`: `@Transform` trim + `@Length(1, 50)` — пустая после trim строка или длина > 50 → `400`, значение в БД не меняется). `POST /users/me/password` `{ currentPassword, newPassword }` (`ChangePasswordDto`: `currentPassword` `@IsNotEmpty`, `newPassword` `@MinLength(8)`) — контроллер только делегирует в `ChangePasswordCommand` (модуль `auth`: сверка старого пароля и хеширование нового — `bcryptjs`), при успехе `200` с пустым телом; неверный `currentPassword` → `401`, короткий `newPassword` → `400`. Смена пароля **не отзывает** ранее выданный JWT — старый `accessToken` продолжает работать.
-- **Аватар (`profile`)**. `PUT /users/me/avatar` — multipart-поле `file`, `FileInterceptor('file')` + `MulterModule.registerAsync` в `ProfileModule` (memoryStorage; `limits.fileSize` из `AVATAR_MAX_UPLOAD_SIZE_BYTES` — отдельная от файлов встреч переменная, деф. 5 МиБ → `413`; `fileFilter` по `AVATAR_MIME_TO_EXT` = `image/jpeg|image/png|image/webp` → `400`). Порядок отказов: `JwtAuthGuard` (401) → multer `limits`/`fileFilter` (413 сверх лимита / 400 не-image) → хендлер (для публичной отдачи по ключу — 404 на неизвестный/заменённый `key`). `UploadAvatarHandler` пишет бинарник ключом `<randomUUID>.<ext>` (mime нигде в БД не хранится — восстанавливается из расширения при отдаче), зовёт `UpdateUserAvatarCommand`, затем `storage.remove` прежнего файла; при ошибке обновления убирает только что записанный файл (нет «сирот»). Публичная отдача — отдельный `AvatarController` **без** `JwtAuthGuard`: `GET /users/avatars/:key` → `StreamableFile` с `Content-Type` из `AVATAR_EXT_TO_MIME`; `GetAvatarContentHandler` даёт `404`, если расширение не из белого списка, нет `User` с таким `avatarKey` (ключ неизвестен/заменён) или бинарника нет на диске. Осознанно доверяем `Content-Type` клиента (детект содержимого не делаем).
+- Prisma — модели в `prisma/schema.prisma` (`User` c обратной связью `meetings`, `Meeting` c обязательным `ownerId` → `User`, `MeetingFile`), URL подключения только в `prisma.config.ts` (Prisma 7 запрещает `url` прямо в `datasource` схемы). Клиент подключается через драйвер-адаптер `@prisma/adapter-pg`, а не встроенный rust-движок — так у Prisma 7 по умолчанию.
+- **Профиль пользователя (`profile`)**. `User.name` (nullable) и `User.avatarKey` (nullable, ключ файла аватара `<uuid>.<ext>`) — поля Prisma-модели `User`. `GET /users/me` / `PATCH /users/me` / `POST /users/me/password` / `PUT /users/me/avatar` отдают/меняют профиль текущего пользователя (`request.user.userId` из `JwtAuthGuard`); `profile` не хранит своих Prisma-моделей — чтение/запись `User` только через `users` (`FindUserByIdQuery` / `FindUserByAvatarKeyQuery` / `UpdateUserProfileCommand` / `UpdateUserPasswordCommand` / `UpdateUserAvatarCommand`). Ответ (`ProfileDto`) собирает `GetProfileHandler`: `avatarUrl = avatarKey ? '/users/avatars/' + avatarKey : null`. `PATCH` принимает `{ name }` (`UpdateProfileNameDto`: `@Transform` trim + `@Length(1, 50)` — пустая после trim строка или длина > 50 → `400`, значение в БД не меняется). `POST /users/me/password` `{ currentPassword, newPassword }` (`ChangePasswordDto`: `currentPassword` `@IsNotEmpty`, `newPassword` `@MinLength(8)` + `@MaxLength(72)`; эндпоинт под `@RateLimit({ name: 'password' })`) — контроллер только делегирует в `ChangePasswordCommand` (модуль `auth`: сверка старого пароля и хеширование нового — `bcryptjs`), при успехе `200` с пустым телом; неверный `currentPassword` → `401`, короткий `newPassword` → `400`, `newPassword === currentPassword` → `400`. Смена пароля **не отзывает** ранее выданный JWT — старый `accessToken` продолжает работать.
+- **Аватар (`profile`)**. `PUT /users/me/avatar` — multipart-поле `file`, `FileInterceptor('file')` + `MulterModule.registerAsync` в `ProfileModule` (memoryStorage; `limits.fileSize` из `AVATAR_MAX_UPLOAD_SIZE_BYTES` — отдельная от файлов встреч переменная, деф. 5 МиБ → `413`; `fileFilter` по `AVATAR_MIME_TO_EXT` = `image/jpeg|image/png|image/webp` → `400`). Порядок отказов: `JwtAuthGuard` (401) → multer `limits`/`fileFilter` (413 сверх лимита / 400 не-image по клиентскому mime — первичный барьер) → `UploadAvatarHandler` определяет тип **по magic bytes** (`fileTypeFromBuffer` из `file-type`); mime не JPEG/PNG/WebP → `400` (клиентский `Content-Type` больше не является основанием — так на диск не попадёт HTML/скрипт под видом картинки). Ключ — `<randomUUID>.<ext>` от определённого типа (mime в БД не хранится — восстанавливается из расширения при отдаче), затем `UpdateUserAvatarCommand` и `storage.remove` прежнего файла; при ошибке обновления убирает только что записанный файл (нет «сирот»). Публичная отдача — отдельный `AvatarController` **без** `JwtAuthGuard`: `GET /users/avatars/:key` → `StreamableFile` с `Content-Type` из `AVATAR_EXT_TO_MIME` + заголовки `X-Content-Type-Options: nosniff` и `Content-Security-Policy: default-src 'none'; sandbox`; `GetAvatarContentHandler` даёт `404`, если расширение не из белого списка, нет `User` с таким `avatarKey` (ключ неизвестен/заменён) или бинарника нет на диске.
 - **CQRS** (`@nestjs/cqrs`) — паттерн для модулей с бизнес-логикой (сейчас: `auth`, `users`, `meeting`, `meeting-file`, `profile`). Контроллер не знает о Prisma/бизнес-правилах — только собирает Command/Query из DTO и зовёт `CommandBus`/`QueryBus`. Структура фичи: `commands/{impl,handlers}`, `queries/{impl,handlers}`, `events/{impl,handlers}` (если есть), каждая директория с хендлерами экспортирует barrel-массив (`index.ts`) для регистрации в `providers` модуля. Чтение состояния (даже внутри командного хендлера) — через `QueryBus`, не напрямую через Prisma, чтобы у каждой модели чтения был один источник правды. Побочные эффекты после успешной команды — через `EventBus.publish(...)` и `@EventsHandler`, а не напрямую в хендлере команды.
 - **Границы модулей `auth`/`users`**: `auth` не хранит и не читает `User` напрямую через Prisma — только через `CommandBus.execute(new CreateUserCommand(...))` / `QueryBus.execute(new FindUserByEmailQuery(...))`, объявленные в `users`. `users` не импортирует `auth` и ничего не знает про пароли/JWT — принимает уже готовый `passwordHash` (и при регистрации, и при смене пароля через `UpdateUserPasswordCommand`). Хеширование (`bcryptjs`) и сверка пароля — ответственность `auth` (`RegisterHandler`/`LoginHandler`/`ChangePasswordHandler`). Ни один из модулей не импортирует другой явно (`AppModule` подключает оба независимо) — связь только через общую CQRS-шину, это и есть механизм их взаимодействия.
-- **Файловое хранилище (`storage`)**. `FileStorageService` (`src/storage/`) — единственная точка работы с ФС для любых загруженных бинарников (файлы встречи, аватары): `save` / `exists` / `createReadStream` / `remove` поверх плоской раскладки `${UPLOADS_DIR}/${storageKey}`, `storageKey` задаёт вызывающая сторона (`randomUUID`, для аватара — `<randomUUID>.<ext>` → пользовательский ввод в путь не попадает, нет path traversal), каталог создаётся в `onModuleInit`. Провайдится и экспортируется через `StorageModule`, который импортируют и `meeting-file`, и `profile` — не дублировать провайдер и не работать с `fs` в хендлерах.
+- **Файловое хранилище (`storage`)**. `FileStorageService` (`src/storage/`) — единственная точка работы с ФС для любых загруженных бинарников (файлы встречи, аватары): `save` / `exists` / `createReadStream` / `remove` поверх плоской раскладки `${UPLOADS_DIR}/${storageKey}`, `storageKey` задаёт вызывающая сторона (`randomUUID`, для аватара — `<randomUUID>.<ext>` → пользовательский ввод в путь не попадает), каталог создаётся в `onModuleInit`. `resolvePath` дополнительно проверяет, что итоговый путь не вышел за `baseDir` (`resolve` + `startsWith(baseDir + sep)`, иначе `BadRequestException`) — defense-in-depth от traversal, барьер не зависит от вызывающей стороны. Провайдится и экспортируется через `StorageModule`, который импортируют и `meeting-file`, и `profile` — не дублировать провайдер и не работать с `fs` в хендлерах.
 - **Хранение файлов встречи (`meeting-file`)**. Бинарники — на диске в `UPLOADS_DIR` (плоско, имя = случайный uuid = `storageKey`), в БД (`meeting_files`) — только метаданные и `storageKey`. Работа с ФС — только через `FileStorageService` из `StorageModule` (не в хендлерах). Приём — `FileInterceptor('file')` + `MulterModule.registerAsync` (memoryStorage: буфер в памяти, ограничен `MAX_UPLOAD_SIZE_BYTES`; запись на диск — в командном хендлере после проверки встречи, чтобы не плодить «сирот» при 404/400). Порядок отказов: `JwtAuthGuard` (401) → multer `limits`/`fileFilter` (413/400) → хендлер `GetMeetingByIdQuery` (404). Осознанные ограничения этой итерации: доверяем `Content-Type` клиента (детект содержимого/антивирус не делаем); при `onDelete: Cascade` удаление встречи оставит бинарники-сироты на диске (удаление встреч в скоуп фичи не входит); durability очереди/файлов после рестарта не гарантируется; при нескольких инстансах API каталог не общий. Не-ASCII имя файла из multipart перекодируется `latin1 → utf8` в контроллере; отдача — `StreamableFile` с `Content-Disposition` по RFC 5987.
 - **Фоновая обработка записи (`meeting-file/processing`)**. Оба входа в очередь идут через одно событие `MeetingFileProcessingRequestedEvent { fileId }`: `CreateMeetingFileHandler` публикует его для только что загруженной `recording` (решение «нужна ли обработка» — здесь, у издателя), `ReprocessMeetingFileHandler` — после успешного сброса статуса. `MeetingFileProcessingRequestedHandler` безусловно кладёт `fileId` в `MeetingFileProcessingQueue` — in-process воркер без внешнего брокера (`concurrency = 1`), ведёт `pending → processing → done|failed` и по успеху пишет `transcriptText` в ту же строку. `SttService` (токен `STT_SERVICE`) — единственная реализация `StubSttService`: транскрипт детерминированно выводится из метаданных файла (без чтения содержимого, без ветвления по `NODE_ENV` — локальный pre-commit идёт с `development`). Путь ошибки STT в e2e задаётся через `.overrideProvider(STT_SERVICE)` (двойник падает по маркеру `__stt_fail__` в имени) — в проде тестовых веток нет. `POST /meetings/:id/files/:fileId/reprocess` — атомарный `updateMany({ where: { status: failed }, data: { status: pending, transcriptText: null } })`; `count === 0` → `409 Conflict` (гонка/не тот статус не приводит к двойной постановке в очередь), иначе публикуется событие. `DELETE` уносит транскрипт вместе со строкой; если файл в этот момент в обработке — воркер ловит `P2025` и молча останавливается. `MeetingFileProcessingQueue` реализует `OnModuleDestroy` (флаг остановки + `await` текущей задачи) — иначе e2e с `app.close()` в `afterEach` «догорают» и пишут в закрытый `PrismaClient`. Durability между рестартами не гарантируется: зависшие `pending`/`processing` не возобновляются.
 - **E2e и файлы на диске**. `test/meeting-files.e2e-spec.ts` в `beforeAll` подменяет `process.env.UPLOADS_DIR` на временный каталог (`os.tmpdir()`) и удаляет его в `afterAll`, а `MAX_UPLOAD_SIZE_BYTES` ставит маленьким — чтобы дёшево проверить 413 и не мусорить в рабочем `uploads/`. `@nestjs/config` не перетирает уже заданные `process.env`, поэтому подмену делаем до импорта `AppModule` (динамический `import()` в `beforeEach`).

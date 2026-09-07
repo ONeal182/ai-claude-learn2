@@ -8,6 +8,7 @@ export class UserLoggedInHandler implements IEventHandler<UserLoggedInEvent> {
   private readonly logger = new Logger(UserLoggedInHandler.name);
 
   handle(event: UserLoggedInEvent): void {
-    this.logger.log(`Пользователь залогинился: ${event.email} (${event.userId})`);
+    // без email в логах (PII) — достаточно идентификатора
+    this.logger.log(`Пользователь залогинился: ${event.userId}`);
   }
 }

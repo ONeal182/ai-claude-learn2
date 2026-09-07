@@ -2,6 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { CommandBus, CommandHandler, ICommandHandler, QueryBus } from '@nestjs/cqrs';
 import type { User } from '@prisma/client';
 import { randomUUID } from 'node:crypto';
+import { fileTypeFromBuffer } from 'file-type';
 import { FileStorageService } from '../../../storage/file-storage.service.js';
 import { UpdateUserAvatarCommand } from '../../../users/commands/impl/update-user-avatar.command.js';
 import { FindUserByIdQuery } from '../../../users/queries/impl/find-user-by-id.query.js';
@@ -19,10 +20,13 @@ export class UploadAvatarHandler implements ICommandHandler<UploadAvatarCommand,
   ) {}
 
   async execute(command: UploadAvatarCommand): Promise<ProfileDto> {
-    const ext = AVATAR_MIME_TO_EXT.get(command.file.mimetype);
+    // Тип определяем ПО СОДЕРЖИМОМУ (magic bytes), а не по mime из запроса — клиент его
+    // подделывает. Так на диск не попадёт HTML/скрипт под видом картинки (публичная отдача
+    // `GET /users/avatars/:key` иначе превращает API в анонимный файлохостинг).
+    const detected = await fileTypeFromBuffer(command.file.buffer);
+    const ext = detected ? AVATAR_MIME_TO_EXT.get(detected.mime) : undefined;
     if (!ext) {
-      // подстраховка — не-image отсекает уже `fileFilter` multer'а (400)
-      throw new BadRequestException(`Недопустимый тип файла: ${command.file.mimetype}`);
+      throw new BadRequestException('Файл не является изображением JPEG, PNG или WebP');
     }
 
     // прежний ключ — чтобы стереть старый бинарник после успешной замены

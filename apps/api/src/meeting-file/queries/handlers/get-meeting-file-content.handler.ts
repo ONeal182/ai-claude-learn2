@@ -20,7 +20,7 @@ export class GetMeetingFileContentHandler implements IQueryHandler<
   async execute(query: GetMeetingFileContentQuery): Promise<MeetingFileContent> {
     // чтение записи — через единый источник (404, если файла нет / он у другой встречи)
     const file = await this.queryBus.execute<GetMeetingFileQuery, MeetingFile>(
-      new GetMeetingFileQuery(query.meetingId, query.fileId),
+      new GetMeetingFileQuery(query.ownerId, query.meetingId, query.fileId),
     );
 
     // запись есть, а бинарник на диске пропал — это 404, а не 500 от упавшего потока

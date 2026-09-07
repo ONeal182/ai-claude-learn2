@@ -24,6 +24,8 @@ const DEFAULT_MAX_UPLOAD_SIZE_BYTES = 26_214_400;
       useFactory: (config: ConfigService) => ({
         // memoryStorage по умолчанию: файл в буфере, на диск пишем в хендлере после всех проверок.
         limits: {
+          files: 1,
+          fields: 5,
           fileSize: Number(
             config.get<string | number>('MAX_UPLOAD_SIZE_BYTES', DEFAULT_MAX_UPLOAD_SIZE_BYTES),
           ),

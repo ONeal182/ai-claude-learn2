@@ -9,7 +9,10 @@ import { ListMeetingsQuery } from '../impl/list-meetings.query.js';
 export class ListMeetingsHandler implements IQueryHandler<ListMeetingsQuery, Meeting[]> {
   constructor(private readonly prisma: PrismaService) {}
 
-  execute(): Promise<Meeting[]> {
-    return this.prisma.meeting.findMany({ orderBy: { createdAt: 'desc' } });
+  execute(query: ListMeetingsQuery): Promise<Meeting[]> {
+    return this.prisma.meeting.findMany({
+      where: { ownerId: query.ownerId },
+      orderBy: { createdAt: 'desc' },
+    });
   }
 }

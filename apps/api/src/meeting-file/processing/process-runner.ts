@@ -73,18 +73,28 @@ export class SpawnProcessRunner implements ProcessRunner {
         reject(error);
       });
 
-      child.on('close', (code) => {
+      child.on('close', (code, signalName) => {
         cleanup();
-        const result: ProcessRunResult = {
-          stdout: Buffer.concat(stdout).toString('utf8'),
-          stderr: Buffer.concat(stderr).toString('utf8'),
-          code: code ?? 0,
-        };
+        const stdoutText = Buffer.concat(stdout).toString('utf8');
+        const stderrText = Buffer.concat(stderr).toString('utf8');
+        const tail = stderrText.trim();
+
+        // code === null → процесс убит сигналом (grace-SIGKILL, внешний SIGTERM/SIGKILL, OOM):
+        // это сбой, а не успех — иначе воркер записал бы частичный stdout как готовый транскрипт
+        if (code === null) {
+          reject(
+            new Error(
+              `Команда «${command}» убита сигналом ${signalName ?? 'unknown'}${tail ? `: ${tail}` : ''}`,
+            ),
+          );
+          return;
+        }
+
+        const result: ProcessRunResult = { stdout: stdoutText, stderr: stderrText, code };
         if (result.code === 0) {
           resolve(result);
           return;
         }
-        const tail = result.stderr.trim();
         reject(
           new Error(
             `Команда «${command}» завершилась с кодом ${result.code}${tail ? `: ${tail}` : ''}`,

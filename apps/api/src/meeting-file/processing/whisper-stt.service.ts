@@ -18,6 +18,12 @@ const CONVERTED_WAV_NAME = 'input.wav';
 /** Дефолт `WHISPER_TIMEOUT_MS` — 5 минут (модель `tiny` на короткой встрече укладывается в секунды). */
 const DEFAULT_TIMEOUT_MS = 300_000;
 
+/** `WHISPER_TIMEOUT_MS` → положительное число мс; пусто / 0 / отрицательное / не число → дефолт. */
+function resolveTimeoutMs(raw: string): number {
+  const parsed = Number(raw);
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : DEFAULT_TIMEOUT_MS;
+}
+
 /**
  * Реальная транскрибация через whisper.cpp (`whisper-cli`) как внешний подпроцесс — без Python.
  *
@@ -43,8 +49,7 @@ export class WhisperSttService implements SttService {
     const modelPath = this.config.get<string>('WHISPER_MODEL_PATH', '');
     const language = this.config.get<string>('WHISPER_LANGUAGE', '');
     const tmpBase = this.config.get<string>('WHISPER_TMP_DIR', '') || tmpdir();
-    const timeoutMs =
-      Number(this.config.get<string>('WHISPER_TIMEOUT_MS', '')) || DEFAULT_TIMEOUT_MS;
+    const timeoutMs = resolveTimeoutMs(this.config.get<string>('WHISPER_TIMEOUT_MS', ''));
 
     // пред-проверки до создания временного каталога: битый конфиг движка → ранняя внятная ошибка
     if (!binPath || !existsSync(binPath)) {

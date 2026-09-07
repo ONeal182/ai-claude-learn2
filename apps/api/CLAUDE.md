@@ -121,7 +121,7 @@ src/
     │   ├── stt.service.ts        # токен STT_SERVICE + интерфейс SttService/SttInput (originalName, size, storageKey, mimeType, signal?);
     │   │                         # StubSttService — детерминированная заглушка (транскрипт из метаданных); SttEngine + DEFAULT_STT_ENGINE
     │   ├── process-runner.ts     # токен PROCESS_RUNNER + SpawnProcessRunner — обёртка child_process.spawn (stdout/stderr в UTF-8,
-    │   │                         # reject по ненулевому коду / ENOENT); signal → spawn (по abort Node шлёт SIGTERM),
+    │   │                         # reject по ненулевому коду / ENOENT / убит сигналом (code === null)); signal → spawn (по abort Node шлёт SIGTERM),
     │   │                         # если процесс не умер за killGraceMs (деф. 3с) — добивающий SIGKILL
     │   ├── whisper-command.ts    # чистые buildWhisperArgs (whisper-cli: -m, -l язык/auto, -nt, -f) + needsConversion(mime) + buildFfmpegArgs (16кГц моно pcm_s16le)
     │   ├── whisper-stt.service.ts # WhisperSttService implements SttService — whisper.cpp как подпроцесс; не-WAV → ffmpeg во временный каталог (WHISPER_TMP_DIR), очистка в finally;

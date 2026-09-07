@@ -239,6 +239,13 @@ describe('WhisperSttService', () => {
       expect(opts?.signal).toBeInstanceOf(AbortSignal);
     });
 
+    it('отрицательный / нечисловой WHISPER_TIMEOUT_MS → дефолт, без RangeError', async () => {
+      for (const bad of ['-5', 'abc', '0']) {
+        const service = build({ ...whisperEnv, WHISPER_TIMEOUT_MS: bad });
+        await expect(service.transcribe(wavInput)).resolves.toBe('ok');
+      }
+    });
+
     it('внешний input.signal уже aborted → transcribe reject, долгая работа не запускается', async () => {
       const service = build(whisperEnv);
 

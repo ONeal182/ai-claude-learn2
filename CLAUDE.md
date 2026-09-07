@@ -63,6 +63,10 @@ cp apps/api/.env.example apps/api/.env
 cp apps/web/.env.example apps/web/.env
 ```
 
+По умолчанию `apps/api` использует `STT_ENGINE=whisper` (локальная транскрибация записей встреч).
+Нужны `whisper.cpp` + `ffmpeg` и модель: `pnpm --filter api whisper:model`. Без движка —
+`STT_ENGINE=stub` в `apps/api/.env`. Подробности — `apps/api/src/meeting-file/CLAUDE.md`.
+
 ## Общий код
 
 Переиспользуемую логику выносить в `packages/*` как `@repo/<name>` и подключать через `workspace:*`.

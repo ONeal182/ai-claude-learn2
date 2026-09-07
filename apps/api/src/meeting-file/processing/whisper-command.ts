@@ -23,6 +23,11 @@ export function buildWhisperArgs({ inputPath, modelPath, language }: WhisperArgs
 /** mime, которые whisper.cpp читает напрямую — конвертация не нужна (значения из `allowed-mime.ts`). */
 const WAV_MIME_TYPES: ReadonlySet<string> = new Set(['audio/wav', 'audio/x-wav']);
 
+/**
+ * Нужен ли шаг ffmpeg перед whisper. `true` для всего, что не является WAV из `WAV_MIME_TYPES`.
+ * Вызывается только для `recording` (аудио/видео из `ALLOWED_UPLOAD_MIME_TYPES`); прочие mime
+ * сюда не доходят, а если бы дошли — ffmpeg на них честно упадёт (→ `failed`, Фаза 3).
+ */
 export function needsConversion(mimeType: string): boolean {
   return !WAV_MIME_TYPES.has(mimeType);
 }

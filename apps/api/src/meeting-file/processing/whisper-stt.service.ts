@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { mkdtemp, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
@@ -10,6 +10,10 @@ import { type SttInput, type SttService } from './stt.service.js';
 
 /** ffmpeg берётся из `PATH` — ставится системно, отдельная env-переменная не вводится. */
 const FFMPEG_BIN = 'ffmpeg';
+/** Префикс каталога задачи в `mkdtemp` (под `WHISPER_TMP_DIR` / `os.tmpdir()`). */
+const WORK_DIR_PREFIX = 'whisper-';
+/** Имя сконвертированного WAV внутри каталога задачи. */
+const CONVERTED_WAV_NAME = 'input.wav';
 
 /**
  * Реальная транскрибация через whisper.cpp (`whisper-cli`) как внешний подпроцесс — без Python.
@@ -20,6 +24,8 @@ const FFMPEG_BIN = 'ffmpeg';
  */
 @Injectable()
 export class WhisperSttService implements SttService {
+  private readonly logger = new Logger(WhisperSttService.name);
+
   constructor(
     @Inject(PROCESS_RUNNER) private readonly runner: ProcessRunner,
     private readonly config: ConfigService,
@@ -33,11 +39,11 @@ export class WhisperSttService implements SttService {
     const tmpBase = this.config.get<string>('WHISPER_TMP_DIR', '') || tmpdir();
 
     const sourcePath = this.storage.absolutePath(input.storageKey);
-    const workDir = await mkdtemp(join(tmpBase, 'whisper-'));
+    const workDir = await mkdtemp(join(tmpBase, WORK_DIR_PREFIX));
     try {
       let audioPath = sourcePath;
       if (needsConversion(input.mimeType)) {
-        audioPath = join(workDir, 'input.wav');
+        audioPath = join(workDir, CONVERTED_WAV_NAME);
         await this.runner.run(FFMPEG_BIN, buildFfmpegArgs(sourcePath, audioPath));
       }
 
@@ -48,7 +54,10 @@ export class WhisperSttService implements SttService {
 
       return result.stdout.trim();
     } finally {
-      await rm(workDir, { recursive: true, force: true }).catch(() => undefined);
+      await rm(workDir, { recursive: true, force: true }).catch((error: unknown) => {
+        const reason = error instanceof Error ? error.message : String(error);
+        this.logger.warn(`Не удалось удалить временный каталог ${workDir}: ${reason}`);
+      });
     }
   }
 }

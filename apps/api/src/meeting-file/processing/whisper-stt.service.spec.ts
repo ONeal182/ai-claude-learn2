@@ -44,14 +44,14 @@ describe('WhisperSttService', () => {
 
   function makeConfig(values: Record<string, string>): ConfigService {
     return {
-      get: (key: string, fallback?: unknown) =>
-        values[key] ?? (key === 'WHISPER_TMP_DIR' ? tmpBase : (fallback ?? '')),
+      get: (key: string, fallback?: unknown) => values[key] ?? fallback ?? '',
     } as unknown as ConfigService;
   }
 
   function build(values: Record<string, string>): WhisperSttService {
     runner = { run: vi.fn().mockResolvedValue({ stdout: 'ok', stderr: '', code: 0 }) };
-    return new WhisperSttService(runner as unknown as ProcessRunner, makeConfig(values), storage);
+    const config = makeConfig({ WHISPER_TMP_DIR: tmpBase, ...values });
+    return new WhisperSttService(runner as unknown as ProcessRunner, config, storage);
   }
 
   const whisperEnv = {
@@ -148,6 +148,17 @@ describe('WhisperSttService', () => {
 
     await expect(service.transcribe(mp3Input)).rejects.toThrow('whisper упал');
 
+    expect(await readdir(tmpBase)).toEqual([]);
+  });
+
+  it('падение ffmpeg: whisper не запускается, временный каталог удалён', async () => {
+    const service = build(whisperEnv);
+    runner.run.mockRejectedValueOnce(new Error('ffmpeg упал')); // ffmpeg (единственный вызов)
+
+    await expect(service.transcribe(mp3Input)).rejects.toThrow('ffmpeg упал');
+
+    expect(runner.run).toHaveBeenCalledTimes(1);
+    expect(runner.run.mock.calls[0][0]).toBe('ffmpeg');
     expect(await readdir(tmpBase)).toEqual([]);
   });
 });

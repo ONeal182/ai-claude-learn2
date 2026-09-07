@@ -7,13 +7,8 @@ import { ALLOWED_UPLOAD_MIME_TYPES } from './allowed-mime.js';
 import { MeetingFileController } from './meeting-file.controller.js';
 import { MeetingFileProcessingQueue } from './processing/meeting-file-processing.queue.js';
 import { PROCESS_RUNNER, SpawnProcessRunner } from './processing/process-runner.js';
-import {
-  DEFAULT_STT_ENGINE,
-  STT_SERVICE,
-  StubSttService,
-  type SttEngine,
-  type SttService,
-} from './processing/stt.service.js';
+import { STT_SERVICE, StubSttService, type SttService } from './processing/stt.service.js';
+import { DEFAULT_STT_ENGINE, type SttEngine } from './processing/stt-engine.js';
 import { WhisperSttService } from './processing/whisper-stt.service.js';
 import { CommandHandlers } from './commands/handlers/index.js';
 import { QueryHandlers } from './queries/handlers/index.js';

@@ -1,7 +1,7 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Req, UseGuards } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import type { Meeting } from '@prisma/client';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard.js';
+import { JwtAuthGuard, type AuthenticatedRequest } from '../auth/guards/jwt-auth.guard.js';
 import { CreateMeetingCommand } from './commands/impl/create-meeting.command.js';
 import { ListMeetingsQuery } from './queries/impl/list-meetings.query.js';
 import { GetMeetingByIdQuery } from './queries/impl/get-meeting-by-id.query.js';
@@ -16,17 +16,19 @@ export class MeetingController {
   ) {}
 
   @Post()
-  create(@Body() dto: CreateMeetingDto): Promise<Meeting> {
-    return this.commandBus.execute(new CreateMeetingCommand(dto.title, dto.startsAt));
+  create(@Req() request: AuthenticatedRequest, @Body() dto: CreateMeetingDto): Promise<Meeting> {
+    return this.commandBus.execute(
+      new CreateMeetingCommand(request.user!.userId, dto.title, dto.startsAt),
+    );
   }
 
   @Get()
-  list(): Promise<Meeting[]> {
-    return this.queryBus.execute(new ListMeetingsQuery());
+  list(@Req() request: AuthenticatedRequest): Promise<Meeting[]> {
+    return this.queryBus.execute(new ListMeetingsQuery(request.user!.userId));
   }
 
   @Get(':id')
-  getById(@Param('id') id: string): Promise<Meeting> {
-    return this.queryBus.execute(new GetMeetingByIdQuery(id));
+  getById(@Req() request: AuthenticatedRequest, @Param('id') id: string): Promise<Meeting> {
+    return this.queryBus.execute(new GetMeetingByIdQuery(id, request.user!.userId));
   }
 }

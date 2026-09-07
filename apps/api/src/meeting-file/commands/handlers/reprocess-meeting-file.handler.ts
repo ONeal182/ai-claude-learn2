@@ -26,7 +26,7 @@ export class ReprocessMeetingFileHandler implements ICommandHandler<
   async execute(command: ReprocessMeetingFileCommand): Promise<MeetingFileDto> {
     // 404, если файла нет / он у другой встречи — читаем через единый источник
     await this.queryBus.execute<GetMeetingFileQuery, MeetingFile>(
-      new GetMeetingFileQuery(command.meetingId, command.fileId),
+      new GetMeetingFileQuery(command.ownerId, command.meetingId, command.fileId),
     );
 
     // атомарный переход failed → pending: guard в `where`, а не отдельная проверка перед update,
@@ -43,7 +43,7 @@ export class ReprocessMeetingFileHandler implements ICommandHandler<
 
     // перечитываем актуальную строку (ещё `pending` — событие публикуем после) для ответа
     const updated = await this.queryBus.execute<GetMeetingFileQuery, MeetingFile>(
-      new GetMeetingFileQuery(command.meetingId, command.fileId),
+      new GetMeetingFileQuery(command.ownerId, command.meetingId, command.fileId),
     );
     this.eventBus.publish(new MeetingFileProcessingRequestedEvent(command.fileId));
 

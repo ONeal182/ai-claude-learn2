@@ -17,7 +17,11 @@ import { EventHandlers } from './events/handlers/index.js';
       useFactory: (configService: ConfigService) => ({
         secret: configService.getOrThrow<string>('JWT_SECRET'),
         signOptions: {
+          algorithm: 'HS256',
           expiresIn: configService.get('JWT_EXPIRES_IN', '1d') as JwtSignOptions['expiresIn'],
+        },
+        verifyOptions: {
+          algorithms: ['HS256'],
         },
       }),
     }),

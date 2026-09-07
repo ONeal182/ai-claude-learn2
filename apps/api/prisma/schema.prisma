@@ -7,13 +7,14 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
+  id        String    @id @default(cuid())
+  email     String    @unique
   password  String
   name      String?
   avatarKey String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  meetings  Meeting[]
 
   @@map("users")
 }
@@ -22,10 +23,13 @@ model Meeting {
   id        String        @id @default(cuid())
   title     String
   startsAt  DateTime
+  ownerId   String
+  owner     User          @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   createdAt DateTime      @default(now())
   updatedAt DateTime      @updatedAt
   files     MeetingFile[]
 
+  @@index([ownerId])
   @@map("meetings")
 }
 

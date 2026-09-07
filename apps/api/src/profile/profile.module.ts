@@ -26,6 +26,8 @@ const DEFAULT_AVATAR_MAX_SIZE_BYTES = 5_242_880;
       useFactory: (config: ConfigService) => ({
         // memoryStorage по умолчанию: файл в буфере, на диск пишем в хендлере после проверок
         limits: {
+          files: 1,
+          fields: 5,
           fileSize: Number(
             config.get<string | number>(
               'AVATAR_MAX_UPLOAD_SIZE_BYTES',

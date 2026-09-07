@@ -17,8 +17,8 @@ export class ListMeetingFilesHandler implements IQueryHandler<
   ) {}
 
   async execute(query: ListMeetingFilesQuery): Promise<MeetingFileDto[]> {
-    // 404, если встречи нет
-    await this.queryBus.execute(new GetMeetingByIdQuery(query.meetingId));
+    // 404, если встречи нет или она не принадлежит пользователю
+    await this.queryBus.execute(new GetMeetingByIdQuery(query.meetingId, query.ownerId));
 
     const files = await this.prisma.meetingFile.findMany({
       where: { meetingId: query.meetingId },

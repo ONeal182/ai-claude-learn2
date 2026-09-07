@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { CommandBus, CommandHandler, ICommandHandler, QueryBus } from '@nestjs/cqrs';
 import { compare, hash } from 'bcryptjs';
 import type { User } from '@prisma/client';
@@ -28,6 +28,10 @@ export class ChangePasswordHandler implements ICommandHandler<ChangePasswordComm
     const currentPasswordMatches = await compare(currentPassword, user.password);
     if (!currentPasswordMatches) {
       throw new UnauthorizedException('Invalid credentials');
+    }
+
+    if (newPassword === currentPassword) {
+      throw new BadRequestException('Новый пароль должен отличаться от текущего');
     }
 
     // Хеширование — ответственность auth; users принимает уже готовый passwordHash.

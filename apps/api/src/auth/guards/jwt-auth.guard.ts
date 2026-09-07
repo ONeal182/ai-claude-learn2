@@ -31,7 +31,11 @@ export class JwtAuthGuard implements CanActivate {
     }
 
     try {
-      const payload = await this.jwtService.verifyAsync<JwtPayload>(token);
+      // Пиннинг алгоритма: не принимать токены, подписанные не тем алгоритмом,
+      // которым мы подписываем сами (защита от alg-confusion при общем секрете).
+      const payload = await this.jwtService.verifyAsync<JwtPayload>(token, {
+        algorithms: ['HS256'],
+      });
       request.user = { userId: payload.sub, email: payload.email };
       return true;
     } catch {

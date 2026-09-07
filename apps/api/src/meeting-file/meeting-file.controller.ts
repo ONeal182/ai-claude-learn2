@@ -8,6 +8,7 @@ import {
   HttpStatus,
   Param,
   Post,
+  Req,
   StreamableFile,
   UploadedFile,
   UseGuards,
@@ -15,7 +16,7 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard.js';
+import { JwtAuthGuard, type AuthenticatedRequest } from '../auth/guards/jwt-auth.guard.js';
 import { CreateMeetingFileCommand } from './commands/impl/create-meeting-file.command.js';
 import { DeleteMeetingFileCommand } from './commands/impl/delete-meeting-file.command.js';
 import { ReprocessMeetingFileCommand } from './commands/impl/reprocess-meeting-file.command.js';
@@ -43,6 +44,7 @@ export class MeetingFileController {
   @Post()
   @UseInterceptors(FileInterceptor('file'))
   upload(
+    @Req() request: AuthenticatedRequest,
     @Param('meetingId') meetingId: string,
     @Body() dto: UploadMeetingFileDto,
     @UploadedFile() file: UploadedFilePart | undefined,
@@ -57,21 +59,27 @@ export class MeetingFileController {
       size: file.size,
       buffer: file.buffer,
     };
-    return this.commandBus.execute(new CreateMeetingFileCommand(meetingId, dto.type, part));
+    return this.commandBus.execute(
+      new CreateMeetingFileCommand(request.user!.userId, meetingId, dto.type, part),
+    );
   }
 
   @Get()
-  list(@Param('meetingId') meetingId: string): Promise<MeetingFileDto[]> {
-    return this.queryBus.execute(new ListMeetingFilesQuery(meetingId));
+  list(
+    @Req() request: AuthenticatedRequest,
+    @Param('meetingId') meetingId: string,
+  ): Promise<MeetingFileDto[]> {
+    return this.queryBus.execute(new ListMeetingFilesQuery(request.user!.userId, meetingId));
   }
 
   @Get(':fileId/content')
   async content(
+    @Req() request: AuthenticatedRequest,
     @Param('meetingId') meetingId: string,
     @Param('fileId') fileId: string,
   ): Promise<StreamableFile> {
     const { stream, mimeType, originalName }: MeetingFileContent = await this.queryBus.execute(
-      new GetMeetingFileContentQuery(meetingId, fileId),
+      new GetMeetingFileContentQuery(request.user!.userId, meetingId, fileId),
     );
     return new StreamableFile(stream, {
       type: mimeType,
@@ -82,14 +90,23 @@ export class MeetingFileController {
   @Post(':fileId/reprocess')
   @HttpCode(HttpStatus.OK)
   reprocess(
+    @Req() request: AuthenticatedRequest,
     @Param('meetingId') meetingId: string,
     @Param('fileId') fileId: string,
   ): Promise<MeetingFileDto> {
-    return this.commandBus.execute(new ReprocessMeetingFileCommand(meetingId, fileId));
+    return this.commandBus.execute(
+      new ReprocessMeetingFileCommand(request.user!.userId, meetingId, fileId),
+    );
   }
 
   @Delete(':fileId')
-  remove(@Param('meetingId') meetingId: string, @Param('fileId') fileId: string): Promise<void> {
-    return this.commandBus.execute(new DeleteMeetingFileCommand(meetingId, fileId));
+  remove(
+    @Req() request: AuthenticatedRequest,
+    @Param('meetingId') meetingId: string,
+    @Param('fileId') fileId: string,
+  ): Promise<void> {
+    return this.commandBus.execute(
+      new DeleteMeetingFileCommand(request.user!.userId, meetingId, fileId),
+    );
   }
 }

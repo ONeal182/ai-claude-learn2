@@ -1,8 +1,8 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { BadRequestException, Injectable, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { createReadStream, type ReadStream } from 'node:fs';
 import { access, mkdir, rm, writeFile } from 'node:fs/promises';
-import { isAbsolute, join, resolve } from 'node:path';
+import { isAbsolute, resolve, sep } from 'node:path';
 
 /**
  * Единственная точка работы с файловой системой для загруженных бинарников
@@ -48,7 +48,17 @@ export class FileStorageService implements OnModuleInit {
     await rm(this.resolvePath(storageKey), { force: true });
   }
 
+  /**
+   * Собирает абсолютный путь и проверяет, что он не вышел за пределы `baseDir`
+   * (defense-in-depth: сейчас `storageKey` всегда генерируется как uuid, но
+   * барьер не должен зависеть от вызывающей стороны — `..`, абсолютный путь,
+   * разделители в ключе отклоняются).
+   */
   private resolvePath(storageKey: string): string {
-    return join(this.baseDir, storageKey);
+    const full = resolve(this.baseDir, storageKey);
+    if (full !== this.baseDir && !full.startsWith(this.baseDir + sep)) {
+      throw new BadRequestException('Некорректный ключ файла');
+    }
+    return full;
   }
 }

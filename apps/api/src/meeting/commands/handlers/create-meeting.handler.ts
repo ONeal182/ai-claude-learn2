@@ -16,6 +16,7 @@ export class CreateMeetingHandler implements ICommandHandler<CreateMeetingComman
   async execute(command: CreateMeetingCommand): Promise<Meeting> {
     const meeting = await this.prisma.meeting.create({
       data: {
+        ownerId: command.ownerId,
         title: command.title,
         startsAt: new Date(command.startsAt),
       },

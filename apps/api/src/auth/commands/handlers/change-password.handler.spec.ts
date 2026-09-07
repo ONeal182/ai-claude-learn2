@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, UnauthorizedException } from '@nestjs/common';
 import { compare, hash } from 'bcryptjs';
 import { ChangePasswordHandler } from './change-password.handler.js';
 import { ChangePasswordCommand } from '../impl/change-password.command.js';
@@ -59,6 +59,19 @@ describe('ChangePasswordHandler', () => {
     await expect(
       handler.execute(new ChangePasswordCommand(userId, 'wrong-password', newPassword)),
     ).rejects.toBeInstanceOf(UnauthorizedException);
+    expect(commandBus.execute).not.toHaveBeenCalled();
+  });
+
+  it('бросает BadRequestException, если новый пароль совпадает с текущим', async () => {
+    queryBus.execute.mockResolvedValue({
+      id: userId,
+      email: 'a@example.com',
+      password: await hash(currentPassword, 10),
+    });
+
+    await expect(
+      handler.execute(new ChangePasswordCommand(userId, currentPassword, currentPassword)),
+    ).rejects.toBeInstanceOf(BadRequestException);
     expect(commandBus.execute).not.toHaveBeenCalled();
   });
 

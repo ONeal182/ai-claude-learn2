@@ -18,7 +18,7 @@ export class DeleteMeetingFileHandler implements ICommandHandler<DeleteMeetingFi
   async execute(command: DeleteMeetingFileCommand): Promise<void> {
     // 404, если файла нет / он у другой встречи — читаем через единый источник, не дублируем findFirst
     const file = await this.queryBus.execute<GetMeetingFileQuery, MeetingFile>(
-      new GetMeetingFileQuery(command.meetingId, command.fileId),
+      new GetMeetingFileQuery(command.ownerId, command.meetingId, command.fileId),
     );
 
     // транскрипт хранится колонкой `transcriptText` этой же строки — удаляется вместе с ней;

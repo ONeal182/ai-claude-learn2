@@ -21,6 +21,8 @@ export class MeetingFileProcessingQueue implements OnModuleDestroy {
   private draining = false;
   private stopped = false;
   private current: Promise<void> | null = null;
+  /** Контроллер отмены активной задачи — `abort()` в `onModuleDestroy` рвёт подпроцесс движка. */
+  private currentAbort: AbortController | null = null;
 
   constructor(
     private readonly prisma: PrismaService,
@@ -51,6 +53,7 @@ export class MeetingFileProcessingQueue implements OnModuleDestroy {
   }
 
   private async process(fileId: string): Promise<void> {
+    this.currentAbort = new AbortController();
     try {
       const file = await this.prisma.meetingFile.findUnique({ where: { id: fileId } });
       if (!file || this.stopped) return;
@@ -65,6 +68,7 @@ export class MeetingFileProcessingQueue implements OnModuleDestroy {
         size: file.size,
         storageKey: file.storageKey,
         mimeType: file.mimeType,
+        signal: this.currentAbort.signal,
       });
       if (this.stopped) return;
 
@@ -80,12 +84,17 @@ export class MeetingFileProcessingQueue implements OnModuleDestroy {
       await this.prisma.meetingFile
         .update({ where: { id: fileId }, data: { status: MeetingFileStatus.failed } })
         .catch(() => undefined);
+    } finally {
+      this.currentAbort = null;
     }
   }
 
   async onModuleDestroy(): Promise<void> {
+    // порядок важен: `stopped` первым — тогда `catch`/пост-await ветки process() не тронут БД;
+    // затем рвём подпроцесс движка и дожидаемся «догорания» текущей задачи
     this.stopped = true;
     this.pending.length = 0;
+    this.currentAbort?.abort();
     if (this.current) {
       await this.current.catch(() => undefined);
     }

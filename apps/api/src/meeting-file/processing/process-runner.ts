@@ -11,9 +11,9 @@ export interface ProcessRunResult {
 }
 
 export interface ProcessRunOptions {
-  /** Прерывание запущенного процесса (таймаут / остановка приложения — задействуется в Фазе 3). */
+  /** Прерывание запущенного процесса (таймаут / остановка приложения). */
   signal?: AbortSignal;
-  /** Пауза перед добивающим `SIGKILL` после `abort` (Фаза 3). */
+  /** Пауза перед добивающим `SIGKILL` после `abort`, мс. Дефолт — `DEFAULT_KILL_GRACE_MS`. */
   killGraceMs?: number;
 }
 
@@ -25,11 +25,17 @@ export interface ProcessRunner {
   ): Promise<ProcessRunResult>;
 }
 
+/** Сколько ждать после `SIGTERM` (его шлёт `spawn` по `abort`) перед добивающим `SIGKILL`. */
+export const DEFAULT_KILL_GRACE_MS = 3000;
+
 /**
  * Единственная реализация `ProcessRunner` поверх `node:child_process.spawn` — без внешних пакетов.
  * Контракт: код завершения `0` → resolve `{ stdout, stderr, code }`; ненулевой код или ошибка
  * запуска (`ENOENT` и т.п.) → reject `Error`. Вывод собирается по кускам и декодируется в UTF-8.
- * Проброс `signal` в `spawn` уже включён; grace-`SIGKILL` — Фаза 3.
+ *
+ * Отмена: `signal` пробрасывается в `spawn` (Node сам шлёт процессу `SIGTERM` по `abort` и
+ * реджектит промис `AbortError`). Если процесс игнорирует `SIGTERM`, по grace-таймеру
+ * (`killGraceMs`) ему прилетает `SIGKILL` — иначе зависший `ffmpeg`/whisper удержал бы очередь.
  */
 @Injectable()
 export class SpawnProcessRunner implements ProcessRunner {
@@ -38,17 +44,37 @@ export class SpawnProcessRunner implements ProcessRunner {
     args: readonly string[],
     options: ProcessRunOptions = {},
   ): Promise<ProcessRunResult> {
+    const { signal, killGraceMs = DEFAULT_KILL_GRACE_MS } = options;
+
     return new Promise<ProcessRunResult>((resolve, reject) => {
-      const child = spawn(command, [...args], { signal: options.signal });
+      const child = spawn(command, [...args], { signal });
       const stdout: Buffer[] = [];
       const stderr: Buffer[] = [];
+
+      let killTimer: NodeJS.Timeout | undefined;
+      const onAbort = (): void => {
+        killTimer = setTimeout(() => child.kill('SIGKILL'), killGraceMs);
+        killTimer.unref();
+      };
+      if (signal) {
+        if (signal.aborted) onAbort();
+        else signal.addEventListener('abort', onAbort, { once: true });
+      }
+      const cleanup = (): void => {
+        if (killTimer) clearTimeout(killTimer);
+        signal?.removeEventListener('abort', onAbort);
+      };
 
       child.stdout?.on('data', (chunk: Buffer) => stdout.push(chunk));
       child.stderr?.on('data', (chunk: Buffer) => stderr.push(chunk));
 
-      child.on('error', (error) => reject(error));
+      child.on('error', (error) => {
+        cleanup();
+        reject(error);
+      });
 
       child.on('close', (code) => {
+        cleanup();
         const result: ProcessRunResult = {
           stdout: Buffer.concat(stdout).toString('utf8'),
           stderr: Buffer.concat(stderr).toString('utf8'),

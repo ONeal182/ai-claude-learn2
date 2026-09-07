@@ -1,5 +1,5 @@
 import { ConfigService } from '@nestjs/config';
-import { mkdtemp, readdir, rm } from 'node:fs/promises';
+import { mkdtemp, readdir, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { FileStorageService } from '../../storage/file-storage.service.js';
@@ -9,12 +9,17 @@ import { type SttInput } from './stt.service.js';
 
 /**
  * `WhisperSttService`: сборка запуска whisper.cpp (Фаза 1) + конвертация не-WAV через ffmpeg
- * и очистка временного каталога (Фаза 2). `PROCESS_RUNNER` подменён `vi.fn()` — реальный
- * whisper.cpp/ffmpeg в unit-тестах не нужен. Ветки ошибок, таймаут и пустой вывод — Фаза 3.
+ * и очистка временного каталога (Фаза 2) + устойчивость — пред-проверки бинарника/модели,
+ * таймаут `WHISPER_TIMEOUT_MS`, проброс `signal`, классификация сбоев, пустой вывод (Фаза 3).
+ * `PROCESS_RUNNER` подменён `vi.fn()` — реальный whisper.cpp/ffmpeg в unit-тестах не нужен.
  */
 describe('WhisperSttService', () => {
   let runner: { run: ReturnType<typeof vi.fn> };
   let tmpBase: string;
+  /** Каталог с фейковыми файлами движка — отдельно от `WHISPER_TMP_DIR`, чтобы не мешать readdir. */
+  let engineDir: string;
+  let binPath: string;
+  let modelPath: string;
 
   const storage = {
     absolutePath: (key: string): string => `/abs/uploads/${key}`,
@@ -36,10 +41,16 @@ describe('WhisperSttService', () => {
 
   beforeEach(async () => {
     tmpBase = await mkdtemp(join(tmpdir(), 'whisper-stt-spec-'));
+    engineDir = await mkdtemp(join(tmpdir(), 'whisper-engine-spec-'));
+    binPath = join(engineDir, 'whisper-cli');
+    modelPath = join(engineDir, 'ggml-tiny.bin');
+    await writeFile(binPath, '');
+    await writeFile(modelPath, '');
   });
 
   afterEach(async () => {
     await rm(tmpBase, { recursive: true, force: true });
+    await rm(engineDir, { recursive: true, force: true });
   });
 
   function makeConfig(values: Record<string, string>): ConfigService {
@@ -49,15 +60,22 @@ describe('WhisperSttService', () => {
   }
 
   function build(values: Record<string, string>): WhisperSttService {
-    runner = { run: vi.fn().mockResolvedValue({ stdout: 'ok', stderr: '', code: 0 }) };
+    runner = {
+      run: vi
+        .fn()
+        .mockImplementation((_cmd: string, _args: string[], opts?: { signal?: AbortSignal }) => {
+          if (opts?.signal?.aborted) return Promise.reject(new Error('aborted'));
+          return Promise.resolve({ stdout: 'ok', stderr: '', code: 0 });
+        }),
+    };
     const config = makeConfig({ WHISPER_TMP_DIR: tmpBase, ...values });
     return new WhisperSttService(runner as unknown as ProcessRunner, config, storage);
   }
 
-  const whisperEnv = {
-    WHISPER_BIN_PATH: '/opt/whisper/whisper-cli',
-    WHISPER_MODEL_PATH: '/models/ggml-tiny.bin',
-  };
+  let whisperEnv: Record<string, string>;
+  beforeEach(() => {
+    whisperEnv = { WHISPER_BIN_PATH: binPath, WHISPER_MODEL_PATH: modelPath };
+  });
 
   it('запускает WHISPER_BIN_PATH с -m <модель>, -l auto (пустой язык) и абсолютным путём файла', async () => {
     const service = build({ ...whisperEnv, WHISPER_LANGUAGE: '' });
@@ -67,8 +85,8 @@ describe('WhisperSttService', () => {
 
     expect(runner.run).toHaveBeenCalledTimes(1);
     const [command, args] = runner.run.mock.calls[0] as [string, string[]];
-    expect(command).toBe('/opt/whisper/whisper-cli');
-    expect(args).toEqual(expect.arrayContaining(['-m', '/models/ggml-tiny.bin']));
+    expect(command).toBe(binPath);
+    expect(args).toEqual(expect.arrayContaining(['-m', modelPath]));
     expect(args).toEqual(expect.arrayContaining(['-l', 'auto']));
     expect(args).toContain('-nt');
     expect(args).toContain('/abs/uploads/file-key-1');
@@ -104,7 +122,7 @@ describe('WhisperSttService', () => {
 
     expect(runner.run).toHaveBeenCalledTimes(2);
     for (const [command, args] of runner.run.mock.calls as Array<[string, string[]]>) {
-      expect(command).toBe('/opt/whisper/whisper-cli');
+      expect(command).toBe(binPath);
       expect(args).toContain('/abs/uploads/file-key-1');
     }
   });
@@ -127,7 +145,7 @@ describe('WhisperSttService', () => {
     expect(convertedWav.endsWith('input.wav')).toBe(true);
 
     const [whisperCmd, whisperArgs] = runner.run.mock.calls[1] as [string, string[]];
-    expect(whisperCmd).toBe('/opt/whisper/whisper-cli');
+    expect(whisperCmd).toBe(binPath);
     expect(whisperArgs).toContain(convertedWav); // whisper читает сконвертированный WAV
     expect(whisperArgs).not.toContain('/abs/uploads/file-key-1');
   });
@@ -160,5 +178,96 @@ describe('WhisperSttService', () => {
     expect(runner.run).toHaveBeenCalledTimes(1);
     expect(runner.run.mock.calls[0][0]).toBe('ffmpeg');
     expect(await readdir(tmpBase)).toEqual([]);
+  });
+
+  describe('Фаза 3 — устойчивость', () => {
+    it('нет бинарника (WHISPER_BIN_PATH не существует) → ошибка про binary, раннер не вызван', async () => {
+      const service = build({ ...whisperEnv, WHISPER_BIN_PATH: join(engineDir, 'nope-cli') });
+
+      await expect(service.transcribe(wavInput)).rejects.toThrow(/binary/i);
+      expect(runner.run).not.toHaveBeenCalled();
+      expect(await readdir(tmpBase)).toEqual([]); // временный каталог не создавался
+    });
+
+    it('пустой WHISPER_BIN_PATH → ошибка про binary', async () => {
+      const service = build({ ...whisperEnv, WHISPER_BIN_PATH: '' });
+
+      await expect(service.transcribe(wavInput)).rejects.toThrow(/binary/i);
+      expect(runner.run).not.toHaveBeenCalled();
+    });
+
+    it('нет модели (WHISPER_MODEL_PATH не существует) → ошибка про model, раннер не вызван', async () => {
+      const service = build({ ...whisperEnv, WHISPER_MODEL_PATH: join(engineDir, 'nope.bin') });
+
+      await expect(service.transcribe(wavInput)).rejects.toThrow(/model/i);
+      expect(runner.run).not.toHaveBeenCalled();
+    });
+
+    it('ненулевой код whisper (раннер reject) → transcribe reject', async () => {
+      const service = build(whisperEnv);
+      runner.run.mockRejectedValueOnce(new Error('Команда «whisper-cli» завершилась с кодом 1'));
+
+      await expect(service.transcribe(wavInput)).rejects.toThrow(/кодом 1/);
+    });
+
+    it('пустой/пробельный вывод whisper → ошибка про empty transcript', async () => {
+      const service = build(whisperEnv);
+      runner.run.mockResolvedValueOnce({ stdout: '   \n  \t', stderr: '', code: 0 });
+
+      await expect(service.transcribe(wavInput)).rejects.toThrow(/empty/i);
+      expect(await readdir(tmpBase)).toEqual([]);
+    });
+
+    it('превышен WHISPER_TIMEOUT_MS → ошибка про timeout; раннер получил opts.signal', async () => {
+      const service = build({ ...whisperEnv, WHISPER_TIMEOUT_MS: '20' });
+      runner.run.mockImplementation(
+        (_cmd: string, _args: string[], opts?: { signal?: AbortSignal }) =>
+          new Promise((_resolve, reject) => {
+            if (opts?.signal?.aborted) {
+              reject(new Error('aborted'));
+              return;
+            }
+            opts?.signal?.addEventListener('abort', () => reject(new Error('aborted')), {
+              once: true,
+            });
+          }),
+      );
+
+      await expect(service.transcribe(wavInput)).rejects.toThrow(/timed out|timeout/i);
+
+      const [, , opts] = runner.run.mock.calls[0] as [string, string[], { signal?: AbortSignal }];
+      expect(opts?.signal).toBeInstanceOf(AbortSignal);
+    });
+
+    it('внешний input.signal уже aborted → transcribe reject, долгая работа не запускается', async () => {
+      const service = build(whisperEnv);
+
+      await expect(
+        service.transcribe({ ...wavInput, signal: AbortSignal.abort() }),
+      ).rejects.toThrow();
+    });
+
+    it('input.signal, прерванный во время работы → transcribe reject', async () => {
+      const service = build(whisperEnv);
+      const controller = new AbortController();
+      runner.run.mockImplementation(
+        (_cmd: string, _args: string[], opts?: { signal?: AbortSignal }) =>
+          new Promise((_resolve, reject) => {
+            if (opts?.signal?.aborted) {
+              reject(new Error('aborted'));
+              return;
+            }
+            opts?.signal?.addEventListener('abort', () => reject(new Error('aborted')), {
+              once: true,
+            });
+          }),
+      );
+
+      const promise = service.transcribe({ ...wavInput, signal: controller.signal });
+      controller.abort();
+
+      await expect(promise).rejects.toThrow();
+      expect(await readdir(tmpBase)).toEqual([]);
+    });
   });
 });

@@ -7,18 +7,18 @@ NestJS 12, TypeScript, **чистый ESM** (`"type": "module"`). Линт — o
 
 Запускать через корень (`pnpm api <script>`) или из этой папки:
 
-| Команда           | Действие                                     |
-| ----------------- | -------------------------------------------- |
-| `pnpm dev`        | `nest start --watch` (порт 3001)             |
-| `pnpm start`      | `nest start`                                 |
-| `pnpm start:prod` | `node dist/main` (после `build`)             |
-| `pnpm build`      | `nest build` → `dist/`                       |
-| `pnpm lint`       | `oxlint src/ test/`                          |
-| `pnpm typecheck`  | `tsc --noEmit -p tsconfig.json`              |
-| `pnpm test`       | `vitest run` (файлы `**/*.spec.ts`)          |
-| `pnpm test:watch` | `vitest`                                     |
-| `pnpm test:cov`   | `vitest run --coverage`                      |
-| `pnpm test:e2e`   | `vitest run --config ./vitest.config.e2e.ts` |
+| Команда              | Действие                                                                                                    |
+| -------------------- | ----------------------------------------------------------------------------------------------------------- |
+| `pnpm dev`           | `nest start --watch` (порт 3001)                                                                            |
+| `pnpm start`         | `nest start`                                                                                                |
+| `pnpm start:prod`    | `node dist/main` (после `build`)                                                                            |
+| `pnpm build`         | `nest build` → `dist/`                                                                                      |
+| `pnpm lint`          | `oxlint src/ test/`                                                                                         |
+| `pnpm typecheck`     | `tsc --noEmit -p tsconfig.json`                                                                             |
+| `pnpm test`          | `vitest run` (файлы `**/*.spec.ts`)                                                                         |
+| `pnpm test:watch`    | `vitest`                                                                                                    |
+| `pnpm test:cov`      | `vitest run --coverage`                                                                                     |
+| `pnpm test:e2e`      | `vitest run --config ./vitest.config.e2e.ts`                                                                |
 | `pnpm whisper:model` | скачать модель `ggml-tiny.bin` в `WHISPER_MODEL_PATH` (идемпотентно; нужно только при `STT_ENGINE=whisper`) |
 
 Prisma (конфиг подключения — `prisma.config.ts`, не `datasource.url` в схеме — так с v7):
@@ -38,7 +38,7 @@ prisma/
 prisma.config.ts         # datasource url (env DATABASE_URL) — Prisma 7 не читает url из schema.prisma
 src/
 ├── main.ts             # bootstrap, app.enableCors(), app.enableShutdownHooks() (SIGTERM→OnModuleDestroy), app.listen(PORT ?? 3001)
-├── app.module.ts       # корневой модуль (ConfigModule.forRoot({ validate: validateEnv }), PrismaModule, UsersModule, AuthModule, MeetingModule, MeetingFileModule, global ValidationPipe)
+├── app.module.ts       # корневой модуль (ConfigModule.forRoot({ validate: validateEnv }), PrismaModule, UsersModule, AuthModule, MeetingModule, MeetingFileModule, ProfileModule, ClaudeAgentModule, global ValidationPipe)
 ├── app.controller.ts   # GET /
 ├── app.service.ts
 ├── app.controller.spec.ts
@@ -115,11 +115,12 @@ src/
 │   │   └── handlers/        # MeetingCreatedHandler — сейчас только логирует
 │   └── dto/
 │       └── create-meeting.dto.ts  # class-validator: title (IsNotEmpty), startsAt (IsDateString)
-└── meeting-file/        # CQRS; вложенный ресурс /meetings/:meetingId/files, контроллер под @UseGuards(JwtAuthGuard). Логика модуля — src/meeting-file/CLAUDE.md
-    ├── CLAUDE.md                 # хранение файлов + конвейер фоновой транскрибации + онбординг whisper-движка
-    ├── meeting-file.module.ts    # imports: [AuthModule, StorageModule, MulterModule.registerAsync] — limits.fileSize из MAX_UPLOAD_SIZE_BYTES (→413), fileFilter по allowed-mime (→400);
-    │                             # провайдер STT_SERVICE — useFactory по STT_ENGINE (whisper → WhisperSttService, stub → StubSttService)
-    ├── meeting-file.controller.ts # POST /  ·  GET /  ·  GET /:fileId/content (StreamableFile)  ·  POST /:fileId/reprocess (200)  ·  DELETE /:fileId
+├── meeting-file/        # CQRS; вложенный ресурс /meetings/:meetingId/files, контроллер под @UseGuards(JwtAuthGuard). Логика модуля — src/meeting-file/CLAUDE.md
+    ├── CLAUDE.md                 # хранение файлов + конвейер фоновой транскрибации + онбординг whisper-движка + автоматическая суммаризация
+    ├── meeting-file.module.ts    # imports: [AuthModule, StorageModule, ClaudeAgentModule, MulterModule.registerAsync] — limits.fileSize из MAX_UPLOAD_SIZE_BYTES (→413), fileFilter по allowed-mime (→400);
+    │                             # провайдер STT_SERVICE — useFactory по STT_ENGINE (whisper → WhisperSttService, stub → StubSttService);
+    │                             # провайдер SUMMARY_SERVICE — useFactory по SUMMARY_ENGINE (claude → ClaudeSummaryService, stub → StubSummaryService)
+    ├── meeting-file.controller.ts # POST /  ·  GET /  ·  GET /:fileId/content (StreamableFile)  ·  POST /:fileId/reprocess (200)  ·  POST /:fileId/resummarize (200)  ·  DELETE /:fileId
     ├── allowed-mime.ts           # ALLOWED_UPLOAD_MIME_TYPES — белый список mime (единый на recording/attachment)
     ├── attachment-disposition.ts # attachmentDisposition(name) — значение Content-Disposition: filename* (UTF-8) + ASCII-фолбэк
     ├── processing/
@@ -132,26 +133,43 @@ src/
     │   ├── whisper-command.ts    # чистые buildWhisperArgs (whisper-cli: -m, -l язык/auto, -nt, -f) + needsConversion(mime) + buildFfmpegArgs (16кГц моно pcm_s16le)
     │   ├── whisper-stt.service.ts # WhisperSttService implements SttService — whisper.cpp как подпроцесс; не-WAV → ffmpeg во временный каталог (WHISPER_TMP_DIR), очистка в finally;
     │   │                         # пред-проверки existsSync(WHISPER_BIN_PATH/MODEL_PATH), таймаут WHISPER_TIMEOUT_MS (AbortSignal.timeout ⊕ input.signal), пустой вывод / любой сбой → throw
-    │   └── meeting-file-processing.queue.ts # in-process воркер (concurrency 1): pending→processing→done|failed + transcriptText;
-    │                             # OnModuleDestroy: stopped=true → currentAbort.abort() (рвёт подпроцесс движка) → await текущей (иначе e2e с app.close() «догорают»); P2025 при DELETE — молча
+    │   ├── meeting-file-processing.queue.ts # in-process воркер (concurrency 1): pending→processing→done|failed + transcriptText;
+    │   │                         # OnModuleDestroy: stopped=true → currentAbort.abort() (рвёт подпроцесс движка) → await текущей (иначе e2e с app.close() «догорают»); P2025 при DELETE — молча
+    │   ├── summary-engine.ts     # SummaryEngine + DEFAULT_SUMMARY_ENGINE ('claude' с Фазы 2) + resolveSummaryEngine (пусто→дефолт, неизвестное→throw); без зависимостей
+    │   ├── summary.service.ts    # токен SUMMARY_SERVICE + интерфейс SummaryService/SummaryInput (transcriptText, originalName, signal?);
+    │   │                         # StubSummaryService — детерминированная заглушка (резюме из метаданных)
+    │   ├── claude-summary.service.ts # ClaudeSummaryService implements SummaryService — вызов ClaudeAgentService с промптом на русском;
+    │   │                         # строгий JSON { summary: string, decisions: string[], actionItems: string[] }; парсинг + валидация; любая ошибка → throw без частичных данных
+    │   └── meeting-file-summary.queue.ts # in-process воркер (concurrency 1): summaryStatus pending→processing→done|failed + summary JSON;
+    │                             # OnModuleDestroy: stopped=true → currentAbort.abort() → await текущей; P2025 при DELETE — молча; любой throw из SUMMARY_SERVICE → failed без частичного summary
     ├── commands/
-    │   ├── impl/            # CreateMeetingFileCommand { meetingId, type, file }, DeleteMeetingFileCommand / ReprocessMeetingFileCommand { meetingId, fileId }
+    │   ├── impl/            # CreateMeetingFileCommand { meetingId, type, file }, DeleteMeetingFileCommand / ReprocessMeetingFileCommand / ResummarizeMeetingFileCommand { meetingId, fileId }
     │   └── handlers/        # CreateMeetingFileHandler — 404 через QueryBus(GetMeetingByIdQuery), запись файла + prisma.meetingFile.create,
     │                        # для recording publish MeetingFileProcessingRequestedEvent;
     │                        # DeleteMeetingFileHandler — 404 через QueryBus(GetMeetingFileQuery), delete (транскрипт — та же строка) + storage.remove;
-    │                        # ReprocessMeetingFileHandler — атомарный updateMany failed→pending (count 0 → 409), publish события
+    │                        # ReprocessMeetingFileHandler — атомарный updateMany failed→pending + сброс transcriptText/summaryStatus/summary (count 0 → 409), publish события;
+    │                        # ResummarizeMeetingFileHandler — 404 через QueryBus(GetMeetingFileQuery), 409 если type≠recording / status≠done / пустой transcriptText / summaryStatus=processing, иначе summaryStatus=pending + publish события
     ├── queries/
     │   ├── impl/            # ListMeetingFilesQuery { meetingId }, GetMeetingFileQuery / GetMeetingFileContentQuery { meetingId, fileId }
     │   └── handlers/        # ListMeetingFilesHandler; GetMeetingFileHandler — единственная точка чтения одной записи MeetingFile (404);
     │                        # GetMeetingFileContentHandler — { stream, mimeType, originalName }, 404 и если бинарник пропал с диска
     ├── events/
-    │   ├── impl/            # MeetingFileProcessingRequestedEvent { fileId } — «файлу нужна фоновая обработка»
-    │   └── handlers/        # MeetingFileProcessingRequestedHandler — безусловно кладёт файл в MeetingFileProcessingQueue
+    │   ├── impl/            # MeetingFileProcessingRequestedEvent { fileId } — «файлу нужна фоновая обработка»;
+    │   │                    # MeetingFileTranscribedEvent { fileId } — «запись успешно транскрибирована» (триггер автоматической суммаризации)
+    │   └── handlers/        # MeetingFileProcessingRequestedHandler — безусловно кладёт файл в MeetingFileProcessingQueue;
+    │                        # MeetingFileTranscribedHandler — кладёт recording с транскриптом в MeetingFileSummaryQueue
     └── dto/
         ├── upload-meeting-file.dto.ts  # class-validator: type ∈ Object.values(MeetingFileType)
         ├── uploaded-file-part.ts       # локальный тип части multipart (без @types/multer)
         ├── meeting-file-content.ts     # тело ответа GET :fileId/content (поток + заголовки)
-        └── meeting-file.dto.ts         # форма ответа (без storageKey) + toMeetingFileDto(prisma → dto)
+        └── meeting-file.dto.ts         # форма ответа (без storageKey) + toMeetingFileDto(prisma → dto); включает summaryStatus и summary
+└── claude-agent/        # не CQRS; обёртка над @anthropic-ai/claude-agent-sdk (SDK НЕ в зависимостях, грузится лениво). Логика модуля — src/claude-agent/CLAUDE.md
+    ├── CLAUDE.md                    # ClaudeAgentService, ленивая загрузка SDK, как включить обратно, unit-тест, env
+    ├── claude-agent.module.ts       # провайдит/экспортит ClaudeAgentService; imports: [ConfigModule]
+    ├── claude-agent.service.ts      # ClaudeAgentService.run/ask (query() из SDK, tools:[], settingSources:[], maxTurns:1);
+    │                                # loadClaudeAgentQuery() — await import() SDK по string-спецификатору + локальные типы SdkQueryOptions/SdkMessage;
+    │                                # SDK не установлен → ClaudeAgentError; ANTHROPIC_API_KEY (через ConfigService) есть → options.env, нет → ambient-логин Claude Code (OAuth); ошибка API → result с isError, а не throw
+    └── claude-agent.service.spec.ts # unit: service.model + run()/ask() бросают ClaudeAgentError «SDK не установлен» (без сети/subprocess, зелёный на CI/pre-commit)
 test/
 ├── app.e2e-spec.ts          # e2e
 ├── auth.e2e-spec.ts         # e2e: register/login
@@ -172,7 +190,7 @@ scripts/
 - Общая библиотека — `pnpm exec nest g library <name>`; path-алиасы из `tsconfig.json` резолвятся в тестах через `vite-tsconfig-paths`.
 - `strict: true`, но `strictPropertyInitialization: false` (под DI и декораторы).
 - vitest с `globals: true` — `describe/it/expect` без импорта; типы через `types: ["vitest/globals", "node"]`.
-- Порт и окружение — из `.env` (`PORT`, `NODE_ENV`, `DATABASE_URL`, `JWT_SECRET`, `JWT_EXPIRES_IN`, `UPLOADS_DIR`, `MAX_UPLOAD_SIZE_BYTES`, `AVATAR_MAX_UPLOAD_SIZE_BYTES`, `STT_ENGINE`, `WHISPER_BIN_PATH`, `WHISPER_MODEL_PATH`, `WHISPER_LANGUAGE`, `WHISPER_TIMEOUT_MS`, `WHISPER_TMP_DIR`); шаблон — `.env.example`. Загружается через `ConfigModule.forRoot({ isGlobal: true, validate: validateEnv })` в `AppModule`. `validateEnv` (`src/config/env.validation.ts`) — boot-time проверка окружения (пока только STT-движок; `JWT_SECRET` по-прежнему на ленивом `getOrThrow` в `auth.module.ts`): при `STT_ENGINE=whisper` (в т.ч. по дефолту) требует существующие `WHISPER_BIN_PATH`/`WHISPER_MODEL_PATH` — в `production` `throw`, вне — `Logger.warn`. Читать конфиг только через `ConfigService`, не `process.env` напрямую. Новая env-переменная — сразу в трёх местах: `.env.example`, `turbo.json` → `globalPassThroughEnv`, `.github/workflows/ci.yml` → `env`.
+- Порт и окружение — из `.env` (`PORT`, `NODE_ENV`, `DATABASE_URL`, `JWT_SECRET`, `JWT_EXPIRES_IN`, `UPLOADS_DIR`, `MAX_UPLOAD_SIZE_BYTES`, `AVATAR_MAX_UPLOAD_SIZE_BYTES`, `STT_ENGINE`, `WHISPER_BIN_PATH`, `WHISPER_MODEL_PATH`, `WHISPER_LANGUAGE`, `WHISPER_TIMEOUT_MS`, `WHISPER_TMP_DIR`, `SUMMARY_ENGINE`, `ANTHROPIC_API_KEY`, `CLAUDE_AGENT_MODEL`); шаблон — `.env.example`. Загружается через `ConfigModule.forRoot({ isGlobal: true, validate: validateEnv })` в `AppModule`. `validateEnv` (`src/config/env.validation.ts`) — boot-time проверка окружения (пока только STT-движок; `JWT_SECRET` по-прежнему на ленивом `getOrThrow` в `auth.module.ts`): при `STT_ENGINE=whisper` (в т.ч. по дефолту) требует существующие `WHISPER_BIN_PATH`/`WHISPER_MODEL_PATH` — в `production` `throw`, вне — `Logger.warn`. Читать конфиг только через `ConfigService`, не `process.env` напрямую. Новая env-переменная — сразу в трёх местах: `.env.example`, `turbo.json` → `globalPassThroughEnv`, `.github/workflows/ci.yml` → `env`.
 - CORS включён глобально в `main.ts` (`app.enableCors()`, все источники) — чтобы `apps/web` (порт 3000) ходил в API из браузера.
 - Билд-конфиг для сборки — `tsconfig.build.json`, выход в `dist/` (`deleteOutDir: true`).
 - Валидация DTO — глобальный `ValidationPipe` (`class-validator`/`class-transformer`), подключён через `APP_PIPE` в `AppModule` — работает и в реальном приложении, и в e2e-тестах, поднимающих `AppModule` напрямую через `Test.createTestingModule`.
@@ -187,6 +205,8 @@ scripts/
 - **Файловое хранилище (`storage`)**. `FileStorageService` (`src/storage/`) — единственная точка работы с ФС для любых загруженных бинарников (файлы встречи, аватары): `save` / `exists` / `createReadStream` / `remove` (+ `absolutePath` — путь на диске для STT-движка) поверх плоской раскладки `${UPLOADS_DIR}/${storageKey}`, `storageKey` задаёт вызывающая сторона (`randomUUID`, для аватара — `<randomUUID>.<ext>`), каталог создаётся в `onModuleInit`. Все методы идут через приватный барьер `resolvePath`: `storageKey` обязан быть одиночным сегментом — пустой ключ, `..`, разделители пути, абсолютный путь и выход за пределы `baseDir` → `BadRequestException` (defense-in-depth, хотя вызывающие стороны и так передают uuid). Провайдится и экспортируется через `StorageModule`, который импортируют и `meeting-file`, и `profile` — не дублировать провайдер и не работать с `fs` в хендлерах.
 - **Хранение файлов встречи (`meeting-file`)**. Бинарники — на диске в `UPLOADS_DIR` (плоско, имя = случайный uuid = `storageKey`), в БД (`meeting_files`) — только метаданные и `storageKey`. Работа с ФС — только через `FileStorageService` из `StorageModule` (не в хендлерах). Приём — `FileInterceptor('file')` + `MulterModule.registerAsync` (memoryStorage: буфер в памяти, ограничен `MAX_UPLOAD_SIZE_BYTES`; запись на диск — в командном хендлере после проверки встречи, чтобы не плодить «сирот» при 404/400). Порядок отказов: `JwtAuthGuard` (401) → multer `limits`/`fileFilter` (413/400) → хендлер `GetMeetingByIdQuery` (404). Осознанные ограничения этой итерации: доверяем `Content-Type` клиента (детект содержимого/антивирус не делаем); при `onDelete: Cascade` удаление встречи оставит бинарники-сироты на диске (удаление встреч в скоуп фичи не входит); durability очереди/файлов после рестарта не гарантируется; при нескольких инстансах API каталог не общий. Не-ASCII имя файла из multipart перекодируется `latin1 → utf8` в контроллере; отдача — `StreamableFile` с `Content-Disposition` по RFC 5987.
 - **Фоновая обработка записи и STT-движок (`meeting-file/processing`)** — полностью описаны в `src/meeting-file/CLAUDE.md`. Кратко: оба входа (`CreateMeetingFileHandler` для `recording`, `ReprocessMeetingFileHandler`) идут через событие `MeetingFileProcessingRequestedEvent`; `MeetingFileProcessingQueue` — in-process воркер `concurrency = 1` (`pending → processing → done|failed`), с `AbortController` на задачу и обрывом в `OnModuleDestroy`. `SttService` (`STT_SERVICE`) — `useFactory` по `STT_ENGINE` (`stub` | `whisper`, дефолт `DEFAULT_STT_ENGINE` в `processing/stt-engine.ts` — **`whisper`** с Фазы 4). `WhisperSttService` гоняет `ffmpeg` (не-WAV) → `whisper-cli` как подпроцессы через порт `PROCESS_RUNNER`, с `WHISPER_TIMEOUT_MS` / grace-`SIGKILL` / очисткой временного каталога; любой сбой → `failed` без частичного транскрипта. Онбординг движка (`whisper.cpp`, `ffmpeg`, `pnpm --filter api whisper:model`) — в модульном `CLAUDE.md`.
+- **Фоновая суммаризация и SUMMARY-движок (`meeting-file/processing`)** — полностью описаны в `src/meeting-file/CLAUDE.md`. Кратко: после транскрибации (`status=done`, непустой `transcriptText`) `MeetingFileProcessingQueue` публикует `MeetingFileTranscribedEvent`; `MeetingFileTranscribedHandler` кладёт файл в `MeetingFileSummaryQueue` — in-process воркер `concurrency = 1` (`summaryStatus: pending → processing → done|failed`), с `AbortController` на задачу и обрывом в `OnModuleDestroy`. `SummaryService` (`SUMMARY_SERVICE`) — `useFactory` по `SUMMARY_ENGINE` (`claude` | `stub`, дефолт `DEFAULT_SUMMARY_ENGINE` в `processing/summary-engine.ts` — **`claude`** с Фазы 2). `ClaudeSummaryService` зовёт `ClaudeAgentService` (требует `ClaudeAgentModule` в импортах `MeetingFileModule`) с системным промптом на русском, требующим строгого JSON-ответа `{ summary: string, decisions: string[], actionItems: string[] }`; парсит ответ (извлекает JSON из markdown-блоков, валидирует структуру и типы), любая ошибка (аутентификация, невалидный ответ, пустое резюме) → `failed` без частичных данных. `StubSummaryService` — детерминированная заглушка, используется в e2e (`SUMMARY_ENGINE=stub` в `test/setup-e2e.ts`) и CI (`.github/workflows/ci.yml`). Аутентификация: `ANTHROPIC_API_KEY` задан → передаётся SDK явно, не задан → ambient-логин Claude Code (OAuth из `~/.claude`). Модель — `CLAUDE_AGENT_MODEL` или дефолт `claude-haiku-4-5`.
+- **Claude Agent SDK (`claude-agent`)** — полностью описан в `src/claude-agent/CLAUDE.md`. Кратко: `@anthropic-ai/claude-agent-sdk` **не в зависимостях** `apps/api` (тянет весь Claude Code CLI + нативные бинарники) — модуль остаётся в дереве как готовый каркас и грузит SDK **лениво** (`await import()` по `string`-спецификатору, `tsc` его не резолвит). Пока пакет не установлен, `run()`/`ask()` бросают `ClaudeAgentError` («not installed — run `pnpm --filter api add @anthropic-ai/claude-agent-sdk`»); включить обратно — этой же командой, без правок кода. `ClaudeAgentService` оборачивает `query()` из SDK для одноразовых запросов (`tools: []`, `settingSources: []`, `maxTurns: 1`); локальные `SdkQueryOptions`/`SdkResultMessage`/`SdkMessage` в `claude-agent.service.ts` повторяют используемый срез API SDK. Аутентификация (актуальна после установки SDK): `ANTHROPIC_API_KEY` (через `ConfigService`) задан → передаётся подпроцессу SDK явно через `options.env` (который **заменяет** окружение, поэтому `process.env` сначала расширяется), биллинг по API; не задан → `options.env` не ставится, подпроцесс наследует `process.env` и использует ambient-логин Claude Code (OAuth-креды `claude` в `~/.claude`, напр. подписка Pro/Max). Достигнутый Anthropic, но отдавший ошибку API/аккаунта ответ (нет кредитов, rate limit) возвращается как результат с `isError: true`, не бросается; `ClaudeAgentError` — только на ошибках запуска (в т.ч. «SDK не установлен»). Модель — `CLAUDE_AGENT_MODEL` или дефолт `claude-haiku-4-5`. `claude-agent.service.spec.ts` — unit-тест (`*.spec.ts`, гоняется в `pnpm test`): проверяет `service.model` и что `run()`/`ask()` бросают `ClaudeAgentError` про ненаставленный SDK; без сети и подпроцессов — зелёный на CI и pre-commit.
 - **E2e и файлы на диске**. `test/meeting-files.e2e-spec.ts` в `beforeAll` подменяет `process.env.UPLOADS_DIR` на временный каталог (`os.tmpdir()`) и удаляет его в `afterAll`, а `MAX_UPLOAD_SIZE_BYTES` ставит маленьким — чтобы дёшево проверить 413 и не мусорить в рабочем `uploads/`. `@nestjs/config` не перетирает уже заданные `process.env`, поэтому подмену делаем до импорта `AppModule` (динамический `import()` в `beforeEach`). `test/setup-e2e.ts` (vitest `setupFiles`) ставит `STT_ENGINE ??= 'stub'` — e2e всегда на stub-override, а `validateEnv` не должен варнить на каждом подъёме `AppModule`.
 
 ## Актуализация документации

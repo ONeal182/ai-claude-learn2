@@ -10,6 +10,7 @@ import { UsersModule } from './users/users.module.js';
 import { MeetingModule } from './meeting/meeting.module.js';
 import { MeetingFileModule } from './meeting-file/meeting-file.module.js';
 import { ProfileModule } from './profile/profile.module.js';
+import { ClaudeAgentModule } from './claude-agent/claude-agent.module.js';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { ProfileModule } from './profile/profile.module.js';
     MeetingModule,
     MeetingFileModule,
     ProfileModule,
+    ClaudeAgentModule,
   ],
   controllers: [AppController],
   providers: [

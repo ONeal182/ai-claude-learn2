@@ -14,7 +14,10 @@
     "WHISPER_MODEL_PATH",
     "WHISPER_LANGUAGE",
     "WHISPER_TIMEOUT_MS",
-    "WHISPER_TMP_DIR"
+    "WHISPER_TMP_DIR",
+    "SUMMARY_ENGINE",
+    "ANTHROPIC_API_KEY",
+    "CLAUDE_AGENT_MODEL"
   ],
   "tasks": {
     "build": {

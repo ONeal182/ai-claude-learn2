@@ -1,26 +1,23 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
-import type { MeetingFile } from '@prisma/client';
 import { PrismaService } from '../../../prisma/prisma.service.js';
 import { GetMeetingFileQuery } from '../impl/get-meeting-file.query.js';
+import { toMeetingFileDto, type MeetingFileDto } from '../../dto/meeting-file.dto.js';
 
-/**
- * Единственная точка чтения одной записи `MeetingFile` из Prisma (`arch-single-source-of-read`):
- * ищет файл по паре (id, meetingId) — чужой встрече файл не отдаётся — или бросает 404.
- * Потребители: `GetMeetingFileContentHandler`, `DeleteMeetingFileHandler`.
- */
 @Injectable()
 @QueryHandler(GetMeetingFileQuery)
-export class GetMeetingFileHandler implements IQueryHandler<GetMeetingFileQuery, MeetingFile> {
+export class GetMeetingFileHandler implements IQueryHandler<GetMeetingFileQuery, MeetingFileDto> {
   constructor(private readonly prisma: PrismaService) {}
 
-  async execute(query: GetMeetingFileQuery): Promise<MeetingFile> {
-    const file = await this.prisma.meetingFile.findFirst({
-      where: { id: query.fileId, meetingId: query.meetingId },
+  async execute(query: GetMeetingFileQuery): Promise<MeetingFileDto> {
+    const file = await this.prisma.meetingFile.findUnique({
+      where: { id: query.fileId },
     });
-    if (!file) {
+
+    if (!file || file.meetingId !== query.meetingId) {
       throw new NotFoundException(`Файл ${query.fileId} не найден`);
     }
-    return file;
+
+    return toMeetingFileDto(file);
   }
 }

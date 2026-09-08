@@ -19,7 +19,9 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard.js';
 import { CreateMeetingFileCommand } from './commands/impl/create-meeting-file.command.js';
 import { DeleteMeetingFileCommand } from './commands/impl/delete-meeting-file.command.js';
 import { ReprocessMeetingFileCommand } from './commands/impl/reprocess-meeting-file.command.js';
+import { ResummarizeMeetingFileCommand } from './commands/impl/resummarize-meeting-file.command.js';
 import { ListMeetingFilesQuery } from './queries/impl/list-meeting-files.query.js';
+import { GetMeetingFileQuery } from './queries/impl/get-meeting-file.query.js';
 import { GetMeetingFileContentQuery } from './queries/impl/get-meeting-file-content.query.js';
 import { attachmentDisposition } from './attachment-disposition.js';
 import type { MeetingFileContent } from './dto/meeting-file-content.js';
@@ -79,6 +81,14 @@ export class MeetingFileController {
     });
   }
 
+  @Get(':fileId')
+  get(
+    @Param('meetingId') meetingId: string,
+    @Param('fileId') fileId: string,
+  ): Promise<MeetingFileDto> {
+    return this.queryBus.execute(new GetMeetingFileQuery(meetingId, fileId));
+  }
+
   @Post(':fileId/reprocess')
   @HttpCode(HttpStatus.OK)
   reprocess(
@@ -86,6 +96,15 @@ export class MeetingFileController {
     @Param('fileId') fileId: string,
   ): Promise<MeetingFileDto> {
     return this.commandBus.execute(new ReprocessMeetingFileCommand(meetingId, fileId));
+  }
+
+  @Post(':fileId/resummarize')
+  @HttpCode(HttpStatus.OK)
+  resummarize(
+    @Param('meetingId') meetingId: string,
+    @Param('fileId') fileId: string,
+  ): Promise<MeetingFileDto> {
+    return this.commandBus.execute(new ResummarizeMeetingFileCommand(meetingId, fileId));
   }
 
   @Delete(':fileId')

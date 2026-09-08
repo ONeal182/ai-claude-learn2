@@ -13,6 +13,8 @@ export interface MeetingFileDto {
   mimeType: string;
   size: number;
   transcriptText: string | null;
+  summaryStatus: MeetingFile['summaryStatus'];
+  summary: MeetingFile['summary'];
   createdAt: Date;
   updatedAt: Date;
 }
@@ -27,6 +29,8 @@ export function toMeetingFileDto(file: MeetingFile): MeetingFileDto {
     mimeType: file.mimeType,
     size: file.size,
     transcriptText: file.transcriptText,
+    summaryStatus: file.summaryStatus,
+    summary: file.summary,
     createdAt: file.createdAt,
     updatedAt: file.updatedAt,
   };

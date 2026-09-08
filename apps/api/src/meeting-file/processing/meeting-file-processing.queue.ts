@@ -1,6 +1,8 @@
 import { Inject, Injectable, Logger, OnModuleDestroy } from '@nestjs/common';
+import { EventBus } from '@nestjs/cqrs';
 import { MeetingFileStatus } from '@prisma/client';
 import { PrismaService } from '../../prisma/prisma.service.js';
+import { MeetingFileTranscribedEvent } from '../events/impl/meeting-file-transcribed.event.js';
 import { STT_SERVICE, type SttService } from './stt.service.js';
 
 /**
@@ -27,6 +29,7 @@ export class MeetingFileProcessingQueue implements OnModuleDestroy {
   constructor(
     private readonly prisma: PrismaService,
     @Inject(STT_SERVICE) private readonly stt: SttService,
+    private readonly eventBus: EventBus,
   ) {}
 
   /** Поставить файл в очередь на обработку. Возврат мгновенный — работа идёт в фоне. */
@@ -76,6 +79,9 @@ export class MeetingFileProcessingQueue implements OnModuleDestroy {
         where: { id: fileId },
         data: { status: MeetingFileStatus.done, transcriptText },
       });
+
+      // Публикуем событие для триггера суммаризации
+      this.eventBus.publish(new MeetingFileTranscribedEvent(fileId));
     } catch (error) {
       if (this.stopped) return;
       // запись удалили, пока она обрабатывалась (`DELETE`) — ничего не делаем

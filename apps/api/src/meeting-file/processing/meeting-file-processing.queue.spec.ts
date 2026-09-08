@@ -1,3 +1,4 @@
+import { EventBus } from '@nestjs/cqrs';
 import { MeetingFileStatus } from '@prisma/client';
 import { PrismaService } from '../../prisma/prisma.service.js';
 import { MeetingFileProcessingQueue } from './meeting-file-processing.queue.js';
@@ -37,7 +38,8 @@ describe('MeetingFileProcessingQueue', () => {
   }
 
   function build(prisma: FakePrisma, stt: SttService): MeetingFileProcessingQueue {
-    return new MeetingFileProcessingQueue(prisma as unknown as PrismaService, stt);
+    const eventBus = { publish: vi.fn() } as unknown as EventBus;
+    return new MeetingFileProcessingQueue(prisma as unknown as PrismaService, stt, eventBus);
   }
 
   /** Статусы, с которыми звался `meetingFile.update`, по порядку. */

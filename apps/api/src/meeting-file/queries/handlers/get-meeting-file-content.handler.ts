@@ -1,9 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { IQueryHandler, QueryBus, QueryHandler } from '@nestjs/cqrs';
-import type { MeetingFile } from '@prisma/client';
+import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import type { MeetingFileContent } from '../../dto/meeting-file-content.js';
 import { FileStorageService } from '../../../storage/file-storage.service.js';
-import { GetMeetingFileQuery } from '../impl/get-meeting-file.query.js';
+import { PrismaService } from '../../../prisma/prisma.service.js';
 import { GetMeetingFileContentQuery } from '../impl/get-meeting-file-content.query.js';
 
 @Injectable()
@@ -13,15 +12,18 @@ export class GetMeetingFileContentHandler implements IQueryHandler<
   MeetingFileContent
 > {
   constructor(
-    private readonly queryBus: QueryBus,
+    private readonly prisma: PrismaService,
     private readonly storage: FileStorageService,
   ) {}
 
   async execute(query: GetMeetingFileContentQuery): Promise<MeetingFileContent> {
-    // чтение записи — через единый источник (404, если файла нет / он у другой встречи)
-    const file = await this.queryBus.execute<GetMeetingFileQuery, MeetingFile>(
-      new GetMeetingFileQuery(query.meetingId, query.fileId),
-    );
+    const file = await this.prisma.meetingFile.findUnique({
+      where: { id: query.fileId },
+    });
+
+    if (!file || file.meetingId !== query.meetingId) {
+      throw new NotFoundException(`Файл ${query.fileId} не найден`);
+    }
 
     // запись есть, а бинарник на диске пропал — это 404, а не 500 от упавшего потока
     if (!(await this.storage.exists(file.storageKey))) {

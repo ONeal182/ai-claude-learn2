@@ -1,6 +1,6 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { CommandHandler, EventBus, ICommandHandler, QueryBus } from '@nestjs/cqrs';
-import { MeetingFileStatus, type MeetingFile } from '@prisma/client';
+import { MeetingFileStatus, Prisma, type MeetingFile } from '@prisma/client';
 import { PrismaService } from '../../../prisma/prisma.service.js';
 import { toMeetingFileDto, type MeetingFileDto } from '../../dto/meeting-file.dto.js';
 import { MeetingFileProcessingRequestedEvent } from '../../events/impl/meeting-file-processing-requested.event.js';
@@ -30,10 +30,16 @@ export class ReprocessMeetingFileHandler implements ICommandHandler<
     );
 
     // атомарный переход failed → pending: guard в `where`, а не отдельная проверка перед update,
-    // чтобы два параллельных reprocess не поставили файл в очередь дважды
+    // чтобы два параллельных reprocess не поставили файл в очередь дважды.
+    // Также сбрасываем summaryStatus/summary, чтобы новое событие done затриггерило свежую суммаризацию.
     const { count } = await this.prisma.meetingFile.updateMany({
       where: { id: command.fileId, status: MeetingFileStatus.failed },
-      data: { status: MeetingFileStatus.pending, transcriptText: null },
+      data: {
+        status: MeetingFileStatus.pending,
+        transcriptText: null,
+        summaryStatus: null,
+        summary: Prisma.JsonNull,
+      },
     });
     if (count === 0) {
       throw new ConflictException(

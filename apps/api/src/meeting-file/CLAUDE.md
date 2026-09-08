@@ -11,7 +11,7 @@ Binaries live on disk in `UPLOADS_DIR` (flat, filename = random uuid = `storageK
 `FileStorageService` from `StorageModule` — never touch `fs` in handlers. Upload uses
 `FileInterceptor('file')` + `MulterModule.registerAsync` (memoryStorage, `limits.fileSize` from
 `MAX_UPLOAD_SIZE_BYTES` → 413; `fileFilter` from `allowed-mime.ts` → 400). The binary is written in the
-command handler *after* the meeting is confirmed to exist, so a 404/400 leaves no orphan.
+command handler _after_ the meeting is confirmed to exist, so a 404/400 leaves no orphan.
 
 Rejection order: `JwtAuthGuard` (401) → multer `limits`/`fileFilter` (413/400) → `GetMeetingByIdQuery` (404).
 
@@ -21,6 +21,15 @@ queue/file durability across restarts is not guaranteed; with multiple API insta
 is not shared. Non-ASCII multipart filenames are re-decoded `latin1 → utf8` in the controller;
 downloads are `StreamableFile` with an RFC 5987 `Content-Disposition`.
 
+## MeetingFile fields
+
+- **`summaryStatus`** (`MeetingFileStatus | null`) — lifecycle state of automatic summarization
+  (`pending → processing → done | failed`). Populated only for `recording` files that have been
+  transcribed; `null` for `attachment` files and recordings without a transcript.
+- **`summary`** (`Json | null`) — structured summary of the meeting recording, shape
+  `{ summary: string, decisions: string[], actionItems: string[] }`. Populated when
+  `summaryStatus = done`; `null` otherwise.
+
 ## Background transcription (`processing/`)
 
 Both entry points funnel through one domain event `MeetingFileProcessingRequestedEvent { fileId }`:
@@ -28,6 +37,9 @@ Both entry points funnel through one domain event `MeetingFileProcessingRequeste
 processing?" decision lives with the publisher); `ReprocessMeetingFileHandler` publishes it after an
 atomic `failed → pending` reset. `MeetingFileProcessingRequestedHandler` unconditionally enqueues the
 `fileId`.
+
+When a recording reaches `status = done` with a non-empty `transcriptText`, the transcription queue
+publishes `MeetingFileTranscribedEvent { fileId }`. This event triggers automatic summarization.
 
 **Queue** (`meeting-file-processing.queue.ts`) — in-process, no external broker, `concurrency = 1`.
 Drives `pending → processing → done | failed` and writes `transcriptText` on success. It holds an
@@ -77,8 +89,59 @@ Graceful shutdown depends on `app.enableShutdownHooks()` in `main.ts` — withou
 would not fire `OnModuleDestroy` and `whisper`/`ffmpeg` children would be orphaned on restart.
 
 **`POST /meetings/:id/files/:fileId/reprocess`** — atomic
-`updateMany({ where: { status: failed }, data: { status: pending, transcriptText: null } })`;
+`updateMany({ where: { status: failed }, data: { status: pending, transcriptText: null, summaryStatus: null, summary: null } })`;
 `count === 0` → `409 Conflict` (a race / wrong status never double-enqueues), otherwise the event fires.
+Resets both transcript and summary fields; a fresh `done` status will trigger `MeetingFileTranscribedEvent`
+and rebuild the summary. Rejection order: `JwtAuthGuard` (401) → `GetMeetingByIdQuery` / `GetMeetingFileQuery` (404) → wrong status (409).
+
+**`POST /meetings/:id/files/:fileId/resummarize`** — manual re-summarization. Checks: 404 if meeting or
+file does not exist; 409 (`ConflictException`) if `type !== recording`, `status !== done`, `transcriptText`
+is empty, or `summaryStatus === processing`. Otherwise atomically sets `summaryStatus = pending` and
+publishes the event that enqueues into `MeetingFileSummaryQueue`. Rejection order: `JwtAuthGuard` (401) →
+`GetMeetingFileQuery` (404) → precondition checks (409). Returns 200 on success.
+
+## Background summarization (`processing/`)
+
+After a `recording` is successfully transcribed (`status = done`, non-empty `transcriptText`),
+`MeetingFileProcessingQueue` publishes `MeetingFileTranscribedEvent { fileId }`.
+`MeetingFileTranscribedHandler` enqueues the file into `MeetingFileSummaryQueue` — a second in-process
+worker (`concurrency = 1`) that drives `summaryStatus: pending → processing → done | failed` and writes
+the `summary` JSON on success. Only `recording` files with a transcript are processed; `attachment`
+files and recordings without `transcriptText` are skipped without status changes.
+
+**Queue** (`MeetingFileSummaryQueue`) — mirrors the transcription queue: in-process, no external broker,
+`concurrency = 1`. Holds an `AbortController` for the active job; `onModuleDestroy` order is
+`stopped = true` → clear pending → `currentAbort.abort()` → `await current`. A row deleted
+mid-processing surfaces as Prisma `P2025` and is swallowed. Durability across restarts is not
+guaranteed — stuck `pending`/`processing` rows are not resumed.
+
+**Failed status branch.** Any exception thrown by `SUMMARY_SERVICE.summarize()` (authentication
+failure, SDK not installed, network error, invalid response, schema mismatch) causes the queue worker
+to transition the file to `summaryStatus = failed` without writing partial `summary` data. The worker
+continues to the next queued file. Users can retry via `POST .../resummarize` (Phase 3).
+
+**Engine selection.** `SummaryService` (token `SUMMARY_SERVICE`) has two implementations, chosen by a
+`useFactory` in `MeetingFileModule` keyed on `SUMMARY_ENGINE` (`claude` | `stub`). Default is `claude`.
+
+- `StubSummaryService` — deterministic stub, summary derived from file metadata. Used in e2e tests
+  via `process.env.SUMMARY_ENGINE = 'stub'` set in `test/setup-e2e.ts`.
+- `ClaudeSummaryService` — real summarization via `ClaudeAgentService` (requires `ClaudeAgentModule`
+  import). System prompt in Russian, requires strict JSON response shape
+  `{ "summary": string, "decisions": string[], "actionItems": string[] }` without markdown blocks or
+  additional explanations. Response parsing: extracts JSON from potential markdown code blocks,
+  validates structure (summary must be non-empty string, decisions/actionItems must be string arrays).
+  Any error (authentication failure, SDK not installed, invalid JSON, wrong schema, empty summary) →
+  `summaryStatus = failed` without partial data. Successful summarization logs decision/action item counts.
+
+**Environment variables:**
+
+- `SUMMARY_ENGINE` (`claude` | `stub`, default `claude`) — summarization backend. Declared in
+  `.env.example`, `turbo.json → globalPassThroughEnv`, and `.github/workflows/ci.yml → env`.
+  CI uses `stub` to avoid requiring Anthropic API credentials.
+- `CLAUDE_AGENT_MODEL` (from `claude-agent` module) — model used by `ClaudeSummaryService` when
+  `SUMMARY_ENGINE=claude`, defaults to `claude-haiku-4-5`.
+- `ANTHROPIC_API_KEY` (from `claude-agent` module) — API key for Claude Agent SDK. Optional: when
+  absent, `ClaudeAgentService` uses ambient Claude Code login (OAuth creds from `~/.claude`).
 
 ## Tests
 
@@ -95,7 +158,7 @@ would not fire `OnModuleDestroy` and `whisper`/`ffmpeg` children would be orphan
 `STT_ENGINE=stub` needs nothing. For `STT_ENGINE=whisper`:
 
 - **whisper.cpp** — build `whisper-cli` (`git clone https://github.com/ggerganov/whisper.cpp && cd
-  whisper.cpp && cmake -B build && cmake --build build -j`), point `WHISPER_BIN_PATH` at
+whisper.cpp && cmake -B build && cmake --build build -j`), point `WHISPER_BIN_PATH` at
   `build/bin/whisper-cli` (any absolute path is fine).
 - **ffmpeg** — from the system package manager (`apt install ffmpeg` / `brew install ffmpeg`); must be
   on `PATH`. Only needed for non-WAV recordings.

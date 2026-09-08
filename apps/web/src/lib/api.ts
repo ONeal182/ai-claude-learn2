@@ -161,6 +161,13 @@ export type MeetingFileType = 'recording' | 'attachment';
 /** Стадия обработки записи. `attachment` всегда `done`. */
 export type MeetingFileStatus = 'pending' | 'processing' | 'done' | 'failed';
 
+/** Результат суммаризации транскрипта файла встречи. */
+export interface MeetingFileSummary {
+  summary: string;
+  decisions: string[];
+  actionItems: string[];
+}
+
 /** Файл встречи — элемент ответа `GET /meetings/:id/files` (даты — ISO-строки). */
 export interface MeetingFile {
   id: string;
@@ -171,6 +178,8 @@ export interface MeetingFile {
   mimeType: string;
   size: number;
   transcriptText: string | null;
+  summaryStatus: MeetingFileStatus | null;
+  summary: MeetingFileSummary | null;
   createdAt: string;
   updatedAt: string;
 }
@@ -321,6 +330,22 @@ export function reprocessMeetingFile(
 ): Promise<MeetingFile> {
   return bearerRequest<MeetingFile>(
     `/meetings/${encodeURIComponent(meetingId)}/files/${encodeURIComponent(fileId)}/reprocess`,
+    accessToken,
+    'POST',
+  );
+}
+
+/**
+ * Перезапуск суммаризации (`POST /meetings/:id/files/:fileId/resummarize`) — запускает
+ * повторную генерацию summary для файла, у которого уже есть транскрипт.
+ */
+export function resummarizeMeetingFile(
+  meetingId: string,
+  fileId: string,
+  accessToken: string,
+): Promise<void> {
+  return bearerRequest<void>(
+    `/meetings/${encodeURIComponent(meetingId)}/files/${encodeURIComponent(fileId)}/resummarize`,
     accessToken,
     'POST',
   );

@@ -3,3 +3,5 @@
 // AppModule, чтобы `validateEnv` не сыпал warn на каждом `beforeEach`. Явно заданный
 // `STT_ENGINE` (напр. в CI) не трогаем.
 process.env.STT_ENGINE ??= 'stub';
+// e2e суммаризации также на stub-двойнике: реальный Claude Agent в CI и pre-commit не нужен.
+process.env.SUMMARY_ENGINE ??= 'stub';

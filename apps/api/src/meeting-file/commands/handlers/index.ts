@@ -1,9 +1,11 @@
 import { CreateMeetingFileHandler } from './create-meeting-file.handler.js';
 import { DeleteMeetingFileHandler } from './delete-meeting-file.handler.js';
 import { ReprocessMeetingFileHandler } from './reprocess-meeting-file.handler.js';
+import { ResummarizeMeetingFileHandler } from './resummarize-meeting-file.handler.js';
 
 export const CommandHandlers = [
   CreateMeetingFileHandler,
   DeleteMeetingFileHandler,
   ReprocessMeetingFileHandler,
+  ResummarizeMeetingFileHandler,
 ];

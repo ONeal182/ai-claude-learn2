@@ -19,6 +19,11 @@ env:
   WHISPER_LANGUAGE: ''
   WHISPER_TIMEOUT_MS: ''
   WHISPER_TMP_DIR: ''
+  # e2e гоняются на stub-суммаризации — реальный Claude Agent в CI не нужен.
+  SUMMARY_ENGINE: stub
+  # Без ключа интеграционный тест src/claude-agent пропускается (skipIf) — CI зелёный.
+  ANTHROPIC_API_KEY: ''
+  CLAUDE_AGENT_MODEL: ''
 
 jobs:
   ci:

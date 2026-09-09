@@ -1,0 +1,644 @@
+{
+  "nodes": [
+    {
+      "id": "_agents_skills_plan_phase_skill_md",
+      "label": "plan-phase skill",
+      "file_type": "document",
+      "source_file": ".agents/skills/plan-phase/SKILL.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_plan_phase_concept_prd_to_phases",
+      "label": "PRD to phases planning",
+      "file_type": "concept",
+      "source_file": ".agents/skills/plan-phase/SKILL.md",
+      "source_location": "lines 8-44"
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_readme_md",
+      "label": "React Best Practices README",
+      "file_type": "document",
+      "source_file": ".agents/skills/vercel-react-best-practices/README.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_concept_rule_file_structure",
+      "label": "Rule file structure pattern",
+      "file_type": "concept",
+      "source_file": ".agents/skills/vercel-react-best-practices/README.md",
+      "source_location": "lines 55-85"
+    },
+    {
+      "id": "_agents_skills_nestjs_best_practices_rules_test_mock_external_services_md",
+      "label": "Mock external services in tests",
+      "file_type": "document",
+      "source_file": ".agents/skills/nestjs-best-practices/rules/test-mock-external-services.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_nestjs_best_practices_concept_mock_external_services",
+      "label": "Test mocking pattern",
+      "file_type": "concept",
+      "source_file": ".agents/skills/nestjs-best-practices/rules/test-mock-external-services.md",
+      "source_location": "lines 8-10"
+    },
+    {
+      "id": "_agents_skills_ui_ux_pro_max_references_pro_rules_md",
+      "label": "Common Rules for Professional UI",
+      "file_type": "document",
+      "source_file": ".agents/skills/ui-ux-pro-max/references/pro_rules.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_ui_ux_pro_max_concept_icons_visual_elements",
+      "label": "Icons & Visual Elements rules",
+      "file_type": "concept",
+      "source_file": ".agents/skills/ui-ux-pro-max/references/pro-rules.md",
+      "source_location": "lines 9-24"
+    },
+    {
+      "id": "_agents_skills_ui_ux_pro_max_concept_pre_delivery_checklist",
+      "label": "Pre-Delivery Checklist",
+      "file_type": "concept",
+      "source_file": ".agents/skills/ui-ux-pro-max/references/pro-rules.md",
+      "source_location": "lines 64-118"
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_sections_md",
+      "label": "React best practices sections",
+      "file_type": "document",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/_sections.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_concept_impact_levels",
+      "label": "Performance impact levels",
+      "file_type": "concept",
+      "source_file": ".agents/skills/vercel_react_best_practices/rules/_sections.md",
+      "source_location": "lines 7-47"
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_skill_md",
+      "label": "vercel-react-best-practices skill",
+      "file_type": "document",
+      "source_file": ".agents/skills/vercel-react-best-practices/SKILL.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_concept_rule_categories",
+      "label": "Rule categories by priority",
+      "file_type": "concept",
+      "source_file": ".agents/skills/vercel-react-best-practices/SKILL.md",
+      "source_location": "lines 23-35"
+    },
+    {
+      "id": "_agents_skills_ui_ux_pro_max_references_quick_reference_md",
+      "label": "UI/UX Quick Reference",
+      "file_type": "document",
+      "source_file": ".agents/skills/ui-ux-pro-max/references/quick-reference.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_ui_ux_pro_max_concept_accessibility_rules",
+      "label": "Accessibility rules",
+      "file_type": "concept",
+      "source_file": ".agents/skills/ui-ux-pro-max/references/quick-reference.md",
+      "source_location": "lines 7-34"
+    },
+    {
+      "id": "_agents_skills_ui_ux_pro_max_concept_touch_interaction_rules",
+      "label": "Touch & Interaction rules",
+      "file_type": "concept",
+      "source_file": ".agents/skills/ui-ux-pro-max/references/quick-reference.md",
+      "source_location": "lines 36-54"
+    },
+    {
+      "id": "_agents_skills_nestjs_best_practices_rules_security_validate_all_input_md",
+      "label": "Validate all input with DTOs",
+      "file_type": "document",
+      "source_file": ".agents/skills/nestjs-best-practices/rules/security-validate-all-input.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_nestjs_best_practices_concept_dto_validation",
+      "label": "DTO validation pattern",
+      "file_type": "concept",
+      "source_file": ".agents/skills/nestjs-best-practices/rules/security-validate-all-input.md",
+      "source_location": "lines 8-10"
+    },
+    {
+      "id": "_agents_skills_prd_skill_md",
+      "label": "prd skill",
+      "file_type": "document",
+      "source_file": ".agents/skills/prd/SKILL.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_prd_concept_prd_structure",
+      "label": "PRD document structure",
+      "file_type": "concept",
+      "source_file": ".agents/skills/prd/SKILL.md",
+      "source_location": "lines 15-41"
+    },
+    {
+      "id": "_agents_skills_research_skill_md",
+      "label": "research skill",
+      "file_type": "document",
+      "source_file": ".agents/skills/research/SKILL.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_research_concept_technical_research_process",
+      "label": "Technical research workflow",
+      "file_type": "concept",
+      "source_file": ".agents/skills/research/SKILL.md",
+      "source_location": "lines 16-29"
+    },
+    {
+      "id": "_agents_skills_nestjs_best_practices_rules_security_auth_jwt_md",
+      "label": "Implement secure JWT authentication",
+      "file_type": "document",
+      "source_file": ".agents/skills/nestjs-best-practices/rules/security-auth-jwt.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_nestjs_best_practices_concept_jwt_security",
+      "label": "JWT security pattern",
+      "file_type": "concept",
+      "source_file": ".agents/skills/nestjs-best-practices/rules/security-auth-jwt.md",
+      "source_location": "lines 8-10"
+    },
+    {
+      "id": "_agents_skills_nestjs_best_practices_rules_security_sanitize_output_md",
+      "label": "Sanitize output to prevent XSS",
+      "file_type": "document",
+      "source_file": ".agents/skills/nestjs-best-practices/rules/security-sanitize-output.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_nestjs_best_practices_concept_xss_prevention",
+      "label": "XSS prevention pattern",
+      "file_type": "concept",
+      "source_file": ".agents/skills/nestjs-best-practices/rules/security-sanitize-output.md",
+      "source_location": "lines 8-11"
+    },
+    {
+      "id": "_agents_skills_nestjs_best_practices_rules_test_e2e_supertest_md",
+      "label": "Use Supertest for E2E testing",
+      "file_type": "document",
+      "source_file": ".agents/skills/nestjs-best-practices/rules/test-e2e-supertest.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_nestjs_best_practices_concept_e2e_testing",
+      "label": "E2E testing pattern",
+      "file_type": "concept",
+      "source_file": ".agents/skills/nestjs-best-practices/rules/test-e2e-supertest.md",
+      "source_location": "lines 8-10"
+    },
+    {
+      "id": "_agents_skills_requesting_code_review_skill_md",
+      "label": "requesting-code-review skill",
+      "file_type": "document",
+      "source_file": ".agents/skills/requesting-code-review/SKILL.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_requesting_code_review_concept_review_workflow",
+      "label": "Code review workflow",
+      "file_type": "concept",
+      "source_file": ".agents/skills/requesting-code-review/SKILL.md",
+      "source_location": "lines 12-46"
+    },
+    {
+      "id": "_agents_skills_nestjs_best_practices_rules_test_use_testing_module_md",
+      "label": "Use Testing Module for unit tests",
+      "file_type": "document",
+      "source_file": ".agents/skills/nestjs-best-practices/rules/test-use-testing-module.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_nestjs_best_practices_concept_testing_module",
+      "label": "Testing Module pattern",
+      "file_type": "concept",
+      "source_file": ".agents/skills/nestjs-best-practices/rules/test-use-testing-module.md",
+      "source_location": "lines 8-10"
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_agents_md",
+      "label": "Vercel React best practices for agents",
+      "file_type": "document",
+      "source_file": ".agents/skills/vercel-react-best-practices/AGENTS.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_concept_eliminating_waterfalls",
+      "label": "Eliminating waterfalls",
+      "file_type": "concept",
+      "source_file": ".agents/skills/vercel-react-best-practices/AGENTS.md",
+      "source_location": "lines 104-423"
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_concept_bundle_size_optimization",
+      "label": "Bundle size optimization",
+      "file_type": "concept",
+      "source_file": ".agents/skills/vercel-react-best-practices/AGENTS.md",
+      "source_location": "lines 425-686"
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_concept_server_side_performance",
+      "label": "Server-side performance",
+      "file_type": "concept",
+      "source_file": ".agents/skills/vercel-react-best-practices/AGENTS.md",
+      "source_location": "lines 688-1362"
+    },
+    {
+      "id": "_agents_skills_nestjs_best_practices_rules_security_use_guards_md",
+      "label": "Use guards for authentication",
+      "file_type": "document",
+      "source_file": ".agents/skills/nestjs-best-practices/rules/security-use-guards.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_nestjs_best_practices_concept_guard_pattern",
+      "label": "Guard pattern for access control",
+      "file_type": "concept",
+      "source_file": ".agents/skills/nestjs-best-practices/rules/security-use-guards.md",
+      "source_location": "lines 8-12"
+    },
+    {
+      "id": "_agents_skills_ui_ux_pro_max_skill_md",
+      "label": "ui-ux-pro-max skill",
+      "file_type": "document",
+      "source_file": ".agents/skills/ui-ux-pro-max/SKILL.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_ui_ux_pro_max_concept_ui_ux_workflow",
+      "label": "UI/UX workflow",
+      "file_type": "concept",
+      "source_file": ".agents/skills/ui-ux-pro-max/SKILL.md",
+      "source_location": "lines 65-106"
+    },
+    {
+      "id": "_agents_skills_requesting_code_review_code_reviewer_md",
+      "label": "Code reviewer prompt template",
+      "file_type": "document",
+      "source_file": ".agents/skills/requesting-code-review/code-reviewer.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_requesting_code_review_concept_code_review_template",
+      "label": "Code review template",
+      "file_type": "concept",
+      "source_file": ".agents/skills/requesting-code-review/code-reviewer.md",
+      "source_location": "lines 5-136"
+    },
+    {
+      "id": "_agents_skills_nestjs_best_practices_rules_security_rate_limiting_md",
+      "label": "Implement rate limiting",
+      "file_type": "document",
+      "source_file": ".agents/skills/nestjs-best-practices/rules/security-rate-limiting.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_nestjs_best_practices_concept_rate_limiting",
+      "label": "Rate limiting pattern",
+      "file_type": "concept",
+      "source_file": ".agents/skills/nestjs-best-practices/rules/security-rate-limiting.md",
+      "source_location": "lines 8-10"
+    },
+    {
+      "id": "nestjs_best_practices_skill",
+      "label": "NestJS Best Practices Skill",
+      "file_type": "concept",
+      "source_file": ".agents/skills/nestjs-best-practices/rules/",
+      "source_location": null
+    },
+    {
+      "id": "vercel_react_skill",
+      "label": "Vercel React Best Practices Skill",
+      "file_type": "concept",
+      "source_file": ".agents/skills/vercel-react-best-practices/",
+      "source_location": null
+    },
+    {
+      "id": "ui_ux_skill",
+      "label": "UI/UX Pro Max Skill",
+      "file_type": "concept",
+      "source_file": ".agents/skills/ui-ux-pro-max/",
+      "source_location": null
+    }
+  ],
+  "edges": [
+    {
+      "source": "_agents_skills_plan_phase_skill_md",
+      "target": "_agents_skills_prd_skill_md",
+      "relation": "requires_input_from",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/plan-phase/SKILL.md",
+      "weight": 1.0
+    },
+    {
+      "source": "_agents_skills_plan_phase_concept_prd_to_phases",
+      "target": "_agents_skills_prd_concept_prd_structure",
+      "relation": "transforms",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/plan-phase/SKILL.md",
+      "weight": 1.0
+    },
+    {
+      "source": "_agents_skills_research_skill_md",
+      "target": "_agents_skills_plan_phase_skill_md",
+      "relation": "requires_input_from",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/research/SKILL.md",
+      "weight": 1.0
+    },
+    {
+      "source": "_agents_skills_research_concept_technical_research_process",
+      "target": "nestjs_best_practices_skill",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/research/SKILL.md",
+      "weight": 1.0
+    },
+    {
+      "source": "_agents_skills_research_concept_technical_research_process",
+      "target": "vercel_react_skill",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/research/SKILL.md",
+      "weight": 1.0
+    },
+    {
+      "source": "_agents_skills_research_concept_technical_research_process",
+      "target": "ui_ux_skill",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/research/SKILL.md",
+      "weight": 1.0
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_readme_md",
+      "target": "_agents_skills_vercel_react_best_practices_skill_md",
+      "relation": "documents",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/vercel-react-best-practices/README.md",
+      "weight": 1.0
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_concept_rule_file_structure",
+      "target": "_agents_skills_vercel_react_best_practices_rules_sections_md",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/vercel-react-best-practices/README.md",
+      "weight": 1.0
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_skill_md",
+      "target": "_agents_skills_vercel_react_best_practices_agents_md",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/vercel-react-best-practices/SKILL.md",
+      "weight": 1.0
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_concept_rule_categories",
+      "target": "_agents_skills_vercel_react_best_practices_concept_impact_levels",
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/vercel-react-best-practices/SKILL.md",
+      "weight": 1.0
+    },
+    {
+      "source": "_agents_skills_nestjs_best_practices_concept_mock_external_services",
+      "target": "_agents_skills_nestjs_best_practices_concept_testing_module",
+      "relation": "implements_with",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": ".agents/skills/nestjs-best-practices/rules/test-mock-external-services.md",
+      "weight": 1.0
+    },
+    {
+      "source": "_agents_skills_nestjs_best_practices_concept_dto_validation",
+      "target": "_agents_skills_nestjs_best_practices_concept_guard_pattern",
+      "relation": "complements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": ".agents/skills/nestjs-best-practices/rules/security-validate-all-input.md",
+      "weight": 1.0
+    },
+    {
+      "source": "_agents_skills_ui_ux_pro_max_concept_pre_delivery_checklist",
+      "target": "_agents_skills_ui_ux_pro_max_concept_accessibility_rules",
+      "relation": "includes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/ui-ux-pro-max/references/pro-rules.md",
+      "weight": 1.0
+    },
+    {
+      "source": "_agents_skills_ui_ux_pro_max_concept_pre_delivery_checklist",
+      "target": "_agents_skills_ui_ux_pro_max_concept_touch_interaction_rules",
+      "relation": "includes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/ui-ux-pro-max/references/pro-rules.md",
+      "weight": 1.0
+    },
+    {
+      "source": "_agents_skills_ui_ux_pro_max_concept_ui_ux_workflow",
+      "target": "_agents_skills_ui_ux_pro_max_references_quick_reference_md",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/ui-ux-pro-max/SKILL.md",
+      "weight": 1.0
+    },
+    {
+      "source": "_agents_skills_ui_ux_pro_max_concept_ui_ux_workflow",
+      "target": "_agents_skills_ui_ux_pro_max_references_pro_rules_md",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/ui-ux-pro-max/SKILL.md",
+      "weight": 1.0
+    },
+    {
+      "source": "_agents_skills_requesting_code_review_skill_md",
+      "target": "_agents_skills_requesting_code_review_code_reviewer_md",
+      "relation": "uses_template",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/requesting-code-review/SKILL.md",
+      "weight": 1.0
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_concept_eliminating_waterfalls",
+      "target": "_agents_skills_vercel_react_best_practices_concept_bundle_size_optimization",
+      "relation": "related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": ".agents/skills/vercel-react-best-practices/AGENTS.md",
+      "weight": 0.8
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_concept_bundle_size_optimization",
+      "target": "_agents_skills_vercel_react_best_practices_concept_server_side_performance",
+      "relation": "related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": ".agents/skills/vercel-react-best-practices/AGENTS.md",
+      "weight": 0.8
+    },
+    {
+      "source": "nestjs_best_practices_skill",
+      "target": "_agents_skills_nestjs_best_practices_concept_dto_validation",
+      "relation": "includes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/nestjs-best-practices/rules/security-validate-all-input.md",
+      "weight": 1.0
+    },
+    {
+      "source": "nestjs_best_practices_skill",
+      "target": "_agents_skills_nestjs_best_practices_concept_jwt_security",
+      "relation": "includes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/nestjs-best-practices/rules/security-auth-jwt.md",
+      "weight": 1.0
+    },
+    {
+      "source": "nestjs_best_practices_skill",
+      "target": "_agents_skills_nestjs_best_practices_concept_guard_pattern",
+      "relation": "includes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/nestjs-best-practices/rules/security-use-guards.md",
+      "weight": 1.0
+    },
+    {
+      "source": "nestjs_best_practices_skill",
+      "target": "_agents_skills_nestjs_best_practices_concept_rate_limiting",
+      "relation": "includes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/nestjs-best-practices/rules/security-rate-limiting.md",
+      "weight": 1.0
+    },
+    {
+      "source": "nestjs_best_practices_skill",
+      "target": "_agents_skills_nestjs_best_practices_concept_xss_prevention",
+      "relation": "includes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/nestjs-best-practices/rules/security-sanitize-output.md",
+      "weight": 1.0
+    },
+    {
+      "source": "nestjs_best_practices_skill",
+      "target": "_agents_skills_nestjs_best_practices_concept_testing_module",
+      "relation": "includes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/nestjs-best-practices/rules/test-use-testing-module.md",
+      "weight": 1.0
+    },
+    {
+      "source": "nestjs_best_practices_skill",
+      "target": "_agents_skills_nestjs_best_practices_concept_mock_external_services",
+      "relation": "includes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/nestjs-best-practices/rules/test-mock-external-services.md",
+      "weight": 1.0
+    },
+    {
+      "source": "nestjs_best_practices_skill",
+      "target": "_agents_skills_nestjs_best_practices_concept_e2e_testing",
+      "relation": "includes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/nestjs-best-practices/rules/test-e2e-supertest.md",
+      "weight": 1.0
+    },
+    {
+      "source": "vercel_react_skill",
+      "target": "_agents_skills_vercel_react_best_practices_concept_eliminating_waterfalls",
+      "relation": "includes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/vercel-react-best-practices/AGENTS.md",
+      "weight": 1.0
+    },
+    {
+      "source": "vercel_react_skill",
+      "target": "_agents_skills_vercel_react_best_practices_concept_bundle_size_optimization",
+      "relation": "includes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/vercel-react-best-practices/AGENTS.md",
+      "weight": 1.0
+    },
+    {
+      "source": "vercel_react_skill",
+      "target": "_agents_skills_vercel_react_best_practices_concept_server_side_performance",
+      "relation": "includes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/vercel-react-best-practices/AGENTS.md",
+      "weight": 1.0
+    },
+    {
+      "source": "ui_ux_skill",
+      "target": "_agents_skills_ui_ux_pro_max_concept_accessibility_rules",
+      "relation": "includes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/ui-ux-pro-max/references/quick-reference.md",
+      "weight": 1.0
+    },
+    {
+      "source": "ui_ux_skill",
+      "target": "_agents_skills_ui_ux_pro_max_concept_touch_interaction_rules",
+      "relation": "includes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/ui-ux-pro-max/references/quick-reference.md",
+      "weight": 1.0
+    },
+    {
+      "source": "ui_ux_skill",
+      "target": "_agents_skills_ui_ux_pro_max_concept_icons_visual_elements",
+      "relation": "includes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/ui-ux-pro-max/references/pro-rules.md",
+      "weight": 1.0
+    },
+    {
+      "source": "ui_ux_skill",
+      "target": "_agents_skills_ui_ux_pro_max_concept_pre_delivery_checklist",
+      "relation": "includes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/ui-ux-pro-max/references/pro-rules.md",
+      "weight": 1.0
+    }
+  ],
+  "hyperedges": [],
+  "input_tokens": 0,
+  "output_tokens": 0
+}

@@ -16,6 +16,7 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard.js';
+import { CurrentUser } from '../auth/decorators/current-user.decorator.js';
 import { CreateMeetingFileCommand } from './commands/impl/create-meeting-file.command.js';
 import { DeleteMeetingFileCommand } from './commands/impl/delete-meeting-file.command.js';
 import { ReprocessMeetingFileCommand } from './commands/impl/reprocess-meeting-file.command.js';
@@ -48,6 +49,7 @@ export class MeetingFileController {
     @Param('meetingId') meetingId: string,
     @Body() dto: UploadMeetingFileDto,
     @UploadedFile() file: UploadedFilePart | undefined,
+    @CurrentUser('userId') userId: string,
   ): Promise<MeetingFileDto> {
     if (!file) {
       throw new BadRequestException('Файл обязателен (поле «file»)');
@@ -59,12 +61,15 @@ export class MeetingFileController {
       size: file.size,
       buffer: file.buffer,
     };
-    return this.commandBus.execute(new CreateMeetingFileCommand(meetingId, dto.type, part));
+    return this.commandBus.execute(new CreateMeetingFileCommand(meetingId, dto.type, part, userId));
   }
 
   @Get()
-  list(@Param('meetingId') meetingId: string): Promise<MeetingFileDto[]> {
-    return this.queryBus.execute(new ListMeetingFilesQuery(meetingId));
+  list(
+    @Param('meetingId') meetingId: string,
+    @CurrentUser('userId') userId: string,
+  ): Promise<MeetingFileDto[]> {
+    return this.queryBus.execute(new ListMeetingFilesQuery(meetingId, userId));
   }
 
   @Get(':fileId/content')

@@ -10,7 +10,6 @@ import {
   downloadMeetingFile,
   getMeetingFiles,
   reprocessMeetingFile,
-  resummarizeMeetingFile,
   uploadMeetingFile,
   type MeetingFile,
   type MeetingFileStatus,
@@ -159,25 +158,17 @@ function FileRow({
   onChanged: () => void;
   onAuthError: () => void;
 }) {
-  const [busy, setBusy] = useState<'download' | 'delete' | 'reprocess' | 'resummarize' | null>(
-    null,
-  );
+  const [busy, setBusy] = useState<'download' | 'delete' | 'reprocess' | null>(null);
   const [rowError, setRowError] = useState<string | null>(null);
   const [showTranscript, setShowTranscript] = useState(false);
-  const [showSummary, setShowSummary] = useState(false);
 
   const Icon = file.type === 'recording' ? MicIcon : PaperclipIcon;
   const statusMeta = file.type === 'recording' ? STATUS_META[file.status] : null;
   const hasTranscript =
     file.type === 'recording' && file.status === 'done' && Boolean(file.transcriptText);
-  const hasSummary = file.type === 'recording' && file.summaryStatus === 'done' && file.summary;
-  const summaryProcessing =
-    file.type === 'recording' &&
-    (file.summaryStatus === 'pending' || file.summaryStatus === 'processing');
-  const summaryFailed = file.type === 'recording' && file.summaryStatus === 'failed';
 
   async function runRowAction(
-    key: 'download' | 'delete' | 'reprocess' | 'resummarize',
+    key: 'download' | 'delete' | 'reprocess',
     fn: () => Promise<unknown>,
     opts: { refreshAfter?: boolean; ignoreMissing?: boolean } = {},
   ): Promise<void> {
@@ -220,14 +211,6 @@ function FileRow({
     void runRowAction('reprocess', () => reprocessMeetingFile(meetingId, file.id, accessToken), {
       refreshAfter: true,
     });
-  }
-
-  function handleResummarize() {
-    void runRowAction(
-      'resummarize',
-      () => resummarizeMeetingFile(meetingId, file.id, accessToken),
-      { refreshAfter: true },
-    );
   }
 
   function handleDelete() {
@@ -351,89 +334,6 @@ function FileRow({
         </div>
       ) : null}
 
-      {summaryProcessing ? (
-        <div className="flex items-center gap-2 text-sm text-muted">
-          <Spinner size="sm" color="current" />
-          <span>Резюме готовится...</span>
-        </div>
-      ) : null}
-
-      {hasSummary ? (
-        <div className="flex flex-col gap-2">
-          <button
-            type="button"
-            onClick={() => setShowSummary((visible) => !visible)}
-            aria-expanded={showSummary}
-            className="inline-flex items-center gap-1.5 self-start rounded-md text-sm font-medium text-foreground transition-colors hover:text-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
-          >
-            <ChevronDownIcon
-              className={cn('size-4 transition-transform', showSummary && 'rotate-180')}
-            />
-            {showSummary ? 'Скрыть резюме' : 'Показать резюме'}
-          </button>
-          {showSummary && file.summary ? (
-            <div className="flex flex-col gap-3 rounded-lg bg-foreground/[0.03] p-3">
-              <div className="flex flex-col gap-2">
-                <h4 className="text-sm font-semibold text-foreground">Резюме</h4>
-                <p className="text-sm leading-relaxed text-foreground">{file.summary!.summary}</p>
-              </div>
-              {file.summary!.decisions.length > 0 ? (
-                <div className="flex flex-col gap-2">
-                  <h4 className="text-sm font-semibold text-foreground">Решения</h4>
-                  <ul className="flex list-disc flex-col gap-1 ps-5 text-sm leading-relaxed text-foreground">
-                    {file.summary!.decisions.map((decision, index) => (
-                      <li key={index}>{decision}</li>
-                    ))}
-                  </ul>
-                </div>
-              ) : null}
-              {file.summary!.actionItems.length > 0 ? (
-                <div className="flex flex-col gap-2">
-                  <h4 className="text-sm font-semibold text-foreground">Задачи</h4>
-                  <ul className="flex list-disc flex-col gap-1 ps-5 text-sm leading-relaxed text-foreground">
-                    {file.summary!.actionItems.map((item, index) => (
-                      <li key={index}>{item}</li>
-                    ))}
-                  </ul>
-                </div>
-              ) : null}
-            </div>
-          ) : null}
-        </div>
-      ) : null}
-
-      {summaryFailed ? (
-        <div className="flex flex-col gap-2">
-          <p className="text-xs text-danger">Не удалось собрать резюме</p>
-          <Button
-            size="sm"
-            variant="secondary"
-            className="gap-1.5 self-start"
-            onPress={handleResummarize}
-            isPending={busy === 'resummarize'}
-          >
-            <RotateCcwIcon className="size-4" />
-            Повторить
-          </Button>
-        </div>
-      ) : null}
-
-      {summaryFailed ? (
-        <div className="flex items-center justify-between gap-2 rounded-lg bg-danger/10 px-3 py-2">
-          <span className="text-sm text-danger">Не удалось собрать резюме</span>
-          <Button
-            size="sm"
-            variant="secondary"
-            className="gap-1.5"
-            onPress={handleResummarize}
-            isPending={busy === 'resummarize'}
-          >
-            <RotateCcwIcon className="size-4" />
-            Повторить
-          </Button>
-        </div>
-      ) : null}
-
       {file.status === 'failed' && !rowError ? (
         <p className="text-xs text-danger">
           Запись не удалось обработать. Нажмите «Повторить», чтобы запустить обработку заново.
@@ -514,11 +414,7 @@ export function MeetingFiles({
   const hasActive =
     files?.some(
       (file) =>
-        file.status === 'pending' ||
-        file.status === 'processing' ||
-        file.status === 'failed' ||
-        file.summaryStatus === 'pending' ||
-        file.summaryStatus === 'processing',
+        file.status === 'pending' || file.status === 'processing' || file.status === 'failed',
     ) ?? false;
 
   useEffect(() => {

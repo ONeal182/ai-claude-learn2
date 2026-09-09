@@ -1,0 +1,1128 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_scripts_llm_benchmark_py",
+      "label": "llm-benchmark.py",
+      "file_type": "code",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "$graphify-root$_scripts_llm_benchmark_debug_log",
+      "label": "debug_log()",
+      "file_type": "code",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L59",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_scripts_llm_benchmark_benchmarkresult",
+      "label": "BenchmarkResult",
+      "file_type": "code",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L65",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_scripts_llm_benchmark_benchmarkresult_init",
+      "label": ".__init__()",
+      "file_type": "code",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L68",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_scripts_llm_benchmark_run_benchmark_anthropic",
+      "label": "run_benchmark_anthropic()",
+      "file_type": "code",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L83",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_scripts_llm_benchmark_run_benchmark_openai",
+      "label": "run_benchmark_openai()",
+      "file_type": "code",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L113",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_scripts_llm_benchmark_run_anthropic_stream",
+      "label": "_run_anthropic_stream()",
+      "file_type": "code",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L142",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_scripts_llm_benchmark_run_openai_stream",
+      "label": "_run_openai_stream()",
+      "file_type": "code",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L250",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_scripts_llm_benchmark_print_result",
+      "label": "print_result()",
+      "file_type": "code",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L357",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_scripts_llm_benchmark_print_summary",
+      "label": "print_summary()",
+      "file_type": "code",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L368",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_scripts_llm_benchmark_main",
+      "label": "main()",
+      "file_type": "code",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L394",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_scripts_llm_benchmark_rationale_2",
+      "label": "LLM Benchmark - standalone script for measuring LLM API performance. Measures:\u2026",
+      "file_type": "rationale",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L2"
+    },
+    {
+      "id": "$graphify-root$_scripts_llm_benchmark_rationale_60",
+      "label": "Print debug message if DEBUG is enabled.",
+      "file_type": "rationale",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L60"
+    },
+    {
+      "id": "$graphify-root$_scripts_llm_benchmark_rationale_66",
+      "label": "Store results of a single benchmark run.",
+      "file_type": "rationale",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L66"
+    },
+    {
+      "id": "$graphify-root$_scripts_llm_benchmark_rationale_89",
+      "label": "Run benchmark using Anthropic API format.",
+      "file_type": "rationale",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L89"
+    },
+    {
+      "id": "$graphify-root$_scripts_llm_benchmark_rationale_119",
+      "label": "Run benchmark using OpenAI-compatible API format.",
+      "file_type": "rationale",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L119"
+    },
+    {
+      "id": "$graphify-root$_scripts_llm_benchmark_rationale_147",
+      "label": "Process Anthropic-style streaming response.",
+      "file_type": "rationale",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L147"
+    },
+    {
+      "id": "$graphify-root$_scripts_llm_benchmark_rationale_255",
+      "label": "Process OpenAI-style streaming response.",
+      "file_type": "rationale",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L255"
+    },
+    {
+      "id": "$graphify-root$_scripts_llm_benchmark_rationale_358",
+      "label": "Print results of a single run.",
+      "file_type": "rationale",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L358"
+    },
+    {
+      "id": "$graphify-root$_scripts_llm_benchmark_rationale_369",
+      "label": "Print summary statistics.",
+      "file_type": "rationale",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L369"
+    },
+    {
+      "id": "$graphify-root$_scripts_llm_benchmark_rationale_395",
+      "label": "Main benchmark execution.",
+      "file_type": "rationale",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L395"
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_scripts_llm_benchmark_py",
+      "target": "os",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_scripts_llm_benchmark_py",
+      "target": "sys",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L21",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_scripts_llm_benchmark_py",
+      "target": "time",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L22",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_scripts_llm_benchmark_py",
+      "target": "json",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L23",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_scripts_llm_benchmark_py",
+      "target": "statistics",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L24",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_scripts_llm_benchmark_py",
+      "target": "typing",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L25",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_scripts_llm_benchmark_py",
+      "target": "requests",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L28",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_scripts_llm_benchmark_py",
+      "target": "$graphify-root$_scripts_llm_benchmark_debug_log",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L59",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_scripts_llm_benchmark_py",
+      "target": "$graphify-root$_scripts_llm_benchmark_benchmarkresult",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L65",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_scripts_llm_benchmark_benchmarkresult",
+      "target": "$graphify-root$_scripts_llm_benchmark_benchmarkresult_init",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L68",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_scripts_llm_benchmark_py",
+      "target": "$graphify-root$_scripts_llm_benchmark_run_benchmark_anthropic",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L83",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_scripts_llm_benchmark_run_benchmark_anthropic",
+      "target": "$graphify-root$_scripts_llm_benchmark_benchmarkresult",
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L83",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_scripts_llm_benchmark_py",
+      "target": "$graphify-root$_scripts_llm_benchmark_run_benchmark_openai",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L113",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_scripts_llm_benchmark_run_benchmark_openai",
+      "target": "$graphify-root$_scripts_llm_benchmark_benchmarkresult",
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L113",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_scripts_llm_benchmark_py",
+      "target": "$graphify-root$_scripts_llm_benchmark_run_anthropic_stream",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L142",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_scripts_llm_benchmark_run_anthropic_stream",
+      "target": "$graphify-root$_scripts_llm_benchmark_benchmarkresult",
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L142",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_scripts_llm_benchmark_py",
+      "target": "$graphify-root$_scripts_llm_benchmark_run_openai_stream",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L250",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_scripts_llm_benchmark_run_openai_stream",
+      "target": "$graphify-root$_scripts_llm_benchmark_benchmarkresult",
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L250",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_scripts_llm_benchmark_py",
+      "target": "$graphify-root$_scripts_llm_benchmark_print_result",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L357",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_scripts_llm_benchmark_print_result",
+      "target": "$graphify-root$_scripts_llm_benchmark_benchmarkresult",
+      "relation": "references",
+      "context": "parameter_type",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L357",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_scripts_llm_benchmark_py",
+      "target": "$graphify-root$_scripts_llm_benchmark_print_summary",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L368",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_scripts_llm_benchmark_print_summary",
+      "target": "$graphify-root$_scripts_llm_benchmark_benchmarkresult",
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L368",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_scripts_llm_benchmark_py",
+      "target": "$graphify-root$_scripts_llm_benchmark_main",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L394",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_scripts_llm_benchmark_run_benchmark_anthropic",
+      "target": "$graphify-root$_scripts_llm_benchmark_run_anthropic_stream",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L110",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_scripts_llm_benchmark_run_benchmark_openai",
+      "target": "$graphify-root$_scripts_llm_benchmark_run_openai_stream",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L139",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_scripts_llm_benchmark_run_anthropic_stream",
+      "target": "$graphify-root$_scripts_llm_benchmark_debug_log",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L149",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_scripts_llm_benchmark_run_anthropic_stream",
+      "target": "$graphify-root$_scripts_llm_benchmark_benchmarkresult",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L229",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_scripts_llm_benchmark_run_openai_stream",
+      "target": "$graphify-root$_scripts_llm_benchmark_debug_log",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L257",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_scripts_llm_benchmark_run_openai_stream",
+      "target": "$graphify-root$_scripts_llm_benchmark_benchmarkresult",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L336",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_scripts_llm_benchmark_main",
+      "target": "$graphify-root$_scripts_llm_benchmark_run_benchmark_openai",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L460",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_scripts_llm_benchmark_main",
+      "target": "$graphify-root$_scripts_llm_benchmark_run_benchmark_anthropic",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L462",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_scripts_llm_benchmark_main",
+      "target": "$graphify-root$_scripts_llm_benchmark_print_result",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L483",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_scripts_llm_benchmark_main",
+      "target": "$graphify-root$_scripts_llm_benchmark_print_summary",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L488",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_scripts_llm_benchmark_rationale_2",
+      "target": "$graphify-root$_scripts_llm_benchmark_py",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_scripts_llm_benchmark_rationale_60",
+      "target": "$graphify-root$_scripts_llm_benchmark_debug_log",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L60",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_scripts_llm_benchmark_rationale_66",
+      "target": "$graphify-root$_scripts_llm_benchmark_benchmarkresult",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L66",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_scripts_llm_benchmark_rationale_89",
+      "target": "$graphify-root$_scripts_llm_benchmark_run_benchmark_anthropic",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L89",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_scripts_llm_benchmark_rationale_119",
+      "target": "$graphify-root$_scripts_llm_benchmark_run_benchmark_openai",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L119",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_scripts_llm_benchmark_rationale_147",
+      "target": "$graphify-root$_scripts_llm_benchmark_run_anthropic_stream",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L147",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_scripts_llm_benchmark_rationale_255",
+      "target": "$graphify-root$_scripts_llm_benchmark_run_openai_stream",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L255",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_scripts_llm_benchmark_rationale_358",
+      "target": "$graphify-root$_scripts_llm_benchmark_print_result",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L358",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_scripts_llm_benchmark_rationale_369",
+      "target": "$graphify-root$_scripts_llm_benchmark_print_summary",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L369",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_scripts_llm_benchmark_rationale_395",
+      "target": "$graphify-root$_scripts_llm_benchmark_main",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L395",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_run_benchmark_anthropic",
+      "callee": "rstrip",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L91",
+      "receiver": "base_url"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_run_benchmark_anthropic",
+      "callee": "TEST_PROMPT",
+      "is_member_call": false,
+      "indirect": true,
+      "context": "collection",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L104"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_run_benchmark_openai",
+      "callee": "rstrip",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L121",
+      "receiver": "base_url"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_run_benchmark_openai",
+      "callee": "TEST_PROMPT",
+      "is_member_call": false,
+      "indirect": true,
+      "context": "collection",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L133"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_run_anthropic_stream",
+      "callee": "dumps",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L150",
+      "receiver": "json"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_run_anthropic_stream",
+      "callee": "items",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L150",
+      "receiver": "headers"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_run_anthropic_stream",
+      "callee": "dumps",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L151",
+      "receiver": "json"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_run_anthropic_stream",
+      "callee": "time",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L153",
+      "receiver": "time"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_run_anthropic_stream",
+      "callee": "post",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L159",
+      "receiver": "requests"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_run_anthropic_stream",
+      "callee": "REQUEST_TIMEOUT",
+      "is_member_call": false,
+      "indirect": true,
+      "context": "argument",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L164"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_run_anthropic_stream",
+      "callee": "iter_lines",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L176",
+      "receiver": "response"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_run_anthropic_stream",
+      "callee": "decode",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L180",
+      "receiver": "line"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_run_anthropic_stream",
+      "callee": "startswith",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L183",
+      "receiver": "line_text"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_run_anthropic_stream",
+      "callee": "strip",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L189",
+      "receiver": "data_str"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_run_anthropic_stream",
+      "callee": "loads",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L193",
+      "receiver": "json"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_run_anthropic_stream",
+      "callee": "get",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L196",
+      "receiver": "data"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_run_anthropic_stream",
+      "callee": "time",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L197",
+      "receiver": "time"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_run_anthropic_stream",
+      "callee": "get",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L201",
+      "receiver": "data"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_run_anthropic_stream",
+      "callee": "get",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L202",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_run_anthropic_stream",
+      "callee": "get",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L202",
+      "receiver": "data"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_run_anthropic_stream",
+      "callee": "get",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L203",
+      "receiver": "usage"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_run_anthropic_stream",
+      "callee": "get",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L207",
+      "receiver": "data"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_run_anthropic_stream",
+      "callee": "get",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L208",
+      "receiver": "data"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_run_anthropic_stream",
+      "callee": "get",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L209",
+      "receiver": "usage"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_run_anthropic_stream",
+      "callee": "time",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L216",
+      "receiver": "time"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_run_anthropic_stream",
+      "callee": "print_exc",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L246",
+      "receiver": "traceback"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_run_openai_stream",
+      "callee": "dumps",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L258",
+      "receiver": "json"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_run_openai_stream",
+      "callee": "items",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L258",
+      "receiver": "headers"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_run_openai_stream",
+      "callee": "dumps",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L259",
+      "receiver": "json"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_run_openai_stream",
+      "callee": "time",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L261",
+      "receiver": "time"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_run_openai_stream",
+      "callee": "post",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L269",
+      "receiver": "requests"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_run_openai_stream",
+      "callee": "REQUEST_TIMEOUT",
+      "is_member_call": false,
+      "indirect": true,
+      "context": "argument",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L274"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_run_openai_stream",
+      "callee": "iter_lines",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L286",
+      "receiver": "response"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_run_openai_stream",
+      "callee": "decode",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L290",
+      "receiver": "line"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_run_openai_stream",
+      "callee": "startswith",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L293",
+      "receiver": "line_text"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_run_openai_stream",
+      "callee": "strip",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L299",
+      "receiver": "data_str"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_run_openai_stream",
+      "callee": "loads",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L303",
+      "receiver": "json"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_run_openai_stream",
+      "callee": "get",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L307",
+      "receiver": "data"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_run_openai_stream",
+      "callee": "get",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L308",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_run_openai_stream",
+      "callee": "get",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L308",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_run_openai_stream",
+      "callee": "time",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L309",
+      "receiver": "time"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_run_openai_stream",
+      "callee": "get",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L313",
+      "receiver": "data"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_run_openai_stream",
+      "callee": "get",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L315",
+      "receiver": "usage"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_run_openai_stream",
+      "callee": "get",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L316",
+      "receiver": "usage"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_run_openai_stream",
+      "callee": "time",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L323",
+      "receiver": "time"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_run_openai_stream",
+      "callee": "print_exc",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L353",
+      "receiver": "traceback"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_print_summary",
+      "callee": "median",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L382",
+      "receiver": "statistics"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_print_summary",
+      "callee": "mean",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L383",
+      "receiver": "statistics"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_print_summary",
+      "callee": "median",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L386",
+      "receiver": "statistics"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_print_summary",
+      "callee": "mean",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L387",
+      "receiver": "statistics"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_print_summary",
+      "callee": "median",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L390",
+      "receiver": "statistics"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_print_summary",
+      "callee": "mean",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L391",
+      "receiver": "statistics"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_main",
+      "callee": "getenv",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L398",
+      "receiver": "os"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_main",
+      "callee": "exit",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L401",
+      "receiver": "sys"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_main",
+      "callee": "getenv",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L403",
+      "receiver": "os"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_main",
+      "callee": "exit",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L406",
+      "receiver": "sys"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_main",
+      "callee": "getenv",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L408",
+      "receiver": "os"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_main",
+      "callee": "lower",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L411",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_main",
+      "callee": "getenv",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L411",
+      "receiver": "os"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_main",
+      "callee": "getenv",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L415",
+      "receiver": "os"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_main",
+      "callee": "DEFAULT_RUNS",
+      "is_member_call": false,
+      "indirect": true,
+      "context": "argument",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L415"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_main",
+      "callee": "DEFAULT_RUNS",
+      "is_member_call": false,
+      "indirect": true,
+      "context": "assignment",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L417"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_main",
+      "callee": "getenv",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L420",
+      "receiver": "os"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_main",
+      "callee": "DEFAULT_MAX_TOKENS",
+      "is_member_call": false,
+      "indirect": true,
+      "context": "argument",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L420"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_main",
+      "callee": "DEFAULT_MAX_TOKENS",
+      "is_member_call": false,
+      "indirect": true,
+      "context": "assignment",
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L422"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_main",
+      "callee": "exit",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L446",
+      "receiver": "sys"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_main",
+      "callee": "capitalize",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L475",
+      "receiver": "fmt"
+    },
+    {
+      "caller_nid": "$graphify-root$_scripts_llm_benchmark_main",
+      "callee": "append",
+      "is_member_call": true,
+      "source_file": "scripts/llm-benchmark.py",
+      "source_location": "L482",
+      "receiver": "results"
+    }
+  ]
+}

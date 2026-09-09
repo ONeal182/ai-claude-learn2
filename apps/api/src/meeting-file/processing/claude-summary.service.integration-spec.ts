@@ -2,6 +2,9 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { ConfigModule } from '@nestjs/config';
 import { ClaudeAgentModule } from '../../claude-agent/claude-agent.module.js';
 import { ClaudeSummaryService } from './claude-summary.service.js';
+import { FileLoggerService } from '../../common/file-logger.service.js';
+import { PrismaService } from '../../prisma/prisma.service.js';
+import { TaskService } from '../../task/task.service.js';
 
 /**
  * Integration tests for ClaudeSummaryService — Phase 2 Task 1 (optional).
@@ -17,7 +20,18 @@ describe.skipIf(!process.env.CLAUDE_AGENT_INTEGRATION_TESTS)(
     beforeAll(async () => {
       moduleRef = await Test.createTestingModule({
         imports: [ConfigModule.forRoot({ isGlobal: true }), ClaudeAgentModule],
-        providers: [ClaudeSummaryService],
+        providers: [
+          ClaudeSummaryService,
+          FileLoggerService,
+          {
+            provide: PrismaService,
+            useValue: {},
+          },
+          {
+            provide: TaskService,
+            useValue: {},
+          },
+        ],
       }).compile();
 
       service = moduleRef.get(ClaudeSummaryService);
@@ -40,6 +54,7 @@ describe.skipIf(!process.env.CLAUDE_AGENT_INTEGRATION_TESTS)(
       const result = await service.summarize({
         transcriptText: miniTranscript,
         originalName: 'test-meeting-2026-09-08.wav',
+        meetingId: 'test-meeting-id',
       });
 
       // Валидная структура
@@ -72,6 +87,7 @@ describe.skipIf(!process.env.CLAUDE_AGENT_INTEGRATION_TESTS)(
       const result = await service.summarize({
         transcriptText: '',
         originalName: 'empty.wav',
+        meetingId: 'test-meeting-id',
       });
 
       expect(result).toHaveProperty('summary');

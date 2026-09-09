@@ -24,7 +24,7 @@ export class CreateMeetingFileHandler implements ICommandHandler<
 
   async execute(command: CreateMeetingFileCommand): Promise<MeetingFileDto> {
     // 404, если встречи нет — переиспользуем чтение из meeting-модуля, не дублируем.
-    await this.queryBus.execute(new GetMeetingByIdQuery(command.meetingId));
+    await this.queryBus.execute(new GetMeetingByIdQuery(command.meetingId, command.userId));
 
     const storageKey = randomUUID();
     await this.storage.save(storageKey, command.file.buffer);
@@ -40,6 +40,15 @@ export class CreateMeetingFileHandler implements ICommandHandler<
           mimeType: command.file.mimetype,
           size: command.file.size,
           storageKey,
+        },
+        include: {
+          meeting: {
+            select: {
+              summaryStatus: true,
+              summary: true,
+              decisions: true,
+            },
+          },
         },
       });
 

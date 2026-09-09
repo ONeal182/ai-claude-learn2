@@ -1,6 +1,7 @@
 import { Inject, Injectable, Logger, OnModuleDestroy } from '@nestjs/common';
 import { EventBus } from '@nestjs/cqrs';
 import { MeetingFileStatus } from '@prisma/client';
+import { FileLoggerService } from '../../common/file-logger.service.js';
 import { PrismaService } from '../../prisma/prisma.service.js';
 import { MeetingFileTranscribedEvent } from '../events/impl/meeting-file-transcribed.event.js';
 import { STT_SERVICE, type SttService } from './stt.service.js';
@@ -30,6 +31,7 @@ export class MeetingFileProcessingQueue implements OnModuleDestroy {
     private readonly prisma: PrismaService,
     @Inject(STT_SERVICE) private readonly stt: SttService,
     private readonly eventBus: EventBus,
+    private readonly fileLogger: FileLoggerService,
   ) {}
 
   /** Поставить файл в очередь на обработку. Возврат мгновенный — работа идёт в фоне. */
@@ -57,9 +59,21 @@ export class MeetingFileProcessingQueue implements OnModuleDestroy {
 
   private async process(fileId: string): Promise<void> {
     this.currentAbort = new AbortController();
+    const startTime = Date.now();
+    const logPath = this.fileLogger.getLogPath('logs/transcription', 'transcription.log');
+
     try {
       const file = await this.prisma.meetingFile.findUnique({ where: { id: fileId } });
       if (!file || this.stopped) return;
+
+      // Лог начала транскрипции
+      await this.fileLogger.log(logPath, 'Transcription started', {
+        fileId,
+        meetingId: file.meetingId,
+        fileName: file.originalName,
+        fileSize: file.size,
+        mimeType: file.mimeType,
+      });
 
       await this.prisma.meetingFile.update({
         where: { id: fileId },
@@ -75,18 +89,51 @@ export class MeetingFileProcessingQueue implements OnModuleDestroy {
       });
       if (this.stopped) return;
 
+      const duration = Date.now() - startTime;
+      const transcriptLength = transcriptText.length;
+
       await this.prisma.meetingFile.update({
         where: { id: fileId },
         data: { status: MeetingFileStatus.done, transcriptText },
       });
 
-      // Публикуем событие для триггера суммаризации
-      this.eventBus.publish(new MeetingFileTranscribedEvent(fileId));
+      // Лог успешной транскрипции
+      await this.fileLogger.log(logPath, 'Transcription completed', {
+        fileId,
+        meetingId: file.meetingId,
+        fileName: file.originalName,
+        durationMs: duration,
+        transcriptLength,
+        status: 'success',
+      });
+
+      this.logger.log(
+        `Транскрипция завершена: ${file.originalName} (${duration}ms, ${transcriptLength} символов)`,
+      );
+
+      // Публикуем событие для триггера суммаризации всей встречи
+      this.logger.log(
+        `Публикуем MeetingFileTranscribedEvent для файла ${fileId}, встреча ${file.meetingId}`,
+      );
+      this.eventBus.publish(new MeetingFileTranscribedEvent(fileId, file.meetingId));
+      this.logger.log(`MeetingFileTranscribedEvent опубликован для встречи ${file.meetingId}`);
     } catch (error) {
       if (this.stopped) return;
       // запись удалили, пока она обрабатывалась (`DELETE`) — ничего не делаем
       if (isRecordNotFound(error)) return;
-      this.logger.warn(`Обработка файла ${fileId} упала: ${errorMessage(error)}`);
+
+      const duration = Date.now() - startTime;
+      const errorMsg = errorMessage(error);
+
+      // Лог ошибки транскрипции
+      await this.fileLogger.log(logPath, 'Transcription failed', {
+        fileId,
+        durationMs: duration,
+        error: errorMsg,
+        status: 'failed',
+      });
+
+      this.logger.warn(`Обработка файла ${fileId} упала: ${errorMsg}`);
       await this.prisma.meetingFile
         .update({ where: { id: fileId }, data: { status: MeetingFileStatus.failed } })
         .catch(() => undefined);

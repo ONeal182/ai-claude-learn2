@@ -1,0 +1,626 @@
+{
+  "nodes": [
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_advanced_effect_event_deps_useeffectevent",
+      "label": "useEffectEvent",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/advanced-effect-event-deps.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_advanced_effect_event_deps_useeffect",
+      "label": "useEffect",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/advanced-effect-event-deps.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_advanced_effect_event_deps_dependency_array",
+      "label": "Dependency Array",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/advanced-effect-event-deps.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_advanced_event_handler_refs_refs",
+      "label": "Refs",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/advanced-event-handler-refs.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_advanced_event_handler_refs_useref",
+      "label": "useRef",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/advanced-event-handler-refs.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_advanced_event_handler_refs_useeffectevent",
+      "label": "useEffectEvent",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/advanced-event-handler-refs.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_advanced_init_once_useeffect",
+      "label": "useEffect Initialization",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/advanced-init-once.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_advanced_init_once_module_guard",
+      "label": "Module-Level Guard",
+      "file_type": "rationale",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/advanced-init-once.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_advanced_use_latest_useeffectevent",
+      "label": "useEffectEvent for Callbacks",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/advanced-use-latest.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_advanced_use_latest_stable_callback_refs",
+      "label": "Stable Callback Refs",
+      "file_type": "rationale",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/advanced-use-latest.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_async_api_routes_waterfall_prevention",
+      "label": "Waterfall Prevention",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/async-api-routes.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_async_api_routes_promise_all",
+      "label": "Promise.all",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/async-api-routes.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_async_api_routes_better_all",
+      "label": "better-all",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/async-api-routes.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_async_cheap_condition_before_await_guard_condition",
+      "label": "Guard Condition Optimization",
+      "file_type": "rationale",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/async-cheap-condition-before-await.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_async_cheap_condition_before_await_defer_await",
+      "label": "Defer Await Pattern",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/async-cheap-condition-before-await.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_async_defer_await_conditional_await",
+      "label": "Conditional Await",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/async-defer-await.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_async_defer_await_early_return",
+      "label": "Early Return Optimization",
+      "file_type": "rationale",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/async-defer-await.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_async_dependencies_better_all",
+      "label": "better-all Library",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/async-dependencies.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_async_dependencies_dependency_graph",
+      "label": "Dependency Graph Parallelization",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/async-dependencies.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_async_parallel_promise_all",
+      "label": "Promise.all Parallelization",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/async-parallel.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_async_parallel_sequential_execution",
+      "label": "Sequential Execution Antipattern",
+      "file_type": "rationale",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/async-parallel.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_async_suspense_boundaries_suspense",
+      "label": "Suspense Boundaries",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/async-suspense-boundaries.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_async_suspense_boundaries_streaming",
+      "label": "Streaming SSR",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/async-suspense-boundaries.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_async_suspense_boundaries_use_hook",
+      "label": "use Hook",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/async-suspense-boundaries.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_bundle_analyzable_paths_static_analysis",
+      "label": "Static Analysis",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/bundle-analyzable-paths.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_bundle_analyzable_paths_explicit_imports",
+      "label": "Explicit Import Maps",
+      "file_type": "rationale",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/bundle-analyzable-paths.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_bundle_barrel_imports_barrel_files",
+      "label": "Barrel Files",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/bundle-barrel-imports.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_bundle_barrel_imports_tree_shaking",
+      "label": "Tree Shaking",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/bundle-barrel-imports.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_bundle_barrel_imports_optimizepackageimports",
+      "label": "optimizePackageImports",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/bundle-barrel-imports.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_bundle_conditional_conditional_loading",
+      "label": "Conditional Loading",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/bundle-conditional.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_bundle_conditional_lazy_loading",
+      "label": "Lazy Loading",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/bundle-conditional.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_bundle_defer_third_party_dynamic_import",
+      "label": "Dynamic Import for Third-Party",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/bundle-defer-third-party.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_bundle_defer_third_party_next_dynamic",
+      "label": "next/dynamic",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/bundle-defer-third-party.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_bundle_dynamic_imports_code_splitting",
+      "label": "Code Splitting",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/bundle-dynamic-imports.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_bundle_dynamic_imports_next_dynamic",
+      "label": "next/dynamic Lazy Loading",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/bundle-dynamic-imports.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_bundle_preload_preloading",
+      "label": "Preloading",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/bundle-preload.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_bundle_preload_user_intent",
+      "label": "User Intent Detection",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/bundle-preload.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_client_event_listeners_useswr_subscription",
+      "label": "useSWRSubscription",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/client-event-listeners.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_client_event_listeners_event_deduplication",
+      "label": "Event Listener Deduplication",
+      "file_type": "rationale",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/client-event-listeners.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_client_localstorage_schema_versioning",
+      "label": "localStorage Versioning",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/client-localstorage-schema.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_client_localstorage_schema_data_minimization",
+      "label": "Data Minimization",
+      "file_type": "rationale",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/client-localstorage-schema.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_client_passive_event_listeners_passive_listeners",
+      "label": "Passive Event Listeners",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/client-passive-event-listeners.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_client_passive_event_listeners_scroll_performance",
+      "label": "Scroll Performance",
+      "file_type": "rationale",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/client-passive-event-listeners.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_client_swr_dedup_swr",
+      "label": "SWR",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/client-swr-dedup.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_client_swr_dedup_request_deduplication",
+      "label": "Request Deduplication",
+      "file_type": "rationale",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/client-swr-dedup.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_js_batch_dom_css_layout_thrashing",
+      "label": "Layout Thrashing",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/js-batch-dom-css.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_js_batch_dom_css_forced_reflow",
+      "label": "Forced Synchronous Layout",
+      "file_type": "rationale",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/js-batch-dom-css.md",
+      "source_location": null
+    }
+  ],
+  "edges": [
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_advanced_effect_event_deps_useeffectevent",
+      "target": "agents_skills_vercel_react_best_practices_rules_advanced_effect_event_deps_dependency_array",
+      "relation": "avoids_inclusion_in",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/advanced-effect-event-deps.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_advanced_effect_event_deps_useeffectevent",
+      "target": "agents_skills_vercel_react_best_practices_rules_advanced_effect_event_deps_useeffect",
+      "relation": "used_within",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/advanced-effect-event-deps.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_advanced_event_handler_refs_useref",
+      "target": "agents_skills_vercel_react_best_practices_rules_advanced_event_handler_refs_refs",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/advanced-event-handler-refs.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_advanced_event_handler_refs_useeffectevent",
+      "target": "agents_skills_vercel_react_best_practices_rules_advanced_event_handler_refs_refs",
+      "relation": "alternative_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/advanced-event-handler-refs.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_advanced_init_once_module_guard",
+      "target": "agents_skills_vercel_react_best_practices_rules_advanced_init_once_useeffect",
+      "relation": "prevents_duplicate_execution_in",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/advanced-init-once.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_advanced_use_latest_useeffectevent",
+      "target": "agents_skills_vercel_react_best_practices_rules_advanced_use_latest_stable_callback_refs",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/advanced-use-latest.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_async_cheap_condition_before_await_guard_condition",
+      "target": "agents_skills_vercel_react_best_practices_rules_async_cheap_condition_before_await_defer_await",
+      "relation": "specialization_of",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/async-cheap-condition-before-await.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_async_cheap_condition_before_await_defer_await",
+      "target": "agents_skills_vercel_react_best_practices_rules_async_defer_await_conditional_await",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/async-cheap-condition-before-await.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_async_defer_await_conditional_await",
+      "target": "agents_skills_vercel_react_best_practices_rules_async_defer_await_early_return",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/async-defer-await.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_async_defer_await_conditional_await",
+      "target": "agents_skills_vercel_react_best_practices_rules_async_cheap_condition_before_await_guard_condition",
+      "relation": "related_pattern",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/async-defer-await.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_async_dependencies_better_all",
+      "target": "agents_skills_vercel_react_best_practices_rules_async_dependencies_dependency_graph",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/async-dependencies.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_async_parallel_promise_all",
+      "target": "agents_skills_vercel_react_best_practices_rules_async_parallel_sequential_execution",
+      "relation": "avoids",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/async-parallel.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_async_api_routes_better_all",
+      "target": "agents_skills_vercel_react_best_practices_rules_async_dependencies_better_all",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/async-api-routes.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_async_api_routes_promise_all",
+      "target": "agents_skills_vercel_react_best_practices_rules_async_api_routes_waterfall_prevention",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/async-api-routes.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_async_suspense_boundaries_suspense",
+      "target": "agents_skills_vercel_react_best_practices_rules_async_suspense_boundaries_streaming",
+      "relation": "enables",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/async-suspense-boundaries.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_async_suspense_boundaries_use_hook",
+      "target": "agents_skills_vercel_react_best_practices_rules_async_suspense_boundaries_suspense",
+      "relation": "works_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/async-suspense-boundaries.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_bundle_analyzable_paths_explicit_imports",
+      "target": "agents_skills_vercel_react_best_practices_rules_bundle_analyzable_paths_static_analysis",
+      "relation": "enables",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/bundle-analyzable-paths.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_bundle_barrel_imports_optimizepackageimports",
+      "target": "agents_skills_vercel_react_best_practices_rules_bundle_barrel_imports_barrel_files",
+      "relation": "optimizes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/bundle-barrel-imports.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_bundle_barrel_imports_tree_shaking",
+      "target": "agents_skills_vercel_react_best_practices_rules_bundle_barrel_imports_barrel_files",
+      "relation": "limited_effectiveness_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/bundle-barrel-imports.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_bundle_conditional_lazy_loading",
+      "target": "agents_skills_vercel_react_best_practices_rules_bundle_conditional_conditional_loading",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/bundle-conditional.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_bundle_defer_third_party_next_dynamic",
+      "target": "agents_skills_vercel_react_best_practices_rules_bundle_defer_third_party_dynamic_import",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/bundle-defer-third-party.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_bundle_dynamic_imports_next_dynamic",
+      "target": "agents_skills_vercel_react_best_practices_rules_bundle_dynamic_imports_code_splitting",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/bundle-dynamic-imports.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_bundle_preload_user_intent",
+      "target": "agents_skills_vercel_react_best_practices_rules_bundle_preload_preloading",
+      "relation": "triggers",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/bundle-preload.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_client_event_listeners_useswr_subscription",
+      "target": "agents_skills_vercel_react_best_practices_rules_client_event_listeners_event_deduplication",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/client-event-listeners.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_client_localstorage_schema_versioning",
+      "target": "agents_skills_vercel_react_best_practices_rules_client_localstorage_schema_data_minimization",
+      "relation": "enables_safe",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/client-localstorage-schema.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_client_passive_event_listeners_passive_listeners",
+      "target": "agents_skills_vercel_react_best_practices_rules_client_passive_event_listeners_scroll_performance",
+      "relation": "improves",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/client-passive-event-listeners.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_client_swr_dedup_swr",
+      "target": "agents_skills_vercel_react_best_practices_rules_client_swr_dedup_request_deduplication",
+      "relation": "provides",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/client-swr-dedup.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_js_batch_dom_css_layout_thrashing",
+      "target": "agents_skills_vercel_react_best_practices_rules_js_batch_dom_css_forced_reflow",
+      "relation": "causes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/js-batch-dom-css.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_bundle_defer_third_party_next_dynamic",
+      "target": "agents_skills_vercel_react_best_practices_rules_bundle_dynamic_imports_next_dynamic",
+      "relation": "same_tool",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/bundle-defer-third-party.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_advanced_event_handler_refs_useeffectevent",
+      "target": "agents_skills_vercel_react_best_practices_rules_advanced_use_latest_useeffectevent",
+      "relation": "same_concept",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/advanced-event-handler-refs.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_client_event_listeners_useswr_subscription",
+      "target": "agents_skills_vercel_react_best_practices_rules_client_swr_dedup_swr",
+      "relation": "part_of_library",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/client-event-listeners.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_async_dependencies_better_all",
+      "target": "agents_skills_vercel_react_best_practices_rules_async_parallel_promise_all",
+      "relation": "alternative_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/async-dependencies.md",
+      "weight": 1.0
+    }
+  ],
+  "hyperedges": [],
+  "input_tokens": 0,
+  "output_tokens": 0
+}

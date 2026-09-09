@@ -1,0 +1,3070 @@
+{
+  ".agents/skills/code-review/SKILL.md": {
+    "size": 6589,
+    "mtime_ns": 1788788497197771511,
+    "indexed_at_ns": 1788891563283546790,
+    "word_count": 1064,
+    "hashes": {
+      ".agents/skills/code-review/skill.md": "32f1f3230c864e1e4e6d1b19a7657dafec0dcabeb7c1f01067d2023ddde59beb"
+    }
+  },
+  ".agents/skills/code-review/agents/openai.yaml": {
+    "size": 100,
+    "mtime_ns": 1788788497197771511,
+    "indexed_at_ns": 1788891563284946339,
+    "word_count": 12,
+    "hashes": {
+      ".agents/skills/code-review/agents/openai.yaml": "a7b1a296265c13f4da5b3821529959b6d25111b150ef6d7c256105f7c6b4ef9b"
+    }
+  },
+  ".agents/skills/firebase-security-rules-auditor/SKILL.md": {
+    "size": 3848,
+    "mtime_ns": 1788788976398578911,
+    "indexed_at_ns": 1788891563285159604,
+    "word_count": 540,
+    "hashes": {
+      ".agents/skills/firebase-security-rules-auditor/skill.md": "761b4ab032748d26f6acd17c5cbe222aaa3c330ae5f9d52c5e5d0589c0d48928"
+    }
+  },
+  ".agents/skills/git-commit/SKILL.md": {
+    "size": 3198,
+    "mtime_ns": 1788788497197771511,
+    "indexed_at_ns": 1788891563285342128,
+    "word_count": 457,
+    "hashes": {
+      ".agents/skills/git-commit/skill.md": "11af2e95413c35cd6a5ba1f1c3304089fa05109c415ee567fe157c18771767fd"
+    }
+  },
+  ".agents/skills/heroui-react/LICENSE.txt": {
+    "size": 11236,
+    "mtime_ns": 1788788497197771511,
+    "indexed_at_ns": 1788891563285512511,
+    "word_count": 1565,
+    "hashes": {
+      ".agents/skills/heroui-react/license.txt": "c005b449bccdb036164abf97bd9d70a5a6b8b6fefc43009872a19c824c4965be"
+    }
+  },
+  ".agents/skills/heroui-react/SKILL.md": {
+    "size": 6667,
+    "mtime_ns": 1788788497197771511,
+    "indexed_at_ns": 1788891563285679435,
+    "word_count": 812,
+    "hashes": {
+      ".agents/skills/heroui-react/skill.md": "7cb504a0840ef60ae869c79a9f76d21495f018529247655f4112bcf45ac8a5d7"
+    }
+  },
+  ".agents/skills/heroui-react/scripts/get_component_docs.mjs": {
+    "size": 3953,
+    "mtime_ns": 1788788497197771511,
+    "indexed_at_ns": 1788891253691004621,
+    "word_count": 439
+  },
+  ".agents/skills/heroui-react/scripts/get_docs.mjs": {
+    "size": 3989,
+    "mtime_ns": 1788788497197771511,
+    "indexed_at_ns": 1788891253691407750,
+    "word_count": 398
+  },
+  ".agents/skills/heroui-react/scripts/get_source.mjs": {
+    "size": 4115,
+    "mtime_ns": 1788788497197771511,
+    "indexed_at_ns": 1788891253691817808,
+    "word_count": 423
+  },
+  ".agents/skills/heroui-react/scripts/get_styles.mjs": {
+    "size": 4064,
+    "mtime_ns": 1788788497197771511,
+    "indexed_at_ns": 1788891253692105925,
+    "word_count": 428
+  },
+  ".agents/skills/heroui-react/scripts/get_theme.mjs": {
+    "size": 5063,
+    "mtime_ns": 1788788497197771511,
+    "indexed_at_ns": 1788891253692491983,
+    "word_count": 546
+  },
+  ".agents/skills/heroui-react/scripts/list_components.mjs": {
+    "size": 3601,
+    "mtime_ns": 1788788497197771511,
+    "indexed_at_ns": 1788891253692843200,
+    "word_count": 394
+  },
+  ".agents/skills/issues/SKILL.md": {
+    "size": 1755,
+    "mtime_ns": 1788788497197771511,
+    "indexed_at_ns": 1788891563285849279,
+    "word_count": 180,
+    "hashes": {
+      ".agents/skills/issues/skill.md": "689028fe54c261d7211cb456d3e8fe9478f20838d5f6e59ed9cc221c63d80f6d"
+    }
+  },
+  ".agents/skills/nestjs-best-practices/SKILL.md": {
+    "size": 4754,
+    "mtime_ns": 1788788497197771511,
+    "indexed_at_ns": 1788891563286096774,
+    "word_count": 615,
+    "hashes": {
+      ".agents/skills/nestjs-best-practices/skill.md": "9d43d2dee9f27ad9486132e9e651eb2f8f19c6d81f8ca7ca89591a41b366b18f"
+    }
+  },
+  ".agents/skills/nestjs-best-practices/rules/_sections.md": {
+    "size": 2153,
+    "mtime_ns": 1788788497197771511,
+    "indexed_at_ns": 1788891563286298418,
+    "word_count": 257,
+    "hashes": {
+      ".agents/skills/nestjs-best-practices/rules/_sections.md": "b2095418b23ff58046d10712213f3120ca357ee3fa0443d5b6a5fc4d5a823856"
+    }
+  },
+  ".agents/skills/nestjs-best-practices/rules/_template.md": {
+    "size": 631,
+    "mtime_ns": 1788788497197771511,
+    "indexed_at_ns": 1788891563286528273,
+    "word_count": 85,
+    "hashes": {
+      ".agents/skills/nestjs-best-practices/rules/_template.md": "2ad6f1e11c8dc53dcabb8cd2e5b60bac96d402b4e10824fdc59ccccc93cccc9b"
+    }
+  },
+  ".agents/skills/nestjs-best-practices/rules/api-use-dto-serialization.md": {
+    "size": 4385,
+    "mtime_ns": 1788788497197771511,
+    "indexed_at_ns": 1788891563286723537,
+    "word_count": 482,
+    "hashes": {
+      ".agents/skills/nestjs-best-practices/rules/api-use-dto-serialization.md": "f8cffa64b00eebbf65fbf5470ba6a52074a921fec2e2a52727696dab0d052da9"
+    }
+  },
+  ".agents/skills/nestjs-best-practices/rules/api-use-interceptors.md": {
+    "size": 5518,
+    "mtime_ns": 1788788497197771511,
+    "indexed_at_ns": 1788891563286987853,
+    "word_count": 546,
+    "hashes": {
+      ".agents/skills/nestjs-best-practices/rules/api-use-interceptors.md": "4dbe1f5f1311f6db90289608bbfa1cb6b07d5fba843271dfcb6c4c8454e454ca"
+    }
+  },
+  ".agents/skills/nestjs-best-practices/rules/api-use-pipes.md": {
+    "size": 5386,
+    "mtime_ns": 1788788497197771511,
+    "indexed_at_ns": 1788891563287182717,
+    "word_count": 576,
+    "hashes": {
+      ".agents/skills/nestjs-best-practices/rules/api-use-pipes.md": "506a1de6f503a6b1c7bea1196b2cceeb6919327ec8013611f8775caf3cd5bf08"
+    }
+  },
+  ".agents/skills/nestjs-best-practices/rules/api-versioning.md": {
+    "size": 4986,
+    "mtime_ns": 1788788497197771511,
+    "indexed_at_ns": 1788891563287364091,
+    "word_count": 508,
+    "hashes": {
+      ".agents/skills/nestjs-best-practices/rules/api-versioning.md": "d5d4004d3a9332e4d619767a16dcc9e7ba3b0567985f71b73812b610011aab20"
+    }
+  },
+  ".agents/skills/nestjs-best-practices/rules/arch-avoid-circular-deps.md": {
+    "size": 2021,
+    "mtime_ns": 1788788497197771511,
+    "indexed_at_ns": 1788891563287536094,
+    "word_count": 228,
+    "hashes": {
+      ".agents/skills/nestjs-best-practices/rules/arch-avoid-circular-deps.md": "200461cdb5c6e8b95702b9b5d37763dd1a3f033d83b2eec9b5d6e82a061ccb24"
+    }
+  },
+  ".agents/skills/nestjs-best-practices/rules/arch-feature-modules.md": {
+    "size": 2316,
+    "mtime_ns": 1788788497197771511,
+    "indexed_at_ns": 1788891563287767659,
+    "word_count": 236,
+    "hashes": {
+      ".agents/skills/nestjs-best-practices/rules/arch-feature-modules.md": "d5282ef526dd6318d2e16971af9d02a733d1fbd7e55028dae03b5c01ce65ddcd"
+    }
+  },
+  ".agents/skills/nestjs-best-practices/rules/arch-module-sharing.md": {
+    "size": 3876,
+    "mtime_ns": 1788788497197771511,
+    "indexed_at_ns": 1788891563287961823,
+    "word_count": 463,
+    "hashes": {
+      ".agents/skills/nestjs-best-practices/rules/arch-module-sharing.md": "ed0f506eeb41d34f0fe793179c1a902e35237db4388d70615eafea7f3395c2f9"
+    }
+  },
+  ".agents/skills/nestjs-best-practices/rules/arch-single-responsibility.md": {
+    "size": 2922,
+    "mtime_ns": 1788788497197771511,
+    "indexed_at_ns": 1788891563288135027,
+    "word_count": 302,
+    "hashes": {
+      ".agents/skills/nestjs-best-practices/rules/arch-single-responsibility.md": "5149e2e19504821e64cb81ba0ba5629f03abd25eee86a32a8e450f93f2cff98f"
+    }
+  },
+  ".agents/skills/nestjs-best-practices/rules/arch-use-events.md": {
+    "size": 3051,
+    "mtime_ns": 1788788497197771511,
+    "indexed_at_ns": 1788891563288300971,
+    "word_count": 281,
+    "hashes": {
+      ".agents/skills/nestjs-best-practices/rules/arch-use-events.md": "b259307b607bdb109c7dc276a5fd4cc8d6a58cc9a024ae2a23ec70fdae12f225"
+    }
+  },
+  ".agents/skills/nestjs-best-practices/rules/arch-use-repository-pattern.md": {
+    "size": 2861,
+    "mtime_ns": 1788788497197771511,
+    "indexed_at_ns": 1788891563288523015,
+    "word_count": 289,
+    "hashes": {
+      ".agents/skills/nestjs-best-practices/rules/arch-use-repository-pattern.md": "d8506a4893f64b2b80f8d76c89db78a2abf1db55ed1f569ea999e80d14b448a4"
+    }
+  },
+  ".agents/skills/nestjs-best-practices/rules/db-avoid-n-plus-one.md": {
+    "size": 3888,
+    "mtime_ns": 1788788497197771511,
+    "indexed_at_ns": 1788891563288721880,
+    "word_count": 444,
+    "hashes": {
+      ".agents/skills/nestjs-best-practices/rules/db-avoid-n-plus-one.md": "def3aa26a0b52b4ace1b0f726d450c019fd2ecf43e06febe4f47985c6693132a"
+    }
+  },
+  ".agents/skills/nestjs-best-practices/rules/db-use-migrations.md": {
+    "size": 3837,
+    "mtime_ns": 1788788497197771511,
+    "indexed_at_ns": 1788891563288894463,
+    "word_count": 429,
+    "hashes": {
+      ".agents/skills/nestjs-best-practices/rules/db-use-migrations.md": "c22606c6559ee6f081bbd563ce1a4def8ca4c546af86e35f2be81f9325d4fe0c"
+    }
+  },
+  ".agents/skills/nestjs-best-practices/rules/db-use-transactions.md": {
+    "size": 4023,
+    "mtime_ns": 1788788497197771511,
+    "indexed_at_ns": 1788891563289068887,
+    "word_count": 411,
+    "hashes": {
+      ".agents/skills/nestjs-best-practices/rules/db-use-transactions.md": "9cf4a97a1c0ac88e75bd1e2b2a8068d80b2847ba40a3d218a06c14287dce144b"
+    }
+  },
+  ".agents/skills/nestjs-best-practices/rules/devops-graceful-shutdown.md": {
+    "size": 5916,
+    "mtime_ns": 1788788497197771511,
+    "indexed_at_ns": 1788891563289276921,
+    "word_count": 620,
+    "hashes": {
+      ".agents/skills/nestjs-best-practices/rules/devops-graceful-shutdown.md": "0fe0f50a9a1105e6b2c8386607b4e248e8f1da409c05dc4580bef99cf26c460c"
+    }
+  },
+  ".agents/skills/nestjs-best-practices/rules/devops-use-config-module.md": {
+    "size": 4446,
+    "mtime_ns": 1788788497197771511,
+    "indexed_at_ns": 1788891563289484376,
+    "word_count": 417,
+    "hashes": {
+      ".agents/skills/nestjs-best-practices/rules/devops-use-config-module.md": "1554537bf53cb40cbe8af3d9f21b8221cee1807ad1ce040be5f36c054f9a271f"
+    }
+  },
+  ".agents/skills/nestjs-best-practices/rules/devops-use-logging.md": {
+    "size": 5693,
+    "mtime_ns": 1788788497197771511,
+    "indexed_at_ns": 1788891563289658769,
+    "word_count": 589,
+    "hashes": {
+      ".agents/skills/nestjs-best-practices/rules/devops-use-logging.md": "9fbae2155081c0614c97057166301fb2cc0ec7744b918e18f652bf8058a747b1"
+    }
+  },
+  ".agents/skills/nestjs-best-practices/rules/di-avoid-service-locator.md": {
+    "size": 2981,
+    "mtime_ns": 1788788497197771511,
+    "indexed_at_ns": 1788891563289834583,
+    "word_count": 301,
+    "hashes": {
+      ".agents/skills/nestjs-best-practices/rules/di-avoid-service-locator.md": "7003ac9d818fbd59e28f882defbae5665622a42afc8a7207db283b25b538806b"
+    }
+  },
+  ".agents/skills/nestjs-best-practices/rules/di-interface-segregation.md": {
+    "size": 5224,
+    "mtime_ns": 1788788497197771511,
+    "indexed_at_ns": 1788891563290082258,
+    "word_count": 571,
+    "hashes": {
+      ".agents/skills/nestjs-best-practices/rules/di-interface-segregation.md": "7fd197ba28deecb5fd36990313fe93f154bfb89324dc50be04002381a980029f"
+    }
+  },
+  ".agents/skills/nestjs-best-practices/rules/di-liskov-substitution.md": {
+    "size": 7275,
+    "mtime_ns": 1788788497197771511,
+    "indexed_at_ns": 1788891563290275163,
+    "word_count": 765,
+    "hashes": {
+      ".agents/skills/nestjs-best-practices/rules/di-liskov-substitution.md": "d630760e895bcbf2efb8355aa05e3a305155326f18c3f259b4dbdeda86e1c948"
+    }
+  },
+  ".agents/skills/nestjs-best-practices/rules/di-prefer-constructor-injection.md": {
+    "size": 2309,
+    "mtime_ns": 1788788497197771511,
+    "indexed_at_ns": 1788891563290499277,
+    "word_count": 260,
+    "hashes": {
+      ".agents/skills/nestjs-best-practices/rules/di-prefer-constructor-injection.md": "3fed30a63cb7109b7bd60148f5bd2a6e646a1c985e85e240198b8db682136272"
+    }
+  },
+  ".agents/skills/nestjs-best-practices/rules/di-scope-awareness.md": {
+    "size": 2618,
+    "mtime_ns": 1788788497197771511,
+    "indexed_at_ns": 1788891563290753723,
+    "word_count": 316,
+    "hashes": {
+      ".agents/skills/nestjs-best-practices/rules/di-scope-awareness.md": "e18b1269e0b2e6c6d3e14370498de70e8b2be91b30b3e8358ca96c9cdfc56b46"
+    }
+  },
+  ".agents/skills/nestjs-best-practices/rules/di-use-interfaces-tokens.md": {
+    "size": 2588,
+    "mtime_ns": 1788788497197771511,
+    "indexed_at_ns": 1788891563290944797,
+    "word_count": 293,
+    "hashes": {
+      ".agents/skills/nestjs-best-practices/rules/di-use-interfaces-tokens.md": "da7f7d71a1271036b2d410079132dc29779ed8e0c5dc82b2912cf6687a683765"
+    }
+  },
+  ".agents/skills/nestjs-best-practices/rules/error-handle-async-errors.md": {
+    "size": 3531,
+    "mtime_ns": 1788788497197771511,
+    "indexed_at_ns": 1788891563291115721,
+    "word_count": 381,
+    "hashes": {
+      ".agents/skills/nestjs-best-practices/rules/error-handle-async-errors.md": "3cc68df8fcfcf23dd46cd455d1795596f70b96fecefb588bb4ed0103a042b23c"
+    }
+  },
+  ".agents/skills/nestjs-best-practices/rules/error-throw-http-exceptions.md": {
+    "size": 3181,
+    "mtime_ns": 1788788497197771511,
+    "indexed_at_ns": 1788891563291284434,
+    "word_count": 363,
+    "hashes": {
+      ".agents/skills/nestjs-best-practices/rules/error-throw-http-exceptions.md": "9f3cc7877c2bca51a1be56602717dc5b3a8e5d887a12c225012b345ce08b5cdd"
+    }
+  },
+  ".agents/skills/nestjs-best-practices/rules/error-use-exception-filters.md": {
+    "size": 3695,
+    "mtime_ns": 1788788497197771511,
+    "indexed_at_ns": 1788891563291447208,
+    "word_count": 373,
+    "hashes": {
+      ".agents/skills/nestjs-best-practices/rules/error-use-exception-filters.md": "a11e198974f1030780add8811223a6a21e4a347585f61ffbf186130d8338787a"
+    }
+  },
+  ".agents/skills/nestjs-best-practices/rules/micro-use-health-checks.md": {
+    "size": 5985,
+    "mtime_ns": 1788788497197771511,
+    "indexed_at_ns": 1788891563291608271,
+    "word_count": 586,
+    "hashes": {
+      ".agents/skills/nestjs-best-practices/rules/micro-use-health-checks.md": "d622c4896d15040c4fdf5e7bac4bb47eb8c87f8dbc36e4eeb4d4f18f1515d988"
+    }
+  },
+  ".agents/skills/nestjs-best-practices/rules/micro-use-patterns.md": {
+    "size": 5102,
+    "mtime_ns": 1788788497197771511,
+    "indexed_at_ns": 1788891563291770515,
+    "word_count": 538,
+    "hashes": {
+      ".agents/skills/nestjs-best-practices/rules/micro-use-patterns.md": "a74272f2b48c2ec330ce5155c205f618a35cfcc61db0b185d64479de37810e74"
+    }
+  },
+  ".agents/skills/nestjs-best-practices/rules/micro-use-queues.md": {
+    "size": 6214,
+    "mtime_ns": 1788788497197771511,
+    "indexed_at_ns": 1788891563291932828,
+    "word_count": 669,
+    "hashes": {
+      ".agents/skills/nestjs-best-practices/rules/micro-use-queues.md": "e86035474dfd89046125d48f3a5a7e2b0261fc9b7cba61c2031bbd1f2a052191"
+    }
+  },
+  ".agents/skills/nestjs-best-practices/rules/perf-async-hooks.md": {
+    "size": 2918,
+    "mtime_ns": 1788788497197771511,
+    "indexed_at_ns": 1788891563292095482,
+    "word_count": 321,
+    "hashes": {
+      ".agents/skills/nestjs-best-practices/rules/perf-async-hooks.md": "0fb0acf23d548d2fae36b6cc62125e661dedde98e3a01c13b36a17728ed8022e"
+    }
+  },
+  ".agents/skills/nestjs-best-practices/rules/perf-lazy-loading.md": {
+    "size": 3822,
+    "mtime_ns": 1788788497197771511,
+    "indexed_at_ns": 1788891563292254895,
+    "word_count": 418,
+    "hashes": {
+      ".agents/skills/nestjs-best-practices/rules/perf-lazy-loading.md": "68aa71193d2d793feb151e09d5ade7513616c271b29aa5745ea4f0ffcab41ad7"
+    }
+  },
+  ".agents/skills/nestjs-best-practices/rules/perf-optimize-database.md": {
+    "size": 3276,
+    "mtime_ns": 1788788497197771511,
+    "indexed_at_ns": 1788891563292461100,
+    "word_count": 376,
+    "hashes": {
+      ".agents/skills/nestjs-best-practices/rules/perf-optimize-database.md": "cea343001b2390fa82185785fbb28cb65c5f2352f9cdf0edbbc4ce2e31558eaf"
+    }
+  },
+  ".agents/skills/nestjs-best-practices/rules/perf-use-caching.md": {
+    "size": 3524,
+    "mtime_ns": 1788788497197771511,
+    "indexed_at_ns": 1788891563292667564,
+    "word_count": 356,
+    "hashes": {
+      ".agents/skills/nestjs-best-practices/rules/perf-use-caching.md": "26ea52df693b3e19a08ca22d63da4c9ce72da5a1ee2172950a82a9592902853d"
+    }
+  },
+  ".agents/skills/nestjs-best-practices/rules/security-auth-jwt.md": {
+    "size": 4083,
+    "mtime_ns": 1788788497197771511,
+    "indexed_at_ns": 1788891563292848158,
+    "word_count": 423,
+    "hashes": {
+      ".agents/skills/nestjs-best-practices/rules/security-auth-jwt.md": "6c6f3a43d583ad53983979cc8f650d2bbbbbc6eb22634078d1dd2c67d1cd7495"
+    }
+  },
+  ".agents/skills/nestjs-best-practices/rules/security-rate-limiting.md": {
+    "size": 3324,
+    "mtime_ns": 1788788497197771511,
+    "indexed_at_ns": 1788891563293018612,
+    "word_count": 384,
+    "hashes": {
+      ".agents/skills/nestjs-best-practices/rules/security-rate-limiting.md": "7e058cbd7a3749e9b0a763d582f1f4b1c32ee6715f1620dde9dcba9e3aad58f9"
+    }
+  },
+  ".agents/skills/nestjs-best-practices/rules/security-sanitize-output.md": {
+    "size": 3815,
+    "mtime_ns": 1788788497197771511,
+    "indexed_at_ns": 1788891563293183485,
+    "word_count": 427,
+    "hashes": {
+      ".agents/skills/nestjs-best-practices/rules/security-sanitize-output.md": "62b7528302ae532e5e33575befdff1918f0a7f3e91182b2f3f36ea6f407f9d7c"
+    }
+  },
+  ".agents/skills/nestjs-best-practices/rules/security-use-guards.md": {
+    "size": 3647,
+    "mtime_ns": 1788788497197771511,
+    "indexed_at_ns": 1788891563293432900,
+    "word_count": 382,
+    "hashes": {
+      ".agents/skills/nestjs-best-practices/rules/security-use-guards.md": "aa5b136b3673788bd29f95b2eb222eb29dccd99151b509c878648152e8b5439d"
+    }
+  },
+  ".agents/skills/nestjs-best-practices/rules/security-validate-all-input.md": {
+    "size": 3393,
+    "mtime_ns": 1788788497197771511,
+    "indexed_at_ns": 1788891563293633905,
+    "word_count": 377,
+    "hashes": {
+      ".agents/skills/nestjs-best-practices/rules/security-validate-all-input.md": "f34f8c5ad475800e9d294779b9d651be0e37daa9d38260fdfd1c62f2ba2825b3"
+    }
+  },
+  ".agents/skills/nestjs-best-practices/rules/test-e2e-supertest.md": {
+    "size": 4800,
+    "mtime_ns": 1788788497197771511,
+    "indexed_at_ns": 1788891563293810299,
+    "word_count": 489,
+    "hashes": {
+      ".agents/skills/nestjs-best-practices/rules/test-e2e-supertest.md": "42098bff444d8bd165471ca2a96d1358033bfd240aa1d93e7e845602cf4ecaee"
+    }
+  },
+  ".agents/skills/nestjs-best-practices/rules/test-mock-external-services.md": {
+    "size": 4613,
+    "mtime_ns": 1788788497197771511,
+    "indexed_at_ns": 1788891563293995873,
+    "word_count": 500,
+    "hashes": {
+      ".agents/skills/nestjs-best-practices/rules/test-mock-external-services.md": "0d8641187542d033320420c544a770751b459ffec0816656e3c48a4246331dd1"
+    }
+  },
+  ".agents/skills/nestjs-best-practices/rules/test-use-testing-module.md": {
+    "size": 4392,
+    "mtime_ns": 1788788497197771511,
+    "indexed_at_ns": 1788891563294362080,
+    "word_count": 456,
+    "hashes": {
+      ".agents/skills/nestjs-best-practices/rules/test-use-testing-module.md": "ca5f1568a8dc22f3a8ef71c3a048d19cdf32e55755f9bd40d9dee9df413eeb98"
+    }
+  },
+  ".agents/skills/plan-phase/SKILL.md": {
+    "size": 2532,
+    "mtime_ns": 1788788497197771511,
+    "indexed_at_ns": 1788891563294597985,
+    "word_count": 239,
+    "hashes": {
+      ".agents/skills/plan-phase/skill.md": "4b4245b6838e01655b320244f168f1f7bd06f4c010077d599ed981068eb62725"
+    }
+  },
+  ".agents/skills/prd/SKILL.md": {
+    "size": 2211,
+    "mtime_ns": 1788788497197771511,
+    "indexed_at_ns": 1788891563294788870,
+    "word_count": 191,
+    "hashes": {
+      ".agents/skills/prd/skill.md": "247007968d375f0b31a8cddd8ee651a7d50350f04086ff73e9bdb64f0eb63f82"
+    }
+  },
+  ".agents/skills/requesting-code-review/SKILL.md": {
+    "size": 2956,
+    "mtime_ns": 1788788497197771511,
+    "indexed_at_ns": 1788891563295079046,
+    "word_count": 421,
+    "hashes": {
+      ".agents/skills/requesting-code-review/skill.md": "8c154894507e4d8bb0417a59e0c2ce1f1a144b8175069b232d2ef5ec15e74636"
+    }
+  },
+  ".agents/skills/requesting-code-review/code-reviewer.md": {
+    "size": 5669,
+    "mtime_ns": 1788788497201771509,
+    "indexed_at_ns": 1788891563295281731,
+    "word_count": 790,
+    "hashes": {
+      ".agents/skills/requesting-code-review/code-reviewer.md": "d7c6fda9c3ed0ec8e72e6ff70c27cef25ab36bf1736bdadf01f2a04f6dfe54f6"
+    }
+  },
+  ".agents/skills/research/SKILL.md": {
+    "size": 7194,
+    "mtime_ns": 1788788497201771509,
+    "indexed_at_ns": 1788891563295517196,
+    "word_count": 586,
+    "hashes": {
+      ".agents/skills/research/skill.md": "32c7edcebdb3d27f34bada11c5a694549daec8e58f494b262c710fa38972eeea"
+    }
+  },
+  ".agents/skills/ui-ux-pro-max/SKILL.md": {
+    "size": 15969,
+    "mtime_ns": 1788788497201771509,
+    "indexed_at_ns": 1788891563295734310,
+    "word_count": 2118,
+    "hashes": {
+      ".agents/skills/ui-ux-pro-max/skill.md": "ca471783fa16bf29a3ee2d1c78cd4d90bf206953b5d121c216feb2931bfbffe8"
+    }
+  },
+  ".agents/skills/ui-ux-pro-max/data/catalog-summary.json": {
+    "size": 2392,
+    "mtime_ns": 1788788497201771509,
+    "indexed_at_ns": 1788891527098268499,
+    "word_count": 224,
+    "hashes": {
+      ".agents/skills/ui-ux-pro-max/data/catalog-summary.json": "e1466505fc99b41531a647ba11cc1e00cee2e54979869e139cb6da03d8e88a26"
+    }
+  },
+  ".agents/skills/ui-ux-pro-max/data/data-provenance.json": {
+    "size": 36686,
+    "mtime_ns": 1788788497201771509,
+    "indexed_at_ns": 1788891527099420684,
+    "word_count": 2746,
+    "hashes": {
+      ".agents/skills/ui-ux-pro-max/data/data-provenance.json": "7e9656494a719fa7407f20461b6c364aaca137ca2900d19f466b88e7faea6641"
+    }
+  },
+  ".agents/skills/ui-ux-pro-max/data/google-font-licenses.json": {
+    "size": 433127,
+    "mtime_ns": 1788788497201771509,
+    "indexed_at_ns": 1788891527099907474,
+    "word_count": 36154,
+    "hashes": {
+      ".agents/skills/ui-ux-pro-max/data/google-font-licenses.json": "369ad74137cd467c017d24b7ed5d9ce12962d9034a6ff065682a3b19eb826bd2"
+    }
+  },
+  ".agents/skills/ui-ux-pro-max/data/phosphor-icons-upstream.json": {
+    "size": 823933,
+    "mtime_ns": 1788788497205771510,
+    "indexed_at_ns": 1788891527101133640,
+    "word_count": 65267,
+    "hashes": {
+      ".agents/skills/ui-ux-pro-max/data/phosphor-icons-upstream.json": "c52799dc4907f9c41236d00327c8e41bf5d55fe54583ac4fd41992089bd60d82"
+    }
+  },
+  ".agents/skills/ui-ux-pro-max/references/pro-rules.md": {
+    "size": 10909,
+    "mtime_ns": 1788788497209771508,
+    "indexed_at_ns": 1788891563296043797,
+    "word_count": 1685,
+    "hashes": {
+      ".agents/skills/ui-ux-pro-max/references/pro-rules.md": "18fe1dab14bd7f784666e384382101f8bc0a1a1b94c7fbc318e7db0fc0167d67"
+    }
+  },
+  ".agents/skills/ui-ux-pro-max/references/quick-reference.md": {
+    "size": 24526,
+    "mtime_ns": 1788788497209771508,
+    "indexed_at_ns": 1788891563296260542,
+    "word_count": 3503,
+    "hashes": {
+      ".agents/skills/ui-ux-pro-max/references/quick-reference.md": "0ba97b67061b26399572479810db37da5d6403d099b94b85d3d1c80f50721641"
+    }
+  },
+  ".agents/skills/ui-ux-pro-max/scripts/core.py": {
+    "size": 41234,
+    "mtime_ns": 1788788497209771508,
+    "indexed_at_ns": 1788891527102882518,
+    "word_count": 3949,
+    "hashes": {
+      ".agents/skills/ui-ux-pro-max/scripts/core.py": "7992eb1d714bfdf6455efb8f4368745460375b0d00fb05ce055f8d1cda145051"
+    }
+  },
+  ".agents/skills/ui-ux-pro-max/scripts/design_system.py": {
+    "size": 70937,
+    "mtime_ns": 1788788497209771508,
+    "indexed_at_ns": 1788891527103383729,
+    "word_count": 6337,
+    "hashes": {
+      ".agents/skills/ui-ux-pro-max/scripts/design_system.py": "7e80bcb0231185bd1c4d514fd7f1d2760e1e89624e55f48693a7e4340bf1614e"
+    }
+  },
+  ".agents/skills/ui-ux-pro-max/scripts/reasoning_contract.py": {
+    "size": 5824,
+    "mtime_ns": 1788788497209771508,
+    "indexed_at_ns": 1788891527103892900,
+    "word_count": 504,
+    "hashes": {
+      ".agents/skills/ui-ux-pro-max/scripts/reasoning_contract.py": "3c77b7622e19f9fe9c56f1b1e7a2947c7ed0c1339fb150582fb3416f5f8e2191"
+    }
+  },
+  ".agents/skills/ui-ux-pro-max/scripts/search.py": {
+    "size": 9123,
+    "mtime_ns": 1788788497209771508,
+    "indexed_at_ns": 1788891527104269268,
+    "word_count": 789,
+    "hashes": {
+      ".agents/skills/ui-ux-pro-max/scripts/search.py": "52758af85b84a7ab5d53b5213b7f79f1903e0c31174e925cfb468668f48bebec"
+    }
+  },
+  ".agents/skills/ui-ux-pro-max/scripts/tests/fixtures/catalogs/google-api.json": {
+    "size": 1079,
+    "mtime_ns": 1788788497209771508,
+    "indexed_at_ns": 1788891527104678907,
+    "word_count": 75,
+    "hashes": {
+      ".agents/skills/ui-ux-pro-max/scripts/tests/fixtures/catalogs/google-api.json": "ae1e8dc8f1771ff86008b415dbd3db2b8d0a351ae40b04dc21266e2a694074ab"
+    }
+  },
+  ".agents/skills/ui-ux-pro-max/scripts/tests/fixtures/catalogs/google-catalog.json": {
+    "size": 1772,
+    "mtime_ns": 1788788497209771508,
+    "indexed_at_ns": 1788891527105085616,
+    "word_count": 180,
+    "hashes": {
+      ".agents/skills/ui-ux-pro-max/scripts/tests/fixtures/catalogs/google-catalog.json": "9bc841082299b722ee32336d107efb8b4cb453888ce4865b6f8f39f12515b5e7"
+    }
+  },
+  ".agents/skills/ui-ux-pro-max/scripts/tests/fixtures/catalogs/google-metadata.json": {
+    "size": 328,
+    "mtime_ns": 1788788497209771508,
+    "indexed_at_ns": 1788891527105484343,
+    "word_count": 33,
+    "hashes": {
+      ".agents/skills/ui-ux-pro-max/scripts/tests/fixtures/catalogs/google-metadata.json": "8e23488a79846506358d591791dca6bbca403213596e3aa692042b27dbb6f240"
+    }
+  },
+  ".agents/skills/ui-ux-pro-max/scripts/tests/fixtures/catalogs/google-overrides.json": {
+    "size": 97,
+    "mtime_ns": 1788788497209771508,
+    "indexed_at_ns": 1788891527105971480,
+    "word_count": 13,
+    "hashes": {
+      ".agents/skills/ui-ux-pro-max/scripts/tests/fixtures/catalogs/google-overrides.json": "2037cf700729be22c8e761ad21bc484e65627cdad5427243f4feb525506a5f64"
+    }
+  },
+  ".agents/skills/ui-ux-pro-max/scripts/tests/fixtures/catalogs/phosphor-core.json": {
+    "size": 571,
+    "mtime_ns": 1788788497209771508,
+    "indexed_at_ns": 1788891527106382362,
+    "word_count": 50,
+    "hashes": {
+      ".agents/skills/ui-ux-pro-max/scripts/tests/fixtures/catalogs/phosphor-core.json": "20d2ef91f157d185f137a6e7b96e58143b7f4761b316aa3d57139881b0326511"
+    }
+  },
+  ".agents/skills/ui-ux-pro-max/scripts/tests/fixtures/catalogs/phosphor-package.json": {
+    "size": 370,
+    "mtime_ns": 1788788497209771508,
+    "indexed_at_ns": 1788891527106815857,
+    "word_count": 23,
+    "hashes": {
+      ".agents/skills/ui-ux-pro-max/scripts/tests/fixtures/catalogs/phosphor-package.json": "52fc13f7dfe526047f2c6efca2e2dfd69e947e108e39195a527d707a6d3bfe1b"
+    }
+  },
+  ".agents/skills/ui-ux-pro-max/scripts/tests/fixtures/catalogs/phosphor-react-exports.json": {
+    "size": 87,
+    "mtime_ns": 1788788497209771508,
+    "indexed_at_ns": 1788891527107249206,
+    "word_count": 9,
+    "hashes": {
+      ".agents/skills/ui-ux-pro-max/scripts/tests/fixtures/catalogs/phosphor-react-exports.json": "01624cab2fd948d942933003023d186c7afb73dd7afd4283d020bc66a0def98c"
+    }
+  },
+  ".agents/skills/ui-ux-pro-max/scripts/tests/fixtures/catalogs/phosphor-react-package.json": {
+    "size": 81,
+    "mtime_ns": 1788788497209771508,
+    "indexed_at_ns": 1788891527107672475,
+    "word_count": 8,
+    "hashes": {
+      ".agents/skills/ui-ux-pro-max/scripts/tests/fixtures/catalogs/phosphor-react-package.json": "1ac875976d00e9c30d01ebef0f84a959cac9e26519cf778578569768854988b6"
+    }
+  },
+  ".agents/skills/ui-ux-pro-max/scripts/tests/fixtures/relevance-baseline.json": {
+    "size": 89436,
+    "mtime_ns": 1788788497209771508,
+    "indexed_at_ns": 1788891527108070313,
+    "word_count": 7256,
+    "hashes": {
+      ".agents/skills/ui-ux-pro-max/scripts/tests/fixtures/relevance-baseline.json": "91d04432e77e3cad8041d2ba07b8e7db483041cdb7a62ca84d3a12bad6b5aee1"
+    }
+  },
+  ".agents/skills/ui-ux-pro-max/scripts/tests/fixtures/relevance-cases.json": {
+    "size": 36734,
+    "mtime_ns": 1788788497209771508,
+    "indexed_at_ns": 1788891527108720362,
+    "word_count": 1711,
+    "hashes": {
+      ".agents/skills/ui-ux-pro-max/scripts/tests/fixtures/relevance-cases.json": "dcb7f4071b5fc9778acf9931bd9f00984d9773680cea24e320795b0c7e161928"
+    }
+  },
+  ".agents/skills/ui-ux-pro-max/scripts/tests/fixtures/relevance-thresholds.json": {
+    "size": 5079,
+    "mtime_ns": 1788788497209771508,
+    "indexed_at_ns": 1788891527109277269,
+    "word_count": 431,
+    "hashes": {
+      ".agents/skills/ui-ux-pro-max/scripts/tests/fixtures/relevance-thresholds.json": "8b1274fb1bad44c786708553b4e13fdad4c9bfd2d84cadb9e5e6f1827a701d89"
+    }
+  },
+  ".agents/skills/ui-ux-pro-max/scripts/tests/test_catalog_refresh.py": {
+    "size": 19466,
+    "mtime_ns": 1788788497209771508,
+    "indexed_at_ns": 1788891527109676532,
+    "word_count": 1160,
+    "hashes": {
+      ".agents/skills/ui-ux-pro-max/scripts/tests/test_catalog_refresh.py": "29b33e9e0cf2cef12400b42429ee4390b0e1fc6c6c9d516a970e0c80a72d58a0"
+    }
+  },
+  ".agents/skills/ui-ux-pro-max/scripts/tests/test_core.py": {
+    "size": 16680,
+    "mtime_ns": 1788788497209771508,
+    "indexed_at_ns": 1788891527110116172,
+    "word_count": 1021,
+    "hashes": {
+      ".agents/skills/ui-ux-pro-max/scripts/tests/test_core.py": "04c895402653a203b4053fac7d2073d2825fb5ca4ff229641601cbab6e289530"
+    }
+  },
+  ".agents/skills/ui-ux-pro-max/scripts/tests/test_core_data_quality.py": {
+    "size": 8954,
+    "mtime_ns": 1788788497209771508,
+    "indexed_at_ns": 1788891527110509940,
+    "word_count": 584,
+    "hashes": {
+      ".agents/skills/ui-ux-pro-max/scripts/tests/test_core_data_quality.py": "fdf5fbc71168b23deb5a4ea77fc482fa4ac10dd9391f0b9761291f15a18d757a"
+    }
+  },
+  ".agents/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py": {
+    "size": 19513,
+    "mtime_ns": 1788788497209771508,
+    "indexed_at_ns": 1788891527110864698,
+    "word_count": 1233,
+    "hashes": {
+      ".agents/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py": "28fb10ba4b03dce410f421997939bc1491bace9cdf66656bdce94891535e2a30"
+    }
+  },
+  ".agents/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py": {
+    "size": 7690,
+    "mtime_ns": 1788788497209771508,
+    "indexed_at_ns": 1788891527111265996,
+    "word_count": 480,
+    "hashes": {
+      ".agents/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py": "58f41e82e49d4b111d1e0118aab72c80af4046572b96a0d00d714a2e1a1ca451"
+    }
+  },
+  ".agents/skills/ui-ux-pro-max/scripts/tests/test_native_desktop_stack_freshness.py": {
+    "size": 8170,
+    "mtime_ns": 1788788497209771508,
+    "indexed_at_ns": 1788891527111658895,
+    "word_count": 594,
+    "hashes": {
+      ".agents/skills/ui-ux-pro-max/scripts/tests/test_native_desktop_stack_freshness.py": "cf18a400abeec9c52d8b3339e28626cbadcf251e634db04c2059e2ddfc596712"
+    }
+  },
+  ".agents/skills/ui-ux-pro-max/scripts/tests/test_relevance_evaluator.py": {
+    "size": 8430,
+    "mtime_ns": 1788788497209771508,
+    "indexed_at_ns": 1788891527111980882,
+    "word_count": 564,
+    "hashes": {
+      ".agents/skills/ui-ux-pro-max/scripts/tests/test_relevance_evaluator.py": "bc99bf9bb81732a4107777ef48849fd0cc383a2f6e1e2bf45b82ac102a1f407e"
+    }
+  },
+  ".agents/skills/ui-ux-pro-max/scripts/tests/test_style_taxonomy.py": {
+    "size": 7425,
+    "mtime_ns": 1788788497209771508,
+    "indexed_at_ns": 1788891527112286243,
+    "word_count": 462,
+    "hashes": {
+      ".agents/skills/ui-ux-pro-max/scripts/tests/test_style_taxonomy.py": "f50458951f60df1df9191110558567c731131815a6a6745bd80de7ad3ccada02"
+    }
+  },
+  ".agents/skills/ui-ux-pro-max/scripts/tests/test_text_layout_resilience.py": {
+    "size": 5874,
+    "mtime_ns": 1788788497209771508,
+    "indexed_at_ns": 1788891527112625527,
+    "word_count": 484,
+    "hashes": {
+      ".agents/skills/ui-ux-pro-max/scripts/tests/test_text_layout_resilience.py": "39aa0b85af4fa4372b3cd57bcedc5adeecdd123d620aceb1f2e821157d61cab6"
+    }
+  },
+  ".agents/skills/ui-ux-pro-max/scripts/tests/test_web_stack_freshness.py": {
+    "size": 7699,
+    "mtime_ns": 1788788497209771508,
+    "indexed_at_ns": 1788891527113067961,
+    "word_count": 543,
+    "hashes": {
+      ".agents/skills/ui-ux-pro-max/scripts/tests/test_web_stack_freshness.py": "6b11e399233c7b9c77b6ea4ad69de73849e72bbb654f1b8986919c3712107f4e"
+    }
+  },
+  ".agents/skills/ui-ux-pro-max/scripts/validate_data.py": {
+    "size": 52064,
+    "mtime_ns": 1788788497209771508,
+    "indexed_at_ns": 1788891527113544366,
+    "word_count": 4427,
+    "hashes": {
+      ".agents/skills/ui-ux-pro-max/scripts/validate_data.py": "4739f4a59e79d0b79d3e84257d205a425069b58d1cf376d2416959b2cc569816"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/AGENTS.md": {
+    "size": 108261,
+    "mtime_ns": 1788788497209771508,
+    "indexed_at_ns": 1788891563296497627,
+    "word_count": 13174,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/agents.md": "77529952589ba32e86607b0681e2bfd61ddfc3f576bcc8ba0feef5b7bacd6d93"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/README.md": {
+    "size": 3360,
+    "mtime_ns": 1788788497209771508,
+    "indexed_at_ns": 1788891563297140100,
+    "word_count": 466,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/readme.md": "a648e3f419e6d8531b4df27cd6e0db4c279a8e718fcd4df1eb4d98b05e736554"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/SKILL.md": {
+    "size": 7251,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563297428397,
+    "word_count": 948,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/skill.md": "6c988e97b3bba2e8b78e2efd525744a907835be5bfd234a5fcf9110bd656e95b"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/metadata.json": {
+    "size": 921,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891527114007985,
+    "word_count": 79,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/metadata.json": "69bb2afd4fb95b244d336af9dfe3ff8a1069440d2a111dc000be7cc28a21fa18"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/_sections.md": {
+    "size": 1554,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563297691592,
+    "word_count": 189,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/_sections.md": "70ec5c2cf941b96539acaaab58ee904a50232c0c69e6219c00a83783edc42fe8"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/_template.md": {
+    "size": 631,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563297976178,
+    "word_count": 85,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/_template.md": "79066b96310a6e0994fb3d1bc59c51c318844e836fcbda097748138402f78ae5"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/advanced-effect-event-deps.md": {
+    "size": 1802,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563298377217,
+    "word_count": 219,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/advanced-effect-event-deps.md": "9e44058fe801fd09fc3e2ea08ced260888198d8b0bf702dd04337afea427ef02"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/advanced-event-handler-refs.md": {
+    "size": 1483,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563298634512,
+    "word_count": 177,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/advanced-event-handler-refs.md": "8666889f526f2691d2e87e3ed384ada5d1541268e24e7cf1cf773c52d0f3cf32"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/advanced-init-once.md": {
+    "size": 958,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563298874217,
+    "word_count": 122,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/advanced-init-once.md": "79ee48b9e20009a53edb1e6828ed0cc20a12621ce633e15f120a8f9c8bd35a27"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/advanced-use-latest.md": {
+    "size": 1072,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563299261686,
+    "word_count": 138,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/advanced-use-latest.md": "db35b5404a3a3e857881ca48eb540cba5f15c5c8198dc58ad844cd30ad686d57"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/async-api-routes.md": {
+    "size": 1125,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563299462210,
+    "word_count": 139,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/async-api-routes.md": "0e263dd62e2a80d3b1c9fe75c0d6313b9be8d5259183a257ba153a232bc209b9"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/async-cheap-condition-before-await.md": {
+    "size": 1220,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563299644344,
+    "word_count": 179,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/async-cheap-condition-before-await.md": "e23b4990636eb7f7d8b7e6a5a9d4b3906bd073aebcd9e2737cdf0c7014b6c1a3"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/async-defer-await.md": {
+    "size": 2208,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563299968651,
+    "word_count": 267,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/async-defer-await.md": "7048ce56bbdd774e1b8d31d0644174639d6934a402514d858dfe4df624b39ed4"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/async-dependencies.md": {
+    "size": 1293,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563300177315,
+    "word_count": 147,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/async-dependencies.md": "1389f7236e7e3a7ad2fabd30379b567785f9c0332d2c5a7572ded05bd0fc2a2a"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/async-parallel.md": {
+    "size": 654,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563300462861,
+    "word_count": 75,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/async-parallel.md": "452a26f26006eb49f785ca1d0cadb4674a393272d304f4324331b3c3d4c9c3f3"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/async-suspense-boundaries.md": {
+    "size": 2510,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563300703996,
+    "word_count": 306,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/async-suspense-boundaries.md": "069aed4e420f4019018750fc0d1a251c449aa13744f3693d4a90682cf1229267"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/bundle-analyzable-paths.md": {
+    "size": 2382,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563300973622,
+    "word_count": 294,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/bundle-analyzable-paths.md": "9d6fbcb3a494e013f4ba3958242028cd45db9bb2562b3428594e1499302334d6"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/bundle-barrel-imports.md": {
+    "size": 2795,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563301181216,
+    "word_count": 363,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/bundle-barrel-imports.md": "4625b07dd036715219be35ecf254aba711acc975cd67cfc31ff777d351734cd5"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/bundle-conditional.md": {
+    "size": 949,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563301373911,
+    "word_count": 113,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/bundle-conditional.md": "c0bd78c51c5524a85bfa716c7a89c40566facf9f28cdb74bbbbf9aebd04d61e0"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/bundle-defer-third-party.md": {
+    "size": 920,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563301550614,
+    "word_count": 108,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/bundle-defer-third-party.md": "3e34f1ec7e0a64baeee343dc7f8c02f3aeb099d4d074535d07d4b627b64c81ce"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/bundle-dynamic-imports.md": {
+    "size": 791,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563301721988,
+    "word_count": 106,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/bundle-dynamic-imports.md": "1a9ae3e2ccfb12f19dd565e3a54d485e1b29f78b8028b489ab2d1983f5d25d98"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/bundle-preload.md": {
+    "size": 1149,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563302000384,
+    "word_count": 139,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/bundle-preload.md": "78893bdbc2985f5330a6f5d0f75401d8e9df659dea6a28d508ba012ba3018c77"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/client-event-listeners.md": {
+    "size": 1969,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563302247909,
+    "word_count": 234,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/client-event-listeners.md": "82fdb57fdeed7772d47cd81401498972a818755bfba73427c1430bfa4a5016d6"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/client-localstorage-schema.md": {
+    "size": 1950,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563302451754,
+    "word_count": 226,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/client-localstorage-schema.md": "bf2a2999a981a3dfce316aba88a437f7c1135598b96ef62c48d4c22ff1b0e7da"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/client-passive-event-listeners.md": {
+    "size": 1644,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563302680338,
+    "word_count": 172,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/client-passive-event-listeners.md": "0de1db48df7ebf9ddbd49e61f7c91afa399658038295273667b8b42d888511ed"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/client-swr-dedup.md": {
+    "size": 1159,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563302970525,
+    "word_count": 135,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/client-swr-dedup.md": "7679456c944096d557049bb11852b12e99d21d2a9334a98c7f0a4dc24ce98dca"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/js-batch-dom-css.md": {
+    "size": 3266,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563303398184,
+    "word_count": 376,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/js-batch-dom-css.md": "594cc2216f17c127bdb72288c92e81292b0eb21aedb88e812f7df96888e58597"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/js-cache-function-results.md": {
+    "size": 1949,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563303594688,
+    "word_count": 228,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/js-cache-function-results.md": "24dd7e498f72ee867cb2ebd9b9823298758dfb256c00e4a51a5f21de0b5834c5"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/js-cache-property-access.md": {
+    "size": 532,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563303806133,
+    "word_count": 77,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/js-cache-property-access.md": "910055409268a946922bc7f6928f6fd448ba03ac630d4c23c72162b66f264c12"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/js-cache-storage.md": {
+    "size": 1651,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563304059238,
+    "word_count": 188,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/js-cache-storage.md": "29594304ab39627d6f05073d01719d0d40bf7c05ebcd902a29b644ca74f6a618"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/js-combine-iterations.md": {
+    "size": 753,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563304251852,
+    "word_count": 95,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/js-combine-iterations.md": "490e0454d991ea4411abf4a5bf3e88d8028a27114bcb6b95e62d3ab7ee8d5c3d"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/js-early-exit.md": {
+    "size": 1133,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563304429196,
+    "word_count": 157,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/js-early-exit.md": "be94dc67e799d50a1d148624ef391d55cc0550dde747b5be8358d3c6e5e9faa2"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/js-flatmap-filter.md": {
+    "size": 1411,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563304646181,
+    "word_count": 199,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/js-flatmap-filter.md": "77ed5758d6548c010135da23d6919b44f9d04a504a40913cc5e038981d56d079"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/js-hoist-regexp.md": {
+    "size": 1028,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563304941797,
+    "word_count": 132,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/js-hoist-regexp.md": "2ca9668269aa2caa6eb273301d86f9c1a130caa6ec8c6978c1f100e74e61deb0"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/js-index-maps.md": {
+    "size": 837,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563305154552,
+    "word_count": 115,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/js-index-maps.md": "f7beecab2d4b6bd4789aa8399795b177db068edc44d823ae16374c343c9f299c"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/js-length-check-first.md": {
+    "size": 1747,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563305335995,
+    "word_count": 239,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/js-length-check-first.md": "8f922a4a91034241d518c303e45ebddfc72952969de94687f932ad5de4542fec"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/js-min-max-loop.md": {
+    "size": 2290,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563305510119,
+    "word_count": 323,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/js-min-max-loop.md": "0c40b186b91b909a21ac862a81454ae2865043bd323f4918039e36872bdaebaf"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/js-request-idle-callback.md": {
+    "size": 2647,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563305679283,
+    "word_count": 311,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/js-request-idle-callback.md": "440d061c3181c7d7c4b4e32501c875a7aa9fe7d48dba10eed0042af44c4a2e4b"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/js-set-map-lookups.md": {
+    "size": 532,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563305947289,
+    "word_count": 67,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/js-set-map-lookups.md": "bbb5ed5855b6294439287142adb91bdb7f3217bb38387cc270a0a7f8ac4b2d07"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/js-tosorted-immutable.md": {
+    "size": 1782,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563306159043,
+    "word_count": 240,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/js-tosorted-immutable.md": "144ec5857de9db64b1b08a4279c3e853cf8166aa37a09c0d81b282ca68598511"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/rendering-activity.md": {
+    "size": 564,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563306354747,
+    "word_count": 71,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/rendering-activity.md": "8e4e5aa4958c38982e0303ef66206a7e711c082a1c7837100ef543152a2ca93f"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/rendering-animate-svg-wrapper.md": {
+    "size": 1185,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563306550351,
+    "word_count": 144,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/rendering-animate-svg-wrapper.md": "ae7bb46279401f206038ac2ae3c71ededae45a30f7ef8d9dca224519cbfea132"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/rendering-conditional-render.md": {
+    "size": 980,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563306801627,
+    "word_count": 140,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/rendering-conditional-render.md": "b873ea7dd577fa1bf07b04cc7f23b986fc0c6f0f7db0301f5d362536b15519b6"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/rendering-content-visibility.md": {
+    "size": 815,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563307066832,
+    "word_count": 89,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/rendering-content-visibility.md": "1fb954f0f2399869c6912ecf8593359d133f796439aecbed4dbe1a4b5e3ccb95"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/rendering-hoist-jsx.md": {
+    "size": 1039,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563307260626,
+    "word_count": 130,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/rendering-hoist-jsx.md": "1eafd8f2c4626631e349c2c3924bb59687e660e3fc71147a683dd8a35ac7f598"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/rendering-hydration-no-flicker.md": {
+    "size": 2308,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563307440920,
+    "word_count": 275,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/rendering-hydration-no-flicker.md": "0a804d3819b5fbaf66953fc3bb03be306c42be7af8fc53425e941755cf9ffa99"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/rendering-hydration-suppress-warning.md": {
+    "size": 872,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563307623384,
+    "word_count": 106,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/rendering-hydration-suppress-warning.md": "b08bb3109e53ca0a151e61db03235da6be4c20d4935294e30cb506ee365577aa"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/rendering-resource-hints.md": {
+    "size": 2549,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563307838379,
+    "word_count": 330,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/rendering-resource-hints.md": "b15565bcbc6e7703077e6b32fa3f89b03a5bcab637a56e0a45d68f52e4209b8b"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/rendering-script-defer-async.md": {
+    "size": 1868,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563308085064,
+    "word_count": 214,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/rendering-script-defer-async.md": "2e78389ebace78d1829a103444d84fdc69049d408e2a0183afb65e233f8c3df2"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/rendering-svg-precision.md": {
+    "size": 588,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563308282128,
+    "word_count": 82,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/rendering-svg-precision.md": "1e7b04ecfa347cb04cf1b27b908aa34a076fdb74b9cff58c0f3676c1668294c4"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/rendering-usetransition-loading.md": {
+    "size": 2074,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563308463642,
+    "word_count": 232,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/rendering-usetransition-loading.md": "cfd7f73f4993c166d3c695e2558969744b00f6f6270699ad193bd3b661dba3e7"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/rerender-defer-reads.md": {
+    "size": 973,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563308731357,
+    "word_count": 122,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/rerender-defer-reads.md": "84c7f2a8268a8eff6d30f8f14d26671418972402d2f3f7948964f0f92192841d"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/rerender-dependencies.md": {
+    "size": 824,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563308999423,
+    "word_count": 110,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/rerender-dependencies.md": "51f0a9ca98e95c8c8899bb38bdb46ed79567dad35b5fac44628828f722288b99"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/rerender-derived-state-no-effect.md": {
+    "size": 1201,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563309211327,
+    "word_count": 157,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/rerender-derived-state-no-effect.md": "4ab0d2d4d6e966da59f22440857a76a37ab0ff1192712bb8c54c007d606d1edb"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/rerender-derived-state.md": {
+    "size": 728,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563309460663,
+    "word_count": 94,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/rerender-derived-state.md": "e360d434d64a78e622a5b6c5660ca3d2cfb38f4278db5dab1603f28e5d67d311"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/rerender-functional-setstate.md": {
+    "size": 2968,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563309655867,
+    "word_count": 396,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/rerender-functional-setstate.md": "19e1784193bb6a93bfde718ee917fe5ca05dcdc4834c54c003ed650938413168"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/rerender-lazy-state-init.md": {
+    "size": 2016,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563309844581,
+    "word_count": 238,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/rerender-lazy-state-init.md": "7da7941b6d4462823022ca6e5a23847d89993413d04ed1356c632b32791bddc7"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/rerender-memo-with-default-value.md": {
+    "size": 1173,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563310028145,
+    "word_count": 177,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/rerender-memo-with-default-value.md": "4016aeca0bd568a96752670ecabb258a2be645c6ef4744721234508c23cbb08f"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/rerender-memo.md": {
+    "size": 1148,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563310196218,
+    "word_count": 148,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/rerender-memo.md": "379b1a73a895ff5b348408d56611fbd8eed35ea37054e653a5326ae4d2b34b3d"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/rerender-move-effect-to-event.md": {
+    "size": 1268,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563310359102,
+    "word_count": 148,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/rerender-move-effect-to-event.md": "5e87da366bf588adb33773d368570756baa10bb24cb6657f2cd7405d90f54031"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/rerender-no-inline-components.md": {
+    "size": 2135,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563310581527,
+    "word_count": 287,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/rerender-no-inline-components.md": "4a7b66928afd24760a760f42694fc0f3caddb60a26ad236007f729efce4c4a30"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/rerender-simple-expression-in-memo.md": {
+    "size": 1018,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563310781551,
+    "word_count": 140,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/rerender-simple-expression-in-memo.md": "f83b5ac1607057eea481e305254016fd9f1c1c8a0d139224c8f7801a3733a5e2"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/rerender-split-combined-hooks.md": {
+    "size": 1844,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563311046461,
+    "word_count": 232,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/rerender-split-combined-hooks.md": "08b351854b9f90cbe6b40c8e60da9ebb2303b520ff5dcdb2a5093f3249a08fbc"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/rerender-transitions.md": {
+    "size": 1055,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563311256525,
+    "word_count": 121,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/rerender-transitions.md": "152345eb35c01f6e88fdb10a6ff1540c68964c4ec0db12e452dfb7e24fae59c3"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/rerender-use-deferred-value.md": {
+    "size": 1846,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563311529177,
+    "word_count": 228,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/rerender-use-deferred-value.md": "de5c34ba2a673c6f06c9e46f58489354f24c0aa19e29d81c52326e161acea3cf"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/rerender-use-ref-transient-values.md": {
+    "size": 1742,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563311724691,
+    "word_count": 202,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/rerender-use-ref-transient-values.md": "d714217d1762f44632b55981c6d734625812ab681bd52a31750f113907da14f6"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/server-after-nonblocking.md": {
+    "size": 2012,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563311942596,
+    "word_count": 237,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/server-after-nonblocking.md": "0abb2d2112cd7decb75e73986d804daa73a894c101e36b5c91d66979802add14"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/server-auth-actions.md": {
+    "size": 2649,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563312155680,
+    "word_count": 327,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/server-auth-actions.md": "a3d8e33496d652dc29c06974e2409e0c3f86c06fd875bba0078c1441ef13d192"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/server-cache-lru.md": {
+    "size": 1353,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563312395536,
+    "word_count": 179,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/server-cache-lru.md": "75bded9411c9d47949257c21597e9a4d5834c3c98abe2d915de9bf0f6c44a1b1"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/server-cache-react.md": {
+    "size": 2228,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563312587690,
+    "word_count": 301,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/server-cache-react.md": "4beb80eb87312cc4ddba120c7094db58b61409574e95659f72f0034959dbbce9"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/server-dedup-props.md": {
+    "size": 2060,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563312763403,
+    "word_count": 245,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/server-dedup-props.md": "857122020973db432d6ee55fc4aed7f23ac412e9b905969395c83d1d04a971db"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/server-hoist-static-io.md": {
+    "size": 4423,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563312941187,
+    "word_count": 570,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/server-hoist-static-io.md": "b4aefdf3a2f690b5cf30a74df9d4dec58623be571890c26ea31d9e2ad75570d7"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/server-no-shared-module-state.md": {
+    "size": 1766,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563313149702,
+    "word_count": 254,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/server-no-shared-module-state.md": "2f6e982fce6c5cd9d7624e75e437ea0d5eee968918c1bc891580a0d90e933547"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/server-parallel-fetching.md": {
+    "size": 1554,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563313354296,
+    "word_count": 190,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/server-parallel-fetching.md": "0aee9cc7d03b8166bd6a00903762e458274013f36e1ef86e1879bc1265431795"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/server-parallel-nested-fetching.md": {
+    "size": 992,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563313534330,
+    "word_count": 137,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/server-parallel-nested-fetching.md": "f8c39a8586f4ae730fff492249d73960eac154827c8315c475dd7acb78cdb0b0"
+    }
+  },
+  ".agents/skills/vercel-react-best-practices/rules/server-serialization.md": {
+    "size": 996,
+    "mtime_ns": 1788788497213771509,
+    "indexed_at_ns": 1788891563313706714,
+    "word_count": 147,
+    "hashes": {
+      ".agents/skills/vercel-react-best-practices/rules/server-serialization.md": "350a30ab130af1b000a48699b3a7df3cbe09b362e88160825d3ebb22698db771"
+    }
+  },
+  ".claude/agents/performance-reviewer.md": {
+    "size": 1262,
+    "mtime_ns": 1788815059449507853,
+    "indexed_at_ns": 1788891563313861097,
+    "word_count": 103,
+    "hashes": {
+      ".claude/agents/performance-reviewer.md": "ab9522ba64e495aff5f4aeb78fe240717adc94811a0cbab8cc179cd1467edf7f"
+    }
+  },
+  ".claude/agents/security-reviewer.md": {
+    "size": 1732,
+    "mtime_ns": 1788815050989509086,
+    "indexed_at_ns": 1788891563314092942,
+    "word_count": 153,
+    "hashes": {
+      ".claude/agents/security-reviewer.md": "812d14e3d2e752ed8b7a900b897dbacd5c43c0f1abee6b330d212d0f5f5e3771"
+    }
+  },
+  ".claude/agents/test-coverage-reviewer.md": {
+    "size": 1057,
+    "mtime_ns": 1788815065849506860,
+    "indexed_at_ns": 1788891563314271266,
+    "word_count": 96,
+    "hashes": {
+      ".claude/agents/test-coverage-reviewer.md": "f2b1b8d4a753923cebb8c607018536a4fd7bb600111b30ed1a9b853c2677716a"
+    }
+  },
+  ".claude/ralph-format.js": {
+    "size": 3173,
+    "mtime_ns": 1788720198665302260,
+    "indexed_at_ns": 1788891253787735764,
+    "word_count": 320
+  },
+  ".claude/ralph-loop.js": {
+    "size": 37525,
+    "mtime_ns": 1788733541657771186,
+    "indexed_at_ns": 1788891253787948669,
+    "word_count": 3552
+  },
+  ".claude/ralph.config.json": {
+    "size": 677,
+    "mtime_ns": 1788733541657771186,
+    "indexed_at_ns": 1788891527114325948,
+    "word_count": 65,
+    "hashes": {
+      ".claude/ralph.config.json": "b51d57ffaaa3a7cd5ccd4d12115fb81c6001f7bb98d88786bab3b6798849b194"
+    }
+  },
+  ".claude/ralph.md": {
+    "size": 3277,
+    "mtime_ns": 1788720198665302260,
+    "indexed_at_ns": 1788891563314429929,
+    "word_count": 306,
+    "hashes": {
+      ".claude/ralph.md": "ced75f3a6c417f3264b6523446649094d1909d2600ec5596588d4bf3deae2031"
+    }
+  },
+  ".claude/settings.json": {
+    "size": 924,
+    "mtime_ns": 1788879713811210570,
+    "indexed_at_ns": 1788891527114688240,
+    "word_count": 47,
+    "hashes": {
+      ".claude/settings.json": "80596cdbc52e28c0d8b1c2799ae60b08c610f89e776a92d4be1f7064ed50b6e1"
+    }
+  },
+  ".claude/settings.local.json": {
+    "size": 54,
+    "mtime_ns": 1788280697202154657,
+    "indexed_at_ns": 1788891527115046117,
+    "word_count": 6,
+    "hashes": {
+      ".claude/settings.local.json": "a6e2cd781d6d326e7b0198ba4a4dcd146b93d1c8d203fe3253ee5348f702eca1"
+    }
+  },
+  ".claude/skills/review-all/SKILL.md": {
+    "size": 642,
+    "mtime_ns": 1788815071905505909,
+    "indexed_at_ns": 1788891563314602243,
+    "word_count": 50,
+    "hashes": {
+      ".claude/skills/review-all/skill.md": "64012fa66ff6c141c4cc2b32a5f7550504cf4ebbf64442eba94b62d1e34470ee"
+    }
+  },
+  ".github/workflows/ci.yml": {
+    "size": 1988,
+    "mtime_ns": 1788863625421790309,
+    "indexed_at_ns": 1788891563314759386,
+    "word_count": 194,
+    "hashes": {
+      ".github/workflows/ci.yml": "6461e752cdd17a2f8b73914259cfcb9c1170fe09d7d9992bbc8ac38a121fa4e4"
+    }
+  },
+  ".mcp.json": {
+    "size": 182,
+    "mtime_ns": 1788359323464680725,
+    "indexed_at_ns": 1788891527115390954,
+    "word_count": 18,
+    "hashes": { ".mcp.json": "c42aad33f32f20717b21355c569e069f0ba5e8f0d933d08cd116a5d3cc96bc3f" }
+  },
+  ".prettierrc.json": {
+    "size": 106,
+    "mtime_ns": 1788271752955111940,
+    "indexed_at_ns": 1788891527115604119,
+    "word_count": 12,
+    "hashes": {
+      ".prettierrc.json": "7d088d6b82f5fb81a9664d8062d9556d383ec6a920a6683bdf35ba0c59c4b330"
+    }
+  },
+  "CLAUDE.md": {
+    "size": 6740,
+    "mtime_ns": 1788809450270407097,
+    "indexed_at_ns": 1788891563314902989,
+    "word_count": 584,
+    "hashes": { "claude.md": "a6836ac1e451dfc88c23ea176f17033854c9c6a260cc554720a9b87182cb9dc6" }
+  },
+  "README.md": {
+    "size": 3430,
+    "mtime_ns": 1788809450270407097,
+    "indexed_at_ns": 1788891563315159155,
+    "word_count": 348,
+    "hashes": { "readme.md": "3e3601d19932f397e2662e05d3bca944948cea60b873a8d877c76237de4529d3" }
+  },
+  "TEST_SKILL_CHECK.md": {
+    "size": 35,
+    "mtime_ns": 1788359323464680725,
+    "indexed_at_ns": 1788891563315378579,
+    "word_count": 6,
+    "hashes": {
+      "test_skill_check.md": "f046045e605533e8a12e024fbf44b80b0bae0dd86aa64b9ba872269203857705"
+    }
+  },
+  "apps/api/CLAUDE.md": {
+    "size": 45328,
+    "mtime_ns": 1788870498480687384,
+    "indexed_at_ns": 1788891563315609264,
+    "word_count": 3796,
+    "hashes": {
+      "apps/api/claude.md": "a155a5edb52f5280dd99e9b822822c8855a0ed5dbb06ce0ea327e8e0ff2a14c2"
+    }
+  },
+  "apps/api/README.md": {
+    "size": 6559,
+    "mtime_ns": 1788271700251383596,
+    "indexed_at_ns": 1788891563315867750,
+    "word_count": 663,
+    "hashes": {
+      "apps/api/readme.md": "e2a9166d3560fb54f5204027d48290259c0057ac91b40c6431cb4995a87f3bae"
+    }
+  },
+  "apps/api/nest-cli.json": {
+    "size": 171,
+    "mtime_ns": 1788271700251428757,
+    "indexed_at_ns": 1788891527116007118,
+    "word_count": 13,
+    "hashes": {
+      "apps/api/nest-cli.json": "a49e30734c73ae521ae8e571d8da4655aed315654e6bb079661a30baa37b054d"
+    }
+  },
+  "apps/api/oxlint.json": {
+    "size": 259,
+    "mtime_ns": 1788271700251459287,
+    "indexed_at_ns": 1788891527116369875,
+    "word_count": 16,
+    "hashes": {
+      "apps/api/oxlint.json": "6ff01f4bd4d8cdcc186e8a295387b62f3c5a14ecfef370d6f1213423af035e03"
+    }
+  },
+  "apps/api/package.json": {
+    "size": 2028,
+    "mtime_ns": 1788872211012415149,
+    "indexed_at_ns": 1788891527116750483,
+    "word_count": 162,
+    "hashes": {
+      "apps/api/package.json": "d1d595b81b0c43ac45ed7b1ee9eb64e7a08c6b907aed14e2647308c507e9287b"
+    }
+  },
+  "apps/api/prisma.config.ts": {
+    "size": 247,
+    "mtime_ns": 1788359323468680724,
+    "indexed_at_ns": 1788891253796278166,
+    "word_count": 25
+  },
+  "apps/api/prisma/migrations/20260901155431_init/migration.sql": {
+    "size": 349,
+    "mtime_ns": 1788359323470047672,
+    "indexed_at_ns": 1788891527117118541,
+    "word_count": 42,
+    "hashes": {
+      "apps/api/prisma/migrations/20260901155431_init/migration.sql": "73057f47316675236c530bea046352c7a10f936bc2204285fa5d65c605187beb"
+    }
+  },
+  "apps/api/prisma/migrations/20260901161746_add_meeting/migration.sql": {
+    "size": 288,
+    "mtime_ns": 1788359323470047672,
+    "indexed_at_ns": 1788891527117544550,
+    "word_count": 34,
+    "hashes": {
+      "apps/api/prisma/migrations/20260901161746_add_meeting/migration.sql": "de53160c776665cfbc60ba4598a87db1cf53d97c6bf78b382bb38d22ba793309"
+    }
+  },
+  "apps/api/prisma/migrations/20260904091918_add_meeting_file/migration.sql": {
+    "size": 955,
+    "mtime_ns": 1788516885392820059,
+    "indexed_at_ns": 1788891527117983054,
+    "word_count": 102,
+    "hashes": {
+      "apps/api/prisma/migrations/20260904091918_add_meeting_file/migration.sql": "997bee73a7a3f0f8395716cded9f308b385b61239308745d3fe0903839439561"
+    }
+  },
+  "apps/api/prisma/migrations/20260904193340_user_profile_fields/migration.sql": {
+    "size": 95,
+    "mtime_ns": 1788694687585962935,
+    "indexed_at_ns": 1788891527118358018,
+    "word_count": 13,
+    "hashes": {
+      "apps/api/prisma/migrations/20260904193340_user_profile_fields/migration.sql": "7c23f171b07faf203a88a717e631772c9d441474bbac2b17b8f0d5e60b2e615f"
+    }
+  },
+  "apps/api/prisma/migrations/20260908103405_meeting_file_summary_fields/migration.sql": {
+    "size": 126,
+    "mtime_ns": 1788863645813787197,
+    "indexed_at_ns": 1788891527118752426,
+    "word_count": 13,
+    "hashes": {
+      "apps/api/prisma/migrations/20260908103405_meeting_file_summary_fields/migration.sql": "536b1557bab5ba32de632b490b4cd209afff670a1700291b2e628203c5d89486"
+    }
+  },
+  "apps/api/prisma/migrations/20260908122025_add_task_model/migration.sql": {
+    "size": 704,
+    "mtime_ns": 1788870025372765087,
+    "indexed_at_ns": 1788891527119133284,
+    "word_count": 77,
+    "hashes": {
+      "apps/api/prisma/migrations/20260908122025_add_task_model/migration.sql": "b75a5fa78ce5672bec98885f243103d32a1ff6c270b70baba4892c53c1d77f8d"
+    }
+  },
+  "apps/api/prisma/migrations/20260908122639_add_meeting_summary_decisions/migration.sql": {
+    "size": 102,
+    "mtime_ns": 1788870399380703367,
+    "indexed_at_ns": 1788891527119553673,
+    "word_count": 13,
+    "hashes": {
+      "apps/api/prisma/migrations/20260908122639_add_meeting_summary_decisions/migration.sql": "6177586fa90458b78f4f8ae9c5b8d47180742e02b453e33b3a6b2630be9e1770"
+    }
+  },
+  "apps/api/prisma/migrations/20260908133133_remove_meeting_file_summary/migration.sql": {
+    "size": 30,
+    "mtime_ns": 1788874293788081685,
+    "indexed_at_ns": 1788891527119941112,
+    "word_count": 6,
+    "hashes": {
+      "apps/api/prisma/migrations/20260908133133_remove_meeting_file_summary/migration.sql": "5c1715ffb6a28d0f4ef21f0d4b9f7e3e74ab3644da20a2d9504e8253952392d6"
+    }
+  },
+  "apps/api/prisma/migrations/20260908134000_refactor_summary_to_meeting_level/migration.sql": {
+    "size": 415,
+    "mtime_ns": 1788874594476030731,
+    "indexed_at_ns": 1788891527120302489,
+    "word_count": 54,
+    "hashes": {
+      "apps/api/prisma/migrations/20260908134000_refactor_summary_to_meeting_level/migration.sql": "bf422bcb284a22cebcba5f4358e17d75b3a9f5a731afb484666d3cf25081c127"
+    }
+  },
+  "apps/api/prisma/seed.mjs": {
+    "size": 9599,
+    "mtime_ns": 1788872653640343431,
+    "indexed_at_ns": 1788891253799738500,
+    "word_count": 749
+  },
+  "apps/api/prisma/seed.ts": {
+    "size": 9162,
+    "mtime_ns": 1788872188032419096,
+    "indexed_at_ns": 1788891253800038927,
+    "word_count": 700
+  },
+  "apps/api/scripts/check-meeting.mjs": {
+    "size": 1467,
+    "mtime_ns": 1788876490855727975,
+    "indexed_at_ns": 1788891253800384144,
+    "word_count": 125
+  },
+  "apps/api/scripts/download-whisper-model.mjs": {
+    "size": 2492,
+    "mtime_ns": 1788809450274913953,
+    "indexed_at_ns": 1788891253800641230,
+    "word_count": 251
+  },
+  "apps/api/src/app.controller.spec.ts": {
+    "size": 623,
+    "mtime_ns": 1788271700252208274,
+    "indexed_at_ns": 1788891253800876805,
+    "word_count": 61
+  },
+  "apps/api/src/app.controller.ts": {
+    "size": 277,
+    "mtime_ns": 1788271700251662932,
+    "indexed_at_ns": 1788891253801198276,
+    "word_count": 31
+  },
+  "apps/api/src/app.module.ts": {
+    "size": 1250,
+    "mtime_ns": 1788869988152771195,
+    "indexed_at_ns": 1788891253801537913,
+    "word_count": 126
+  },
+  "apps/api/src/app.service.ts": {
+    "size": 142,
+    "mtime_ns": 1788271700252116732,
+    "indexed_at_ns": 1788891253801822629,
+    "word_count": 19
+  },
+  "apps/api/src/auth/auth.controller.ts": {
+    "size": 886,
+    "mtime_ns": 1788794483712809731,
+    "indexed_at_ns": 1788891253802241918,
+    "word_count": 81
+  },
+  "apps/api/src/auth/auth.module.ts": {
+    "size": 1114,
+    "mtime_ns": 1788794483712809731,
+    "indexed_at_ns": 1788891253802568355,
+    "word_count": 99
+  },
+  "apps/api/src/auth/commands/handlers/change-password.handler.spec.ts": {
+    "size": 3013,
+    "mtime_ns": 1788794483712809731,
+    "indexed_at_ns": 1788891253802973330,
+    "word_count": 221
+  },
+  "apps/api/src/auth/commands/handlers/change-password.handler.ts": {
+    "size": 1711,
+    "mtime_ns": 1788794483712809731,
+    "indexed_at_ns": 1788891253803382248,
+    "word_count": 149
+  },
+  "apps/api/src/auth/commands/handlers/index.ts": {
+    "size": 266,
+    "mtime_ns": 1788733812921727441,
+    "indexed_at_ns": 1788891253803745986,
+    "word_count": 25
+  },
+  "apps/api/src/auth/commands/handlers/login.handler.ts": {
+    "size": 1678,
+    "mtime_ns": 1788359323474914008,
+    "indexed_at_ns": 1788891253804051202,
+    "word_count": 151
+  },
+  "apps/api/src/auth/commands/handlers/register.handler.ts": {
+    "size": 1620,
+    "mtime_ns": 1788359323474914008,
+    "indexed_at_ns": 1788891253804391670,
+    "word_count": 145
+  },
+  "apps/api/src/auth/commands/impl/change-password.command.ts": {
+    "size": 183,
+    "mtime_ns": 1788733812921727441,
+    "indexed_at_ns": 1788891253804754647,
+    "word_count": 20
+  },
+  "apps/api/src/auth/commands/impl/login.command.ts": {
+    "size": 125,
+    "mtime_ns": 1788359323474914008,
+    "indexed_at_ns": 1788891253805096265,
+    "word_count": 16
+  },
+  "apps/api/src/auth/commands/impl/register.command.ts": {
+    "size": 128,
+    "mtime_ns": 1788359323476130470,
+    "indexed_at_ns": 1788891253805452492,
+    "word_count": 16
+  },
+  "apps/api/src/auth/dto/login.dto.ts": {
+    "size": 174,
+    "mtime_ns": 1788359323476680724,
+    "indexed_at_ns": 1788891253805746698,
+    "word_count": 20
+  },
+  "apps/api/src/auth/dto/register.dto.ts": {
+    "size": 177,
+    "mtime_ns": 1788794483712809731,
+    "indexed_at_ns": 1788891253806047825,
+    "word_count": 20
+  },
+  "apps/api/src/auth/events/handlers/index.ts": {
+    "size": 213,
+    "mtime_ns": 1788359323480680724,
+    "indexed_at_ns": 1788891253806444833,
+    "word_count": 18
+  },
+  "apps/api/src/auth/events/handlers/user-logged-in.handler.ts": {
+    "size": 533,
+    "mtime_ns": 1788794483712809731,
+    "indexed_at_ns": 1788891253806762430,
+    "word_count": 44
+  },
+  "apps/api/src/auth/events/handlers/user-registered.handler.ts": {
+    "size": 554,
+    "mtime_ns": 1788794483712809731,
+    "indexed_at_ns": 1788891253807063016,
+    "word_count": 44
+  },
+  "apps/api/src/auth/events/impl/user-logged-in.event.ts": {
+    "size": 128,
+    "mtime_ns": 1788359323482309513,
+    "indexed_at_ns": 1788891253807450055,
+    "word_count": 16
+  },
+  "apps/api/src/auth/events/impl/user-registered.event.ts": {
+    "size": 130,
+    "mtime_ns": 1788359323483941789,
+    "indexed_at_ns": 1788891253807763981,
+    "word_count": 16
+  },
+  "apps/api/src/auth/guards/jwt-auth.guard.ts": {
+    "size": 1554,
+    "mtime_ns": 1788794483712809731,
+    "indexed_at_ns": 1788891253808033257,
+    "word_count": 167
+  },
+  "apps/api/src/auth/services/auth-token.service.ts": {
+    "size": 723,
+    "mtime_ns": 1788359323484680723,
+    "indexed_at_ns": 1788891253808510247,
+    "word_count": 82
+  },
+  "apps/api/src/claude-agent/CLAUDE.md": {
+    "size": 4988,
+    "mtime_ns": 1788814566921585529,
+    "indexed_at_ns": 1788891563316051173,
+    "word_count": 575,
+    "hashes": {
+      "apps/api/src/claude-agent/claude.md": "55f8dfb635a746a6ae76dad6621b0b53e981a730c7059e9a613dc2d651d1a825"
+    }
+  },
+  "apps/api/src/claude-agent/MEETING_TOOLS.md": {
+    "size": 2156,
+    "mtime_ns": 1788871245628569070,
+    "indexed_at_ns": 1788891563316229127,
+    "word_count": 276,
+    "hashes": {
+      "apps/api/src/claude-agent/meeting_tools.md": "c893381336b83edf8d3ca04e15c790b337625afc0ee3967573f7ebb68b01dfa2"
+    }
+  },
+  "apps/api/src/claude-agent/claude-agent.module.ts": {
+    "size": 609,
+    "mtime_ns": 1788814544869589028,
+    "indexed_at_ns": 1788891253809891836,
+    "word_count": 72
+  },
+  "apps/api/src/claude-agent/claude-agent.service.integration-spec.ts": {
+    "size": 1930,
+    "mtime_ns": 1788864516457646717,
+    "indexed_at_ns": 1788891253810199993,
+    "word_count": 158
+  },
+  "apps/api/src/claude-agent/claude-agent.service.spec.ts": {
+    "size": 9560,
+    "mtime_ns": 1788868989576931159,
+    "indexed_at_ns": 1788891253810514270,
+    "word_count": 793
+  },
+  "apps/api/src/claude-agent/claude-agent.service.ts": {
+    "size": 8433,
+    "mtime_ns": 1788870442672696169,
+    "indexed_at_ns": 1788891253810807856,
+    "word_count": 1037
+  },
+  "apps/api/src/claude-agent/meeting-tools.ts": {
+    "size": 7477,
+    "mtime_ns": 1788879991039169342,
+    "indexed_at_ns": 1788891253811082072,
+    "word_count": 805
+  },
+  "apps/api/src/config/env.validation.spec.ts": {
+    "size": 3646,
+    "mtime_ns": 1788809450276201270,
+    "indexed_at_ns": 1788891253811439570,
+    "word_count": 333
+  },
+  "apps/api/src/config/env.validation.ts": {
+    "size": 2385,
+    "mtime_ns": 1788809450276498302,
+    "indexed_at_ns": 1788891253811715486,
+    "word_count": 238
+  },
+  "apps/api/src/main.ts": {
+    "size": 526,
+    "mtime_ns": 1788809450276498302,
+    "indexed_at_ns": 1788891253811937060,
+    "word_count": 53
+  },
+  "apps/api/src/meeting-file/CLAUDE.md": {
+    "size": 11952,
+    "mtime_ns": 1788864897141587596,
+    "indexed_at_ns": 1788891563316395951,
+    "word_count": 1467,
+    "hashes": {
+      "apps/api/src/meeting-file/claude.md": "2d6b08c64eebe28ebc84a23800886a282d16b2da739ea2e6ece69f8529489b1a"
+    }
+  },
+  "apps/api/src/meeting-file/allowed-mime.ts": {
+    "size": 1121,
+    "mtime_ns": 1788516885399099403,
+    "indexed_at_ns": 1788891253812848140,
+    "word_count": 82
+  },
+  "apps/api/src/meeting-file/attachment-disposition.ts": {
+    "size": 727,
+    "mtime_ns": 1788516885399751645,
+    "indexed_at_ns": 1788891253813094165,
+    "word_count": 60
+  },
+  "apps/api/src/meeting-file/commands/handlers/create-meeting-file.handler.ts": {
+    "size": 2730,
+    "mtime_ns": 1788794483712809731,
+    "indexed_at_ns": 1788891253813486274,
+    "word_count": 214
+  },
+  "apps/api/src/meeting-file/commands/handlers/delete-meeting-file.handler.ts": {
+    "size": 1636,
+    "mtime_ns": 1788794483712809731,
+    "indexed_at_ns": 1788891253813803550,
+    "word_count": 141
+  },
+  "apps/api/src/meeting-file/commands/handlers/index.ts": {
+    "size": 481,
+    "mtime_ns": 1788864927793583761,
+    "indexed_at_ns": 1788891253814117997,
+    "word_count": 34
+  },
+  "apps/api/src/meeting-file/commands/handlers/reprocess-meeting-file.handler.ts": {
+    "size": 3254,
+    "mtime_ns": 1788876215759769739,
+    "indexed_at_ns": 1788891253814617548,
+    "word_count": 269
+  },
+  "apps/api/src/meeting-file/commands/handlers/resummarize-meeting-file.handler.ts": {
+    "size": 3548,
+    "mtime_ns": 1788875991639805648,
+    "indexed_at_ns": 1788891253814970665,
+    "word_count": 280
+  },
+  "apps/api/src/meeting-file/commands/impl/create-meeting-file.command.ts": {
+    "size": 319,
+    "mtime_ns": 1788794483716809730,
+    "indexed_at_ns": 1788891253815293052,
+    "word_count": 34
+  },
+  "apps/api/src/meeting-file/commands/impl/delete-meeting-file.command.ts": {
+    "size": 139,
+    "mtime_ns": 1788794483716809730,
+    "indexed_at_ns": 1788891253815651890,
+    "word_count": 16
+  },
+  "apps/api/src/meeting-file/commands/impl/reprocess-meeting-file.command.ts": {
+    "size": 142,
+    "mtime_ns": 1788794483716809730,
+    "indexed_at_ns": 1788891253815969886,
+    "word_count": 16
+  },
+  "apps/api/src/meeting-file/commands/impl/resummarize-meeting-file.command.ts": {
+    "size": 144,
+    "mtime_ns": 1788864900389587227,
+    "indexed_at_ns": 1788891253816407956,
+    "word_count": 16
+  },
+  "apps/api/src/meeting-file/dto/meeting-file-content.ts": {
+    "size": 287,
+    "mtime_ns": 1788516885401629130,
+    "indexed_at_ns": 1788891253816746123,
+    "word_count": 29
+  },
+  "apps/api/src/meeting-file/dto/meeting-file.dto.ts": {
+    "size": 1166,
+    "mtime_ns": 1788875343183911738,
+    "indexed_at_ns": 1788891253817035889,
+    "word_count": 112
+  },
+  "apps/api/src/meeting-file/dto/upload-meeting-file.dto.ts": {
+    "size": 352,
+    "mtime_ns": 1788516885402215601,
+    "indexed_at_ns": 1788891253817324815,
+    "word_count": 32
+  },
+  "apps/api/src/meeting-file/dto/uploaded-file-part.ts": {
+    "size": 535,
+    "mtime_ns": 1788516885402215601,
+    "indexed_at_ns": 1788891253817640262,
+    "word_count": 48
+  },
+  "apps/api/src/meeting-file/events/handlers/index.ts": {
+    "size": 293,
+    "mtime_ns": 1788863644621787357,
+    "indexed_at_ns": 1788891253817990519,
+    "word_count": 18
+  },
+  "apps/api/src/meeting-file/events/handlers/meeting-file-processing-requested.handler.ts": {
+    "size": 822,
+    "mtime_ns": 1788518853680093912,
+    "indexed_at_ns": 1788891253818301866,
+    "word_count": 61
+  },
+  "apps/api/src/meeting-file/events/handlers/meeting-file-transcribed.handler.ts": {
+    "size": 870,
+    "mtime_ns": 1788874774628002686,
+    "indexed_at_ns": 1788891253818645263,
+    "word_count": 67
+  },
+  "apps/api/src/meeting-file/events/impl/meeting-file-processing-requested.event.ts": {
+    "size": 531,
+    "mtime_ns": 1788518853680093912,
+    "indexed_at_ns": 1788891253818993111,
+    "word_count": 43
+  },
+  "apps/api/src/meeting-file/events/impl/meeting-file-transcribed.event.ts": {
+    "size": 423,
+    "mtime_ns": 1788874799511998579,
+    "indexed_at_ns": 1788891253819297137,
+    "word_count": 36
+  },
+  "apps/api/src/meeting-file/meeting-file.controller.ts": {
+    "size": 4333,
+    "mtime_ns": 1788864909113586622,
+    "indexed_at_ns": 1788891253819613954,
+    "word_count": 342
+  },
+  "apps/api/src/meeting-file/meeting-file.module.ts": {
+    "size": 4664,
+    "mtime_ns": 1788874748408007003,
+    "indexed_at_ns": 1788891253819932321,
+    "word_count": 393
+  },
+  "apps/api/src/meeting-file/processing/claude-summary.service.integration-spec.ts": {
+    "size": 3899,
+    "mtime_ns": 1788871726900492304,
+    "indexed_at_ns": 1788891253820238907,
+    "word_count": 281
+  },
+  "apps/api/src/meeting-file/processing/claude-summary.service.spec.ts": {
+    "size": 8918,
+    "mtime_ns": 1788871694828497484,
+    "indexed_at_ns": 1788891253820718308,
+    "word_count": 635
+  },
+  "apps/api/src/meeting-file/processing/claude-summary.service.ts": {
+    "size": 6635,
+    "mtime_ns": 1788874905955982379,
+    "indexed_at_ns": 1788891253821049895,
+    "word_count": 576
+  },
+  "apps/api/src/meeting-file/processing/meeting-file-processing.queue.spec.ts": {
+    "size": 6619,
+    "mtime_ns": 1788863782697767516,
+    "indexed_at_ns": 1788891253821424543,
+    "word_count": 543
+  },
+  "apps/api/src/meeting-file/processing/meeting-file-processing.queue.ts": {
+    "size": 5110,
+    "mtime_ns": 1788874863071988161,
+    "indexed_at_ns": 1788891253821741240,
+    "word_count": 497
+  },
+  "apps/api/src/meeting-file/processing/meeting-summary.queue.ts": {
+    "size": 6351,
+    "mtime_ns": 1788874706096013832,
+    "indexed_at_ns": 1788891253822034026,
+    "word_count": 580
+  },
+  "apps/api/src/meeting-file/processing/process-runner.spec.ts": {
+    "size": 2763,
+    "mtime_ns": 1788809450278581241,
+    "indexed_at_ns": 1788891253822414684,
+    "word_count": 236
+  },
+  "apps/api/src/meeting-file/processing/process-runner.ts": {
+    "size": 4290,
+    "mtime_ns": 1788809450278929509,
+    "indexed_at_ns": 1788891253822722411,
+    "word_count": 412
+  },
+  "apps/api/src/meeting-file/processing/stt-engine.spec.ts": {
+    "size": 1310,
+    "mtime_ns": 1788809450279244271,
+    "indexed_at_ns": 1788891253823005667,
+    "word_count": 90
+  },
+  "apps/api/src/meeting-file/processing/stt-engine.ts": {
+    "size": 1879,
+    "mtime_ns": 1788809450279513027,
+    "indexed_at_ns": 1788891253823320313,
+    "word_count": 180
+  },
+  "apps/api/src/meeting-file/processing/stt.service.ts": {
+    "size": 1843,
+    "mtime_ns": 1788809450280051378,
+    "indexed_at_ns": 1788891253823656810,
+    "word_count": 174
+  },
+  "apps/api/src/meeting-file/processing/summary-engine.ts": {
+    "size": 1200,
+    "mtime_ns": 1788864511173647442,
+    "indexed_at_ns": 1788891253823982747,
+    "word_count": 119
+  },
+  "apps/api/src/meeting-file/processing/summary.service.ts": {
+    "size": 2766,
+    "mtime_ns": 1788871618080509748,
+    "indexed_at_ns": 1788891253824275584,
+    "word_count": 235
+  },
+  "apps/api/src/meeting-file/processing/whisper-command.spec.ts": {
+    "size": 1754,
+    "mtime_ns": 1788809450280051378,
+    "indexed_at_ns": 1788891253824627931,
+    "word_count": 151
+  },
+  "apps/api/src/meeting-file/processing/whisper-command.ts": {
+    "size": 2115,
+    "mtime_ns": 1788809450280433556,
+    "indexed_at_ns": 1788891253824911237,
+    "word_count": 219
+  },
+  "apps/api/src/meeting-file/processing/whisper-stt.service.spec.ts": {
+    "size": 12014,
+    "mtime_ns": 1788809450280721793,
+    "indexed_at_ns": 1788891253825182903,
+    "word_count": 1014
+  },
+  "apps/api/src/meeting-file/processing/whisper-stt.service.ts": {
+    "size": 5065,
+    "mtime_ns": 1788809450281030119,
+    "indexed_at_ns": 1788891253825582031,
+    "word_count": 503
+  },
+  "apps/api/src/meeting-file/queries/handlers/get-meeting-file-content.handler.ts": {
+    "size": 1506,
+    "mtime_ns": 1788864234685694634,
+    "indexed_at_ns": 1788891253825922179,
+    "word_count": 130
+  },
+  "apps/api/src/meeting-file/queries/handlers/get-meeting-file.handler.ts": {
+    "size": 917,
+    "mtime_ns": 1788864036345726102,
+    "indexed_at_ns": 1788891253826257296,
+    "word_count": 82
+  },
+  "apps/api/src/meeting-file/queries/handlers/index.ts": {
+    "size": 351,
+    "mtime_ns": 1788516885403940626,
+    "indexed_at_ns": 1788891253826753276,
+    "word_count": 27
+  },
+  "apps/api/src/meeting-file/queries/handlers/list-meeting-files.handler.ts": {
+    "size": 1103,
+    "mtime_ns": 1788794483716809730,
+    "indexed_at_ns": 1788891253827060093,
+    "word_count": 95
+  },
+  "apps/api/src/meeting-file/queries/impl/get-meeting-file-content.query.ts": {
+    "size": 141,
+    "mtime_ns": 1788794483716809730,
+    "indexed_at_ns": 1788891253827443221,
+    "word_count": 16
+  },
+  "apps/api/src/meeting-file/queries/impl/get-meeting-file.query.ts": {
+    "size": 134,
+    "mtime_ns": 1788863977541733519,
+    "indexed_at_ns": 1788891253827756278,
+    "word_count": 16
+  },
+  "apps/api/src/meeting-file/queries/impl/list-meeting-files.query.ts": {
+    "size": 91,
+    "mtime_ns": 1788794483720809730,
+    "indexed_at_ns": 1788891253828041384,
+    "word_count": 10
+  },
+  "apps/api/src/meeting/commands/handlers/create-meeting.handler.ts": {
+    "size": 980,
+    "mtime_ns": 1788794483720809730,
+    "indexed_at_ns": 1788891253828392842,
+    "word_count": 85
+  },
+  "apps/api/src/meeting/commands/handlers/index.ts": {
+    "size": 124,
+    "mtime_ns": 1788359323488356989,
+    "indexed_at_ns": 1788891253828715338,
+    "word_count": 11
+  },
+  "apps/api/src/meeting/commands/impl/create-meeting.command.ts": {
+    "size": 133,
+    "mtime_ns": 1788794483720809730,
+    "indexed_at_ns": 1788891253829007905,
+    "word_count": 16
+  },
+  "apps/api/src/meeting/dto/create-meeting.dto.ts": {
+    "size": 193,
+    "mtime_ns": 1788359323488680723,
+    "indexed_at_ns": 1788891253829337592,
+    "word_count": 20
+  },
+  "apps/api/src/meeting/events/handlers/index.ts": {
+    "size": 125,
+    "mtime_ns": 1788359323491175015,
+    "indexed_at_ns": 1788891253829679019,
+    "word_count": 11
+  },
+  "apps/api/src/meeting/events/handlers/meeting-created.handler.ts": {
+    "size": 531,
+    "mtime_ns": 1788359323491470377,
+    "indexed_at_ns": 1788891253829975796,
+    "word_count": 44
+  },
+  "apps/api/src/meeting/events/impl/meeting-created.event.ts": {
+    "size": 133,
+    "mtime_ns": 1788359323491470377,
+    "indexed_at_ns": 1788891253830302502,
+    "word_count": 16
+  },
+  "apps/api/src/meeting/meeting.controller.ts": {
+    "size": 1143,
+    "mtime_ns": 1788794483720809730,
+    "indexed_at_ns": 1788891253830602459,
+    "word_count": 102
+  },
+  "apps/api/src/meeting/meeting.module.ts": {
+    "size": 516,
+    "mtime_ns": 1788359323492680723,
+    "indexed_at_ns": 1788891253830855954,
+    "word_count": 50
+  },
+  "apps/api/src/meeting/queries/handlers/get-meeting-by-id.handler.ts": {
+    "size": 783,
+    "mtime_ns": 1788794483720809730,
+    "indexed_at_ns": 1788891253831137360,
+    "word_count": 77
+  },
+  "apps/api/src/meeting/queries/handlers/index.ts": {
+    "size": 214,
+    "mtime_ns": 1788359323494469777,
+    "indexed_at_ns": 1788891253831487958,
+    "word_count": 18
+  },
+  "apps/api/src/meeting/queries/handlers/list-meetings.handler.ts": {
+    "size": 600,
+    "mtime_ns": 1788794483720809730,
+    "indexed_at_ns": 1788891253831790454,
+    "word_count": 59
+  },
+  "apps/api/src/meeting/queries/impl/get-meeting-by-id.query.ts": {
+    "size": 82,
+    "mtime_ns": 1788794483720809730,
+    "indexed_at_ns": 1788891253832072510,
+    "word_count": 10
+  },
+  "apps/api/src/meeting/queries/impl/list-meetings.query.ts": {
+    "size": 34,
+    "mtime_ns": 1788794483720809730,
+    "indexed_at_ns": 1788891253832511708,
+    "word_count": 4
+  },
+  "apps/api/src/prisma/prisma.module.ts": {
+    "size": 213,
+    "mtime_ns": 1788359323496680723,
+    "indexed_at_ns": 1788891253832803614,
+    "word_count": 24
+  },
+  "apps/api/src/prisma/prisma.service.ts": {
+    "size": 667,
+    "mtime_ns": 1788359323497441006,
+    "indexed_at_ns": 1788891253833049929,
+    "word_count": 66
+  },
+  "apps/api/src/profile/avatar-mime.ts": {
+    "size": 779,
+    "mtime_ns": 1788733812924969208,
+    "indexed_at_ns": 1788891253833331225,
+    "word_count": 76
+  },
+  "apps/api/src/profile/avatar.controller.ts": {
+    "size": 1068,
+    "mtime_ns": 1788794483720809730,
+    "indexed_at_ns": 1788891253833598711,
+    "word_count": 102
+  },
+  "apps/api/src/profile/commands/handlers/index.ts": {
+    "size": 121,
+    "mtime_ns": 1788733812926036091,
+    "indexed_at_ns": 1788891253833900757,
+    "word_count": 11
+  },
+  "apps/api/src/profile/commands/handlers/upload-avatar.handler.ts": {
+    "size": 2638,
+    "mtime_ns": 1788794483724809729,
+    "indexed_at_ns": 1788891253834293916,
+    "word_count": 224
+  },
+  "apps/api/src/profile/commands/impl/upload-avatar.command.ts": {
+    "size": 219,
+    "mtime_ns": 1788733812926546001,
+    "indexed_at_ns": 1788891253834633303,
+    "word_count": 23
+  },
+  "apps/api/src/profile/dto/avatar-content.ts": {
+    "size": 243,
+    "mtime_ns": 1788733812926546001,
+    "indexed_at_ns": 1788891253834896929,
+    "word_count": 28
+  },
+  "apps/api/src/profile/dto/change-password.dto.ts": {
+    "size": 273,
+    "mtime_ns": 1788794483724809729,
+    "indexed_at_ns": 1788891253835150174,
+    "word_count": 26
+  },
+  "apps/api/src/profile/dto/profile.dto.ts": {
+    "size": 419,
+    "mtime_ns": 1788694687588463886,
+    "indexed_at_ns": 1788891253835462321,
+    "word_count": 50
+  },
+  "apps/api/src/profile/dto/update-profile-name.dto.ts": {
+    "size": 331,
+    "mtime_ns": 1788694687588719381,
+    "indexed_at_ns": 1788891253835741546,
+    "word_count": 40
+  },
+  "apps/api/src/profile/dto/uploaded-avatar-part.ts": {
+    "size": 339,
+    "mtime_ns": 1788733812927203166,
+    "indexed_at_ns": 1788891253836026132,
+    "word_count": 35
+  },
+  "apps/api/src/profile/profile.controller.ts": {
+    "size": 2612,
+    "mtime_ns": 1788794483724809729,
+    "indexed_at_ns": 1788891253836336639,
+    "word_count": 213
+  },
+  "apps/api/src/profile/profile.module.ts": {
+    "size": 2145,
+    "mtime_ns": 1788794483724809729,
+    "indexed_at_ns": 1788891253836617495,
+    "word_count": 196
+  },
+  "apps/api/src/profile/queries/handlers/get-avatar-content.handler.ts": {
+    "size": 2027,
+    "mtime_ns": 1788733812928215614,
+    "indexed_at_ns": 1788891253836912631,
+    "word_count": 182
+  },
+  "apps/api/src/profile/queries/handlers/get-profile.handler.ts": {
+    "size": 914,
+    "mtime_ns": 1788694687590051646,
+    "indexed_at_ns": 1788891253837192207,
+    "word_count": 86
+  },
+  "apps/api/src/profile/queries/handlers/index.ts": {
+    "size": 213,
+    "mtime_ns": 1788733812928215614,
+    "indexed_at_ns": 1788891253837549705,
+    "word_count": 18
+  },
+  "apps/api/src/profile/queries/impl/get-avatar-content.query.ts": {
+    "size": 85,
+    "mtime_ns": 1788733812928215614,
+    "indexed_at_ns": 1788891253837847511,
+    "word_count": 10
+  },
+  "apps/api/src/profile/queries/impl/get-profile.query.ts": {
+    "size": 82,
+    "mtime_ns": 1788694687590314341,
+    "indexed_at_ns": 1788891253838193319,
+    "word_count": 10
+  },
+  "apps/api/src/storage/file-storage.service.spec.ts": {
+    "size": 3794,
+    "mtime_ns": 1788809450281387801,
+    "indexed_at_ns": 1788891253838506135,
+    "word_count": 340
+  },
+  "apps/api/src/storage/file-storage.service.ts": {
+    "size": 3831,
+    "mtime_ns": 1788809450281942759,
+    "indexed_at_ns": 1788891253838822302,
+    "word_count": 351
+  },
+  "apps/api/src/storage/storage.module.ts": {
+    "size": 659,
+    "mtime_ns": 1788733812929223185,
+    "indexed_at_ns": 1788891253839079398,
+    "word_count": 53
+  },
+  "apps/api/src/task/task.module.ts": {
+    "size": 185,
+    "mtime_ns": 1788869976252773214,
+    "indexed_at_ns": 1788891253839373304,
+    "word_count": 22
+  },
+  "apps/api/src/task/task.service.ts": {
+    "size": 1378,
+    "mtime_ns": 1788869969524774338,
+    "indexed_at_ns": 1788891253839633259,
+    "word_count": 141
+  },
+  "apps/api/src/users/commands/handlers/create-user.handler.ts": {
+    "size": 657,
+    "mtime_ns": 1788359323498899397,
+    "indexed_at_ns": 1788891253839930966,
+    "word_count": 62
+  },
+  "apps/api/src/users/commands/handlers/index.ts": {
+    "size": 435,
+    "mtime_ns": 1788733812929223185,
+    "indexed_at_ns": 1788891253840283313,
+    "word_count": 34
+  },
+  "apps/api/src/users/commands/handlers/update-user-avatar.handler.ts": {
+    "size": 707,
+    "mtime_ns": 1788733812929223185,
+    "indexed_at_ns": 1788891253840635631,
+    "word_count": 65
+  },
+  "apps/api/src/users/commands/handlers/update-user-password.handler.ts": {
+    "size": 721,
+    "mtime_ns": 1788733812931363640,
+    "indexed_at_ns": 1788891253840933597,
+    "word_count": 65
+  },
+  "apps/api/src/users/commands/handlers/update-user-profile.handler.ts": {
+    "size": 703,
+    "mtime_ns": 1788694687591520137,
+    "indexed_at_ns": 1788891253841230074,
+    "word_count": 65
+  },
+  "apps/api/src/users/commands/impl/create-user.command.ts": {
+    "size": 134,
+    "mtime_ns": 1788359323499674804,
+    "indexed_at_ns": 1788891253841566381,
+    "word_count": 16
+  },
+  "apps/api/src/users/commands/impl/update-user-avatar.command.ts": {
+    "size": 138,
+    "mtime_ns": 1788733812931363640,
+    "indexed_at_ns": 1788891253841906398,
+    "word_count": 16
+  },
+  "apps/api/src/users/commands/impl/update-user-password.command.ts": {
+    "size": 143,
+    "mtime_ns": 1788733812931618956,
+    "indexed_at_ns": 1788891253842277506,
+    "word_count": 16
+  },
+  "apps/api/src/users/commands/impl/update-user-profile.command.ts": {
+    "size": 134,
+    "mtime_ns": 1788694687591520137,
+    "indexed_at_ns": 1788891253842600163,
+    "word_count": 16
+  },
+  "apps/api/src/users/queries/handlers/find-user-by-avatar-key.handler.ts": {
+    "size": 681,
+    "mtime_ns": 1788733812931618956,
+    "indexed_at_ns": 1788891253842890649,
+    "word_count": 66
+  },
+  "apps/api/src/users/queries/handlers/find-user-by-email.handler.ts": {
+    "size": 643,
+    "mtime_ns": 1788359323500680722,
+    "indexed_at_ns": 1788891253843168965,
+    "word_count": 64
+  },
+  "apps/api/src/users/queries/handlers/find-user-by-id.handler.ts": {
+    "size": 623,
+    "mtime_ns": 1788694687591520137,
+    "indexed_at_ns": 1788891253843521673,
+    "word_count": 64
+  },
+  "apps/api/src/users/queries/handlers/index.ts": {
+    "size": 339,
+    "mtime_ns": 1788733812931618956,
+    "indexed_at_ns": 1788891253843818439,
+    "word_count": 27
+  },
+  "apps/api/src/users/queries/impl/find-user-by-avatar-key.query.ts": {
+    "size": 94,
+    "mtime_ns": 1788733812931618956,
+    "indexed_at_ns": 1788891253844143686,
+    "word_count": 10
+  },
+  "apps/api/src/users/queries/impl/find-user-by-email.query.ts": {
+    "size": 86,
+    "mtime_ns": 1788359323501121385,
+    "indexed_at_ns": 1788891253844502663,
+    "word_count": 10
+  },
+  "apps/api/src/users/queries/impl/find-user-by-id.query.ts": {
+    "size": 84,
+    "mtime_ns": 1788694687592996910,
+    "indexed_at_ns": 1788891253844845851,
+    "word_count": 10
+  },
+  "apps/api/src/users/users.module.ts": {
+    "size": 638,
+    "mtime_ns": 1788359323501121385,
+    "indexed_at_ns": 1788891253845090946,
+    "word_count": 59
+  },
+  "apps/api/test/app.e2e-spec.ts": {
+    "size": 733,
+    "mtime_ns": 1788271938607100288,
+    "indexed_at_ns": 1788891253845358761,
+    "word_count": 77
+  },
+  "apps/api/test/auth.e2e-spec.ts": {
+    "size": 7780,
+    "mtime_ns": 1788359323501121385,
+    "indexed_at_ns": 1788891253845603207,
+    "word_count": 623
+  },
+  "apps/api/test/meeting-files.e2e-spec.ts": {
+    "size": 26969,
+    "mtime_ns": 1788523933808768716,
+    "indexed_at_ns": 1788891253845856102,
+    "word_count": 2036
+  },
+  "apps/api/test/meeting-summary.e2e-spec.ts": {
+    "size": 21444,
+    "mtime_ns": 1788865268253527962,
+    "indexed_at_ns": 1788891253846280951,
+    "word_count": 1638
+  },
+  "apps/api/test/meeting.e2e-spec.ts": {
+    "size": 7188,
+    "mtime_ns": 1788520282596799916,
+    "indexed_at_ns": 1788891253846615538,
+    "word_count": 639
+  },
+  "apps/api/test/profile-avatar.e2e-spec.ts": {
+    "size": 8333,
+    "mtime_ns": 1788794483724809729,
+    "indexed_at_ns": 1788891253846865894,
+    "word_count": 684
+  },
+  "apps/api/test/profile.e2e-spec.ts": {
+    "size": 8565,
+    "mtime_ns": 1788733812931618956,
+    "indexed_at_ns": 1788891253847111029,
+    "word_count": 699
+  },
+  "apps/api/test/setup-e2e.ts": {
+    "size": 642,
+    "mtime_ns": 1788863628633789781,
+    "indexed_at_ns": 1788891253847416676,
+    "word_count": 64
+  },
+  "apps/api/tsconfig.build.json": {
+    "size": 170,
+    "mtime_ns": 1788271700251511329,
+    "indexed_at_ns": 1788891527120791850,
+    "word_count": 16,
+    "hashes": {
+      "apps/api/tsconfig.build.json": "14b9ba215694003c5fb3df7421efb1fdf3f9d61e74be435b91ef9622bd50b464"
+    }
+  },
+  "apps/api/tsconfig.json": {
+    "size": 581,
+    "mtime_ns": 1788271700251536039,
+    "indexed_at_ns": 1788891527121144727,
+    "word_count": 42,
+    "hashes": {
+      "apps/api/tsconfig.json": "c038b63e7658a44145b69d6c1351cd39ad4aaa299155e0318de1839e65730433"
+    }
+  },
+  "apps/api/vitest.config.e2e.ts": {
+    "size": 286,
+    "mtime_ns": 1788809450281942759,
+    "indexed_at_ns": 1788891253848151281,
+    "word_count": 27
+  },
+  "apps/api/vitest.config.ts": {
+    "size": 350,
+    "mtime_ns": 1788271700251662932,
+    "indexed_at_ns": 1788891253848407757,
+    "word_count": 42
+  },
+  "apps/web/CLAUDE.md": {
+    "size": 20562,
+    "mtime_ns": 1788866922761262501,
+    "indexed_at_ns": 1788891563316558894,
+    "word_count": 1750,
+    "hashes": {
+      "apps/web/claude.md": "bdcbb3a900f2281c8a7daea9c41465aba57d9d92dcad9077bdccbc21632b4bd5"
+    }
+  },
+  "apps/web/README.md": {
+    "size": 1450,
+    "mtime_ns": 1788271683341354320,
+    "indexed_at_ns": 1788891563316823100,
+    "word_count": 155,
+    "hashes": {
+      "apps/web/readme.md": "1db57595dc3858d56b174f418e96b13fae54ebb6d454d62e519a089350dbe06f"
+    }
+  },
+  "apps/web/eslint.config.mjs": {
+    "size": 465,
+    "mtime_ns": 1788271683341430747,
+    "indexed_at_ns": 1788891253850393399,
+    "word_count": 42
+  },
+  "apps/web/next.config.ts": {
+    "size": 133,
+    "mtime_ns": 1788794483724809729,
+    "indexed_at_ns": 1788891253850815918,
+    "word_count": 21
+  },
+  "apps/web/package.json": {
+    "size": 686,
+    "mtime_ns": 1788516885404906040,
+    "indexed_at_ns": 1788891527121504935,
+    "word_count": 66,
+    "hashes": {
+      "apps/web/package.json": "4bd3ebbaa4681066c96573eb06ec9fd0c6b607a1cd5d2255442332a0896437d4"
+    }
+  },
+  "apps/web/postcss.config.mjs": {
+    "size": 94,
+    "mtime_ns": 1788271683341627585,
+    "indexed_at_ns": 1788891253851403701,
+    "word_count": 13
+  },
+  "apps/web/public/file.svg": {
+    "size": 391,
+    "mtime_ns": 1788271683341354320,
+    "indexed_at_ns": 1788891563319892625,
+    "word_count": 50,
+    "hashes": {
+      "apps/web/public/file.svg": "d6fdaf576d00170baffd8203c1c3333cbdd307e5f137fbcd14c6c4709d4af223"
+    }
+  },
+  "apps/web/public/globe.svg": {
+    "size": 1035,
+    "mtime_ns": 1788271683341889977,
+    "indexed_at_ns": 1788891563320344265,
+    "word_count": 154,
+    "hashes": {
+      "apps/web/public/globe.svg": "663b1d0d4a287bda061868fc9ddaffc907c536f2bda8267d13ff85c1ffd101bd"
+    }
+  },
+  "apps/web/public/next.svg": {
+    "size": 1375,
+    "mtime_ns": 1788271683341889977,
+    "indexed_at_ns": 1788891563320758614,
+    "word_count": 183,
+    "hashes": {
+      "apps/web/public/next.svg": "6ab4d750b2d9d3b290cb45061697b7c0d38505c3caee274afb7ea7664aab65f1"
+    }
+  },
+  "apps/web/public/vercel.svg": {
+    "size": 128,
+    "mtime_ns": 1788271683341818185,
+    "indexed_at_ns": 1788891563321181113,
+    "word_count": 12,
+    "hashes": {
+      "apps/web/public/vercel.svg": "87ffad8a7d89b6fe61e54749b802d1f6b6a18981ca7c0a296bd8d8a92064b5b3"
+    }
+  },
+  "apps/web/public/window.svg": {
+    "size": 385,
+    "mtime_ns": 1788271683341889977,
+    "indexed_at_ns": 1788891563321617673,
+    "word_count": 63,
+    "hashes": {
+      "apps/web/public/window.svg": "87a4a348e7f09c96907d515830d6a92e9697c00bf7b52bf4822000dec4a46934"
+    }
+  },
+  "apps/web/src/app/layout.tsx": {
+    "size": 1543,
+    "mtime_ns": 1788359323503005256,
+    "indexed_at_ns": 1788891253853737850,
+    "word_count": 142
+  },
+  "apps/web/src/app/login/page.tsx": {
+    "size": 1138,
+    "mtime_ns": 1788359323503005256,
+    "indexed_at_ns": 1788891253854146409,
+    "word_count": 98
+  },
+  "apps/web/src/app/meetings/[id]/page.tsx": {
+    "size": 378,
+    "mtime_ns": 1788520282601874560,
+    "indexed_at_ns": 1788891253854568018,
+    "word_count": 52
+  },
+  "apps/web/src/app/page.tsx": {
+    "size": 259,
+    "mtime_ns": 1788359323503005256,
+    "indexed_at_ns": 1788891253854892975,
+    "word_count": 34
+  },
+  "apps/web/src/app/profile/edit/page.tsx": {
+    "size": 336,
+    "mtime_ns": 1788733812933294882,
+    "indexed_at_ns": 1788891253855370665,
+    "word_count": 38
+  },
+  "apps/web/src/app/profile/page.tsx": {
+    "size": 271,
+    "mtime_ns": 1788733812933421955,
+    "indexed_at_ns": 1788891253855734453,
+    "word_count": 34
+  },
+  "apps/web/src/app/register/page.tsx": {
+    "size": 1174,
+    "mtime_ns": 1788359323503005256,
+    "indexed_at_ns": 1788891253856109931,
+    "word_count": 99
+  },
+  "apps/web/src/components/avatar.tsx": {
+    "size": 3402,
+    "mtime_ns": 1788733812933421955,
+    "indexed_at_ns": 1788891253856499730,
+    "word_count": 346
+  },
+  "apps/web/src/components/dashboard.tsx": {
+    "size": 5881,
+    "mtime_ns": 1788733812933722861,
+    "indexed_at_ns": 1788891253856867497,
+    "word_count": 489
+  },
+  "apps/web/src/components/icons.tsx": {
+    "size": 6547,
+    "mtime_ns": 1788733812933722861,
+    "indexed_at_ns": 1788891253857239335,
+    "word_count": 767
+  },
+  "apps/web/src/components/login-form.tsx": {
+    "size": 5575,
+    "mtime_ns": 1788359323505272725,
+    "indexed_at_ns": 1788891253857610903,
+    "word_count": 412
+  },
+  "apps/web/src/components/meeting-details.tsx": {
+    "size": 5825,
+    "mtime_ns": 1788876920011659140,
+    "indexed_at_ns": 1788891253857960731,
+    "word_count": 435
+  },
+  "apps/web/src/components/meeting-files.tsx": {
+    "size": 27878,
+    "mtime_ns": 1788865653905466871,
+    "indexed_at_ns": 1788891253858373780,
+    "word_count": 2274
+  },
+  "apps/web/src/components/profile-edit.tsx": {
+    "size": 18033,
+    "mtime_ns": 1788733812933722861,
+    "indexed_at_ns": 1788891253858804779,
+    "word_count": 1421
+  },
+  "apps/web/src/components/profile-view.tsx": {
+    "size": 3673,
+    "mtime_ns": 1788733812933722861,
+    "indexed_at_ns": 1788891253859192107,
+    "word_count": 285
+  },
+  "apps/web/src/components/register-form.tsx": {
+    "size": 9711,
+    "mtime_ns": 1788359323505272725,
+    "indexed_at_ns": 1788891253859539484,
+    "word_count": 710
+  },
+  "apps/web/src/hooks/use-authed-resource.ts": {
+    "size": 2586,
+    "mtime_ns": 1788520282601874560,
+    "indexed_at_ns": 1788891253859901052,
+    "word_count": 274
+  },
+  "apps/web/src/lib/api.ts": {
+    "size": 17014,
+    "mtime_ns": 1788876854735668895,
+    "indexed_at_ns": 1788891253860292490,
+    "word_count": 1653
+  },
+  "apps/web/src/lib/session.ts": {
+    "size": 1136,
+    "mtime_ns": 1788359323505990796,
+    "indexed_at_ns": 1788891253860694869,
+    "word_count": 119
+  },
+  "apps/web/tsconfig.json": {
+    "size": 670,
+    "mtime_ns": 1788271683341889977,
+    "indexed_at_ns": 1788891527121932144,
+    "word_count": 56,
+    "hashes": {
+      "apps/web/tsconfig.json": "1fc49a99b3755a826974ebdd1e9a9436b0fbf39f96aed0f02408e8adcb4661f9"
+    }
+  },
+  "docker-compose.yml": {
+    "size": 1044,
+    "mtime_ns": 1788516885404906040,
+    "indexed_at_ns": 1788891563317032804,
+    "word_count": 82,
+    "hashes": {
+      "docker-compose.yml": "cd0c26b85615c3325b0d7a89705ac86069daff24922cc59f2c7f7361595b88e7"
+    }
+  },
+  "docs/prd-local-whisper-meeting-transcription.md": {
+    "size": 15650,
+    "mtime_ns": 1788809450281942759,
+    "indexed_at_ns": 1788891563317271739,
+    "word_count": 1254,
+    "hashes": {
+      "docs/prd-local-whisper-meeting-transcription.md": "ef3b8225f1ce1bfb1ea2d5df7f683a35fd2d1321c7d338554a865695320565f3"
+    }
+  },
+  "docs/prd-meeting-file-upload-storage-processing-and-display.md": {
+    "size": 11605,
+    "mtime_ns": 1788362939236432554,
+    "indexed_at_ns": 1788891563317472284,
+    "word_count": 968,
+    "hashes": {
+      "docs/prd-meeting-file-upload-storage-processing-and-display.md": "ea9bdabe18fe55b63dba991365b8eec5f5a13d2eca81da4b6eda56eee13ada39"
+    }
+  },
+  "docs/prd-meeting-transcript-summary.md": {
+    "size": 13028,
+    "mtime_ns": 1788812935009846933,
+    "indexed_at_ns": 1788891563317644737,
+    "word_count": 1108,
+    "hashes": {
+      "docs/prd-meeting-transcript-summary.md": "19c4ec09c9dc27d8b9d09dbee5ffe26da5cb290be3df2afa995643a3703d8496"
+    }
+  },
+  "docs/prd-user-profile-editing.md": {
+    "size": 11626,
+    "mtime_ns": 1788525774556760249,
+    "indexed_at_ns": 1788891563317811191,
+    "word_count": 1108,
+    "hashes": {
+      "docs/prd-user-profile-editing.md": "ed52a63ec8ce80c41c1e35c99f92901d70e8e95959793044dab7e8008a6da922"
+    }
+  },
+  "docs/research-local-whisper-meeting-transcription.md": {
+    "size": 74848,
+    "mtime_ns": 1788809450281942759,
+    "indexed_at_ns": 1788891563318039176,
+    "word_count": 6119,
+    "hashes": {
+      "docs/research-local-whisper-meeting-transcription.md": "be54bc98643418eca696b5946022d94d077e738dcc05134b57f38bb909ee294a"
+    }
+  },
+  "docs/research-meeting-file-upload-storage-processing-and-display.md": {
+    "size": 87408,
+    "mtime_ns": 1788516885404906040,
+    "indexed_at_ns": 1788891563318374613,
+    "word_count": 6991,
+    "hashes": {
+      "docs/research-meeting-file-upload-storage-processing-and-display.md": "79ac7c72cb975e57a6a40219ab7cd4fffbde0768332eab5686ad1529d6df8291"
+    }
+  },
+  "package.json": {
+    "size": 824,
+    "mtime_ns": 1788359698668655370,
+    "indexed_at_ns": 1788891527122316004,
+    "word_count": 83,
+    "hashes": { "package.json": "09bc3dda6b03a0d2ec34c949ba816b5e3f771e2769b9b13f7bb654cea3e16182" }
+  },
+  "plan/plan-local-whisper-meeting-transcription.md": {
+    "size": 13746,
+    "mtime_ns": 1788809450281942759,
+    "indexed_at_ns": 1788891563318697560,
+    "word_count": 1133,
+    "hashes": {
+      "plan/plan-local-whisper-meeting-transcription.md": "eb1123683391429ba560c4cedbce7de4b3e68b9d6aece2d1ed67370d7b01c683"
+    }
+  },
+  "plan/plan-meeting-file-upload-storage-processing-and-display.md": {
+    "size": 11472,
+    "mtime_ns": 1788366968278240108,
+    "indexed_at_ns": 1788891563318868093,
+    "word_count": 979,
+    "hashes": {
+      "plan/plan-meeting-file-upload-storage-processing-and-display.md": "2603d8de3ef5d693ef1a06a565c063720955e1263e1f14ba522e7ce4d4e1172c"
+    }
+  },
+  "plan/plan-meeting-transcript-summary.md": {
+    "size": 14069,
+    "mtime_ns": 1788813170225808398,
+    "indexed_at_ns": 1788891563319031707,
+    "word_count": 1199,
+    "hashes": {
+      "plan/plan-meeting-transcript-summary.md": "4f3051eaff4ff1d5757ee9dff62f7aa16a2df83c731cdc06e3a08a2ab03d603d"
+    }
+  },
+  "plan/plan-user-profile-editing.md": {
+    "size": 13833,
+    "mtime_ns": 1788525984272757775,
+    "indexed_at_ns": 1788891563319260492,
+    "word_count": 1311,
+    "hashes": {
+      "plan/plan-user-profile-editing.md": "b522054a28fdef90f4eb879800565c30594167341f3e535a0f34a9dabca72692"
+    }
+  },
+  "plan/workflow-local-whisper-meeting-transcription.md": {
+    "size": 37029,
+    "mtime_ns": 1788809450281942759,
+    "indexed_at_ns": 1788891563319453036,
+    "word_count": 3308,
+    "hashes": {
+      "plan/workflow-local-whisper-meeting-transcription.md": "b98c2b761266c0d1972f2c5dd166097358bad096f202eb27b0fa978722eff0a3"
+    }
+  },
+  "pnpm-workspace.yaml": {
+    "size": 306,
+    "mtime_ns": 1788359323505990796,
+    "indexed_at_ns": 1788891563319659390,
+    "word_count": 40,
+    "hashes": {
+      "pnpm-workspace.yaml": "4905245e5ef22cae842317197f7d38b72257f30429684029e0a7a0f760de141d"
+    }
+  },
+  "scripts/llm-benchmark.py": {
+    "size": 15835,
+    "mtime_ns": 1788877927659499680,
+    "indexed_at_ns": 1788891527122687280,
+    "word_count": 1378,
+    "hashes": {
+      "scripts/llm-benchmark.py": "046b523aa1910cbe9c5a1705ae7df1ecae6d5ce944621ca2e9692cf6a061e5a3"
+    }
+  },
+  "scripts/test-api.py": {
+    "size": 2755,
+    "mtime_ns": 1788878027999480853,
+    "indexed_at_ns": 1788891527123050018,
+    "word_count": 286,
+    "hashes": {
+      "scripts/test-api.py": "d4e29a9907f82dc880a25817d4c23dd44018b701d2135fa0ef81932a4b20565a"
+    }
+  },
+  "skills-lock.json": {
+    "size": 2085,
+    "mtime_ns": 1788797341486825355,
+    "indexed_at_ns": 1788891527123374165,
+    "word_count": 95,
+    "hashes": {
+      "skills-lock.json": "ec4b35bb6f3fd36fbb9e8990e133f7d8e8e1a2d2300147c1aef0d70347c51b21"
+    }
+  },
+  "turbo.json": {
+    "size": 1022,
+    "mtime_ns": 1788863621277791007,
+    "indexed_at_ns": 1788891527123718632,
+    "word_count": 80,
+    "hashes": { "turbo.json": "cb58c04425023a3ca3487daaac93207b34fa344e16f552d6c5ebcb211fdb8873" }
+  }
+}

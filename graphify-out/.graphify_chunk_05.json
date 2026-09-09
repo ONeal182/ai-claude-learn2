@@ -1,0 +1,655 @@
+{
+  "nodes": [
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_js_hoist_regexp_md_hoist_regexp",
+      "label": "Hoist RegExp Creation",
+      "file_type": "document",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-hoist-regexp.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_js_hoist_regexp_md_usememo",
+      "label": "useMemo",
+      "file_type": "concept",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-hoist-regexp.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_js_hoist_regexp_md_regexp_mutable_state",
+      "label": "RegExp Global Mutable State",
+      "file_type": "rationale",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-hoist-regexp.md",
+      "source_location": "lines 37-45"
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_js_index_maps_md_index_maps",
+      "label": "Build Index Maps for Repeated Lookups",
+      "file_type": "document",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-index-maps.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_js_index_maps_md_map_data_structure",
+      "label": "Map Data Structure",
+      "file_type": "concept",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-index-maps.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_js_flatmap_filter_md_flatmap_filter",
+      "label": "Use flatMap to Map and Filter in One Pass",
+      "file_type": "document",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-flatmap-filter.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_js_flatmap_filter_md_flatmap",
+      "label": "flatMap Method",
+      "file_type": "concept",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-flatmap-filter.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_js_combine_iterations_md_combine_iterations",
+      "label": "Combine Multiple Array Iterations",
+      "file_type": "document",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-combine-iterations.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_js_early_exit_md_early_return",
+      "label": "Early Return from Functions",
+      "file_type": "document",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-early-exit.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_js_cache_storage_md_cache_storage",
+      "label": "Cache Storage API Calls",
+      "file_type": "document",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-cache-storage.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_js_cache_storage_md_localstorage",
+      "label": "localStorage",
+      "file_type": "concept",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-cache-storage.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_js_cache_storage_md_sessionstorage",
+      "label": "sessionStorage",
+      "file_type": "concept",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-cache-storage.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_js_cache_storage_md_storage_event",
+      "label": "Storage Event Listener",
+      "file_type": "concept",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-cache-storage.md",
+      "source_location": "lines 57-69"
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_js_cache_function_results_md_cache_function_results",
+      "label": "Cache Repeated Function Calls",
+      "file_type": "document",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-cache-function-results.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_js_cache_function_results_md_vercel_blog",
+      "label": "Vercel Dashboard Performance Post",
+      "file_type": "document",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-cache-function-results.md",
+      "source_location": "line 80"
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_js_min_max_loop_md_min_max_loop",
+      "label": "Use Loop for Min/Max Instead of Sort",
+      "file_type": "document",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-min-max-loop.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_js_min_max_loop_md_math_minmax_limits",
+      "label": "Math.min/max Spread Limits",
+      "file_type": "rationale",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-min-max-loop.md",
+      "source_location": "lines 74-82"
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_js_length_check_first_md_length_check",
+      "label": "Early Length Check for Array Comparisons",
+      "file_type": "document",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-length-check-first.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_js_cache_property_access_md_cache_property",
+      "label": "Cache Property Access in Loops",
+      "file_type": "document",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-cache-property-access.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_js_tosorted_immutable_md_tosorted",
+      "label": "Use toSorted() Instead of sort() for Immutability",
+      "file_type": "document",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-tosorted-immutable.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_js_tosorted_immutable_md_immutable_array_methods",
+      "label": "Immutable Array Methods",
+      "file_type": "concept",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-tosorted-immutable.md",
+      "source_location": "lines 52-57"
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_rendering_conditional_render_md_conditional_render",
+      "label": "Use Explicit Conditional Rendering",
+      "file_type": "document",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-conditional-render.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_rendering_hydration_suppress_warning_md_suppress_hydration",
+      "label": "Suppress Expected Hydration Mismatches",
+      "file_type": "document",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-hydration-suppress-warning.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_rendering_hydration_suppress_warning_md_suppresshydrationwarning",
+      "label": "suppressHydrationWarning",
+      "file_type": "concept",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-hydration-suppress-warning.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_js_request_idle_callback_md_request_idle_callback",
+      "label": "Defer Non-Critical Work with requestIdleCallback",
+      "file_type": "document",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-request-idle-callback.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_js_request_idle_callback_md_requestidlecallback",
+      "label": "requestIdleCallback",
+      "file_type": "concept",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-request-idle-callback.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_rendering_animate_svg_wrapper_md_animate_svg_wrapper",
+      "label": "Animate SVG Wrapper Instead of SVG Element",
+      "file_type": "document",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-animate-svg-wrapper.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_rendering_animate_svg_wrapper_md_hardware_acceleration",
+      "label": "Hardware Acceleration",
+      "file_type": "concept",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-animate-svg-wrapper.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_rendering_activity_md_activity_component",
+      "label": "Use Activity Component for Show/Hide",
+      "file_type": "document",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-activity.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_rendering_activity_md_activity",
+      "label": "Activity Component",
+      "file_type": "concept",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-activity.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_js_set_map_lookups_md_set_map_lookups",
+      "label": "Use Set/Map for O(1) Lookups",
+      "file_type": "document",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-set-map-lookups.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_js_set_map_lookups_md_set_data_structure",
+      "label": "Set Data Structure",
+      "file_type": "concept",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-set-map-lookups.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_rendering_content_visibility_md_content_visibility",
+      "label": "CSS content-visibility for Long Lists",
+      "file_type": "document",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-content-visibility.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_rendering_content_visibility_md_content_visibility_css",
+      "label": "content-visibility CSS Property",
+      "file_type": "concept",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-content-visibility.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_rendering_hoist_jsx_md_hoist_jsx",
+      "label": "Hoist Static JSX Elements",
+      "file_type": "document",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-hoist-jsx.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_rendering_hoist_jsx_md_react_compiler",
+      "label": "React Compiler",
+      "file_type": "concept",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-hoist-jsx.md",
+      "source_location": "line 46"
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_rendering_hydration_no_flicker_md_hydration_no_flicker",
+      "label": "Prevent Hydration Mismatch Without Flickering",
+      "file_type": "document",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-hydration-no-flicker.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_rendering_hydration_no_flicker_md_synchronous_script_pattern",
+      "label": "Synchronous Script Pattern",
+      "file_type": "concept",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-hydration-no-flicker.md",
+      "source_location": "lines 53-80"
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_resource_hints",
+      "label": "Use React DOM Resource Hints",
+      "file_type": "document",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-resource-hints.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_prefetchdns",
+      "label": "prefetchDNS",
+      "file_type": "concept",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-resource-hints.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_preconnect",
+      "label": "preconnect",
+      "file_type": "concept",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-resource-hints.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_preload",
+      "label": "preload",
+      "file_type": "concept",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-resource-hints.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_preloadmodule",
+      "label": "preloadModule",
+      "file_type": "concept",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-resource-hints.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_preinit",
+      "label": "preinit",
+      "file_type": "concept",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-resource-hints.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_preinitmodule",
+      "label": "preinitModule",
+      "file_type": "concept",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-resource-hints.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_react_dom",
+      "label": "React DOM",
+      "file_type": "concept",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-resource-hints.md",
+      "source_location": null
+    }
+  ],
+  "edges": [
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_js_hoist_regexp_md_hoist_regexp",
+      "target": "agents_skills_vercel_react_best_practices_rules_js_hoist_regexp_md_usememo",
+      "relation": "recommends",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-hoist-regexp.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_js_hoist_regexp_md_hoist_regexp",
+      "target": "agents_skills_vercel_react_best_practices_rules_js_hoist_regexp_md_regexp_mutable_state",
+      "relation": "warns_about",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-hoist-regexp.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_js_index_maps_md_index_maps",
+      "target": "agents_skills_vercel_react_best_practices_rules_js_index_maps_md_map_data_structure",
+      "relation": "recommends",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-index-maps.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_js_flatmap_filter_md_flatmap_filter",
+      "target": "agents_skills_vercel_react_best_practices_rules_js_flatmap_filter_md_flatmap",
+      "relation": "recommends",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-flatmap-filter.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_js_cache_storage_md_cache_storage",
+      "target": "agents_skills_vercel_react_best_practices_rules_js_cache_storage_md_localstorage",
+      "relation": "applies_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-cache-storage.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_js_cache_storage_md_cache_storage",
+      "target": "agents_skills_vercel_react_best_practices_rules_js_cache_storage_md_sessionstorage",
+      "relation": "applies_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-cache-storage.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_js_cache_storage_md_cache_storage",
+      "target": "agents_skills_vercel_react_best_practices_rules_js_cache_storage_md_storage_event",
+      "relation": "requires",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-cache-storage.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_js_cache_storage_md_cache_storage",
+      "target": "agents_skills_vercel_react_best_practices_rules_js_index_maps_md_map_data_structure",
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-cache-storage.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_js_cache_function_results_md_cache_function_results",
+      "target": "agents_skills_vercel_react_best_practices_rules_js_index_maps_md_map_data_structure",
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-cache-function-results.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_js_cache_function_results_md_cache_function_results",
+      "target": "agents_skills_vercel_react_best_practices_rules_js_cache_function_results_md_vercel_blog",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-cache-function-results.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_js_min_max_loop_md_min_max_loop",
+      "target": "agents_skills_vercel_react_best_practices_rules_js_min_max_loop_md_math_minmax_limits",
+      "relation": "explains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-min-max-loop.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_js_tosorted_immutable_md_tosorted",
+      "target": "agents_skills_vercel_react_best_practices_rules_js_tosorted_immutable_md_immutable_array_methods",
+      "relation": "describes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-tosorted-immutable.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_rendering_hydration_suppress_warning_md_suppress_hydration",
+      "target": "agents_skills_vercel_react_best_practices_rules_rendering_hydration_suppress_warning_md_suppresshydrationwarning",
+      "relation": "recommends",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-hydration-suppress-warning.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_js_request_idle_callback_md_request_idle_callback",
+      "target": "agents_skills_vercel_react_best_practices_rules_js_request_idle_callback_md_requestidlecallback",
+      "relation": "recommends",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-request-idle-callback.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_rendering_animate_svg_wrapper_md_animate_svg_wrapper",
+      "target": "agents_skills_vercel_react_best_practices_rules_rendering_animate_svg_wrapper_md_hardware_acceleration",
+      "relation": "enables",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-animate-svg-wrapper.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_rendering_activity_md_activity_component",
+      "target": "agents_skills_vercel_react_best_practices_rules_rendering_activity_md_activity",
+      "relation": "recommends",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-activity.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_js_set_map_lookups_md_set_map_lookups",
+      "target": "agents_skills_vercel_react_best_practices_rules_js_set_map_lookups_md_set_data_structure",
+      "relation": "recommends",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-set-map-lookups.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_rendering_content_visibility_md_content_visibility",
+      "target": "agents_skills_vercel_react_best_practices_rules_rendering_content_visibility_md_content_visibility_css",
+      "relation": "recommends",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-content-visibility.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_rendering_hoist_jsx_md_hoist_jsx",
+      "target": "agents_skills_vercel_react_best_practices_rules_rendering_hoist_jsx_md_react_compiler",
+      "relation": "automated_by",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-hoist-jsx.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_rendering_hydration_no_flicker_md_hydration_no_flicker",
+      "target": "agents_skills_vercel_react_best_practices_rules_rendering_hydration_no_flicker_md_synchronous_script_pattern",
+      "relation": "recommends",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-hydration-no-flicker.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_rendering_hydration_no_flicker_md_hydration_no_flicker",
+      "target": "agents_skills_vercel_react_best_practices_rules_js_cache_storage_md_localstorage",
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-hydration-no-flicker.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_resource_hints",
+      "target": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_prefetchdns",
+      "relation": "describes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-resource-hints.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_resource_hints",
+      "target": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_preconnect",
+      "relation": "describes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-resource-hints.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_resource_hints",
+      "target": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_preload",
+      "relation": "describes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-resource-hints.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_resource_hints",
+      "target": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_preloadmodule",
+      "relation": "describes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-resource-hints.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_resource_hints",
+      "target": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_preinit",
+      "relation": "describes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-resource-hints.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_resource_hints",
+      "target": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_preinitmodule",
+      "relation": "describes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-resource-hints.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_prefetchdns",
+      "target": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_react_dom",
+      "relation": "exported_by",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-resource-hints.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_preconnect",
+      "target": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_react_dom",
+      "relation": "exported_by",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-resource-hints.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_preload",
+      "target": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_react_dom",
+      "relation": "exported_by",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-resource-hints.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_preloadmodule",
+      "target": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_react_dom",
+      "relation": "exported_by",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-resource-hints.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_preinit",
+      "target": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_react_dom",
+      "relation": "exported_by",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-resource-hints.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_preinitmodule",
+      "target": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_react_dom",
+      "relation": "exported_by",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-resource-hints.md",
+      "weight": 1.0
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_js_index_maps_md_index_maps",
+      "target": "agents_skills_vercel_react_best_practices_rules_js_set_map_lookups_md_set_map_lookups",
+      "relation": "related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-index-maps.md",
+      "weight": 0.8
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_js_cache_function_results_md_cache_function_results",
+      "target": "agents_skills_vercel_react_best_practices_rules_js_cache_storage_md_cache_storage",
+      "relation": "similar_pattern",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-cache-function-results.md",
+      "weight": 0.7
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_rendering_hydration_suppress_warning_md_suppress_hydration",
+      "target": "agents_skills_vercel_react_best_practices_rules_rendering_hydration_no_flicker_md_hydration_no_flicker",
+      "relation": "addresses_similar_problem",
+      "confidence": "INFERRED",
+      "confidence_score": 0.9,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-hydration-suppress-warning.md",
+      "weight": 0.8
+    }
+  ],
+  "hyperedges": [],
+  "input_tokens": 0,
+  "output_tokens": 0
+}

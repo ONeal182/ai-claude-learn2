@@ -10,9 +10,11 @@ export class GetMeetingByIdHandler implements IQueryHandler<GetMeetingByIdQuery,
   constructor(private readonly prisma: PrismaService) {}
 
   async execute(query: GetMeetingByIdQuery): Promise<Meeting> {
-    const meeting = await this.prisma.meeting.findUnique({ where: { id: query.id } });
+    const meeting = await this.prisma.meeting.findFirst({
+      where: { id: query.id, userId: query.userId },
+    });
     if (!meeting) {
-      throw new NotFoundException(`Meeting ${query.id} not found`);
+      throw new NotFoundException(`Meeting ${query.id} not found or access denied`);
     }
     return meeting;
   }

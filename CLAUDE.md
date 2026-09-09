@@ -1,83 +1,95 @@
 # CLAUDE.md
 
-Монорепозиторий на **pnpm workspaces** + **Turborepo**. Node >= 24, pnpm 11 (`corepack enable`).
+Monorepo on **pnpm workspaces** + **Turborepo**. Node >= 24, pnpm 11 (`corepack enable`).
 
-## Структура
+## Structure
 
-| Пакет        | Стек                                                          | Порт (dev) | Своя инструкция      |
-| ------------ | ------------------------------------------------------------- | ---------- | -------------------- |
-| `apps/web`   | Next.js 16 (App Router, React 19, TS, Tailwind v4, HeroUI v3) | 3000       | `apps/web/CLAUDE.md` |
-| `apps/api`   | NestJS 12 (TS, ESM, oxlint, vitest)                           | 3001       | `apps/api/CLAUDE.md` |
-| `packages/*` | Общие библиотеки (`@repo/*`), пока пусто                      | —          | —                    |
+| Package      | Stack                    | Port (dev) | Documentation        |
+| ------------ | ------------------------ | ---------- | -------------------- |
+| `apps/web`   | Next.js 16, React 19, TS | 3000       | `apps/web/CLAUDE.md` |
+| `apps/api`   | NestJS 12, TS, ESM       | 3001       | `apps/api/CLAUDE.md` |
+| `packages/*` | Shared libraries, empty  | —          | —                    |
 
-Воркспейсы объявлены в `pnpm-workspace.yaml` (`apps/*`, `packages/*`). Пайплайн задач — `turbo.json`.
+Workspaces declared in `pnpm-workspace.yaml` (`apps/*`, `packages/*`). Task pipeline in `turbo.json`.
 
-## Команды (из корня)
+## Commands (from root)
 
-| Команда             | Действие                                                                                         |
-| ------------------- | ------------------------------------------------------------------------------------------------ |
-| `pnpm install`      | Установка зависимостей всего воркспейса                                                          |
-| `pnpm dev`          | `web` + `api` в watch-режиме параллельно                                                         |
-| `pnpm build`        | Продакшн-сборка всех пакетов (`turbo run build`)                                                 |
-| `pnpm start`        | Сборка + запуск                                                                                  |
-| `pnpm lint`         | Линт всех пакетов (ESLint для web, oxlint для api)                                               |
-| `pnpm typecheck`    | `tsc --noEmit` по всем пакетам (в `web` перед ним `next typegen` — генерит типы роутов/лейаутов) |
-| `pnpm test`         | Тесты всех пакетов (vitest в api)                                                                |
-| `pnpm test:e2e`     | E2e-тесты (vitest --config vitest.config.e2e.ts в api), требуют поднятого Postgres               |
-| `pnpm format`       | Prettier по всему репозиторию                                                                    |
-| `pnpm format:check` | Prettier — проверка без изменений                                                                |
+| Command             | Action                                             |
+| ------------------- | -------------------------------------------------- |
+| `pnpm install`      | Install all workspace dependencies                 |
+| `pnpm dev`          | Start `web` + `api` in watch mode (parallel)       |
+| `pnpm build`        | Production build all packages (`turbo run build`)  |
+| `pnpm start`        | Build + start all packages                         |
+| `pnpm lint`         | Lint all packages (ESLint for web, oxlint for api) |
+| `pnpm typecheck`    | `tsc --noEmit` all packages                        |
+| `pnpm test`         | Run tests all packages (vitest in api)             |
+| `pnpm test:e2e`     | E2E tests (requires Postgres running)              |
+| `pnpm format`       | Format all files with Prettier                     |
+| `pnpm format:check` | Check formatting without changes                   |
 
-### Один пакет
+### Single package
 
 ```bash
 pnpm web <script>    # = pnpm --filter web <script>
 pnpm api <script>    # = pnpm --filter api <script>
 ```
 
-## Соглашения
+## Conventions
 
-- Пакетный менеджер — только **pnpm** (версия закреплена в `package.json` → `packageManager`). Не использовать npm/yarn.
-- Turbo кэширует `build`, `lint`, `typecheck`, `test`; `dev`/`start` — `persistent`, без кэша.
-- pnpm блокирует postinstall-скрипты; разрешённые сборки перечислены в `pnpm-workspace.yaml` → `allowBuilds`.
-- Форматирование — Prettier (`.prettierrc.json`), стиль отступов — `.editorconfig`. Хук `PostToolUse` в `.claude/settings.json` автоматически прогоняет Prettier по каждому файлу после `Write`/`Edit`.
-- Перед коммитом прогонять `pnpm lint && pnpm typecheck && pnpm test`.
-- Husky: хук `.husky/pre-commit` при каждом `git commit` автоматически запускает `pnpm lint && pnpm test && pnpm test:e2e` (см. `prepare` в корневом `package.json`). Для e2e нужен поднятый Postgres (`docker compose up -d postgres`) — без него коммиты будут падать.
-- CI: `.github/workflows/ci.yml` на push/PR в `main` поднимает сервис Postgres, ставит зависимости, генерирует Prisma Client (`prisma generate`), гоняет `lint`, `typecheck`, `test`, `prisma migrate deploy`, `test:e2e` и `build`.
+- Package manager: **pnpm only** (version pinned in `package.json` → `packageManager`). No npm/yarn.
+- Turbo caches `build`, `lint`, `typecheck`, `test`; `dev`/`start` are `persistent`, no cache.
+- pnpm blocks postinstall scripts; allowed builds listed in `pnpm-workspace.yaml` → `allowBuilds`.
+- Formatting: Prettier (`.prettierrc.json`), indent style in `.editorconfig`. `PostToolUse` hook in `.claude/settings.json` auto-runs Prettier after `Write`/`Edit`.
+- Pre-commit: `pnpm lint && pnpm typecheck && pnpm test`.
+- Husky hook `.husky/pre-commit` runs `pnpm lint && pnpm test && pnpm test:e2e` on `git commit`. E2E requires Postgres (`docker compose up -d postgres`) — commits fail without it.
+- CI: `.github/workflows/ci.yml` runs on push/PR to `main`: starts Postgres, installs deps, generates Prisma Client, runs `lint`, `typecheck`, `test`, `prisma migrate deploy`, `test:e2e`, `build`.
 
-## База данных
+## Database
 
-Postgres поднимается через `docker-compose.yml` в корне (образ `postgres:17-alpine`, порт `5432`, том `postgres-data`).
+Postgres via `docker-compose.yml` (image `postgres:17-alpine`, port `5432`, volume `postgres-data`).
 
 ```bash
-cp .env.example .env          # параметры POSTGRES_* и DATABASE_URL
-docker compose up -d postgres # поднять
-docker compose down           # остановить (том сохраняется)
-docker compose down -v        # остановить и удалить данные
+cp .env.example .env          # POSTGRES_* and DATABASE_URL
+docker compose up -d postgres # start
+pnpm api seed                 # populate with test data (optional)
+docker compose down           # stop (volume persists)
+docker compose down -v        # stop and delete data
 ```
 
-## Переменные окружения
+`pnpm api seed` creates: user `test@example.com` / `test123456`, 3 meetings with recording files, 5 tasks.
+
+## Environment Variables
 
 ```bash
-cp .env.example .env          # Postgres для docker-compose
+cp .env.example .env
 cp apps/api/.env.example apps/api/.env
 cp apps/web/.env.example apps/web/.env
 ```
 
-По умолчанию `apps/api` использует `STT_ENGINE=whisper` (локальная транскрибация записей встреч).
-Нужны `whisper.cpp` + `ffmpeg` и модель: `pnpm --filter api whisper:model`. Без движка —
-`STT_ENGINE=stub` в `apps/api/.env`. Подробности — `apps/api/src/meeting-file/CLAUDE.md`.
+By default `apps/api` uses `STT_ENGINE=whisper` (local meeting transcription). Requires `whisper.cpp` + `ffmpeg` and model: `pnpm --filter api whisper:model`. Without engine, set `STT_ENGINE=stub` in `apps/api/.env`. Details in `apps/api/src/meeting-file/CLAUDE.md`.
 
-## Общий код
+## Shared Code
 
-Переиспользуемую логику выносить в `packages/*` как `@repo/<name>` и подключать через `workspace:*`.
+Extract reusable logic to `packages/*` as `@repo/<name>` and reference via `workspace:*`.
 
-## Актуализация документации
+## Documentation Updates
 
-При изменении архитектуры проекта **в том же изменении** обновляй документацию:
+When changing project architecture, update documentation **in the same commit**:
 
-- новый пакет/приложение в `apps/*` или `packages/*` → строка в таблице «Структура» здесь + собственный `CLAUDE.md` в папке пакета;
-- изменились скрипты, порты, стек, пайплайн `turbo.json` или воркспейсы → соответствующие таблицы в этом файле и в `README.md`;
-- новые/переименованные env-переменные → `.env.example` пакета и раздел «Переменные окружения»;
-- изменились соглашения (структура папок, алиасы импортов, правила линта/сборки) → раздел «Соглашения» в корневом и/или пакетном `CLAUDE.md`.
+- New package/app in `apps/*` or `packages/*` → row in Structure table here + own `CLAUDE.md` in package directory
+- Changed scripts, ports, stack, `turbo.json` pipeline, or workspaces → corresponding tables in this file and `README.md`
+- New/renamed env variables → package `.env.example` and Environment Variables section
+- Changed conventions (folder structure, import aliases, lint/build rules) → Conventions section in root and/or package `CLAUDE.md`
 
-Документацию и код правим одним PR — расхождение `CLAUDE.md` с реальностью считается багом.
+Documentation and code updated in one PR — `CLAUDE.md` diverging from reality is a bug.
+
+## graphify
+
+This project has a knowledge graph at `graphify-out/` with god nodes, community structure, and cross-file relationships.
+
+Rules:
+
+- For codebase questions, first run `graphify query "<question>"` when `graphify-out/graph.json` exists. Use `graphify path "<A>" "<B>"` for relationships and `graphify explain "<concept>"` for focused concepts. These return a scoped subgraph, usually much smaller than `GRAPH_REPORT.md` or raw grep output.
+- If `graphify-out/wiki/index.md` exists, use it for broad navigation instead of raw source browsing.
+- Read `graphify-out/GRAPH_REPORT.md` only for broad architecture review or when query/path/explain do not surface enough context.
+- After modifying code, run `graphify update .` to keep the graph current (AST-only, no API cost).

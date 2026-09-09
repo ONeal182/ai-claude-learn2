@@ -1,5 +1,8 @@
 import { ClaudeAgentService, ClaudeAgentError } from '../../claude-agent/claude-agent.service.js';
 import { ClaudeSummaryService } from './claude-summary.service.js';
+import { PrismaService } from '../../prisma/prisma.service.js';
+import { TaskService } from '../../task/task.service.js';
+import { FileLoggerService } from '../../common/file-logger.service.js';
 
 /**
  * Unit tests for ClaudeSummaryService — Phase 2 Task 1.
@@ -8,12 +11,26 @@ import { ClaudeSummaryService } from './claude-summary.service.js';
 describe('ClaudeSummaryService', () => {
   let service: ClaudeSummaryService;
   let mockClaudeAgent: { ask: ReturnType<typeof vi.fn> };
+  let mockPrisma: Partial<PrismaService>;
+  let mockTaskService: Partial<TaskService>;
+  let mockFileLogger: Partial<FileLoggerService>;
 
   beforeEach(() => {
     mockClaudeAgent = {
       ask: vi.fn(),
     };
-    service = new ClaudeSummaryService(mockClaudeAgent as unknown as ClaudeAgentService);
+    mockPrisma = {};
+    mockTaskService = {};
+    mockFileLogger = {
+      log: vi.fn().mockResolvedValue(undefined),
+      getLogPath: vi.fn().mockReturnValue('logs/test.log'),
+    };
+    service = new ClaudeSummaryService(
+      mockClaudeAgent as unknown as ClaudeAgentService,
+      mockPrisma as PrismaService,
+      mockTaskService as TaskService,
+      mockFileLogger as FileLoggerService,
+    );
   });
 
   afterEach(() => {
@@ -23,6 +40,7 @@ describe('ClaudeSummaryService', () => {
   const validInput = {
     transcriptText: '[00:00] Участник 1: Начинаем встречу.\n[00:15] Участник 2: Обсудим план.',
     originalName: 'meeting-2026-09-08.wav',
+    meetingId: 'test-meeting-id',
   };
 
   describe('валидный JSON-ответ', () => {
@@ -44,9 +62,11 @@ describe('ClaudeSummaryService', () => {
       });
 
       expect(mockClaudeAgent.ask).toHaveBeenCalledWith(
-        validInput.transcriptText,
+        expect.any(String), // userPrompt containing transcript
         expect.objectContaining({
           systemPrompt: expect.stringContaining('JSON'),
+          tools: expect.any(Array),
+          maxTurns: 10,
         }),
       );
     });
@@ -80,9 +100,12 @@ describe('ClaudeSummaryService', () => {
       await service.summarize({ ...validInput, signal: controller.signal });
 
       expect(mockClaudeAgent.ask).toHaveBeenCalledWith(
-        validInput.transcriptText,
+        expect.any(String), // userPrompt with transcript
         expect.objectContaining({
           signal: controller.signal,
+          systemPrompt: expect.any(String),
+          tools: expect.any(Array),
+          maxTurns: 10,
         }),
       );
     });

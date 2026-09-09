@@ -1,8 +1,8 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { CommandHandler, EventBus, ICommandHandler, QueryBus } from '@nestjs/cqrs';
-import { MeetingFileStatus, Prisma, type MeetingFile } from '@prisma/client';
+import { MeetingFileStatus, Prisma } from '@prisma/client';
 import { PrismaService } from '../../../prisma/prisma.service.js';
-import { toMeetingFileDto, type MeetingFileDto } from '../../dto/meeting-file.dto.js';
+import { type MeetingFileDto } from '../../dto/meeting-file.dto.js';
 import { MeetingFileProcessingRequestedEvent } from '../../events/impl/meeting-file-processing-requested.event.js';
 import { GetMeetingFileQuery } from '../../queries/impl/get-meeting-file.query.js';
 import { ReprocessMeetingFileCommand } from '../impl/reprocess-meeting-file.command.js';
@@ -25,20 +25,18 @@ export class ReprocessMeetingFileHandler implements ICommandHandler<
 
   async execute(command: ReprocessMeetingFileCommand): Promise<MeetingFileDto> {
     // 404, если файла нет / он у другой встречи — читаем через единый источник
-    await this.queryBus.execute<GetMeetingFileQuery, MeetingFile>(
+    await this.queryBus.execute<GetMeetingFileQuery, MeetingFileDto>(
       new GetMeetingFileQuery(command.meetingId, command.fileId),
     );
 
     // атомарный переход failed → pending: guard в `where`, а не отдельная проверка перед update,
     // чтобы два параллельных reprocess не поставили файл в очередь дважды.
-    // Также сбрасываем summaryStatus/summary, чтобы новое событие done затриггерило свежую суммаризацию.
+    // Сбрасываем transcriptText, чтобы новое событие done затриггерило свежую суммаризацию встречи.
     const { count } = await this.prisma.meetingFile.updateMany({
       where: { id: command.fileId, status: MeetingFileStatus.failed },
       data: {
         status: MeetingFileStatus.pending,
         transcriptText: null,
-        summaryStatus: null,
-        summary: Prisma.JsonNull,
       },
     });
     if (count === 0) {
@@ -47,12 +45,22 @@ export class ReprocessMeetingFileHandler implements ICommandHandler<
       );
     }
 
+    // Сбрасываем summary и summaryStatus на уровне встречи
+    await this.prisma.meeting.update({
+      where: { id: command.meetingId },
+      data: {
+        summary: null,
+        decisions: Prisma.JsonNull,
+        summaryStatus: null,
+      },
+    });
+
     // перечитываем актуальную строку (ещё `pending` — событие публикуем после) для ответа
-    const updated = await this.queryBus.execute<GetMeetingFileQuery, MeetingFile>(
+    const updated = await this.queryBus.execute<GetMeetingFileQuery, MeetingFileDto>(
       new GetMeetingFileQuery(command.meetingId, command.fileId),
     );
     this.eventBus.publish(new MeetingFileProcessingRequestedEvent(command.fileId));
 
-    return toMeetingFileDto(updated);
+    return updated;
   }
 }

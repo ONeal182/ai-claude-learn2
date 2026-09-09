@@ -1,0 +1,812 @@
+{
+  "app.controller.spec.ts": {
+    "size": 623,
+    "mtime_ns": 1788271700252208274,
+    "indexed_at_ns": 1788891384197629656,
+    "word_count": 61
+  },
+  "app.controller.ts": {
+    "size": 277,
+    "mtime_ns": 1788271700251662932,
+    "indexed_at_ns": 1788891384198120631,
+    "word_count": 31
+  },
+  "app.module.ts": {
+    "size": 1250,
+    "mtime_ns": 1788869988152771195,
+    "indexed_at_ns": 1788891384198548770,
+    "word_count": 126
+  },
+  "app.service.ts": {
+    "size": 142,
+    "mtime_ns": 1788271700252116732,
+    "indexed_at_ns": 1788891384199042445,
+    "word_count": 19
+  },
+  "auth/auth.controller.ts": {
+    "size": 886,
+    "mtime_ns": 1788794483712809731,
+    "indexed_at_ns": 1788891384199585438,
+    "word_count": 81
+  },
+  "auth/auth.module.ts": {
+    "size": 1114,
+    "mtime_ns": 1788794483712809731,
+    "indexed_at_ns": 1788891384200063818,
+    "word_count": 99
+  },
+  "auth/commands/handlers/change-password.handler.spec.ts": {
+    "size": 3013,
+    "mtime_ns": 1788794483712809731,
+    "indexed_at_ns": 1788891384200577079,
+    "word_count": 221
+  },
+  "auth/commands/handlers/change-password.handler.ts": {
+    "size": 1711,
+    "mtime_ns": 1788794483712809731,
+    "indexed_at_ns": 1788891384201099740,
+    "word_count": 149
+  },
+  "auth/commands/handlers/index.ts": {
+    "size": 266,
+    "mtime_ns": 1788733812921727441,
+    "indexed_at_ns": 1788891384201586100,
+    "word_count": 25
+  },
+  "auth/commands/handlers/login.handler.ts": {
+    "size": 1678,
+    "mtime_ns": 1788359323474914008,
+    "indexed_at_ns": 1788891384202078795,
+    "word_count": 151
+  },
+  "auth/commands/handlers/register.handler.ts": {
+    "size": 1620,
+    "mtime_ns": 1788359323474914008,
+    "indexed_at_ns": 1788891384202593246,
+    "word_count": 145
+  },
+  "auth/commands/impl/change-password.command.ts": {
+    "size": 183,
+    "mtime_ns": 1788733812921727441,
+    "indexed_at_ns": 1788891384203185835,
+    "word_count": 20
+  },
+  "auth/commands/impl/login.command.ts": {
+    "size": 125,
+    "mtime_ns": 1788359323474914008,
+    "indexed_at_ns": 1788891384203674245,
+    "word_count": 16
+  },
+  "auth/commands/impl/register.command.ts": {
+    "size": 128,
+    "mtime_ns": 1788359323476130470,
+    "indexed_at_ns": 1788891384204133375,
+    "word_count": 16
+  },
+  "auth/dto/login.dto.ts": {
+    "size": 174,
+    "mtime_ns": 1788359323476680724,
+    "indexed_at_ns": 1788891384204598805,
+    "word_count": 20
+  },
+  "auth/dto/register.dto.ts": {
+    "size": 177,
+    "mtime_ns": 1788794483712809731,
+    "indexed_at_ns": 1788891384205164606,
+    "word_count": 20
+  },
+  "auth/events/handlers/index.ts": {
+    "size": 213,
+    "mtime_ns": 1788359323480680724,
+    "indexed_at_ns": 1788891384205665928,
+    "word_count": 18
+  },
+  "auth/events/handlers/user-logged-in.handler.ts": {
+    "size": 533,
+    "mtime_ns": 1788794483712809731,
+    "indexed_at_ns": 1788891384206172179,
+    "word_count": 44
+  },
+  "auth/events/handlers/user-registered.handler.ts": {
+    "size": 554,
+    "mtime_ns": 1788794483712809731,
+    "indexed_at_ns": 1788891384206651099,
+    "word_count": 44
+  },
+  "auth/events/impl/user-logged-in.event.ts": {
+    "size": 128,
+    "mtime_ns": 1788359323482309513,
+    "indexed_at_ns": 1788891384207216396,
+    "word_count": 16
+  },
+  "auth/events/impl/user-registered.event.ts": {
+    "size": 130,
+    "mtime_ns": 1788359323483941789,
+    "indexed_at_ns": 1788891384207780087,
+    "word_count": 16
+  },
+  "auth/guards/jwt-auth.guard.ts": {
+    "size": 1554,
+    "mtime_ns": 1788794483712809731,
+    "indexed_at_ns": 1788891384208343590,
+    "word_count": 167
+  },
+  "auth/services/auth-token.service.ts": {
+    "size": 723,
+    "mtime_ns": 1788359323484680723,
+    "indexed_at_ns": 1788891384208842639,
+    "word_count": 82
+  },
+  "claude-agent/CLAUDE.md": {
+    "size": 4988,
+    "mtime_ns": 1788814566921585529,
+    "indexed_at_ns": 1788891384209825405,
+    "word_count": 575
+  },
+  "claude-agent/MEETING_TOOLS.md": {
+    "size": 2156,
+    "mtime_ns": 1788871245628569070,
+    "indexed_at_ns": 1788891384210652473,
+    "word_count": 276
+  },
+  "claude-agent/claude-agent.module.ts": {
+    "size": 609,
+    "mtime_ns": 1788814544869589028,
+    "indexed_at_ns": 1788891384210940899,
+    "word_count": 72
+  },
+  "claude-agent/claude-agent.service.integration-spec.ts": {
+    "size": 1930,
+    "mtime_ns": 1788864516457646717,
+    "indexed_at_ns": 1788891384211487916,
+    "word_count": 158
+  },
+  "claude-agent/claude-agent.service.spec.ts": {
+    "size": 9560,
+    "mtime_ns": 1788868989576931159,
+    "indexed_at_ns": 1788891384211939695,
+    "word_count": 793
+  },
+  "claude-agent/claude-agent.service.ts": {
+    "size": 8433,
+    "mtime_ns": 1788870442672696169,
+    "indexed_at_ns": 1788891384212459077,
+    "word_count": 1037
+  },
+  "claude-agent/meeting-tools.ts": {
+    "size": 7477,
+    "mtime_ns": 1788879991039169342,
+    "indexed_at_ns": 1788891384212964843,
+    "word_count": 805
+  },
+  "config/env.validation.spec.ts": {
+    "size": 3646,
+    "mtime_ns": 1788809450276201270,
+    "indexed_at_ns": 1788891384213428337,
+    "word_count": 333
+  },
+  "config/env.validation.ts": {
+    "size": 2385,
+    "mtime_ns": 1788809450276498302,
+    "indexed_at_ns": 1788891384213854256,
+    "word_count": 238
+  },
+  "main.ts": {
+    "size": 526,
+    "mtime_ns": 1788809450276498302,
+    "indexed_at_ns": 1788891384214425674,
+    "word_count": 53
+  },
+  "meeting-file/CLAUDE.md": {
+    "size": 11952,
+    "mtime_ns": 1788864897141587596,
+    "indexed_at_ns": 1788891384215400095,
+    "word_count": 1467
+  },
+  "meeting-file/allowed-mime.ts": {
+    "size": 1121,
+    "mtime_ns": 1788516885399099403,
+    "indexed_at_ns": 1788891384215691801,
+    "word_count": 82
+  },
+  "meeting-file/attachment-disposition.ts": {
+    "size": 727,
+    "mtime_ns": 1788516885399751645,
+    "indexed_at_ns": 1788891384216126625,
+    "word_count": 60
+  },
+  "meeting-file/commands/handlers/create-meeting-file.handler.ts": {
+    "size": 2730,
+    "mtime_ns": 1788794483712809731,
+    "indexed_at_ns": 1788891384216625555,
+    "word_count": 214
+  },
+  "meeting-file/commands/handlers/delete-meeting-file.handler.ts": {
+    "size": 1636,
+    "mtime_ns": 1788794483712809731,
+    "indexed_at_ns": 1788891384217171443,
+    "word_count": 141
+  },
+  "meeting-file/commands/handlers/index.ts": {
+    "size": 481,
+    "mtime_ns": 1788864927793583761,
+    "indexed_at_ns": 1788891384217703374,
+    "word_count": 34
+  },
+  "meeting-file/commands/handlers/reprocess-meeting-file.handler.ts": {
+    "size": 3254,
+    "mtime_ns": 1788876215759769739,
+    "indexed_at_ns": 1788891384218244315,
+    "word_count": 269
+  },
+  "meeting-file/commands/handlers/resummarize-meeting-file.handler.ts": {
+    "size": 3548,
+    "mtime_ns": 1788875991639805648,
+    "indexed_at_ns": 1788891384218830373,
+    "word_count": 280
+  },
+  "meeting-file/commands/impl/create-meeting-file.command.ts": {
+    "size": 319,
+    "mtime_ns": 1788794483716809730,
+    "indexed_at_ns": 1788891384219332359,
+    "word_count": 34
+  },
+  "meeting-file/commands/impl/delete-meeting-file.command.ts": {
+    "size": 139,
+    "mtime_ns": 1788794483716809730,
+    "indexed_at_ns": 1788891384219835309,
+    "word_count": 16
+  },
+  "meeting-file/commands/impl/reprocess-meeting-file.command.ts": {
+    "size": 142,
+    "mtime_ns": 1788794483716809730,
+    "indexed_at_ns": 1788891384220345074,
+    "word_count": 16
+  },
+  "meeting-file/commands/impl/resummarize-meeting-file.command.ts": {
+    "size": 144,
+    "mtime_ns": 1788864900389587227,
+    "indexed_at_ns": 1788891384220850470,
+    "word_count": 16
+  },
+  "meeting-file/dto/meeting-file-content.ts": {
+    "size": 287,
+    "mtime_ns": 1788516885401629130,
+    "indexed_at_ns": 1788891384221344472,
+    "word_count": 29
+  },
+  "meeting-file/dto/meeting-file.dto.ts": {
+    "size": 1166,
+    "mtime_ns": 1788875343183911738,
+    "indexed_at_ns": 1788891384221806876,
+    "word_count": 112
+  },
+  "meeting-file/dto/upload-meeting-file.dto.ts": {
+    "size": 352,
+    "mtime_ns": 1788516885402215601,
+    "indexed_at_ns": 1788891384222283347,
+    "word_count": 32
+  },
+  "meeting-file/dto/uploaded-file-part.ts": {
+    "size": 535,
+    "mtime_ns": 1788516885402215601,
+    "indexed_at_ns": 1788891384222736906,
+    "word_count": 48
+  },
+  "meeting-file/events/handlers/index.ts": {
+    "size": 293,
+    "mtime_ns": 1788863644621787357,
+    "indexed_at_ns": 1788891384223310212,
+    "word_count": 18
+  },
+  "meeting-file/events/handlers/meeting-file-processing-requested.handler.ts": {
+    "size": 822,
+    "mtime_ns": 1788518853680093912,
+    "indexed_at_ns": 1788891384223911531,
+    "word_count": 61
+  },
+  "meeting-file/events/handlers/meeting-file-transcribed.handler.ts": {
+    "size": 870,
+    "mtime_ns": 1788874774628002686,
+    "indexed_at_ns": 1788891384224440697,
+    "word_count": 67
+  },
+  "meeting-file/events/impl/meeting-file-processing-requested.event.ts": {
+    "size": 531,
+    "mtime_ns": 1788518853680093912,
+    "indexed_at_ns": 1788891384225031010,
+    "word_count": 43
+  },
+  "meeting-file/events/impl/meeting-file-transcribed.event.ts": {
+    "size": 423,
+    "mtime_ns": 1788874799511998579,
+    "indexed_at_ns": 1788891384225539685,
+    "word_count": 36
+  },
+  "meeting-file/meeting-file.controller.ts": {
+    "size": 4333,
+    "mtime_ns": 1788864909113586622,
+    "indexed_at_ns": 1788891384226034551,
+    "word_count": 342
+  },
+  "meeting-file/meeting-file.module.ts": {
+    "size": 4664,
+    "mtime_ns": 1788874748408007003,
+    "indexed_at_ns": 1788891384226574568,
+    "word_count": 393
+  },
+  "meeting-file/processing/claude-summary.service.integration-spec.ts": {
+    "size": 3899,
+    "mtime_ns": 1788871726900492304,
+    "indexed_at_ns": 1788891384227130373,
+    "word_count": 281
+  },
+  "meeting-file/processing/claude-summary.service.spec.ts": {
+    "size": 8918,
+    "mtime_ns": 1788871694828497484,
+    "indexed_at_ns": 1788891384227609789,
+    "word_count": 635
+  },
+  "meeting-file/processing/claude-summary.service.ts": {
+    "size": 6635,
+    "mtime_ns": 1788874905955982379,
+    "indexed_at_ns": 1788891384228279714,
+    "word_count": 576
+  },
+  "meeting-file/processing/meeting-file-processing.queue.spec.ts": {
+    "size": 6619,
+    "mtime_ns": 1788863782697767516,
+    "indexed_at_ns": 1788891384228811599,
+    "word_count": 543
+  },
+  "meeting-file/processing/meeting-file-processing.queue.ts": {
+    "size": 5110,
+    "mtime_ns": 1788874863071988161,
+    "indexed_at_ns": 1788891384229322685,
+    "word_count": 497
+  },
+  "meeting-file/processing/meeting-summary.queue.ts": {
+    "size": 6351,
+    "mtime_ns": 1788874706096013832,
+    "indexed_at_ns": 1788891384229910543,
+    "word_count": 580
+  },
+  "meeting-file/processing/process-runner.spec.ts": {
+    "size": 2763,
+    "mtime_ns": 1788809450278581241,
+    "indexed_at_ns": 1788891384230532822,
+    "word_count": 236
+  },
+  "meeting-file/processing/process-runner.ts": {
+    "size": 4290,
+    "mtime_ns": 1788809450278929509,
+    "indexed_at_ns": 1788891384231046752,
+    "word_count": 412
+  },
+  "meeting-file/processing/stt-engine.spec.ts": {
+    "size": 1310,
+    "mtime_ns": 1788809450279244271,
+    "indexed_at_ns": 1788891384231528088,
+    "word_count": 90
+  },
+  "meeting-file/processing/stt-engine.ts": {
+    "size": 1879,
+    "mtime_ns": 1788809450279513027,
+    "indexed_at_ns": 1788891384231989262,
+    "word_count": 180
+  },
+  "meeting-file/processing/stt.service.ts": {
+    "size": 1843,
+    "mtime_ns": 1788809450280051378,
+    "indexed_at_ns": 1788891384232502428,
+    "word_count": 174
+  },
+  "meeting-file/processing/summary-engine.ts": {
+    "size": 1200,
+    "mtime_ns": 1788864511173647442,
+    "indexed_at_ns": 1788891384232991770,
+    "word_count": 119
+  },
+  "meeting-file/processing/summary.service.ts": {
+    "size": 2766,
+    "mtime_ns": 1788871618080509748,
+    "indexed_at_ns": 1788891384233461240,
+    "word_count": 235
+  },
+  "meeting-file/processing/whisper-command.spec.ts": {
+    "size": 1754,
+    "mtime_ns": 1788809450280051378,
+    "indexed_at_ns": 1788891384233944110,
+    "word_count": 151
+  },
+  "meeting-file/processing/whisper-command.ts": {
+    "size": 2115,
+    "mtime_ns": 1788809450280433556,
+    "indexed_at_ns": 1788891384234485987,
+    "word_count": 219
+  },
+  "meeting-file/processing/whisper-stt.service.spec.ts": {
+    "size": 12014,
+    "mtime_ns": 1788809450280721793,
+    "indexed_at_ns": 1788891384234977796,
+    "word_count": 1014
+  },
+  "meeting-file/processing/whisper-stt.service.ts": {
+    "size": 5065,
+    "mtime_ns": 1788809450281030119,
+    "indexed_at_ns": 1788891384235430542,
+    "word_count": 503
+  },
+  "meeting-file/queries/handlers/get-meeting-file-content.handler.ts": {
+    "size": 1506,
+    "mtime_ns": 1788864234685694634,
+    "indexed_at_ns": 1788891384235916972,
+    "word_count": 130
+  },
+  "meeting-file/queries/handlers/get-meeting-file.handler.ts": {
+    "size": 917,
+    "mtime_ns": 1788864036345726102,
+    "indexed_at_ns": 1788891384236520865,
+    "word_count": 82
+  },
+  "meeting-file/queries/handlers/index.ts": {
+    "size": 351,
+    "mtime_ns": 1788516885403940626,
+    "indexed_at_ns": 1788891384236986085,
+    "word_count": 27
+  },
+  "meeting-file/queries/handlers/list-meeting-files.handler.ts": {
+    "size": 1103,
+    "mtime_ns": 1788794483716809730,
+    "indexed_at_ns": 1788891384237489725,
+    "word_count": 95
+  },
+  "meeting-file/queries/impl/get-meeting-file-content.query.ts": {
+    "size": 141,
+    "mtime_ns": 1788794483716809730,
+    "indexed_at_ns": 1788891384238143989,
+    "word_count": 16
+  },
+  "meeting-file/queries/impl/get-meeting-file.query.ts": {
+    "size": 134,
+    "mtime_ns": 1788863977541733519,
+    "indexed_at_ns": 1788891384238649700,
+    "word_count": 16
+  },
+  "meeting-file/queries/impl/list-meeting-files.query.ts": {
+    "size": 91,
+    "mtime_ns": 1788794483720809730,
+    "indexed_at_ns": 1788891384239179291,
+    "word_count": 10
+  },
+  "meeting/commands/handlers/create-meeting.handler.ts": {
+    "size": 980,
+    "mtime_ns": 1788794483720809730,
+    "indexed_at_ns": 1788891384239733277,
+    "word_count": 85
+  },
+  "meeting/commands/handlers/index.ts": {
+    "size": 124,
+    "mtime_ns": 1788359323488356989,
+    "indexed_at_ns": 1788891384240221513,
+    "word_count": 11
+  },
+  "meeting/commands/impl/create-meeting.command.ts": {
+    "size": 133,
+    "mtime_ns": 1788794483720809730,
+    "indexed_at_ns": 1788891384240771459,
+    "word_count": 16
+  },
+  "meeting/dto/create-meeting.dto.ts": {
+    "size": 193,
+    "mtime_ns": 1788359323488680723,
+    "indexed_at_ns": 1788891384241439534,
+    "word_count": 20
+  },
+  "meeting/events/handlers/index.ts": {
+    "size": 125,
+    "mtime_ns": 1788359323491175015,
+    "indexed_at_ns": 1788891384242087953,
+    "word_count": 11
+  },
+  "meeting/events/handlers/meeting-created.handler.ts": {
+    "size": 531,
+    "mtime_ns": 1788359323491470377,
+    "indexed_at_ns": 1788891384242643679,
+    "word_count": 44
+  },
+  "meeting/events/impl/meeting-created.event.ts": {
+    "size": 133,
+    "mtime_ns": 1788359323491470377,
+    "indexed_at_ns": 1788891384243142465,
+    "word_count": 16
+  },
+  "meeting/meeting.controller.ts": {
+    "size": 1143,
+    "mtime_ns": 1788794483720809730,
+    "indexed_at_ns": 1788891384243593255,
+    "word_count": 102
+  },
+  "meeting/meeting.module.ts": {
+    "size": 516,
+    "mtime_ns": 1788359323492680723,
+    "indexed_at_ns": 1788891384244018944,
+    "word_count": 50
+  },
+  "meeting/queries/handlers/get-meeting-by-id.handler.ts": {
+    "size": 783,
+    "mtime_ns": 1788794483720809730,
+    "indexed_at_ns": 1788891384244535469,
+    "word_count": 77
+  },
+  "meeting/queries/handlers/index.ts": {
+    "size": 214,
+    "mtime_ns": 1788359323494469777,
+    "indexed_at_ns": 1788891384245016766,
+    "word_count": 18
+  },
+  "meeting/queries/handlers/list-meetings.handler.ts": {
+    "size": 600,
+    "mtime_ns": 1788794483720809730,
+    "indexed_at_ns": 1788891384245687289,
+    "word_count": 59
+  },
+  "meeting/queries/impl/get-meeting-by-id.query.ts": {
+    "size": 82,
+    "mtime_ns": 1788794483720809730,
+    "indexed_at_ns": 1788891384246283128,
+    "word_count": 10
+  },
+  "meeting/queries/impl/list-meetings.query.ts": {
+    "size": 34,
+    "mtime_ns": 1788794483720809730,
+    "indexed_at_ns": 1788891384246793698,
+    "word_count": 4
+  },
+  "prisma/prisma.module.ts": {
+    "size": 213,
+    "mtime_ns": 1788359323496680723,
+    "indexed_at_ns": 1788891384247149851,
+    "word_count": 24
+  },
+  "prisma/prisma.service.ts": {
+    "size": 667,
+    "mtime_ns": 1788359323497441006,
+    "indexed_at_ns": 1788891384247662376,
+    "word_count": 66
+  },
+  "profile/avatar-mime.ts": {
+    "size": 779,
+    "mtime_ns": 1788733812924969208,
+    "indexed_at_ns": 1788891384248126902,
+    "word_count": 76
+  },
+  "profile/avatar.controller.ts": {
+    "size": 1068,
+    "mtime_ns": 1788794483720809730,
+    "indexed_at_ns": 1788891384248627968,
+    "word_count": 102
+  },
+  "profile/commands/handlers/index.ts": {
+    "size": 121,
+    "mtime_ns": 1788733812926036091,
+    "indexed_at_ns": 1788891384249059972,
+    "word_count": 11
+  },
+  "profile/commands/handlers/upload-avatar.handler.ts": {
+    "size": 2638,
+    "mtime_ns": 1788794483724809729,
+    "indexed_at_ns": 1788891384249546832,
+    "word_count": 224
+  },
+  "profile/commands/impl/upload-avatar.command.ts": {
+    "size": 219,
+    "mtime_ns": 1788733812926546001,
+    "indexed_at_ns": 1788891384249989921,
+    "word_count": 23
+  },
+  "profile/dto/avatar-content.ts": {
+    "size": 243,
+    "mtime_ns": 1788733812926546001,
+    "indexed_at_ns": 1788891384250517757,
+    "word_count": 28
+  },
+  "profile/dto/change-password.dto.ts": {
+    "size": 273,
+    "mtime_ns": 1788794483724809729,
+    "indexed_at_ns": 1788891384251130605,
+    "word_count": 26
+  },
+  "profile/dto/profile.dto.ts": {
+    "size": 419,
+    "mtime_ns": 1788694687588463886,
+    "indexed_at_ns": 1788891384251603860,
+    "word_count": 50
+  },
+  "profile/dto/update-profile-name.dto.ts": {
+    "size": 331,
+    "mtime_ns": 1788694687588719381,
+    "indexed_at_ns": 1788891384252084376,
+    "word_count": 40
+  },
+  "profile/dto/uploaded-avatar-part.ts": {
+    "size": 339,
+    "mtime_ns": 1788733812927203166,
+    "indexed_at_ns": 1788891384252597151,
+    "word_count": 35
+  },
+  "profile/profile.controller.ts": {
+    "size": 2612,
+    "mtime_ns": 1788794483724809729,
+    "indexed_at_ns": 1788891384253160938,
+    "word_count": 213
+  },
+  "profile/profile.module.ts": {
+    "size": 2145,
+    "mtime_ns": 1788794483724809729,
+    "indexed_at_ns": 1788891384253564037,
+    "word_count": 196
+  },
+  "profile/queries/handlers/get-avatar-content.handler.ts": {
+    "size": 2027,
+    "mtime_ns": 1788733812928215614,
+    "indexed_at_ns": 1788891384254023287,
+    "word_count": 182
+  },
+  "profile/queries/handlers/get-profile.handler.ts": {
+    "size": 914,
+    "mtime_ns": 1788694687590051646,
+    "indexed_at_ns": 1788891384254523252,
+    "word_count": 86
+  },
+  "profile/queries/handlers/index.ts": {
+    "size": 213,
+    "mtime_ns": 1788733812928215614,
+    "indexed_at_ns": 1788891384255013218,
+    "word_count": 18
+  },
+  "profile/queries/impl/get-avatar-content.query.ts": {
+    "size": 85,
+    "mtime_ns": 1788733812928215614,
+    "indexed_at_ns": 1788891384255624396,
+    "word_count": 10
+  },
+  "profile/queries/impl/get-profile.query.ts": {
+    "size": 82,
+    "mtime_ns": 1788694687590314341,
+    "indexed_at_ns": 1788891384256113852,
+    "word_count": 10
+  },
+  "storage/file-storage.service.spec.ts": {
+    "size": 3794,
+    "mtime_ns": 1788809450281387801,
+    "indexed_at_ns": 1788891384256562136,
+    "word_count": 340
+  },
+  "storage/file-storage.service.ts": {
+    "size": 3831,
+    "mtime_ns": 1788809450281942759,
+    "indexed_at_ns": 1788891384257115708,
+    "word_count": 351
+  },
+  "storage/storage.module.ts": {
+    "size": 659,
+    "mtime_ns": 1788733812929223185,
+    "indexed_at_ns": 1788891384257597724,
+    "word_count": 53
+  },
+  "task/task.module.ts": {
+    "size": 185,
+    "mtime_ns": 1788869976252773214,
+    "indexed_at_ns": 1788891384258116965,
+    "word_count": 22
+  },
+  "task/task.service.ts": {
+    "size": 1378,
+    "mtime_ns": 1788869969524774338,
+    "indexed_at_ns": 1788891384258533074,
+    "word_count": 141
+  },
+  "users/commands/handlers/create-user.handler.ts": {
+    "size": 657,
+    "mtime_ns": 1788359323498899397,
+    "indexed_at_ns": 1788891384259039205,
+    "word_count": 62
+  },
+  "users/commands/handlers/index.ts": {
+    "size": 435,
+    "mtime_ns": 1788733812929223185,
+    "indexed_at_ns": 1788891384259632331,
+    "word_count": 34
+  },
+  "users/commands/handlers/update-user-avatar.handler.ts": {
+    "size": 707,
+    "mtime_ns": 1788733812929223185,
+    "indexed_at_ns": 1788891384260145708,
+    "word_count": 65
+  },
+  "users/commands/handlers/update-user-password.handler.ts": {
+    "size": 721,
+    "mtime_ns": 1788733812931363640,
+    "indexed_at_ns": 1788891384260633252,
+    "word_count": 65
+  },
+  "users/commands/handlers/update-user-profile.handler.ts": {
+    "size": 703,
+    "mtime_ns": 1788694687591520137,
+    "indexed_at_ns": 1788891384261192470,
+    "word_count": 65
+  },
+  "users/commands/impl/create-user.command.ts": {
+    "size": 134,
+    "mtime_ns": 1788359323499674804,
+    "indexed_at_ns": 1788891384261685051,
+    "word_count": 16
+  },
+  "users/commands/impl/update-user-avatar.command.ts": {
+    "size": 138,
+    "mtime_ns": 1788733812931363640,
+    "indexed_at_ns": 1788891384262172191,
+    "word_count": 16
+  },
+  "users/commands/impl/update-user-password.command.ts": {
+    "size": 143,
+    "mtime_ns": 1788733812931618956,
+    "indexed_at_ns": 1788891384262680212,
+    "word_count": 16
+  },
+  "users/commands/impl/update-user-profile.command.ts": {
+    "size": 134,
+    "mtime_ns": 1788694687591520137,
+    "indexed_at_ns": 1788891384263181072,
+    "word_count": 16
+  },
+  "users/queries/handlers/find-user-by-avatar-key.handler.ts": {
+    "size": 681,
+    "mtime_ns": 1788733812931618956,
+    "indexed_at_ns": 1788891384263663093,
+    "word_count": 66
+  },
+  "users/queries/handlers/find-user-by-email.handler.ts": {
+    "size": 643,
+    "mtime_ns": 1788359323500680722,
+    "indexed_at_ns": 1788891384264161343,
+    "word_count": 64
+  },
+  "users/queries/handlers/find-user-by-id.handler.ts": {
+    "size": 623,
+    "mtime_ns": 1788694687591520137,
+    "indexed_at_ns": 1788891384264722979,
+    "word_count": 64
+  },
+  "users/queries/handlers/index.ts": {
+    "size": 339,
+    "mtime_ns": 1788733812931618956,
+    "indexed_at_ns": 1788891384265215116,
+    "word_count": 27
+  },
+  "users/queries/impl/find-user-by-avatar-key.query.ts": {
+    "size": 94,
+    "mtime_ns": 1788733812931618956,
+    "indexed_at_ns": 1788891384265807683,
+    "word_count": 10
+  },
+  "users/queries/impl/find-user-by-email.query.ts": {
+    "size": 86,
+    "mtime_ns": 1788359323501121385,
+    "indexed_at_ns": 1788891384266323389,
+    "word_count": 10
+  },
+  "users/queries/impl/find-user-by-id.query.ts": {
+    "size": 84,
+    "mtime_ns": 1788694687592996910,
+    "indexed_at_ns": 1788891384266795339,
+    "word_count": 10
+  },
+  "users/users.module.ts": {
+    "size": 638,
+    "mtime_ns": 1788359323501121385,
+    "indexed_at_ns": 1788891384267225958,
+    "word_count": 59
+  }
+}

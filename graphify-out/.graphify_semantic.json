@@ -1,0 +1,3527 @@
+{
+  "nodes": [
+    {
+      "id": "_agents_skills_code_review_skill_md",
+      "label": "Code Review Skill",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/.agents/skills/code-review/SKILL.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_code_review_skill_md_standards_review",
+      "label": "Standards Review",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/code-review/SKILL.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_code_review_skill_md_spec_review",
+      "label": "Spec Review",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/code-review/SKILL.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_code_review_skill_md_smell_baseline",
+      "label": "Fowler Code Smells",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/code-review/SKILL.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_firebase_security_rules_auditor_skill_md",
+      "label": "Firebase Security Rules Auditor",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/.agents/skills/firebase-security-rules-auditor/SKILL.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_git_commit_skill_md",
+      "label": "Git Commit Skill",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/.agents/skills/git-commit/SKILL.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_git_commit_skill_md_conventional_commits",
+      "label": "Conventional Commits",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/git-commit/SKILL.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_heroui_react_license_txt",
+      "label": "HeroUI License (Apache 2.0)",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/.agents/skills/heroui-react/LICENSE.txt",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_heroui_react_skill_md",
+      "label": "HeroUI v3 React Development Guide",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/.agents/skills/heroui-react/SKILL.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_heroui_react_skill_md_heroui_v3",
+      "label": "HeroUI v3",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/heroui-react/SKILL.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_heroui_react_skill_md_tailwind_v4",
+      "label": "Tailwind CSS v4",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/heroui-react/SKILL.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_heroui_react_skill_md_react_aria",
+      "label": "React Aria Components",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/heroui-react/SKILL.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_issues_skill_md",
+      "label": "GitHub Issues Generator",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/.agents/skills/issues/SKILL.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_nestjs_best_practices_skill_md",
+      "label": "NestJS Best Practices",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/.agents/skills/nestjs-best-practices/SKILL.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_nestjs_best_practices_rules__sections_md",
+      "label": "NestJS Best Practices Sections",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/.agents/skills/nestjs-best-practices/rules/_sections.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_nestjs_best_practices_rules__template_md",
+      "label": "NestJS Rule Template",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/.agents/skills/nestjs-best-practices/rules/_template.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_nestjs_best_practices_rules_api_use_dto_serialization_md",
+      "label": "Use DTOs and Serialization for API Responses",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/.agents/skills/nestjs-best-practices/rules/api-use-dto-serialization.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_nestjs_best_practices_rules_api_use_interceptors_md",
+      "label": "Use Interceptors for Cross-Cutting Concerns",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/.agents/skills/nestjs-best-practices/rules/api-use-interceptors.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_nestjs_best_practices_rules_api_use_pipes_md",
+      "label": "Use Pipes for Input Transformation",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/.agents/skills/nestjs-best-practices/rules/api-use-pipes.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_nestjs_best_practices_rules_api_versioning_md",
+      "label": "Use API Versioning for Breaking Changes",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/.agents/skills/nestjs-best-practices/rules/api-versioning.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_nestjs_best_practices_rules_arch_avoid_circular_deps_md",
+      "label": "Avoid Circular Dependencies",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/.agents/skills/nestjs-best-practices/rules/arch-avoid-circular-deps.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_nestjs_best_practices_rules_arch_feature_modules_md",
+      "label": "Organize by Feature Modules",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/.agents/skills/nestjs-best-practices/rules/arch-feature-modules.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_nestjs_best_practices_rules_arch_module_sharing_md",
+      "label": "Use Proper Module Sharing Patterns",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/.agents/skills/nestjs-best-practices/rules/arch-module-sharing.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_nestjs_best_practices_rules_arch_single_responsibility_md",
+      "label": "Single Responsibility for Services",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/.agents/skills/nestjs-best-practices/rules/arch-single-responsibility.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_nestjs_best_practices_rules_arch_use_events_md",
+      "label": "Use Event-Driven Architecture for Decoupling",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/.agents/skills/nestjs-best-practices/rules/arch-use-events.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_nestjs_best_practices_rules_arch_use_repository_pattern_md",
+      "label": "Use Repository Pattern for Data Access",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/.agents/skills/nestjs-best-practices/rules/arch-use-repository-pattern.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_nestjs_best_practices_rules_db_avoid_n_plus_one_md",
+      "label": "Avoid N+1 Query Problems",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/.agents/skills/nestjs-best-practices/rules/db-avoid-n-plus-one.md",
+      "source_location": null
+    },
+    {
+      "id": "nestjs_best_practices_category_architecture",
+      "label": "NestJS Architecture (CRITICAL)",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/nestjs-best-practices/rules/_sections.md",
+      "source_location": "## 1. Architecture (arch)"
+    },
+    {
+      "id": "nestjs_best_practices_category_dependency_injection",
+      "label": "NestJS Dependency Injection (CRITICAL)",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/nestjs-best-practices/rules/_sections.md",
+      "source_location": "## 2. Dependency Injection (di)"
+    },
+    {
+      "id": "nestjs_best_practices_category_error_handling",
+      "label": "NestJS Error Handling (HIGH)",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/nestjs-best-practices/rules/_sections.md",
+      "source_location": "## 3. Error Handling (error)"
+    },
+    {
+      "id": "nestjs_best_practices_category_security",
+      "label": "NestJS Security (HIGH)",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/nestjs-best-practices/rules/_sections.md",
+      "source_location": "## 4. Security (security)"
+    },
+    {
+      "id": "nestjs_best_practices_category_performance",
+      "label": "NestJS Performance (HIGH)",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/nestjs-best-practices/rules/_sections.md",
+      "source_location": "## 5. Performance (perf)"
+    },
+    {
+      "id": "nestjs_best_practices_category_testing",
+      "label": "NestJS Testing (MEDIUM-HIGH)",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/nestjs-best-practices/rules/_sections.md",
+      "source_location": "## 6. Testing (test)"
+    },
+    {
+      "id": "nestjs_best_practices_category_database",
+      "label": "NestJS Database & ORM (MEDIUM-HIGH)",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/nestjs-best-practices/rules/_sections.md",
+      "source_location": "## 7. Database & ORM (db)"
+    },
+    {
+      "id": "nestjs_best_practices_category_api_design",
+      "label": "NestJS API Design (MEDIUM)",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/nestjs-best-practices/rules/_sections.md",
+      "source_location": "## 8. API Design (api)"
+    },
+    {
+      "id": "nestjs_best_practices_category_microservices",
+      "label": "NestJS Microservices (MEDIUM)",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/nestjs-best-practices/rules/_sections.md",
+      "source_location": "## 9. Microservices (micro)"
+    },
+    {
+      "id": "nestjs_best_practices_category_devops",
+      "label": "NestJS DevOps & Deployment (LOW-MEDIUM)",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/nestjs-best-practices/rules/_sections.md",
+      "source_location": "## 10. DevOps & Deployment (devops)"
+    },
+    {
+      "id": "_agents_skills_plan_phase_skill_md",
+      "label": "plan-phase skill",
+      "file_type": "document",
+      "source_file": ".agents/skills/plan-phase/SKILL.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_plan_phase_concept_prd_to_phases",
+      "label": "PRD to phases planning",
+      "file_type": "concept",
+      "source_file": ".agents/skills/plan-phase/SKILL.md",
+      "source_location": "lines 8-44"
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_readme_md",
+      "label": "React Best Practices README",
+      "file_type": "document",
+      "source_file": ".agents/skills/vercel-react-best-practices/README.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_concept_rule_file_structure",
+      "label": "Rule file structure pattern",
+      "file_type": "concept",
+      "source_file": ".agents/skills/vercel-react-best-practices/README.md",
+      "source_location": "lines 55-85"
+    },
+    {
+      "id": "_agents_skills_nestjs_best_practices_rules_test_mock_external_services_md",
+      "label": "Mock external services in tests",
+      "file_type": "document",
+      "source_file": ".agents/skills/nestjs-best-practices/rules/test-mock-external-services.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_nestjs_best_practices_concept_mock_external_services",
+      "label": "Test mocking pattern",
+      "file_type": "concept",
+      "source_file": ".agents/skills/nestjs-best-practices/rules/test-mock-external-services.md",
+      "source_location": "lines 8-10"
+    },
+    {
+      "id": "_agents_skills_ui_ux_pro_max_references_pro_rules_md",
+      "label": "Common Rules for Professional UI",
+      "file_type": "document",
+      "source_file": ".agents/skills/ui-ux-pro-max/references/pro_rules.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_ui_ux_pro_max_concept_icons_visual_elements",
+      "label": "Icons & Visual Elements rules",
+      "file_type": "concept",
+      "source_file": ".agents/skills/ui-ux-pro-max/references/pro-rules.md",
+      "source_location": "lines 9-24"
+    },
+    {
+      "id": "_agents_skills_ui_ux_pro_max_concept_pre_delivery_checklist",
+      "label": "Pre-Delivery Checklist",
+      "file_type": "concept",
+      "source_file": ".agents/skills/ui-ux-pro-max/references/pro-rules.md",
+      "source_location": "lines 64-118"
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_sections_md",
+      "label": "React best practices sections",
+      "file_type": "document",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/_sections.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_concept_impact_levels",
+      "label": "Performance impact levels",
+      "file_type": "concept",
+      "source_file": ".agents/skills/vercel_react_best_practices/rules/_sections.md",
+      "source_location": "lines 7-47"
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_skill_md",
+      "label": "vercel-react-best-practices skill",
+      "file_type": "document",
+      "source_file": ".agents/skills/vercel-react-best-practices/SKILL.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_concept_rule_categories",
+      "label": "Rule categories by priority",
+      "file_type": "concept",
+      "source_file": ".agents/skills/vercel-react-best-practices/SKILL.md",
+      "source_location": "lines 23-35"
+    },
+    {
+      "id": "_agents_skills_ui_ux_pro_max_references_quick_reference_md",
+      "label": "UI/UX Quick Reference",
+      "file_type": "document",
+      "source_file": ".agents/skills/ui-ux-pro-max/references/quick-reference.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_ui_ux_pro_max_concept_accessibility_rules",
+      "label": "Accessibility rules",
+      "file_type": "concept",
+      "source_file": ".agents/skills/ui-ux-pro-max/references/quick-reference.md",
+      "source_location": "lines 7-34"
+    },
+    {
+      "id": "_agents_skills_ui_ux_pro_max_concept_touch_interaction_rules",
+      "label": "Touch & Interaction rules",
+      "file_type": "concept",
+      "source_file": ".agents/skills/ui-ux-pro-max/references/quick-reference.md",
+      "source_location": "lines 36-54"
+    },
+    {
+      "id": "_agents_skills_nestjs_best_practices_rules_security_validate_all_input_md",
+      "label": "Validate all input with DTOs",
+      "file_type": "document",
+      "source_file": ".agents/skills/nestjs-best-practices/rules/security-validate-all-input.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_nestjs_best_practices_concept_dto_validation",
+      "label": "DTO validation pattern",
+      "file_type": "concept",
+      "source_file": ".agents/skills/nestjs-best-practices/rules/security-validate-all-input.md",
+      "source_location": "lines 8-10"
+    },
+    {
+      "id": "_agents_skills_prd_skill_md",
+      "label": "prd skill",
+      "file_type": "document",
+      "source_file": ".agents/skills/prd/SKILL.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_prd_concept_prd_structure",
+      "label": "PRD document structure",
+      "file_type": "concept",
+      "source_file": ".agents/skills/prd/SKILL.md",
+      "source_location": "lines 15-41"
+    },
+    {
+      "id": "_agents_skills_research_skill_md",
+      "label": "research skill",
+      "file_type": "document",
+      "source_file": ".agents/skills/research/SKILL.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_research_concept_technical_research_process",
+      "label": "Technical research workflow",
+      "file_type": "concept",
+      "source_file": ".agents/skills/research/SKILL.md",
+      "source_location": "lines 16-29"
+    },
+    {
+      "id": "_agents_skills_nestjs_best_practices_rules_security_auth_jwt_md",
+      "label": "Implement secure JWT authentication",
+      "file_type": "document",
+      "source_file": ".agents/skills/nestjs-best-practices/rules/security-auth-jwt.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_nestjs_best_practices_concept_jwt_security",
+      "label": "JWT security pattern",
+      "file_type": "concept",
+      "source_file": ".agents/skills/nestjs-best-practices/rules/security-auth-jwt.md",
+      "source_location": "lines 8-10"
+    },
+    {
+      "id": "_agents_skills_nestjs_best_practices_rules_security_sanitize_output_md",
+      "label": "Sanitize output to prevent XSS",
+      "file_type": "document",
+      "source_file": ".agents/skills/nestjs-best-practices/rules/security-sanitize-output.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_nestjs_best_practices_concept_xss_prevention",
+      "label": "XSS prevention pattern",
+      "file_type": "concept",
+      "source_file": ".agents/skills/nestjs-best-practices/rules/security-sanitize-output.md",
+      "source_location": "lines 8-11"
+    },
+    {
+      "id": "_agents_skills_nestjs_best_practices_rules_test_e2e_supertest_md",
+      "label": "Use Supertest for E2E testing",
+      "file_type": "document",
+      "source_file": ".agents/skills/nestjs-best-practices/rules/test-e2e-supertest.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_nestjs_best_practices_concept_e2e_testing",
+      "label": "E2E testing pattern",
+      "file_type": "concept",
+      "source_file": ".agents/skills/nestjs-best-practices/rules/test-e2e-supertest.md",
+      "source_location": "lines 8-10"
+    },
+    {
+      "id": "_agents_skills_requesting_code_review_skill_md",
+      "label": "requesting-code-review skill",
+      "file_type": "document",
+      "source_file": ".agents/skills/requesting-code-review/SKILL.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_requesting_code_review_concept_review_workflow",
+      "label": "Code review workflow",
+      "file_type": "concept",
+      "source_file": ".agents/skills/requesting-code-review/SKILL.md",
+      "source_location": "lines 12-46"
+    },
+    {
+      "id": "_agents_skills_nestjs_best_practices_rules_test_use_testing_module_md",
+      "label": "Use Testing Module for unit tests",
+      "file_type": "document",
+      "source_file": ".agents/skills/nestjs-best-practices/rules/test-use-testing-module.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_nestjs_best_practices_concept_testing_module",
+      "label": "Testing Module pattern",
+      "file_type": "concept",
+      "source_file": ".agents/skills/nestjs-best-practices/rules/test-use-testing-module.md",
+      "source_location": "lines 8-10"
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_agents_md",
+      "label": "Vercel React best practices for agents",
+      "file_type": "document",
+      "source_file": ".agents/skills/vercel-react-best-practices/AGENTS.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_concept_eliminating_waterfalls",
+      "label": "Eliminating waterfalls",
+      "file_type": "concept",
+      "source_file": ".agents/skills/vercel-react-best-practices/AGENTS.md",
+      "source_location": "lines 104-423"
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_concept_bundle_size_optimization",
+      "label": "Bundle size optimization",
+      "file_type": "concept",
+      "source_file": ".agents/skills/vercel-react-best-practices/AGENTS.md",
+      "source_location": "lines 425-686"
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_concept_server_side_performance",
+      "label": "Server-side performance",
+      "file_type": "concept",
+      "source_file": ".agents/skills/vercel-react-best-practices/AGENTS.md",
+      "source_location": "lines 688-1362"
+    },
+    {
+      "id": "_agents_skills_nestjs_best_practices_rules_security_use_guards_md",
+      "label": "Use guards for authentication",
+      "file_type": "document",
+      "source_file": ".agents/skills/nestjs-best-practices/rules/security-use-guards.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_nestjs_best_practices_concept_guard_pattern",
+      "label": "Guard pattern for access control",
+      "file_type": "concept",
+      "source_file": ".agents/skills/nestjs-best-practices/rules/security-use-guards.md",
+      "source_location": "lines 8-12"
+    },
+    {
+      "id": "_agents_skills_ui_ux_pro_max_skill_md",
+      "label": "ui-ux-pro-max skill",
+      "file_type": "document",
+      "source_file": ".agents/skills/ui-ux-pro-max/SKILL.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_ui_ux_pro_max_concept_ui_ux_workflow",
+      "label": "UI/UX workflow",
+      "file_type": "concept",
+      "source_file": ".agents/skills/ui-ux-pro-max/SKILL.md",
+      "source_location": "lines 65-106"
+    },
+    {
+      "id": "_agents_skills_requesting_code_review_code_reviewer_md",
+      "label": "Code reviewer prompt template",
+      "file_type": "document",
+      "source_file": ".agents/skills/requesting-code-review/code-reviewer.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_requesting_code_review_concept_code_review_template",
+      "label": "Code review template",
+      "file_type": "concept",
+      "source_file": ".agents/skills/requesting-code-review/code-reviewer.md",
+      "source_location": "lines 5-136"
+    },
+    {
+      "id": "_agents_skills_nestjs_best_practices_rules_security_rate_limiting_md",
+      "label": "Implement rate limiting",
+      "file_type": "document",
+      "source_file": ".agents/skills/nestjs-best-practices/rules/security-rate-limiting.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_nestjs_best_practices_concept_rate_limiting",
+      "label": "Rate limiting pattern",
+      "file_type": "concept",
+      "source_file": ".agents/skills/nestjs-best-practices/rules/security-rate-limiting.md",
+      "source_location": "lines 8-10"
+    },
+    {
+      "id": "nestjs_best_practices_skill",
+      "label": "NestJS Best Practices Skill",
+      "file_type": "concept",
+      "source_file": ".agents/skills/nestjs-best-practices/rules/",
+      "source_location": null
+    },
+    {
+      "id": "vercel_react_skill",
+      "label": "Vercel React Best Practices Skill",
+      "file_type": "concept",
+      "source_file": ".agents/skills/vercel-react-best-practices/",
+      "source_location": null
+    },
+    {
+      "id": "ui_ux_skill",
+      "label": "UI/UX Pro Max Skill",
+      "file_type": "concept",
+      "source_file": ".agents/skills/ui-ux-pro-max/",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_advanced_effect_event_deps_useeffectevent",
+      "label": "useEffectEvent",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/advanced-effect-event-deps.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_advanced_effect_event_deps_useeffect",
+      "label": "useEffect",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/advanced-effect-event-deps.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_advanced_effect_event_deps_dependency_array",
+      "label": "Dependency Array",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/advanced-effect-event-deps.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_advanced_event_handler_refs_refs",
+      "label": "Refs",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/advanced-event-handler-refs.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_advanced_event_handler_refs_useref",
+      "label": "useRef",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/advanced-event-handler-refs.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_advanced_event_handler_refs_useeffectevent",
+      "label": "useEffectEvent",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/advanced-event-handler-refs.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_advanced_init_once_useeffect",
+      "label": "useEffect Initialization",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/advanced-init-once.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_advanced_init_once_module_guard",
+      "label": "Module-Level Guard",
+      "file_type": "rationale",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/advanced-init-once.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_advanced_use_latest_useeffectevent",
+      "label": "useEffectEvent for Callbacks",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/advanced-use-latest.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_advanced_use_latest_stable_callback_refs",
+      "label": "Stable Callback Refs",
+      "file_type": "rationale",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/advanced-use-latest.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_async_api_routes_waterfall_prevention",
+      "label": "Waterfall Prevention",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/async-api-routes.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_async_api_routes_promise_all",
+      "label": "Promise.all",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/async-api-routes.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_async_api_routes_better_all",
+      "label": "better-all",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/async-api-routes.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_async_cheap_condition_before_await_guard_condition",
+      "label": "Guard Condition Optimization",
+      "file_type": "rationale",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/async-cheap-condition-before-await.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_async_cheap_condition_before_await_defer_await",
+      "label": "Defer Await Pattern",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/async-cheap-condition-before-await.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_async_defer_await_conditional_await",
+      "label": "Conditional Await",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/async-defer-await.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_async_defer_await_early_return",
+      "label": "Early Return Optimization",
+      "file_type": "rationale",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/async-defer-await.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_async_dependencies_better_all",
+      "label": "better-all Library",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/async-dependencies.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_async_dependencies_dependency_graph",
+      "label": "Dependency Graph Parallelization",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/async-dependencies.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_async_parallel_promise_all",
+      "label": "Promise.all Parallelization",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/async-parallel.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_async_parallel_sequential_execution",
+      "label": "Sequential Execution Antipattern",
+      "file_type": "rationale",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/async-parallel.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_async_suspense_boundaries_suspense",
+      "label": "Suspense Boundaries",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/async-suspense-boundaries.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_async_suspense_boundaries_streaming",
+      "label": "Streaming SSR",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/async-suspense-boundaries.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_async_suspense_boundaries_use_hook",
+      "label": "use Hook",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/async-suspense-boundaries.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_bundle_analyzable_paths_static_analysis",
+      "label": "Static Analysis",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/bundle-analyzable-paths.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_bundle_analyzable_paths_explicit_imports",
+      "label": "Explicit Import Maps",
+      "file_type": "rationale",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/bundle-analyzable-paths.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_bundle_barrel_imports_barrel_files",
+      "label": "Barrel Files",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/bundle-barrel-imports.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_bundle_barrel_imports_tree_shaking",
+      "label": "Tree Shaking",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/bundle-barrel-imports.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_bundle_barrel_imports_optimizepackageimports",
+      "label": "optimizePackageImports",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/bundle-barrel-imports.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_bundle_conditional_conditional_loading",
+      "label": "Conditional Loading",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/bundle-conditional.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_bundle_conditional_lazy_loading",
+      "label": "Lazy Loading",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/bundle-conditional.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_bundle_defer_third_party_dynamic_import",
+      "label": "Dynamic Import for Third-Party",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/bundle-defer-third-party.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_bundle_defer_third_party_next_dynamic",
+      "label": "next/dynamic",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/bundle-defer-third-party.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_bundle_dynamic_imports_code_splitting",
+      "label": "Code Splitting",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/bundle-dynamic-imports.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_bundle_dynamic_imports_next_dynamic",
+      "label": "next/dynamic Lazy Loading",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/bundle-dynamic-imports.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_bundle_preload_preloading",
+      "label": "Preloading",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/bundle-preload.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_bundle_preload_user_intent",
+      "label": "User Intent Detection",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/bundle-preload.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_client_event_listeners_useswr_subscription",
+      "label": "useSWRSubscription",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/client-event-listeners.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_client_event_listeners_event_deduplication",
+      "label": "Event Listener Deduplication",
+      "file_type": "rationale",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/client-event-listeners.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_client_localstorage_schema_versioning",
+      "label": "localStorage Versioning",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/client-localstorage-schema.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_client_localstorage_schema_data_minimization",
+      "label": "Data Minimization",
+      "file_type": "rationale",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/client-localstorage-schema.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_client_passive_event_listeners_passive_listeners",
+      "label": "Passive Event Listeners",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/client-passive-event-listeners.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_client_passive_event_listeners_scroll_performance",
+      "label": "Scroll Performance",
+      "file_type": "rationale",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/client-passive-event-listeners.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_client_swr_dedup_swr",
+      "label": "SWR",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/client-swr-dedup.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_client_swr_dedup_request_deduplication",
+      "label": "Request Deduplication",
+      "file_type": "rationale",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/client-swr-dedup.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_js_batch_dom_css_layout_thrashing",
+      "label": "Layout Thrashing",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/js-batch-dom-css.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_js_batch_dom_css_forced_reflow",
+      "label": "Forced Synchronous Layout",
+      "file_type": "rationale",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/js-batch-dom-css.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_js_hoist_regexp_md_hoist_regexp",
+      "label": "Hoist RegExp Creation",
+      "file_type": "document",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-hoist-regexp.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_js_hoist_regexp_md_usememo",
+      "label": "useMemo",
+      "file_type": "concept",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-hoist-regexp.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_js_hoist_regexp_md_regexp_mutable_state",
+      "label": "RegExp Global Mutable State",
+      "file_type": "rationale",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-hoist-regexp.md",
+      "source_location": "lines 37-45"
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_js_index_maps_md_index_maps",
+      "label": "Build Index Maps for Repeated Lookups",
+      "file_type": "document",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-index-maps.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_js_index_maps_md_map_data_structure",
+      "label": "Map Data Structure",
+      "file_type": "concept",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-index-maps.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_js_flatmap_filter_md_flatmap_filter",
+      "label": "Use flatMap to Map and Filter in One Pass",
+      "file_type": "document",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-flatmap-filter.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_js_flatmap_filter_md_flatmap",
+      "label": "flatMap Method",
+      "file_type": "concept",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-flatmap-filter.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_js_combine_iterations_md_combine_iterations",
+      "label": "Combine Multiple Array Iterations",
+      "file_type": "document",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-combine-iterations.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_js_early_exit_md_early_return",
+      "label": "Early Return from Functions",
+      "file_type": "document",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-early-exit.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_js_cache_storage_md_cache_storage",
+      "label": "Cache Storage API Calls",
+      "file_type": "document",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-cache-storage.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_js_cache_storage_md_localstorage",
+      "label": "localStorage",
+      "file_type": "concept",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-cache-storage.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_js_cache_storage_md_sessionstorage",
+      "label": "sessionStorage",
+      "file_type": "concept",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-cache-storage.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_js_cache_storage_md_storage_event",
+      "label": "Storage Event Listener",
+      "file_type": "concept",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-cache-storage.md",
+      "source_location": "lines 57-69"
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_js_cache_function_results_md_cache_function_results",
+      "label": "Cache Repeated Function Calls",
+      "file_type": "document",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-cache-function-results.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_js_cache_function_results_md_vercel_blog",
+      "label": "Vercel Dashboard Performance Post",
+      "file_type": "document",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-cache-function-results.md",
+      "source_location": "line 80"
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_js_min_max_loop_md_min_max_loop",
+      "label": "Use Loop for Min/Max Instead of Sort",
+      "file_type": "document",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-min-max-loop.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_js_min_max_loop_md_math_minmax_limits",
+      "label": "Math.min/max Spread Limits",
+      "file_type": "rationale",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-min-max-loop.md",
+      "source_location": "lines 74-82"
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_js_length_check_first_md_length_check",
+      "label": "Early Length Check for Array Comparisons",
+      "file_type": "document",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-length-check-first.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_js_cache_property_access_md_cache_property",
+      "label": "Cache Property Access in Loops",
+      "file_type": "document",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-cache-property-access.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_js_tosorted_immutable_md_tosorted",
+      "label": "Use toSorted() Instead of sort() for Immutability",
+      "file_type": "document",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-tosorted-immutable.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_js_tosorted_immutable_md_immutable_array_methods",
+      "label": "Immutable Array Methods",
+      "file_type": "concept",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-tosorted-immutable.md",
+      "source_location": "lines 52-57"
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_rendering_conditional_render_md_conditional_render",
+      "label": "Use Explicit Conditional Rendering",
+      "file_type": "document",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-conditional-render.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_rendering_hydration_suppress_warning_md_suppress_hydration",
+      "label": "Suppress Expected Hydration Mismatches",
+      "file_type": "document",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-hydration-suppress-warning.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_rendering_hydration_suppress_warning_md_suppresshydrationwarning",
+      "label": "suppressHydrationWarning",
+      "file_type": "concept",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-hydration-suppress-warning.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_js_request_idle_callback_md_request_idle_callback",
+      "label": "Defer Non-Critical Work with requestIdleCallback",
+      "file_type": "document",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-request-idle-callback.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_js_request_idle_callback_md_requestidlecallback",
+      "label": "requestIdleCallback",
+      "file_type": "concept",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-request-idle-callback.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_rendering_animate_svg_wrapper_md_animate_svg_wrapper",
+      "label": "Animate SVG Wrapper Instead of SVG Element",
+      "file_type": "document",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-animate-svg-wrapper.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_rendering_animate_svg_wrapper_md_hardware_acceleration",
+      "label": "Hardware Acceleration",
+      "file_type": "concept",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-animate-svg-wrapper.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_rendering_activity_md_activity_component",
+      "label": "Use Activity Component for Show/Hide",
+      "file_type": "document",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-activity.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_rendering_activity_md_activity",
+      "label": "Activity Component",
+      "file_type": "concept",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-activity.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_js_set_map_lookups_md_set_map_lookups",
+      "label": "Use Set/Map for O(1) Lookups",
+      "file_type": "document",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-set-map-lookups.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_js_set_map_lookups_md_set_data_structure",
+      "label": "Set Data Structure",
+      "file_type": "concept",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-set-map-lookups.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_rendering_content_visibility_md_content_visibility",
+      "label": "CSS content-visibility for Long Lists",
+      "file_type": "document",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-content-visibility.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_rendering_content_visibility_md_content_visibility_css",
+      "label": "content-visibility CSS Property",
+      "file_type": "concept",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-content-visibility.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_rendering_hoist_jsx_md_hoist_jsx",
+      "label": "Hoist Static JSX Elements",
+      "file_type": "document",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-hoist-jsx.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_rendering_hoist_jsx_md_react_compiler",
+      "label": "React Compiler",
+      "file_type": "concept",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-hoist-jsx.md",
+      "source_location": "line 46"
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_rendering_hydration_no_flicker_md_hydration_no_flicker",
+      "label": "Prevent Hydration Mismatch Without Flickering",
+      "file_type": "document",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-hydration-no-flicker.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_rendering_hydration_no_flicker_md_synchronous_script_pattern",
+      "label": "Synchronous Script Pattern",
+      "file_type": "concept",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-hydration-no-flicker.md",
+      "source_location": "lines 53-80"
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_resource_hints",
+      "label": "Use React DOM Resource Hints",
+      "file_type": "document",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-resource-hints.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_prefetchdns",
+      "label": "prefetchDNS",
+      "file_type": "concept",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-resource-hints.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_preconnect",
+      "label": "preconnect",
+      "file_type": "concept",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-resource-hints.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_preload",
+      "label": "preload",
+      "file_type": "concept",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-resource-hints.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_preloadmodule",
+      "label": "preloadModule",
+      "file_type": "concept",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-resource-hints.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_preinit",
+      "label": "preinit",
+      "file_type": "concept",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-resource-hints.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_preinitmodule",
+      "label": "preinitModule",
+      "file_type": "concept",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-resource-hints.md",
+      "source_location": null
+    },
+    {
+      "id": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_react_dom",
+      "label": "React DOM",
+      "file_type": "concept",
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-resource-hints.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rendering_usetransition_loading_md_usetransition",
+      "label": "useTransition",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rendering-usetransition-loading.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rendering_usetransition_loading_md_ispending_state",
+      "label": "isPending state",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rendering-usetransition-loading.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rendering_usetransition_loading_md_manual_loading_state",
+      "label": "Manual loading state",
+      "file_type": "rationale",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rendering-usetransition-loading.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rendering_script_defer_async_md_script_defer",
+      "label": "Script defer attribute",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rendering-script-defer-async.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rendering_script_defer_async_md_script_async",
+      "label": "Script async attribute",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rendering-script-defer-async.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rendering_script_defer_async_md_nextjs_script_component",
+      "label": "Next.js Script component",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rendering-script-defer-async.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rerender_defer_reads_md_defer_state_reads",
+      "label": "Defer state reads",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-defer-reads.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rerender_defer_reads_md_usesearchparams",
+      "label": "useSearchParams",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-defer-reads.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rerender_dependencies_md_narrow_effect_dependencies",
+      "label": "Narrow effect dependencies",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-dependencies.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rerender_dependencies_md_useeffect",
+      "label": "useEffect",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-dependencies.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rendering_svg_precision_md_svg_optimization",
+      "label": "SVG optimization",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rendering-svg-precision.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rendering_svg_precision_md_svgo",
+      "label": "SVGO",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rendering-svg-precision.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rerender_functional_setstate_md_functional_setstate",
+      "label": "Functional setState updates",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-functional-setstate.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rerender_functional_setstate_md_stale_closure",
+      "label": "Stale closure",
+      "file_type": "rationale",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-functional-setstate.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rerender_functional_setstate_md_usecallback",
+      "label": "useCallback",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-functional-setstate.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rerender_derived_state_md_derived_state",
+      "label": "Derived state",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-derived-state.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rerender_derived_state_md_usemediaquery",
+      "label": "useMediaQuery",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-derived-state.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rerender_lazy_state_init_md_lazy_state_initialization",
+      "label": "Lazy state initialization",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-lazy-state-init.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rerender_lazy_state_init_md_usestate",
+      "label": "useState",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-lazy-state-init.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rerender_derived_state_no_effect_md_no_effect_for_derived_state",
+      "label": "No effect for derived state",
+      "file_type": "rationale",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-derived-state-no-effect.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rerender_memo_with_default_value_md_memo_default_value",
+      "label": "Memo with default value",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-memo-with-default-value.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rerender_memo_with_default_value_md_memo",
+      "label": "React.memo",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-memo-with-default-value.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rerender_simple_expression_in_memo_md_usememo_overhead",
+      "label": "useMemo overhead",
+      "file_type": "rationale",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-simple-expression-in-memo.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rerender_simple_expression_in_memo_md_usememo",
+      "label": "useMemo",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-simple-expression-in-memo.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rerender_no_inline_components_md_inline_component_remount",
+      "label": "Inline component remount",
+      "file_type": "rationale",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-no-inline-components.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rerender_no_inline_components_md_component_definition",
+      "label": "Component definition",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-no-inline-components.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rerender_memo_md_memoized_components",
+      "label": "Memoized components",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-memo.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rerender_memo_md_react_compiler",
+      "label": "React Compiler",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-memo.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rerender_split_combined_hooks_md_split_hook_computations",
+      "label": "Split hook computations",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-split-combined-hooks.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rerender_move_effect_to_event_md_event_handler_logic",
+      "label": "Event handler logic",
+      "file_type": "rationale",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-move-effect-to-event.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rerender_use_deferred_value_md_usedeferredvalue",
+      "label": "useDeferredValue",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-use-deferred-value.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rerender_transitions_md_starttransition",
+      "label": "startTransition",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-transitions.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_server_after_nonblocking_md_after_function",
+      "label": "Next.js after() function",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/server-after-nonblocking.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rerender_use_ref_transient_values_md_useref_transient",
+      "label": "useRef for transient values",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-use-ref-transient-values.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rerender_use_ref_transient_values_md_useref",
+      "label": "useRef",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-use-ref-transient-values.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_server_auth_actions_md_server_action_auth",
+      "label": "Server Action authentication",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/server-auth-actions.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_server_auth_actions_md_server_actions",
+      "label": "Server Actions",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/server-auth-actions.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_server_cache_lru_md_lru_cache",
+      "label": "LRU Cache",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/server-cache-lru.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_server_cache_lru_md_react_cache",
+      "label": "React.cache",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/server-cache-lru.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_server_cache_lru_md_vercel_fluid_compute",
+      "label": "Vercel Fluid Compute",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/server-cache-lru.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_server_cache_react",
+      "label": "React.cache() deduplication pattern",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/server-cache-react.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_server_dedup_props",
+      "label": "Avoid duplicate RSC serialization",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/server-dedup-props.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_server_hoist_static_io",
+      "label": "Hoist static I/O to module level",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/server-hoist-static-io.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_server_no_shared_module_state",
+      "label": "Avoid shared module state for request data",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best_practices/rules/server-no-shared-module-state.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_server_parallel_fetching",
+      "label": "Parallel data fetching with component composition",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/server-parallel-fetching.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_server_parallel_nested_fetching",
+      "label": "Parallel nested data fetching",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/server-parallel-nested-fetching.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_server_serialization",
+      "label": "Minimize serialization at RSC boundaries",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/server-serialization.md",
+      "source_location": null
+    },
+    {
+      "id": "_claude_agents_performance_reviewer",
+      "label": "Performance reviewer agent",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/.claude/agents/performance-reviewer.md",
+      "source_location": null
+    },
+    {
+      "id": "_claude_agents_security_reviewer",
+      "label": "Security reviewer agent",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/.claude/agents/security-reviewer.md",
+      "source_location": null
+    },
+    {
+      "id": "_claude_agents_test_coverage_reviewer",
+      "label": "Test coverage reviewer agent",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/.claude/agents/test-coverage-reviewer.md",
+      "source_location": null
+    },
+    {
+      "id": "_claude_ralph",
+      "label": "Ralph loop autonomous workflow rules",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/.claude/ralph.md",
+      "source_location": null
+    },
+    {
+      "id": "_claude_skills_review_all",
+      "label": "Review-all skill",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/.claude/skills/review-all/SKILL.md",
+      "source_location": null
+    },
+    {
+      "id": "_github_workflows_ci",
+      "label": "CI workflow",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/.github/workflows/ci.yml",
+      "source_location": null
+    },
+    {
+      "id": "claude_md",
+      "label": "Root monorepo documentation",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/CLAUDE.md",
+      "source_location": null
+    },
+    {
+      "id": "readme_md",
+      "label": "README",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/README.md",
+      "source_location": null
+    },
+    {
+      "id": "test_skill_check_md",
+      "label": "Test change verification",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/TEST_SKILL_CHECK.md",
+      "source_location": null
+    },
+    {
+      "id": "apps_api_claude_md",
+      "label": "API package documentation",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/apps/api/CLAUDE.md",
+      "source_location": null
+    },
+    {
+      "id": "apps_api_readme_md",
+      "label": "API README",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/apps/api/README.md",
+      "source_location": null
+    },
+    {
+      "id": "apps_api_src_claude_agent_claude_md",
+      "label": "Claude Agent module documentation",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/apps/api/src/claude-agent/CLAUDE.md",
+      "source_location": null
+    },
+    {
+      "id": "apps_api_src_claude_agent_meeting_tools_md",
+      "label": "Meeting tools MCP server documentation",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/apps/api/src/claude-agent/MEETING_TOOLS.md",
+      "source_location": null
+    },
+    {
+      "id": "apps_api_src_meeting_file_claude_md",
+      "label": "Meeting file module documentation",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/apps/api/src/meeting-file/CLAUDE.md",
+      "source_location": null
+    },
+    {
+      "id": "apps_api_src_claude_agent",
+      "label": "Claude Agent module",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/apps/api/src/claude-agent/CLAUDE.md",
+      "source_location": null
+    },
+    {
+      "id": "apps_api_src_meeting_file",
+      "label": "Meeting file module",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/apps/api/src/meeting-file/CLAUDE.md",
+      "source_location": null
+    },
+    {
+      "id": "apps_api_src_task",
+      "label": "Task module",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/apps/api/src/claude-agent/MEETING_TOOLS.md",
+      "source_location": null
+    },
+    {
+      "id": "anthropic_ai_claude_agent_sdk",
+      "label": "@anthropic-ai/claude-agent-sdk",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/apps/api/src/claude-agent/CLAUDE.md",
+      "source_location": null
+    },
+    {
+      "id": "claude_agent_service",
+      "label": "ClaudeAgentService",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/apps/api/src/claude-agent/CLAUDE.md",
+      "source_location": null
+    },
+    {
+      "id": "meeting_mcp_server",
+      "label": "MCP server for meeting tools",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/apps/api/src/claude-agent/MEETING_TOOLS.md",
+      "source_location": null
+    },
+    {
+      "id": "prisma_service",
+      "label": "PrismaService",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/apps/api/src/claude-agent/MEETING_TOOLS.md",
+      "source_location": null
+    },
+    {
+      "id": "task_service",
+      "label": "TaskService",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/apps/api/src/claude-agent/MEETING_TOOLS.md",
+      "source_location": null
+    },
+    {
+      "id": "whisper_stt_service",
+      "label": "WhisperSttService",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/apps/api/src/meeting-file/CLAUDE.md",
+      "source_location": null
+    },
+    {
+      "id": "claude_summary_service",
+      "label": "ClaudeSummaryService",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/apps/api/src/meeting-file/CLAUDE.md",
+      "source_location": null
+    },
+    {
+      "id": "meeting_file_processing_queue",
+      "label": "MeetingFileProcessingQueue",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/apps/api/src/meeting-file/CLAUDE.md",
+      "source_location": null
+    },
+    {
+      "id": "meeting_file_summary_queue",
+      "label": "MeetingFileSummaryQueue",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/apps/api/src/meeting-file/CLAUDE.md",
+      "source_location": null
+    },
+    {
+      "id": "rsc",
+      "label": "React Server Components",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/server-cache-react.md",
+      "source_location": null
+    },
+    {
+      "id": "pnpm_workspaces",
+      "label": "pnpm workspaces",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/CLAUDE.md",
+      "source_location": null
+    },
+    {
+      "id": "turborepo",
+      "label": "Turborepo",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/CLAUDE.md",
+      "source_location": null
+    },
+    {
+      "id": "nestjs",
+      "label": "NestJS",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/apps/api/CLAUDE.md",
+      "source_location": null
+    },
+    {
+      "id": "nextjs",
+      "label": "Next.js",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/CLAUDE.md",
+      "source_location": null
+    },
+    {
+      "id": "postgres",
+      "label": "PostgreSQL",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/CLAUDE.md",
+      "source_location": null
+    },
+    {
+      "id": "prisma",
+      "label": "Prisma",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/apps/api/CLAUDE.md",
+      "source_location": null
+    }
+  ],
+  "edges": [
+    {
+      "source": "_agents_skills_code_review_skill_md",
+      "target": "_agents_skills_code_review_skill_md_standards_review",
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/code-review/SKILL.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_code_review_skill_md",
+      "target": "_agents_skills_code_review_skill_md_spec_review",
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/code-review/SKILL.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_code_review_skill_md",
+      "target": "_agents_skills_code_review_skill_md_smell_baseline",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/code-review/SKILL.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_code_review_skill_md_standards_review",
+      "target": "_agents_skills_code_review_skill_md_smell_baseline",
+      "relation": "applies",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/code-review/SKILL.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_issues_skill_md",
+      "target": "_agents_skills_git_commit_skill_md",
+      "relation": "related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": "/home/oneal/monorepo/.agents/skills/issues/SKILL.md",
+      "weight": 0.5
+    },
+    {
+      "source": "_agents_skills_git_commit_skill_md",
+      "target": "_agents_skills_git_commit_skill_md_conventional_commits",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/git-commit/SKILL.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_heroui_react_skill_md",
+      "target": "_agents_skills_heroui_react_skill_md_heroui_v3",
+      "relation": "documents",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/heroui-react/SKILL.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_heroui_react_skill_md_heroui_v3",
+      "target": "_agents_skills_heroui_react_skill_md_tailwind_v4",
+      "relation": "requires",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/heroui-react/SKILL.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_heroui_react_skill_md_heroui_v3",
+      "target": "_agents_skills_heroui_react_skill_md_react_aria",
+      "relation": "built_on",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/heroui-react/SKILL.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_nestjs_best_practices_skill_md",
+      "target": "_agents_skills_nestjs_best_practices_rules__sections_md",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/nestjs-best-practices/SKILL.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_nestjs_best_practices_skill_md",
+      "target": "nestjs_best_practices_category_architecture",
+      "relation": "categorizes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/nestjs-best-practices/SKILL.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_nestjs_best_practices_skill_md",
+      "target": "nestjs_best_practices_category_dependency_injection",
+      "relation": "categorizes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/nestjs-best-practices/SKILL.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_nestjs_best_practices_skill_md",
+      "target": "nestjs_best_practices_category_error_handling",
+      "relation": "categorizes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/nestjs-best-practices/SKILL.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_nestjs_best_practices_skill_md",
+      "target": "nestjs_best_practices_category_security",
+      "relation": "categorizes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/nestjs-best-practices/SKILL.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_nestjs_best_practices_skill_md",
+      "target": "nestjs_best_practices_category_performance",
+      "relation": "categorizes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/nestjs-best-practices/SKILL.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_nestjs_best_practices_skill_md",
+      "target": "nestjs_best_practices_category_testing",
+      "relation": "categorizes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/nestjs-best-practices/SKILL.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_nestjs_best_practices_skill_md",
+      "target": "nestjs_best_practices_category_database",
+      "relation": "categorizes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/nestjs-best-practices/SKILL.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_nestjs_best_practices_skill_md",
+      "target": "nestjs_best_practices_category_api_design",
+      "relation": "categorizes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/nestjs-best-practices/SKILL.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_nestjs_best_practices_skill_md",
+      "target": "nestjs_best_practices_category_microservices",
+      "relation": "categorizes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/nestjs-best-practices/SKILL.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_nestjs_best_practices_skill_md",
+      "target": "nestjs_best_practices_category_devops",
+      "relation": "categorizes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/nestjs-best-practices/SKILL.md",
+      "weight": 1
+    },
+    {
+      "source": "nestjs_best_practices_category_architecture",
+      "target": "_agents_skills_nestjs_best_practices_rules_arch_avoid_circular_deps_md",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/nestjs-best-practices/rules/arch-avoid-circular-deps.md",
+      "weight": 1
+    },
+    {
+      "source": "nestjs_best_practices_category_architecture",
+      "target": "_agents_skills_nestjs_best_practices_rules_arch_feature_modules_md",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/nestjs-best-practices/rules/arch-feature-modules.md",
+      "weight": 1
+    },
+    {
+      "source": "nestjs_best_practices_category_architecture",
+      "target": "_agents_skills_nestjs_best_practices_rules_arch_module_sharing_md",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/nestjs-best-practices/rules/arch-module-sharing.md",
+      "weight": 1
+    },
+    {
+      "source": "nestjs_best_practices_category_architecture",
+      "target": "_agents_skills_nestjs_best_practices_rules_arch_single_responsibility_md",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/nestjs-best-practices/rules/arch-single-responsibility.md",
+      "weight": 1
+    },
+    {
+      "source": "nestjs_best_practices_category_architecture",
+      "target": "_agents_skills_nestjs_best_practices_rules_arch_use_events_md",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/nestjs-best-practices/rules/arch-use-events.md",
+      "weight": 1
+    },
+    {
+      "source": "nestjs_best_practices_category_architecture",
+      "target": "_agents_skills_nestjs_best_practices_rules_arch_use_repository_pattern_md",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/nestjs-best-practices/rules/arch-use-repository-pattern.md",
+      "weight": 1
+    },
+    {
+      "source": "nestjs_best_practices_category_database",
+      "target": "_agents_skills_nestjs_best_practices_rules_db_avoid_n_plus_one_md",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/nestjs-best-practices/rules/db-avoid-n-plus-one.md",
+      "weight": 1
+    },
+    {
+      "source": "nestjs_best_practices_category_api_design",
+      "target": "_agents_skills_nestjs_best_practices_rules_api_use_dto_serialization_md",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/nestjs-best-practices/rules/api-use-dto-serialization.md",
+      "weight": 1
+    },
+    {
+      "source": "nestjs_best_practices_category_api_design",
+      "target": "_agents_skills_nestjs_best_practices_rules_api_use_interceptors_md",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/nestjs-best-practices/rules/api-use-interceptors.md",
+      "weight": 1
+    },
+    {
+      "source": "nestjs_best_practices_category_api_design",
+      "target": "_agents_skills_nestjs_best_practices_rules_api_use_pipes_md",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/nestjs-best-practices/rules/api-use-pipes.md",
+      "weight": 1
+    },
+    {
+      "source": "nestjs_best_practices_category_api_design",
+      "target": "_agents_skills_nestjs_best_practices_rules_api_versioning_md",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/nestjs-best-practices/rules/api-versioning.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_nestjs_best_practices_rules_arch_avoid_circular_deps_md",
+      "target": "_agents_skills_nestjs_best_practices_rules_arch_use_events_md",
+      "relation": "suggests",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "/home/oneal/monorepo/.agents/skills/nestjs-best-practices/rules/arch-avoid-circular-deps.md",
+      "weight": 0.7
+    },
+    {
+      "source": "_agents_skills_plan_phase_skill_md",
+      "target": "_agents_skills_prd_skill_md",
+      "relation": "requires_input_from",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/plan-phase/SKILL.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_plan_phase_concept_prd_to_phases",
+      "target": "_agents_skills_prd_concept_prd_structure",
+      "relation": "transforms",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/plan-phase/SKILL.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_research_skill_md",
+      "target": "_agents_skills_plan_phase_skill_md",
+      "relation": "requires_input_from",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/research/SKILL.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_research_concept_technical_research_process",
+      "target": "nestjs_best_practices_skill",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/research/SKILL.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_research_concept_technical_research_process",
+      "target": "vercel_react_skill",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/research/SKILL.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_research_concept_technical_research_process",
+      "target": "ui_ux_skill",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/research/SKILL.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_readme_md",
+      "target": "_agents_skills_vercel_react_best_practices_skill_md",
+      "relation": "documents",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/vercel-react-best-practices/README.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_concept_rule_file_structure",
+      "target": "_agents_skills_vercel_react_best_practices_rules_sections_md",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/vercel-react-best-practices/README.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_skill_md",
+      "target": "_agents_skills_vercel_react_best_practices_agents_md",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/vercel-react-best-practices/SKILL.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_concept_rule_categories",
+      "target": "_agents_skills_vercel_react_best_practices_concept_impact_levels",
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/vercel-react-best-practices/SKILL.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_nestjs_best_practices_concept_mock_external_services",
+      "target": "_agents_skills_nestjs_best_practices_concept_testing_module",
+      "relation": "implements_with",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": ".agents/skills/nestjs-best-practices/rules/test-mock-external-services.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_nestjs_best_practices_concept_dto_validation",
+      "target": "_agents_skills_nestjs_best_practices_concept_guard_pattern",
+      "relation": "complements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": ".agents/skills/nestjs-best-practices/rules/security-validate-all-input.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_ui_ux_pro_max_concept_pre_delivery_checklist",
+      "target": "_agents_skills_ui_ux_pro_max_concept_accessibility_rules",
+      "relation": "includes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/ui-ux-pro-max/references/pro-rules.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_ui_ux_pro_max_concept_pre_delivery_checklist",
+      "target": "_agents_skills_ui_ux_pro_max_concept_touch_interaction_rules",
+      "relation": "includes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/ui-ux-pro-max/references/pro-rules.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_ui_ux_pro_max_concept_ui_ux_workflow",
+      "target": "_agents_skills_ui_ux_pro_max_references_quick_reference_md",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/ui-ux-pro-max/SKILL.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_ui_ux_pro_max_concept_ui_ux_workflow",
+      "target": "_agents_skills_ui_ux_pro_max_references_pro_rules_md",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/ui-ux-pro-max/SKILL.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_requesting_code_review_skill_md",
+      "target": "_agents_skills_requesting_code_review_code_reviewer_md",
+      "relation": "uses_template",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/requesting-code-review/SKILL.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_concept_eliminating_waterfalls",
+      "target": "_agents_skills_vercel_react_best_practices_concept_bundle_size_optimization",
+      "relation": "related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": ".agents/skills/vercel-react-best-practices/AGENTS.md",
+      "weight": 0.8
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_concept_bundle_size_optimization",
+      "target": "_agents_skills_vercel_react_best_practices_concept_server_side_performance",
+      "relation": "related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": ".agents/skills/vercel-react-best-practices/AGENTS.md",
+      "weight": 0.8
+    },
+    {
+      "source": "nestjs_best_practices_skill",
+      "target": "_agents_skills_nestjs_best_practices_concept_dto_validation",
+      "relation": "includes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/nestjs-best-practices/rules/security-validate-all-input.md",
+      "weight": 1
+    },
+    {
+      "source": "nestjs_best_practices_skill",
+      "target": "_agents_skills_nestjs_best_practices_concept_jwt_security",
+      "relation": "includes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/nestjs-best-practices/rules/security-auth-jwt.md",
+      "weight": 1
+    },
+    {
+      "source": "nestjs_best_practices_skill",
+      "target": "_agents_skills_nestjs_best_practices_concept_guard_pattern",
+      "relation": "includes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/nestjs-best-practices/rules/security-use-guards.md",
+      "weight": 1
+    },
+    {
+      "source": "nestjs_best_practices_skill",
+      "target": "_agents_skills_nestjs_best_practices_concept_rate_limiting",
+      "relation": "includes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/nestjs-best-practices/rules/security-rate-limiting.md",
+      "weight": 1
+    },
+    {
+      "source": "nestjs_best_practices_skill",
+      "target": "_agents_skills_nestjs_best_practices_concept_xss_prevention",
+      "relation": "includes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/nestjs-best-practices/rules/security-sanitize-output.md",
+      "weight": 1
+    },
+    {
+      "source": "nestjs_best_practices_skill",
+      "target": "_agents_skills_nestjs_best_practices_concept_testing_module",
+      "relation": "includes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/nestjs-best-practices/rules/test-use-testing-module.md",
+      "weight": 1
+    },
+    {
+      "source": "nestjs_best_practices_skill",
+      "target": "_agents_skills_nestjs_best_practices_concept_mock_external_services",
+      "relation": "includes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/nestjs-best-practices/rules/test-mock-external-services.md",
+      "weight": 1
+    },
+    {
+      "source": "nestjs_best_practices_skill",
+      "target": "_agents_skills_nestjs_best_practices_concept_e2e_testing",
+      "relation": "includes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/nestjs-best-practices/rules/test-e2e-supertest.md",
+      "weight": 1
+    },
+    {
+      "source": "vercel_react_skill",
+      "target": "_agents_skills_vercel_react_best_practices_concept_eliminating_waterfalls",
+      "relation": "includes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/vercel-react-best-practices/AGENTS.md",
+      "weight": 1
+    },
+    {
+      "source": "vercel_react_skill",
+      "target": "_agents_skills_vercel_react_best_practices_concept_bundle_size_optimization",
+      "relation": "includes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/vercel-react-best-practices/AGENTS.md",
+      "weight": 1
+    },
+    {
+      "source": "vercel_react_skill",
+      "target": "_agents_skills_vercel_react_best_practices_concept_server_side_performance",
+      "relation": "includes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/vercel-react-best-practices/AGENTS.md",
+      "weight": 1
+    },
+    {
+      "source": "ui_ux_skill",
+      "target": "_agents_skills_ui_ux_pro_max_concept_accessibility_rules",
+      "relation": "includes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/ui-ux-pro-max/references/quick-reference.md",
+      "weight": 1
+    },
+    {
+      "source": "ui_ux_skill",
+      "target": "_agents_skills_ui_ux_pro_max_concept_touch_interaction_rules",
+      "relation": "includes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/ui-ux-pro-max/references/quick-reference.md",
+      "weight": 1
+    },
+    {
+      "source": "ui_ux_skill",
+      "target": "_agents_skills_ui_ux_pro_max_concept_icons_visual_elements",
+      "relation": "includes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/ui-ux-pro-max/references/pro-rules.md",
+      "weight": 1
+    },
+    {
+      "source": "ui_ux_skill",
+      "target": "_agents_skills_ui_ux_pro_max_concept_pre_delivery_checklist",
+      "relation": "includes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/ui-ux-pro-max/references/pro-rules.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_advanced_effect_event_deps_useeffectevent",
+      "target": "agents_skills_vercel_react_best_practices_rules_advanced_effect_event_deps_dependency_array",
+      "relation": "avoids_inclusion_in",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/advanced-effect-event-deps.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_advanced_effect_event_deps_useeffectevent",
+      "target": "agents_skills_vercel_react_best_practices_rules_advanced_effect_event_deps_useeffect",
+      "relation": "used_within",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/advanced-effect-event-deps.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_advanced_event_handler_refs_useref",
+      "target": "agents_skills_vercel_react_best_practices_rules_advanced_event_handler_refs_refs",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/advanced-event-handler-refs.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_advanced_event_handler_refs_useeffectevent",
+      "target": "agents_skills_vercel_react_best_practices_rules_advanced_event_handler_refs_refs",
+      "relation": "alternative_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/advanced-event-handler-refs.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_advanced_init_once_module_guard",
+      "target": "agents_skills_vercel_react_best_practices_rules_advanced_init_once_useeffect",
+      "relation": "prevents_duplicate_execution_in",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/advanced-init-once.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_advanced_use_latest_useeffectevent",
+      "target": "agents_skills_vercel_react_best_practices_rules_advanced_use_latest_stable_callback_refs",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/advanced-use-latest.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_async_cheap_condition_before_await_guard_condition",
+      "target": "agents_skills_vercel_react_best_practices_rules_async_cheap_condition_before_await_defer_await",
+      "relation": "specialization_of",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/async-cheap-condition-before-await.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_async_cheap_condition_before_await_defer_await",
+      "target": "agents_skills_vercel_react_best_practices_rules_async_defer_await_conditional_await",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/async-cheap-condition-before-await.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_async_defer_await_conditional_await",
+      "target": "agents_skills_vercel_react_best_practices_rules_async_defer_await_early_return",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/async-defer-await.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_async_defer_await_conditional_await",
+      "target": "agents_skills_vercel_react_best_practices_rules_async_cheap_condition_before_await_guard_condition",
+      "relation": "related_pattern",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/async-defer-await.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_async_dependencies_better_all",
+      "target": "agents_skills_vercel_react_best_practices_rules_async_dependencies_dependency_graph",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/async-dependencies.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_async_parallel_promise_all",
+      "target": "agents_skills_vercel_react_best_practices_rules_async_parallel_sequential_execution",
+      "relation": "avoids",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/async-parallel.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_async_api_routes_better_all",
+      "target": "agents_skills_vercel_react_best_practices_rules_async_dependencies_better_all",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/async-api-routes.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_async_api_routes_promise_all",
+      "target": "agents_skills_vercel_react_best_practices_rules_async_api_routes_waterfall_prevention",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/async-api-routes.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_async_suspense_boundaries_suspense",
+      "target": "agents_skills_vercel_react_best_practices_rules_async_suspense_boundaries_streaming",
+      "relation": "enables",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/async-suspense-boundaries.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_async_suspense_boundaries_use_hook",
+      "target": "agents_skills_vercel_react_best_practices_rules_async_suspense_boundaries_suspense",
+      "relation": "works_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/async-suspense-boundaries.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_bundle_analyzable_paths_explicit_imports",
+      "target": "agents_skills_vercel_react_best_practices_rules_bundle_analyzable_paths_static_analysis",
+      "relation": "enables",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/bundle-analyzable-paths.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_bundle_barrel_imports_optimizepackageimports",
+      "target": "agents_skills_vercel_react_best_practices_rules_bundle_barrel_imports_barrel_files",
+      "relation": "optimizes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/bundle-barrel-imports.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_bundle_barrel_imports_tree_shaking",
+      "target": "agents_skills_vercel_react_best_practices_rules_bundle_barrel_imports_barrel_files",
+      "relation": "limited_effectiveness_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/bundle-barrel-imports.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_bundle_conditional_lazy_loading",
+      "target": "agents_skills_vercel_react_best_practices_rules_bundle_conditional_conditional_loading",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/bundle-conditional.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_bundle_defer_third_party_next_dynamic",
+      "target": "agents_skills_vercel_react_best_practices_rules_bundle_defer_third_party_dynamic_import",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/bundle-defer-third-party.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_bundle_dynamic_imports_next_dynamic",
+      "target": "agents_skills_vercel_react_best_practices_rules_bundle_dynamic_imports_code_splitting",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/bundle-dynamic-imports.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_bundle_preload_user_intent",
+      "target": "agents_skills_vercel_react_best_practices_rules_bundle_preload_preloading",
+      "relation": "triggers",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/bundle-preload.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_client_event_listeners_useswr_subscription",
+      "target": "agents_skills_vercel_react_best_practices_rules_client_event_listeners_event_deduplication",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/client-event-listeners.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_client_localstorage_schema_versioning",
+      "target": "agents_skills_vercel_react_best_practices_rules_client_localstorage_schema_data_minimization",
+      "relation": "enables_safe",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/client-localstorage-schema.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_client_passive_event_listeners_passive_listeners",
+      "target": "agents_skills_vercel_react_best_practices_rules_client_passive_event_listeners_scroll_performance",
+      "relation": "improves",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/client-passive-event-listeners.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_client_swr_dedup_swr",
+      "target": "agents_skills_vercel_react_best_practices_rules_client_swr_dedup_request_deduplication",
+      "relation": "provides",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/client-swr-dedup.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_js_batch_dom_css_layout_thrashing",
+      "target": "agents_skills_vercel_react_best_practices_rules_js_batch_dom_css_forced_reflow",
+      "relation": "causes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/js-batch-dom-css.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_bundle_defer_third_party_next_dynamic",
+      "target": "agents_skills_vercel_react_best_practices_rules_bundle_dynamic_imports_next_dynamic",
+      "relation": "same_tool",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/bundle-defer-third-party.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_advanced_event_handler_refs_useeffectevent",
+      "target": "agents_skills_vercel_react_best_practices_rules_advanced_use_latest_useeffectevent",
+      "relation": "same_concept",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/advanced-event-handler-refs.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_client_event_listeners_useswr_subscription",
+      "target": "agents_skills_vercel_react_best_practices_rules_client_swr_dedup_swr",
+      "relation": "part_of_library",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/client-event-listeners.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_async_dependencies_better_all",
+      "target": "agents_skills_vercel_react_best_practices_rules_async_parallel_promise_all",
+      "relation": "alternative_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/async-dependencies.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_js_hoist_regexp_md_hoist_regexp",
+      "target": "agents_skills_vercel_react_best_practices_rules_js_hoist_regexp_md_usememo",
+      "relation": "recommends",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-hoist-regexp.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_js_hoist_regexp_md_hoist_regexp",
+      "target": "agents_skills_vercel_react_best_practices_rules_js_hoist_regexp_md_regexp_mutable_state",
+      "relation": "warns_about",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-hoist-regexp.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_js_index_maps_md_index_maps",
+      "target": "agents_skills_vercel_react_best_practices_rules_js_index_maps_md_map_data_structure",
+      "relation": "recommends",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-index-maps.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_js_flatmap_filter_md_flatmap_filter",
+      "target": "agents_skills_vercel_react_best_practices_rules_js_flatmap_filter_md_flatmap",
+      "relation": "recommends",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-flatmap-filter.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_js_cache_storage_md_cache_storage",
+      "target": "agents_skills_vercel_react_best_practices_rules_js_cache_storage_md_localstorage",
+      "relation": "applies_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-cache-storage.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_js_cache_storage_md_cache_storage",
+      "target": "agents_skills_vercel_react_best_practices_rules_js_cache_storage_md_sessionstorage",
+      "relation": "applies_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-cache-storage.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_js_cache_storage_md_cache_storage",
+      "target": "agents_skills_vercel_react_best_practices_rules_js_cache_storage_md_storage_event",
+      "relation": "requires",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-cache-storage.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_js_cache_storage_md_cache_storage",
+      "target": "agents_skills_vercel_react_best_practices_rules_js_index_maps_md_map_data_structure",
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-cache-storage.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_js_cache_function_results_md_cache_function_results",
+      "target": "agents_skills_vercel_react_best_practices_rules_js_index_maps_md_map_data_structure",
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-cache-function-results.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_js_cache_function_results_md_cache_function_results",
+      "target": "agents_skills_vercel_react_best_practices_rules_js_cache_function_results_md_vercel_blog",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-cache-function-results.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_js_min_max_loop_md_min_max_loop",
+      "target": "agents_skills_vercel_react_best_practices_rules_js_min_max_loop_md_math_minmax_limits",
+      "relation": "explains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-min-max-loop.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_js_tosorted_immutable_md_tosorted",
+      "target": "agents_skills_vercel_react_best_practices_rules_js_tosorted_immutable_md_immutable_array_methods",
+      "relation": "describes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-tosorted-immutable.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_rendering_hydration_suppress_warning_md_suppress_hydration",
+      "target": "agents_skills_vercel_react_best_practices_rules_rendering_hydration_suppress_warning_md_suppresshydrationwarning",
+      "relation": "recommends",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-hydration-suppress-warning.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_js_request_idle_callback_md_request_idle_callback",
+      "target": "agents_skills_vercel_react_best_practices_rules_js_request_idle_callback_md_requestidlecallback",
+      "relation": "recommends",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-request-idle-callback.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_rendering_animate_svg_wrapper_md_animate_svg_wrapper",
+      "target": "agents_skills_vercel_react_best_practices_rules_rendering_animate_svg_wrapper_md_hardware_acceleration",
+      "relation": "enables",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-animate-svg-wrapper.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_rendering_activity_md_activity_component",
+      "target": "agents_skills_vercel_react_best_practices_rules_rendering_activity_md_activity",
+      "relation": "recommends",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-activity.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_js_set_map_lookups_md_set_map_lookups",
+      "target": "agents_skills_vercel_react_best_practices_rules_js_set_map_lookups_md_set_data_structure",
+      "relation": "recommends",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-set-map-lookups.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_rendering_content_visibility_md_content_visibility",
+      "target": "agents_skills_vercel_react_best_practices_rules_rendering_content_visibility_md_content_visibility_css",
+      "relation": "recommends",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-content-visibility.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_rendering_hoist_jsx_md_hoist_jsx",
+      "target": "agents_skills_vercel_react_best_practices_rules_rendering_hoist_jsx_md_react_compiler",
+      "relation": "automated_by",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-hoist-jsx.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_rendering_hydration_no_flicker_md_hydration_no_flicker",
+      "target": "agents_skills_vercel_react_best_practices_rules_rendering_hydration_no_flicker_md_synchronous_script_pattern",
+      "relation": "recommends",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-hydration-no-flicker.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_rendering_hydration_no_flicker_md_hydration_no_flicker",
+      "target": "agents_skills_vercel_react_best_practices_rules_js_cache_storage_md_localstorage",
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-hydration-no-flicker.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_resource_hints",
+      "target": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_prefetchdns",
+      "relation": "describes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-resource-hints.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_resource_hints",
+      "target": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_preconnect",
+      "relation": "describes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-resource-hints.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_resource_hints",
+      "target": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_preload",
+      "relation": "describes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-resource-hints.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_resource_hints",
+      "target": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_preloadmodule",
+      "relation": "describes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-resource-hints.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_resource_hints",
+      "target": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_preinit",
+      "relation": "describes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-resource-hints.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_resource_hints",
+      "target": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_preinitmodule",
+      "relation": "describes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-resource-hints.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_prefetchdns",
+      "target": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_react_dom",
+      "relation": "exported_by",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-resource-hints.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_preconnect",
+      "target": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_react_dom",
+      "relation": "exported_by",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-resource-hints.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_preload",
+      "target": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_react_dom",
+      "relation": "exported_by",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-resource-hints.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_preloadmodule",
+      "target": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_react_dom",
+      "relation": "exported_by",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-resource-hints.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_preinit",
+      "target": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_react_dom",
+      "relation": "exported_by",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-resource-hints.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_preinitmodule",
+      "target": "agents_skills_vercel_react_best_practices_rules_rendering_resource_hints_md_react_dom",
+      "relation": "exported_by",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-resource-hints.md",
+      "weight": 1
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_js_index_maps_md_index_maps",
+      "target": "agents_skills_vercel_react_best_practices_rules_js_set_map_lookups_md_set_map_lookups",
+      "relation": "related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-index-maps.md",
+      "weight": 0.8
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_js_cache_function_results_md_cache_function_results",
+      "target": "agents_skills_vercel_react_best_practices_rules_js_cache_storage_md_cache_storage",
+      "relation": "similar_pattern",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/js-cache-function-results.md",
+      "weight": 0.7
+    },
+    {
+      "source": "agents_skills_vercel_react_best_practices_rules_rendering_hydration_suppress_warning_md_suppress_hydration",
+      "target": "agents_skills_vercel_react_best_practices_rules_rendering_hydration_no_flicker_md_hydration_no_flicker",
+      "relation": "addresses_similar_problem",
+      "confidence": "INFERRED",
+      "confidence_score": 0.9,
+      "source_file": ".agents/skills/vercel-react-best-practices/rules/rendering-hydration-suppress-warning.md",
+      "weight": 0.8
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_rendering_usetransition_loading_md_usetransition",
+      "target": "_agents_skills_vercel_react_best_practices_rules_rendering_usetransition_loading_md_ispending_state",
+      "relation": "provides",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rendering-usetransition-loading.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_rendering_usetransition_loading_md_usetransition",
+      "target": "_agents_skills_vercel_react_best_practices_rules_rendering_usetransition_loading_md_manual_loading_state",
+      "relation": "replaces",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rendering-usetransition-loading.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_rendering_script_defer_async_md_script_defer",
+      "target": "_agents_skills_vercel_react_best_practices_rules_rendering_script_defer_async_md_nextjs_script_component",
+      "relation": "alternative_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rendering-script-defer-async.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_rendering_script_defer_async_md_script_async",
+      "target": "_agents_skills_vercel_react_best_practices_rules_rendering_script_defer_async_md_nextjs_script_component",
+      "relation": "alternative_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rendering-script-defer-async.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_rerender_defer_reads_md_defer_state_reads",
+      "target": "_agents_skills_vercel_react_best_practices_rules_rerender_defer_reads_md_usesearchparams",
+      "relation": "avoids_subscription_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-defer-reads.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_rerender_dependencies_md_narrow_effect_dependencies",
+      "target": "_agents_skills_vercel_react_best_practices_rules_rerender_dependencies_md_useeffect",
+      "relation": "optimizes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-dependencies.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_rendering_svg_precision_md_svgo",
+      "target": "_agents_skills_vercel_react_best_practices_rules_rendering_svg_precision_md_svg_optimization",
+      "relation": "automates",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rendering-svg-precision.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_rerender_functional_setstate_md_functional_setstate",
+      "target": "_agents_skills_vercel_react_best_practices_rules_rerender_functional_setstate_md_stale_closure",
+      "relation": "prevents",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-functional-setstate.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_rerender_functional_setstate_md_functional_setstate",
+      "target": "_agents_skills_vercel_react_best_practices_rules_rerender_functional_setstate_md_usecallback",
+      "relation": "enables_stable",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-functional-setstate.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_rerender_derived_state_md_usemediaquery",
+      "target": "_agents_skills_vercel_react_best_practices_rules_rerender_derived_state_md_derived_state",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-derived-state.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_rerender_lazy_state_init_md_lazy_state_initialization",
+      "target": "_agents_skills_vercel_react_best_practices_rules_rerender_lazy_state_init_md_usestate",
+      "relation": "optimizes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-lazy-state-init.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_rerender_derived_state_no_effect_md_no_effect_for_derived_state",
+      "target": "_agents_skills_vercel_react_best_practices_rules_rerender_dependencies_md_useeffect",
+      "relation": "avoids",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-derived-state-no-effect.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_rerender_memo_with_default_value_md_memo_default_value",
+      "target": "_agents_skills_vercel_react_best_practices_rules_rerender_memo_with_default_value_md_memo",
+      "relation": "fixes_memoization_in",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-memo-with-default-value.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_rerender_simple_expression_in_memo_md_usememo_overhead",
+      "target": "_agents_skills_vercel_react_best_practices_rules_rerender_simple_expression_in_memo_md_usememo",
+      "relation": "warns_against",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-simple-expression-in-memo.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_rerender_no_inline_components_md_inline_component_remount",
+      "target": "_agents_skills_vercel_react_best_practices_rules_rerender_no_inline_components_md_component_definition",
+      "relation": "caused_by_inline",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-no-inline-components.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_rerender_memo_md_react_compiler",
+      "target": "_agents_skills_vercel_react_best_practices_rules_rerender_memo_md_memoized_components",
+      "relation": "automates",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-memo.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_rerender_split_combined_hooks_md_split_hook_computations",
+      "target": "_agents_skills_vercel_react_best_practices_rules_rerender_simple_expression_in_memo_md_usememo",
+      "relation": "applies_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-split-combined-hooks.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_rerender_split_combined_hooks_md_split_hook_computations",
+      "target": "_agents_skills_vercel_react_best_practices_rules_rerender_dependencies_md_useeffect",
+      "relation": "applies_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-split-combined-hooks.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_rerender_move_effect_to_event_md_event_handler_logic",
+      "target": "_agents_skills_vercel_react_best_practices_rules_rerender_dependencies_md_useeffect",
+      "relation": "replaces",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-move-effect-to-event.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_rerender_use_deferred_value_md_usedeferredvalue",
+      "target": "_agents_skills_vercel_react_best_practices_rules_rerender_simple_expression_in_memo_md_usememo",
+      "relation": "works_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-use-deferred-value.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_rerender_transitions_md_starttransition",
+      "target": "_agents_skills_vercel_react_best_practices_rules_rendering_usetransition_loading_md_usetransition",
+      "relation": "related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-transitions.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_server_auth_actions_md_server_action_auth",
+      "target": "_agents_skills_vercel_react_best_practices_rules_server_auth_actions_md_server_actions",
+      "relation": "secures",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/server-auth-actions.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_server_cache_lru_md_lru_cache",
+      "target": "_agents_skills_vercel_react_best_practices_rules_server_cache_lru_md_react_cache",
+      "relation": "extends",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/server-cache-lru.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_server_cache_lru_md_vercel_fluid_compute",
+      "target": "_agents_skills_vercel_react_best_practices_rules_server_cache_lru_md_lru_cache",
+      "relation": "enables_effective",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/server-cache-lru.md",
+      "weight": 1
+    },
+    {
+      "source": "apps_api_src_claude_agent_claude_md",
+      "target": "apps_api_src_claude_agent",
+      "relation": "documents",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/apps/api/src/claude-agent/CLAUDE.md",
+      "weight": 1
+    },
+    {
+      "source": "apps_api_src_claude_agent_meeting_tools_md",
+      "target": "meeting_mcp_server",
+      "relation": "documents",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/apps/api/src/claude-agent/MEETING_TOOLS.md",
+      "weight": 1
+    },
+    {
+      "source": "apps_api_src_meeting_file_claude_md",
+      "target": "apps_api_src_meeting_file",
+      "relation": "documents",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/apps/api/src/meeting-file/CLAUDE.md",
+      "weight": 1
+    },
+    {
+      "source": "apps_api_src_claude_agent",
+      "target": "anthropic_ai_claude_agent_sdk",
+      "relation": "wraps",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/apps/api/src/claude-agent/CLAUDE.md",
+      "weight": 1
+    },
+    {
+      "source": "apps_api_src_claude_agent",
+      "target": "claude_agent_service",
+      "relation": "exports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/apps/api/src/claude-agent/CLAUDE.md",
+      "weight": 1
+    },
+    {
+      "source": "meeting_mcp_server",
+      "target": "prisma_service",
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/apps/api/src/claude-agent/MEETING_TOOLS.md",
+      "weight": 1
+    },
+    {
+      "source": "meeting_mcp_server",
+      "target": "task_service",
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/apps/api/src/claude-agent/MEETING_TOOLS.md",
+      "weight": 1
+    },
+    {
+      "source": "meeting_mcp_server",
+      "target": "claude_agent_service",
+      "relation": "integrates_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/apps/api/src/claude-agent/MEETING_TOOLS.md",
+      "weight": 1
+    },
+    {
+      "source": "apps_api_src_meeting_file",
+      "target": "whisper_stt_service",
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/apps/api/src/meeting-file/CLAUDE.md",
+      "weight": 1
+    },
+    {
+      "source": "apps_api_src_meeting_file",
+      "target": "claude_summary_service",
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/apps/api/src/meeting-file/CLAUDE.md",
+      "weight": 1
+    },
+    {
+      "source": "claude_summary_service",
+      "target": "claude_agent_service",
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/apps/api/src/meeting-file/CLAUDE.md",
+      "weight": 1
+    },
+    {
+      "source": "meeting_file_processing_queue",
+      "target": "whisper_stt_service",
+      "relation": "invokes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/apps/api/src/meeting-file/CLAUDE.md",
+      "weight": 1
+    },
+    {
+      "source": "meeting_file_summary_queue",
+      "target": "claude_summary_service",
+      "relation": "invokes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/apps/api/src/meeting-file/CLAUDE.md",
+      "weight": 1
+    },
+    {
+      "source": "_claude_skills_review_all",
+      "target": "_claude_agents_security_reviewer",
+      "relation": "spawns",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.claude/skills/review-all/SKILL.md",
+      "weight": 1
+    },
+    {
+      "source": "_claude_skills_review_all",
+      "target": "_claude_agents_performance_reviewer",
+      "relation": "spawns",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.claude/skills/review-all/SKILL.md",
+      "weight": 1
+    },
+    {
+      "source": "_claude_skills_review_all",
+      "target": "_claude_agents_test_coverage_reviewer",
+      "relation": "spawns",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.claude/skills/review-all/SKILL.md",
+      "weight": 1
+    },
+    {
+      "source": "claude_md",
+      "target": "apps_api_claude_md",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/CLAUDE.md",
+      "weight": 1
+    },
+    {
+      "source": "apps_api_claude_md",
+      "target": "apps_api_src_claude_agent_claude_md",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/apps/api/CLAUDE.md",
+      "weight": 1
+    },
+    {
+      "source": "apps_api_claude_md",
+      "target": "apps_api_src_meeting_file_claude_md",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/apps/api/CLAUDE.md",
+      "weight": 1
+    },
+    {
+      "source": "claude_md",
+      "target": "pnpm_workspaces",
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/CLAUDE.md",
+      "weight": 1
+    },
+    {
+      "source": "claude_md",
+      "target": "turborepo",
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/CLAUDE.md",
+      "weight": 1
+    },
+    {
+      "source": "claude_md",
+      "target": "postgres",
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/CLAUDE.md",
+      "weight": 1
+    },
+    {
+      "source": "apps_api_claude_md",
+      "target": "nestjs",
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/apps/api/CLAUDE.md",
+      "weight": 1
+    },
+    {
+      "source": "apps_api_claude_md",
+      "target": "prisma",
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/apps/api/CLAUDE.md",
+      "weight": 1
+    },
+    {
+      "source": "_github_workflows_ci",
+      "target": "postgres",
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.github/workflows/ci.yml",
+      "weight": 1
+    },
+    {
+      "source": "_github_workflows_ci",
+      "target": "prisma",
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.github/workflows/ci.yml",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_server_cache_react",
+      "target": "rsc",
+      "relation": "applies_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/server-cache-react.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_server_dedup_props",
+      "target": "rsc",
+      "relation": "applies_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/server-dedup-props.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_server_serialization",
+      "target": "rsc",
+      "relation": "applies_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/server-serialization.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_server_no_shared_module_state",
+      "target": "rsc",
+      "relation": "applies_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best_practices/rules/server-no-shared-module-state.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_server_parallel_fetching",
+      "target": "rsc",
+      "relation": "applies_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/server-parallel-fetching.md",
+      "weight": 1
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_server_parallel_nested_fetching",
+      "target": "rsc",
+      "relation": "applies_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/server-parallel-nested-fetching.md",
+      "weight": 1
+    },
+    {
+      "source": "_claude_ralph",
+      "target": "_claude_skills_review_all",
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "/home/oneal/monorepo/.claude/ralph.md",
+      "weight": 1
+    }
+  ],
+  "hyperedges": [],
+  "input_tokens": 0,
+  "output_tokens": 0
+}

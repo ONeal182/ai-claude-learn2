@@ -1,0 +1,109 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_apps_api_oxlint_json",
+      "label": "oxlint.json",
+      "file_type": "code",
+      "source_file": "apps/api/oxlint.json",
+      "source_location": "L1"
+    },
+    {
+      "id": "$graphify-root$_apps_api_oxlint_schema",
+      "label": "$schema",
+      "file_type": "code",
+      "source_file": "apps/api/oxlint.json",
+      "source_location": "L2"
+    },
+    {
+      "id": "$graphify-root$_apps_api_oxlint_rules",
+      "label": "rules",
+      "file_type": "code",
+      "source_file": "apps/api/oxlint.json",
+      "source_location": "L3"
+    },
+    {
+      "id": "$graphify-root$_apps_api_oxlint_rules_typescript_eslint_no_explicit_any",
+      "label": "@typescript-eslint/no-explicit-any",
+      "file_type": "code",
+      "source_file": "apps/api/oxlint.json",
+      "source_location": "L4"
+    },
+    {
+      "id": "$graphify-root$_apps_api_oxlint_rules_typescript_eslint_no_floating_promises",
+      "label": "@typescript-eslint/no-floating-promises",
+      "file_type": "code",
+      "source_file": "apps/api/oxlint.json",
+      "source_location": "L5"
+    },
+    {
+      "id": "$graphify-root$_apps_api_oxlint_env",
+      "label": "env",
+      "file_type": "code",
+      "source_file": "apps/api/oxlint.json",
+      "source_location": "L7"
+    },
+    {
+      "id": "$graphify-root$_apps_api_oxlint_env_node",
+      "label": "node",
+      "file_type": "code",
+      "source_file": "apps/api/oxlint.json",
+      "source_location": "L8"
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_apps_api_oxlint_json",
+      "target": "$graphify-root$_apps_api_oxlint_schema",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/api/oxlint.json",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_apps_api_oxlint_json",
+      "target": "$graphify-root$_apps_api_oxlint_rules",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/api/oxlint.json",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_apps_api_oxlint_rules",
+      "target": "$graphify-root$_apps_api_oxlint_rules_typescript_eslint_no_explicit_any",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/api/oxlint.json",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_apps_api_oxlint_rules",
+      "target": "$graphify-root$_apps_api_oxlint_rules_typescript_eslint_no_floating_promises",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/api/oxlint.json",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_apps_api_oxlint_json",
+      "target": "$graphify-root$_apps_api_oxlint_env",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/api/oxlint.json",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_apps_api_oxlint_env",
+      "target": "$graphify-root$_apps_api_oxlint_env_node",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/api/oxlint.json",
+      "source_location": "L8",
+      "weight": 1.0
+    }
+  ]
+}

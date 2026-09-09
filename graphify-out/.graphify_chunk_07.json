@@ -1,0 +1,586 @@
+{
+  "nodes": [
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_server_cache_react",
+      "label": "React.cache() deduplication pattern",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/server-cache-react.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_server_dedup_props",
+      "label": "Avoid duplicate RSC serialization",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/server-dedup-props.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_server_hoist_static_io",
+      "label": "Hoist static I/O to module level",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/server-hoist-static-io.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_server_no_shared_module_state",
+      "label": "Avoid shared module state for request data",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best_practices/rules/server-no-shared-module-state.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_server_parallel_fetching",
+      "label": "Parallel data fetching with component composition",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/server-parallel-fetching.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_server_parallel_nested_fetching",
+      "label": "Parallel nested data fetching",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/server-parallel-nested-fetching.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_server_serialization",
+      "label": "Minimize serialization at RSC boundaries",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/server-serialization.md",
+      "source_location": null
+    },
+    {
+      "id": "_claude_agents_performance_reviewer",
+      "label": "Performance reviewer agent",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/.claude/agents/performance-reviewer.md",
+      "source_location": null
+    },
+    {
+      "id": "_claude_agents_security_reviewer",
+      "label": "Security reviewer agent",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/.claude/agents/security-reviewer.md",
+      "source_location": null
+    },
+    {
+      "id": "_claude_agents_test_coverage_reviewer",
+      "label": "Test coverage reviewer agent",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/.claude/agents/test-coverage-reviewer.md",
+      "source_location": null
+    },
+    {
+      "id": "_claude_ralph",
+      "label": "Ralph loop autonomous workflow rules",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/.claude/ralph.md",
+      "source_location": null
+    },
+    {
+      "id": "_claude_skills_review_all",
+      "label": "Review-all skill",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/.claude/skills/review-all/SKILL.md",
+      "source_location": null
+    },
+    {
+      "id": "_github_workflows_ci",
+      "label": "CI workflow",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/.github/workflows/ci.yml",
+      "source_location": null
+    },
+    {
+      "id": "claude_md",
+      "label": "Root monorepo documentation",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/CLAUDE.md",
+      "source_location": null
+    },
+    {
+      "id": "readme_md",
+      "label": "README",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/README.md",
+      "source_location": null
+    },
+    {
+      "id": "test_skill_check_md",
+      "label": "Test change verification",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/TEST_SKILL_CHECK.md",
+      "source_location": null
+    },
+    {
+      "id": "apps_api_claude_md",
+      "label": "API package documentation",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/apps/api/CLAUDE.md",
+      "source_location": null
+    },
+    {
+      "id": "apps_api_readme_md",
+      "label": "API README",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/apps/api/README.md",
+      "source_location": null
+    },
+    {
+      "id": "apps_api_src_claude_agent_claude_md",
+      "label": "Claude Agent module documentation",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/apps/api/src/claude-agent/CLAUDE.md",
+      "source_location": null
+    },
+    {
+      "id": "apps_api_src_claude_agent_meeting_tools_md",
+      "label": "Meeting tools MCP server documentation",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/apps/api/src/claude-agent/MEETING_TOOLS.md",
+      "source_location": null
+    },
+    {
+      "id": "apps_api_src_meeting_file_claude_md",
+      "label": "Meeting file module documentation",
+      "file_type": "document",
+      "source_file": "/home/oneal/monorepo/apps/api/src/meeting-file/CLAUDE.md",
+      "source_location": null
+    },
+    {
+      "id": "apps_api_src_claude_agent",
+      "label": "Claude Agent module",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/apps/api/src/claude-agent/CLAUDE.md",
+      "source_location": null
+    },
+    {
+      "id": "apps_api_src_meeting_file",
+      "label": "Meeting file module",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/apps/api/src/meeting-file/CLAUDE.md",
+      "source_location": null
+    },
+    {
+      "id": "apps_api_src_task",
+      "label": "Task module",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/apps/api/src/claude-agent/MEETING_TOOLS.md",
+      "source_location": null
+    },
+    {
+      "id": "anthropic_ai_claude_agent_sdk",
+      "label": "@anthropic-ai/claude-agent-sdk",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/apps/api/src/claude-agent/CLAUDE.md",
+      "source_location": null
+    },
+    {
+      "id": "claude_agent_service",
+      "label": "ClaudeAgentService",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/apps/api/src/claude-agent/CLAUDE.md",
+      "source_location": null
+    },
+    {
+      "id": "meeting_mcp_server",
+      "label": "MCP server for meeting tools",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/apps/api/src/claude-agent/MEETING_TOOLS.md",
+      "source_location": null
+    },
+    {
+      "id": "prisma_service",
+      "label": "PrismaService",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/apps/api/src/claude-agent/MEETING_TOOLS.md",
+      "source_location": null
+    },
+    {
+      "id": "task_service",
+      "label": "TaskService",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/apps/api/src/claude-agent/MEETING_TOOLS.md",
+      "source_location": null
+    },
+    {
+      "id": "whisper_stt_service",
+      "label": "WhisperSttService",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/apps/api/src/meeting-file/CLAUDE.md",
+      "source_location": null
+    },
+    {
+      "id": "claude_summary_service",
+      "label": "ClaudeSummaryService",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/apps/api/src/meeting-file/CLAUDE.md",
+      "source_location": null
+    },
+    {
+      "id": "meeting_file_processing_queue",
+      "label": "MeetingFileProcessingQueue",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/apps/api/src/meeting-file/CLAUDE.md",
+      "source_location": null
+    },
+    {
+      "id": "meeting_file_summary_queue",
+      "label": "MeetingFileSummaryQueue",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/apps/api/src/meeting-file/CLAUDE.md",
+      "source_location": null
+    },
+    {
+      "id": "rsc",
+      "label": "React Server Components",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/server-cache-react.md",
+      "source_location": null
+    },
+    {
+      "id": "pnpm_workspaces",
+      "label": "pnpm workspaces",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/CLAUDE.md",
+      "source_location": null
+    },
+    {
+      "id": "turborepo",
+      "label": "Turborepo",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/CLAUDE.md",
+      "source_location": null
+    },
+    {
+      "id": "nestjs",
+      "label": "NestJS",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/apps/api/CLAUDE.md",
+      "source_location": null
+    },
+    {
+      "id": "nextjs",
+      "label": "Next.js",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/CLAUDE.md",
+      "source_location": null
+    },
+    {
+      "id": "postgres",
+      "label": "PostgreSQL",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/CLAUDE.md",
+      "source_location": null
+    },
+    {
+      "id": "prisma",
+      "label": "Prisma",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/apps/api/CLAUDE.md",
+      "source_location": null
+    }
+  ],
+  "edges": [
+    {
+      "source": "apps_api_src_claude_agent_claude_md",
+      "target": "apps_api_src_claude_agent",
+      "relation": "documents",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/apps/api/src/claude-agent/CLAUDE.md",
+      "weight": 1.0
+    },
+    {
+      "source": "apps_api_src_claude_agent_meeting_tools_md",
+      "target": "meeting_mcp_server",
+      "relation": "documents",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/apps/api/src/claude-agent/MEETING_TOOLS.md",
+      "weight": 1.0
+    },
+    {
+      "source": "apps_api_src_meeting_file_claude_md",
+      "target": "apps_api_src_meeting_file",
+      "relation": "documents",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/apps/api/src/meeting-file/CLAUDE.md",
+      "weight": 1.0
+    },
+    {
+      "source": "apps_api_src_claude_agent",
+      "target": "anthropic_ai_claude_agent_sdk",
+      "relation": "wraps",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/apps/api/src/claude-agent/CLAUDE.md",
+      "weight": 1.0
+    },
+    {
+      "source": "apps_api_src_claude_agent",
+      "target": "claude_agent_service",
+      "relation": "exports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/apps/api/src/claude-agent/CLAUDE.md",
+      "weight": 1.0
+    },
+    {
+      "source": "meeting_mcp_server",
+      "target": "prisma_service",
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/apps/api/src/claude-agent/MEETING_TOOLS.md",
+      "weight": 1.0
+    },
+    {
+      "source": "meeting_mcp_server",
+      "target": "task_service",
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/apps/api/src/claude-agent/MEETING_TOOLS.md",
+      "weight": 1.0
+    },
+    {
+      "source": "meeting_mcp_server",
+      "target": "claude_agent_service",
+      "relation": "integrates_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/apps/api/src/claude-agent/MEETING_TOOLS.md",
+      "weight": 1.0
+    },
+    {
+      "source": "apps_api_src_meeting_file",
+      "target": "whisper_stt_service",
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/apps/api/src/meeting-file/CLAUDE.md",
+      "weight": 1.0
+    },
+    {
+      "source": "apps_api_src_meeting_file",
+      "target": "claude_summary_service",
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/apps/api/src/meeting-file/CLAUDE.md",
+      "weight": 1.0
+    },
+    {
+      "source": "claude_summary_service",
+      "target": "claude_agent_service",
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/apps/api/src/meeting-file/CLAUDE.md",
+      "weight": 1.0
+    },
+    {
+      "source": "meeting_file_processing_queue",
+      "target": "whisper_stt_service",
+      "relation": "invokes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/apps/api/src/meeting-file/CLAUDE.md",
+      "weight": 1.0
+    },
+    {
+      "source": "meeting_file_summary_queue",
+      "target": "claude_summary_service",
+      "relation": "invokes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/apps/api/src/meeting-file/CLAUDE.md",
+      "weight": 1.0
+    },
+    {
+      "source": "_claude_skills_review_all",
+      "target": "_claude_agents_security_reviewer",
+      "relation": "spawns",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.claude/skills/review-all/SKILL.md",
+      "weight": 1.0
+    },
+    {
+      "source": "_claude_skills_review_all",
+      "target": "_claude_agents_performance_reviewer",
+      "relation": "spawns",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.claude/skills/review-all/SKILL.md",
+      "weight": 1.0
+    },
+    {
+      "source": "_claude_skills_review_all",
+      "target": "_claude_agents_test_coverage_reviewer",
+      "relation": "spawns",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.claude/skills/review-all/SKILL.md",
+      "weight": 1.0
+    },
+    {
+      "source": "claude_md",
+      "target": "apps_api_claude_md",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/CLAUDE.md",
+      "weight": 1.0
+    },
+    {
+      "source": "apps_api_claude_md",
+      "target": "apps_api_src_claude_agent_claude_md",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/apps/api/CLAUDE.md",
+      "weight": 1.0
+    },
+    {
+      "source": "apps_api_claude_md",
+      "target": "apps_api_src_meeting_file_claude_md",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/apps/api/CLAUDE.md",
+      "weight": 1.0
+    },
+    {
+      "source": "claude_md",
+      "target": "pnpm_workspaces",
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/CLAUDE.md",
+      "weight": 1.0
+    },
+    {
+      "source": "claude_md",
+      "target": "turborepo",
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/CLAUDE.md",
+      "weight": 1.0
+    },
+    {
+      "source": "claude_md",
+      "target": "postgres",
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/CLAUDE.md",
+      "weight": 1.0
+    },
+    {
+      "source": "apps_api_claude_md",
+      "target": "nestjs",
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/apps/api/CLAUDE.md",
+      "weight": 1.0
+    },
+    {
+      "source": "apps_api_claude_md",
+      "target": "prisma",
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/apps/api/CLAUDE.md",
+      "weight": 1.0
+    },
+    {
+      "source": "_github_workflows_ci",
+      "target": "postgres",
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.github/workflows/ci.yml",
+      "weight": 1.0
+    },
+    {
+      "source": "_github_workflows_ci",
+      "target": "prisma",
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.github/workflows/ci.yml",
+      "weight": 1.0
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_server_cache_react",
+      "target": "rsc",
+      "relation": "applies_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/server-cache-react.md",
+      "weight": 1.0
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_server_dedup_props",
+      "target": "rsc",
+      "relation": "applies_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/server-dedup-props.md",
+      "weight": 1.0
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_server_serialization",
+      "target": "rsc",
+      "relation": "applies_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/server-serialization.md",
+      "weight": 1.0
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_server_no_shared_module_state",
+      "target": "rsc",
+      "relation": "applies_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best_practices/rules/server-no-shared-module-state.md",
+      "weight": 1.0
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_server_parallel_fetching",
+      "target": "rsc",
+      "relation": "applies_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/server-parallel-fetching.md",
+      "weight": 1.0
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_server_parallel_nested_fetching",
+      "target": "rsc",
+      "relation": "applies_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/server-parallel-nested-fetching.md",
+      "weight": 1.0
+    },
+    {
+      "source": "_claude_ralph",
+      "target": "_claude_skills_review_all",
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "/home/oneal/monorepo/.claude/ralph.md",
+      "weight": 1.0
+    }
+  ],
+  "hyperedges": [],
+  "input_tokens": 0,
+  "output_tokens": 0
+}

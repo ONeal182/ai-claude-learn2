@@ -1,16 +1,16 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { CommandHandler, EventBus, ICommandHandler, QueryBus } from '@nestjs/cqrs';
-import { type MeetingFile } from '@prisma/client';
+import type {} from '@prisma/client';
 import { PrismaService } from '../../../prisma/prisma.service.js';
-import { toMeetingFileDto, type MeetingFileDto } from '../../dto/meeting-file.dto.js';
+import { type MeetingFileDto } from '../../dto/meeting-file.dto.js';
 import { MeetingFileTranscribedEvent } from '../../events/impl/meeting-file-transcribed.event.js';
 import { GetMeetingFileQuery } from '../../queries/impl/get-meeting-file.query.js';
 import { ResummarizeMeetingFileCommand } from '../impl/resummarize-meeting-file.command.js';
 
 /**
- * Ручной перезапуск суммаризации. Разрешён только для recording файлов со статусом `done`,
- * непустым `transcriptText` и `summaryStatus !== 'processing'`. Устанавливает `summaryStatus='pending'`
- * и публикует событие для запуска `MeetingFileSummaryQueue`.
+ * Ручной перезапуск суммаризации встречи. Разрешён только для recording файлов со статусом `done`
+ * и непустым `transcriptText`, если суммаризация встречи не находится в состоянии `processing`.
+ * Устанавливает `meeting.summaryStatus='pending'` и публикует событие для запуска суммаризации.
  */
 @Injectable()
 @CommandHandler(ResummarizeMeetingFileCommand)
@@ -26,7 +26,7 @@ export class ResummarizeMeetingFileHandler implements ICommandHandler<
 
   async execute(command: ResummarizeMeetingFileCommand): Promise<MeetingFileDto> {
     // 404, если файла нет / он у другой встречи — читаем через единый источник
-    const file = await this.queryBus.execute<GetMeetingFileQuery, MeetingFile>(
+    const file = await this.queryBus.execute<GetMeetingFileQuery, MeetingFileDto>(
       new GetMeetingFileQuery(command.meetingId, command.fileId),
     );
 
@@ -43,24 +43,30 @@ export class ResummarizeMeetingFileHandler implements ICommandHandler<
       throw new ConflictException('Суммаризация недоступна для файлов без транскрипта');
     }
 
-    if (file.summaryStatus === 'processing') {
+    // Проверяем статус суммаризации на уровне встречи
+    const meeting = await this.prisma.meeting.findUnique({
+      where: { id: command.meetingId },
+      select: { summaryStatus: true },
+    });
+
+    if (meeting?.summaryStatus === 'processing') {
       throw new ConflictException('Суммаризация уже выполняется');
     }
 
-    // Устанавливаем summaryStatus='pending'
-    await this.prisma.meetingFile.update({
-      where: { id: command.fileId },
+    // Устанавливаем summaryStatus='pending' на уровне встречи
+    await this.prisma.meeting.update({
+      where: { id: command.meetingId },
       data: { summaryStatus: 'pending' },
     });
 
     // Перечитываем актуальную строку для ответа
-    const updated = await this.queryBus.execute<GetMeetingFileQuery, MeetingFile>(
+    const updated = await this.queryBus.execute<GetMeetingFileQuery, MeetingFileDto>(
       new GetMeetingFileQuery(command.meetingId, command.fileId),
     );
 
-    // Публикуем событие для запуска суммаризации
-    this.eventBus.publish(new MeetingFileTranscribedEvent(command.fileId));
+    // Публикуем событие для запуска суммаризации всей встречи
+    this.eventBus.publish(new MeetingFileTranscribedEvent(command.fileId, command.meetingId));
 
-    return toMeetingFileDto(updated);
+    return updated;
   }
 }

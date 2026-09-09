@@ -5,10 +5,12 @@ import { MulterModule } from '@nestjs/platform-express';
 import { AuthModule } from '../auth/auth.module.js';
 import { StorageModule } from '../storage/storage.module.js';
 import { ClaudeAgentModule } from '../claude-agent/claude-agent.module.js';
+import { FileLoggerService } from '../common/file-logger.service.js';
+import { TaskModule } from '../task/task.module.js';
 import { ALLOWED_UPLOAD_MIME_TYPES } from './allowed-mime.js';
 import { MeetingFileController } from './meeting-file.controller.js';
 import { MeetingFileProcessingQueue } from './processing/meeting-file-processing.queue.js';
-import { MeetingFileSummaryQueue } from './processing/meeting-file-summary.queue.js';
+import { MeetingSummaryQueue } from './processing/meeting-summary.queue.js';
 import { PROCESS_RUNNER, SpawnProcessRunner } from './processing/process-runner.js';
 import { STT_SERVICE, StubSttService, type SttService } from './processing/stt.service.js';
 import {
@@ -33,6 +35,7 @@ const DEFAULT_MAX_UPLOAD_SIZE_BYTES = 26_214_400;
     AuthModule,
     StorageModule,
     ClaudeAgentModule,
+    TaskModule,
     MulterModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -59,8 +62,9 @@ const DEFAULT_MAX_UPLOAD_SIZE_BYTES = 26_214_400;
   ],
   controllers: [MeetingFileController],
   providers: [
+    FileLoggerService,
     MeetingFileProcessingQueue,
-    MeetingFileSummaryQueue,
+    MeetingSummaryQueue,
     { provide: PROCESS_RUNNER, useClass: SpawnProcessRunner },
     StubSttService,
     WhisperSttService,

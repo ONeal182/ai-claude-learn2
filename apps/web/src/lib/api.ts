@@ -80,11 +80,20 @@ export function loginUser(credentials: Credentials): Promise<AuthResult> {
   return authRequest('/auth/login', credentials);
 }
 
+/** Решение, принятое на встрече. */
+export interface MeetingDecision {
+  decision: string;
+  rationale: string;
+}
+
 /** Встреча — ответ `GET /meetings` NestJS-сервиса (даты приходят ISO-строками). */
 export interface Meeting {
   id: string;
   title: string;
   startsAt: string;
+  summary: string | null;
+  decisions: MeetingDecision[] | null;
+  summaryStatus: MeetingFileStatus | null;
   createdAt: string;
   updatedAt: string;
 }
@@ -346,6 +355,18 @@ export function resummarizeMeetingFile(
 ): Promise<void> {
   return bearerRequest<void>(
     `/meetings/${encodeURIComponent(meetingId)}/files/${encodeURIComponent(fileId)}/resummarize`,
+    accessToken,
+    'POST',
+  );
+}
+
+/**
+ * Перегенерация резюме встречи (`POST /meetings/:id/regenerate-summary`) — запускает
+ * агентскую генерацию summary на уровне встречи с использованием хуков валидации.
+ */
+export function regenerateMeetingSummary(meetingId: string, accessToken: string): Promise<Meeting> {
+  return bearerRequest<Meeting>(
+    `/meetings/${encodeURIComponent(meetingId)}/regenerate-summary`,
     accessToken,
     'POST',
   );

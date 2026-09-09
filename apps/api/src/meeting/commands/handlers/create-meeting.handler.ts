@@ -18,6 +18,7 @@ export class CreateMeetingHandler implements ICommandHandler<CreateMeetingComman
       data: {
         title: command.title,
         startsAt: new Date(command.startsAt),
+        userId: command.userId,
       },
     });
 

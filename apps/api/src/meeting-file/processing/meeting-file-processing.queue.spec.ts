@@ -1,6 +1,7 @@
 import { EventBus } from '@nestjs/cqrs';
 import { MeetingFileStatus } from '@prisma/client';
 import { PrismaService } from '../../prisma/prisma.service.js';
+import { FileLoggerService } from '../../common/file-logger.service.js';
 import { MeetingFileProcessingQueue } from './meeting-file-processing.queue.js';
 import { type SttInput, type SttService } from './stt.service.js';
 
@@ -30,6 +31,7 @@ describe('MeetingFileProcessingQueue', () => {
             mimeType: 'audio/wav',
             status: MeetingFileStatus.pending,
             transcriptText: null,
+            meetingId: 'test-meeting-id',
           }),
         ),
         update: vi.fn().mockResolvedValue(undefined),
@@ -39,7 +41,16 @@ describe('MeetingFileProcessingQueue', () => {
 
   function build(prisma: FakePrisma, stt: SttService): MeetingFileProcessingQueue {
     const eventBus = { publish: vi.fn() } as unknown as EventBus;
-    return new MeetingFileProcessingQueue(prisma as unknown as PrismaService, stt, eventBus);
+    const fileLogger = {
+      log: vi.fn().mockResolvedValue(undefined),
+      getLogPath: vi.fn().mockReturnValue('logs/test.log'),
+    } as unknown as FileLoggerService;
+    return new MeetingFileProcessingQueue(
+      prisma as unknown as PrismaService,
+      stt,
+      eventBus,
+      fileLogger,
+    );
   }
 
   /** Статусы, с которыми звался `meetingFile.update`, по порядку. */

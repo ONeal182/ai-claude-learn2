@@ -10,6 +10,8 @@ export interface SummaryInput {
   transcriptText: string;
   /** Имя оригинального файла — может быть включено в summary для контекста. */
   originalName: string;
+  /** ID встречи, к которой относится этот файл (для ограничения операций с задачами). */
+  meetingId: string;
   /** Прерывание суммаризации (таймаут / остановка приложения). */
   signal?: AbortSignal;
 }

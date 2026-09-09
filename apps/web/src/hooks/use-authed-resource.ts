@@ -24,7 +24,7 @@ export type AuthedResourceState<T> =
  */
 export function useAuthedResource<T>(
   load: (accessToken: string) => Promise<T>,
-): AuthedResourceState<T> & { session: Session | null } {
+): AuthedResourceState<T> & { session: Session | null; reload: () => Promise<void> } {
   const router = useRouter();
   const [session] = useState(getSession);
   const [state, setState] = useState<AuthedResourceState<T>>({
@@ -32,6 +32,26 @@ export function useAuthedResource<T>(
     data: null,
     error: null,
   });
+
+  const reload = async () => {
+    if (!session) return;
+
+    try {
+      const data = await load(session.accessToken);
+      setState({ status: 'ready', data, error: null });
+    } catch (fetchError: unknown) {
+      if (fetchError instanceof ApiError && fetchError.status === 401) {
+        clearSession();
+        router.replace('/login');
+        return;
+      }
+      setState({
+        status: 'error',
+        data: null,
+        error: fetchError instanceof Error ? fetchError : new Error('Не удалось загрузить данные'),
+      });
+    }
+  };
 
   useEffect(() => {
     if (!session) {
@@ -65,5 +85,5 @@ export function useAuthedResource<T>(
     };
   }, [load, session, router]);
 
-  return { ...state, session };
+  return { ...state, session, reload };
 }

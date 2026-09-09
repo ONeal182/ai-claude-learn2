@@ -1,0 +1,505 @@
+{
+  "nodes": [
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rendering_usetransition_loading_md_usetransition",
+      "label": "useTransition",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rendering-usetransition-loading.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rendering_usetransition_loading_md_ispending_state",
+      "label": "isPending state",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rendering-usetransition-loading.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rendering_usetransition_loading_md_manual_loading_state",
+      "label": "Manual loading state",
+      "file_type": "rationale",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rendering-usetransition-loading.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rendering_script_defer_async_md_script_defer",
+      "label": "Script defer attribute",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rendering-script-defer-async.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rendering_script_defer_async_md_script_async",
+      "label": "Script async attribute",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rendering-script-defer-async.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rendering_script_defer_async_md_nextjs_script_component",
+      "label": "Next.js Script component",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rendering-script-defer-async.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rerender_defer_reads_md_defer_state_reads",
+      "label": "Defer state reads",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-defer-reads.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rerender_defer_reads_md_usesearchparams",
+      "label": "useSearchParams",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-defer-reads.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rerender_dependencies_md_narrow_effect_dependencies",
+      "label": "Narrow effect dependencies",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-dependencies.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rerender_dependencies_md_useeffect",
+      "label": "useEffect",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-dependencies.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rendering_svg_precision_md_svg_optimization",
+      "label": "SVG optimization",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rendering-svg-precision.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rendering_svg_precision_md_svgo",
+      "label": "SVGO",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rendering-svg-precision.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rerender_functional_setstate_md_functional_setstate",
+      "label": "Functional setState updates",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-functional-setstate.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rerender_functional_setstate_md_stale_closure",
+      "label": "Stale closure",
+      "file_type": "rationale",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-functional-setstate.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rerender_functional_setstate_md_usecallback",
+      "label": "useCallback",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-functional-setstate.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rerender_derived_state_md_derived_state",
+      "label": "Derived state",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-derived-state.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rerender_derived_state_md_usemediaquery",
+      "label": "useMediaQuery",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-derived-state.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rerender_lazy_state_init_md_lazy_state_initialization",
+      "label": "Lazy state initialization",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-lazy-state-init.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rerender_lazy_state_init_md_usestate",
+      "label": "useState",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-lazy-state-init.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rerender_derived_state_no_effect_md_no_effect_for_derived_state",
+      "label": "No effect for derived state",
+      "file_type": "rationale",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-derived-state-no-effect.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rerender_memo_with_default_value_md_memo_default_value",
+      "label": "Memo with default value",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-memo-with-default-value.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rerender_memo_with_default_value_md_memo",
+      "label": "React.memo",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-memo-with-default-value.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rerender_simple_expression_in_memo_md_usememo_overhead",
+      "label": "useMemo overhead",
+      "file_type": "rationale",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-simple-expression-in-memo.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rerender_simple_expression_in_memo_md_usememo",
+      "label": "useMemo",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-simple-expression-in-memo.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rerender_no_inline_components_md_inline_component_remount",
+      "label": "Inline component remount",
+      "file_type": "rationale",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-no-inline-components.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rerender_no_inline_components_md_component_definition",
+      "label": "Component definition",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-no-inline-components.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rerender_memo_md_memoized_components",
+      "label": "Memoized components",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-memo.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rerender_memo_md_react_compiler",
+      "label": "React Compiler",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-memo.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rerender_split_combined_hooks_md_split_hook_computations",
+      "label": "Split hook computations",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-split-combined-hooks.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rerender_move_effect_to_event_md_event_handler_logic",
+      "label": "Event handler logic",
+      "file_type": "rationale",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-move-effect-to-event.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rerender_use_deferred_value_md_usedeferredvalue",
+      "label": "useDeferredValue",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-use-deferred-value.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rerender_transitions_md_starttransition",
+      "label": "startTransition",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-transitions.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_server_after_nonblocking_md_after_function",
+      "label": "Next.js after() function",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/server-after-nonblocking.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rerender_use_ref_transient_values_md_useref_transient",
+      "label": "useRef for transient values",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-use-ref-transient-values.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_rerender_use_ref_transient_values_md_useref",
+      "label": "useRef",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-use-ref-transient-values.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_server_auth_actions_md_server_action_auth",
+      "label": "Server Action authentication",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/server-auth-actions.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_server_auth_actions_md_server_actions",
+      "label": "Server Actions",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/server-auth-actions.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_server_cache_lru_md_lru_cache",
+      "label": "LRU Cache",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/server-cache-lru.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_server_cache_lru_md_react_cache",
+      "label": "React.cache",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/server-cache-lru.md",
+      "source_location": null
+    },
+    {
+      "id": "_agents_skills_vercel_react_best_practices_rules_server_cache_lru_md_vercel_fluid_compute",
+      "label": "Vercel Fluid Compute",
+      "file_type": "concept",
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/server-cache-lru.md",
+      "source_location": null
+    }
+  ],
+  "edges": [
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_rendering_usetransition_loading_md_usetransition",
+      "target": "_agents_skills_vercel_react_best_practices_rules_rendering_usetransition_loading_md_ispending_state",
+      "relation": "provides",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rendering-usetransition-loading.md",
+      "weight": 1.0
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_rendering_usetransition_loading_md_usetransition",
+      "target": "_agents_skills_vercel_react_best_practices_rules_rendering_usetransition_loading_md_manual_loading_state",
+      "relation": "replaces",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rendering-usetransition-loading.md",
+      "weight": 1.0
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_rendering_script_defer_async_md_script_defer",
+      "target": "_agents_skills_vercel_react_best_practices_rules_rendering_script_defer_async_md_nextjs_script_component",
+      "relation": "alternative_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rendering-script-defer-async.md",
+      "weight": 1.0
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_rendering_script_defer_async_md_script_async",
+      "target": "_agents_skills_vercel_react_best_practices_rules_rendering_script_defer_async_md_nextjs_script_component",
+      "relation": "alternative_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rendering-script-defer-async.md",
+      "weight": 1.0
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_rerender_defer_reads_md_defer_state_reads",
+      "target": "_agents_skills_vercel_react_best_practices_rules_rerender_defer_reads_md_usesearchparams",
+      "relation": "avoids_subscription_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-defer-reads.md",
+      "weight": 1.0
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_rerender_dependencies_md_narrow_effect_dependencies",
+      "target": "_agents_skills_vercel_react_best_practices_rules_rerender_dependencies_md_useeffect",
+      "relation": "optimizes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-dependencies.md",
+      "weight": 1.0
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_rendering_svg_precision_md_svgo",
+      "target": "_agents_skills_vercel_react_best_practices_rules_rendering_svg_precision_md_svg_optimization",
+      "relation": "automates",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rendering-svg-precision.md",
+      "weight": 1.0
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_rerender_functional_setstate_md_functional_setstate",
+      "target": "_agents_skills_vercel_react_best_practices_rules_rerender_functional_setstate_md_stale_closure",
+      "relation": "prevents",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-functional-setstate.md",
+      "weight": 1.0
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_rerender_functional_setstate_md_functional_setstate",
+      "target": "_agents_skills_vercel_react_best_practices_rules_rerender_functional_setstate_md_usecallback",
+      "relation": "enables_stable",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-functional-setstate.md",
+      "weight": 1.0
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_rerender_derived_state_md_usemediaquery",
+      "target": "_agents_skills_vercel_react_best_practices_rules_rerender_derived_state_md_derived_state",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-derived-state.md",
+      "weight": 1.0
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_rerender_lazy_state_init_md_lazy_state_initialization",
+      "target": "_agents_skills_vercel_react_best_practices_rules_rerender_lazy_state_init_md_usestate",
+      "relation": "optimizes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-lazy-state-init.md",
+      "weight": 1.0
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_rerender_derived_state_no_effect_md_no_effect_for_derived_state",
+      "target": "_agents_skills_vercel_react_best_practices_rules_rerender_dependencies_md_useeffect",
+      "relation": "avoids",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-derived-state-no-effect.md",
+      "weight": 1.0
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_rerender_memo_with_default_value_md_memo_default_value",
+      "target": "_agents_skills_vercel_react_best_practices_rules_rerender_memo_with_default_value_md_memo",
+      "relation": "fixes_memoization_in",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-memo-with-default-value.md",
+      "weight": 1.0
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_rerender_simple_expression_in_memo_md_usememo_overhead",
+      "target": "_agents_skills_vercel_react_best_practices_rules_rerender_simple_expression_in_memo_md_usememo",
+      "relation": "warns_against",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-simple-expression-in-memo.md",
+      "weight": 1.0
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_rerender_no_inline_components_md_inline_component_remount",
+      "target": "_agents_skills_vercel_react_best_practices_rules_rerender_no_inline_components_md_component_definition",
+      "relation": "caused_by_inline",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-no-inline-components.md",
+      "weight": 1.0
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_rerender_memo_md_react_compiler",
+      "target": "_agents_skills_vercel_react_best_practices_rules_rerender_memo_md_memoized_components",
+      "relation": "automates",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-memo.md",
+      "weight": 1.0
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_rerender_split_combined_hooks_md_split_hook_computations",
+      "target": "_agents_skills_vercel_react_best_practices_rules_rerender_simple_expression_in_memo_md_usememo",
+      "relation": "applies_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-split-combined-hooks.md",
+      "weight": 1.0
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_rerender_split_combined_hooks_md_split_hook_computations",
+      "target": "_agents_skills_vercel_react_best_practices_rules_rerender_dependencies_md_useeffect",
+      "relation": "applies_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-split-combined-hooks.md",
+      "weight": 1.0
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_rerender_move_effect_to_event_md_event_handler_logic",
+      "target": "_agents_skills_vercel_react_best_practices_rules_rerender_dependencies_md_useeffect",
+      "relation": "replaces",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-move-effect-to-event.md",
+      "weight": 1.0
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_rerender_use_deferred_value_md_usedeferredvalue",
+      "target": "_agents_skills_vercel_react_best_practices_rules_rerender_simple_expression_in_memo_md_usememo",
+      "relation": "works_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-use-deferred-value.md",
+      "weight": 1.0
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_rerender_transitions_md_starttransition",
+      "target": "_agents_skills_vercel_react_best_practices_rules_rendering_usetransition_loading_md_usetransition",
+      "relation": "related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/rerender-transitions.md",
+      "weight": 1.0
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_server_auth_actions_md_server_action_auth",
+      "target": "_agents_skills_vercel_react_best_practices_rules_server_auth_actions_md_server_actions",
+      "relation": "secures",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/server-auth-actions.md",
+      "weight": 1.0
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_server_cache_lru_md_lru_cache",
+      "target": "_agents_skills_vercel_react_best_practices_rules_server_cache_lru_md_react_cache",
+      "relation": "extends",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/server-cache-lru.md",
+      "weight": 1.0
+    },
+    {
+      "source": "_agents_skills_vercel_react_best_practices_rules_server_cache_lru_md_vercel_fluid_compute",
+      "target": "_agents_skills_vercel_react_best_practices_rules_server_cache_lru_md_lru_cache",
+      "relation": "enables_effective",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/home/oneal/monorepo/.agents/skills/vercel-react-best-practices/rules/server-cache-lru.md",
+      "weight": 1.0
+    }
+  ],
+  "hyperedges": [],
+  "input_tokens": 0,
+  "output_tokens": 0
+}

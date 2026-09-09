@@ -1,0 +1,24 @@
+{
+  "env": {
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1",
+    "ANTHROPIC_AUTH_TOKEN": "sk-X3G5b4pv7nkRUFylnRqjNZYdqW9zLGbGYRzqPdOadeUvW4mm",
+    "ANTHROPIC_BASE_URL": "https://api.tokenflowai.online"
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e 'let d=\"\";process.stdin.on(\"data\",c=>d+=c).on(\"end\",()=>{try{const j=JSON.parse(d);const f=(j.tool_input&&j.tool_input.file_path)||(j.tool_response&&j.tool_response.filePath);if(!f)return;require(\"child_process\").spawnSync(\"pnpm\",[\"exec\",\"prettier\",\"--write\",\"--ignore-unknown\",\"--log-level\",\"warn\",f],{stdio:\"ignore\"})}catch(e){}})' 2>/dev/null || true",
+            "statusMessage": "Formatting with Prettier..."
+          }
+        ]
+      }
+    ]
+  },
+  "enabledPlugins": {
+    "caveman@caveman": true
+  }
+}

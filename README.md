@@ -4,11 +4,11 @@
 
 ## Состав
 
-| Пакет        | Стек                                             | Порт (dev) |
-| ------------ | ----------------------------------------------- | ---------- |
+| Пакет        | Стек                                                        | Порт (dev) |
+| ------------ | ----------------------------------------------------------- | ---------- |
 | `apps/web`   | Next.js 16 (App Router, TS, Tailwind v4, HeroUI v3, ESLint) | 3000       |
-| `apps/api`   | NestJS 12 (TS, ESM, oxlint, vitest)             | 3001       |
-| `packages/*` | место для общих библиотек (пока пусто)           | —          |
+| `apps/api`   | NestJS 12 (TS, ESM, oxlint, vitest)                         | 3001       |
+| `packages/*` | место для общих библиотек (пока пусто)                      | —          |
 
 ## Требования
 
@@ -23,16 +23,16 @@ pnpm install
 
 ## Скрипты (из корня)
 
-| Команда              | Действие                                             |
-| -------------------- | --------------------------------------------------- |
-| `pnpm dev`           | запускает `web` и `api` в watch-режиме параллельно   |
-| `pnpm build`         | продакшн-сборка всех пакетов                         |
-| `pnpm start`         | сборка + запуск всех пакетов                         |
-| `pnpm lint`          | линт всех пакетов (ESLint для web, oxlint для api)   |
-| `pnpm typecheck`     | `tsc --noEmit` по всем пакетам                       |
-| `pnpm test`          | тесты всех пакетов (vitest в api)                    |
-| `pnpm format`        | Prettier — форматирование всего репозитория          |
-| `pnpm format:check`  | Prettier — проверка без изменений                    |
+| Команда             | Действие                                           |
+| ------------------- | -------------------------------------------------- |
+| `pnpm dev`          | запускает `web` и `api` в watch-режиме параллельно |
+| `pnpm build`        | продакшн-сборка всех пакетов                       |
+| `pnpm start`        | сборка + запуск всех пакетов                       |
+| `pnpm lint`         | линт всех пакетов (ESLint для web, oxlint для api) |
+| `pnpm typecheck`    | `tsc --noEmit` по всем пакетам                     |
+| `pnpm test`         | тесты всех пакетов (vitest в api)                  |
+| `pnpm format`       | Prettier — форматирование всего репозитория        |
+| `pnpm format:check` | Prettier — проверка без изменений                  |
 
 ### Только один пакет
 
@@ -64,9 +64,16 @@ Postgres в Docker (`docker-compose.yml`, образ `postgres:17-alpine`, по�
 ```bash
 cp .env.example .env
 docker compose up -d postgres   # поднять
+pnpm api seed                   # заполнить тестовыми данными (опционально)
 docker compose down             # остановить
 docker compose down -v          # остановить и удалить данные (том postgres-data)
 ```
+
+После `pnpm api seed` в БД будут:
+
+- Тестовый пользователь: `test@example.com` / `test123456`
+- 3 встречи с файлами записей
+- 5 задач
 
 ## Переменные окружения
 

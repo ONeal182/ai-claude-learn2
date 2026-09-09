@@ -1,5 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { preToolUseGuard, createCallBudgetHook, createAuditLogHook } from '../hooks.js';
 
 /** Default model for one-shot completions — cheap and fast, overridable via `CLAUDE_AGENT_MODEL`. */
 export const DEFAULT_CLAUDE_AGENT_MODEL = 'claude-haiku-4-5';
@@ -17,10 +18,11 @@ interface SdkQueryOptions {
   model?: string;
   maxTurns?: number;
   systemPrompt?: string;
-  tools?: never[];
+  tools?: any[];
   settingSources?: never[];
   abortController?: AbortController;
   env?: Record<string, string | undefined>;
+  hooks?: any[];
 }
 
 /** The SDK's terminal `result` message — the only one this wrapper reads. */
@@ -74,6 +76,8 @@ export interface ClaudeAgentRunOptions {
   maxTurns?: number;
   /** Custom system prompt for the run. */
   systemPrompt?: string;
+  /** Tools to make available to the agent (MCP server instances). */
+  tools?: any[];
   /** Abort the run (also tears down the SDK subprocess). */
   signal?: AbortSignal;
 }
@@ -125,6 +129,7 @@ export class ClaudeAgentService {
    */
   async run(prompt: string, options: ClaudeAgentRunOptions = {}): Promise<ClaudeAgentRunResult> {
     const apiKey = this.config.get<string>('ANTHROPIC_API_KEY')?.trim();
+    const baseUrl = this.config.get<string>('ANTHROPIC_BASE_URL')?.trim();
     const model = options.model?.trim() || this.model;
 
     const abortController = new AbortController();
@@ -145,9 +150,15 @@ export class ClaudeAgentService {
       maxTurns: options.maxTurns ?? 1,
       // Pure text completion: disable every built-in tool and skip project
       // settings / hooks / MCP so the run is isolated and deterministic.
-      tools: [],
+      // If tools are explicitly provided, use them.
+      tools: options.tools ?? [],
       settingSources: [],
       abortController,
+      // Register hooks when tools are provided (MCP server mode)
+      hooks:
+        options.tools && options.tools.length > 0
+          ? [preToolUseGuard, createCallBudgetHook(), createAuditLogHook(this.logger)]
+          : [],
     };
     if (apiKey) {
       // `env` REPLACES the subprocess environment — spread process.env so PATH/HOME
@@ -155,6 +166,9 @@ export class ClaudeAgentService {
       // key we leave `env` unset so the subprocess inherits process.env and uses the
       // ambient Claude Code login.
       queryOptions.env = { ...process.env, ANTHROPIC_API_KEY: apiKey };
+      if (baseUrl) {
+        queryOptions.env.ANTHROPIC_BASE_URL = baseUrl;
+      }
     }
     if (options.systemPrompt) {
       queryOptions.systemPrompt = options.systemPrompt;

@@ -6,5 +6,6 @@ export class CreateMeetingFileCommand {
     public readonly meetingId: string,
     public readonly type: MeetingFile['type'],
     public readonly file: UploadedFilePart,
+    public readonly userId: string,
   ) {}
 }

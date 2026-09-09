@@ -12,6 +12,15 @@ export class GetMeetingFileHandler implements IQueryHandler<GetMeetingFileQuery,
   async execute(query: GetMeetingFileQuery): Promise<MeetingFileDto> {
     const file = await this.prisma.meetingFile.findUnique({
       where: { id: query.fileId },
+      include: {
+        meeting: {
+          select: {
+            summaryStatus: true,
+            summary: true,
+            decisions: true,
+          },
+        },
+      },
     });
 
     if (!file || file.meetingId !== query.meetingId) {

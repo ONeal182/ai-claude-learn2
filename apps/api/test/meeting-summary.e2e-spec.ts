@@ -82,19 +82,20 @@ describe('Meeting summary (e2e)', () => {
     return res.body.id as string;
   }
 
-  interface MeetingSummary {
-    summary: string;
-    decisions: string[];
-    actionItems: string[];
-  }
-
   interface FileInList {
     id: string;
     type: 'recording' | 'attachment';
     status: 'pending' | 'processing' | 'done' | 'failed';
     transcriptText: string | null;
+  }
+
+  interface MeetingDetail {
+    id: string;
+    title: string;
+    startsAt: string;
     summaryStatus: 'pending' | 'processing' | 'done' | 'failed' | null;
-    summary: MeetingSummary | null;
+    summary: string | null;
+    decisions: string[] | null;
   }
 
   async function listFiles(meetingId: string): Promise<FileInList[]> {
@@ -111,6 +112,14 @@ describe('Meeting summary (e2e)', () => {
       .set('Authorization', auth())
       .expect(200);
     return res.body as FileInList;
+  }
+
+  async function getMeeting(meetingId: string): Promise<MeetingDetail> {
+    const res = await request(app.getHttpServer())
+      .get(`/meetings/${meetingId}`)
+      .set('Authorization', auth())
+      .expect(200);
+    return res.body as MeetingDetail;
   }
 
   async function uploadRecording(meetingId: string, filename: string): Promise<FileInList> {
@@ -147,29 +156,28 @@ describe('Meeting summary (e2e)', () => {
   }
 
   /**
-   * Ждёт, пока `summaryStatus` дойдёт до `target`.
+   * Ждёт, пока `summaryStatus` на Meeting дойдёт до `target`.
    */
   async function waitForSummaryStatus(
     meetingId: string,
-    fileId: string,
     target: 'done' | 'failed',
     { timeoutMs = 5000, intervalMs = 25 } = {},
-  ): Promise<FileInList> {
+  ): Promise<MeetingDetail> {
     const allowedBefore = new Set(
       target === 'done' ? ['pending', 'processing', 'done'] : ['pending', 'processing', 'failed'],
     );
     const deadline = Date.now() + timeoutMs;
     for (;;) {
-      const file = await getFile(meetingId, fileId);
-      if (file.summaryStatus === target) return file;
-      if (file.summaryStatus && !allowedBefore.has(file.summaryStatus)) {
+      const meeting = await getMeeting(meetingId);
+      if (meeting.summaryStatus === target) return meeting;
+      if (meeting.summaryStatus && !allowedBefore.has(meeting.summaryStatus)) {
         throw new Error(
-          `Неожиданный summaryStatus «${file.summaryStatus}», ожидали переход в «${target}»`,
+          `Неожиданный summaryStatus «${meeting.summaryStatus}», ожидали переход в «${target}»`,
         );
       }
       if (Date.now() > deadline) {
         throw new Error(
-          `Таймаут ожидания summaryStatus=${target}, последний статус: ${file.summaryStatus}`,
+          `Таймаут ожидания summaryStatus=${target}, последний статус: ${meeting.summaryStatus}`,
         );
       }
       await new Promise((resolve) => setTimeout(resolve, intervalMs));
@@ -182,57 +190,62 @@ describe('Meeting summary (e2e)', () => {
 
       const uploaded = await uploadRecording(meetingId, 'планёрка.mp3');
       expect(uploaded.status).toBe('pending');
-      expect(uploaded.summaryStatus).toBeNull();
-      expect(uploaded.summary).toBeNull();
 
       // Ждём завершения транскрибации.
       const transcribed = await waitForTranscriptDone(meetingId, uploaded.id);
       expect(transcribed.status).toBe('done');
       expect(typeof transcribed.transcriptText).toBe('string');
 
-      // Ждём завершения суммаризации.
-      const summarized = await waitForSummaryStatus(meetingId, uploaded.id, 'done');
-      expect(summarized.summaryStatus).toBe('done');
-      expect(summarized.summary).not.toBeNull();
-      expect(typeof summarized.summary?.summary).toBe('string');
-      expect(summarized.summary?.summary.length).toBeGreaterThan(0);
-      expect(Array.isArray(summarized.summary?.decisions)).toBe(true);
-      expect(Array.isArray(summarized.summary?.actionItems)).toBe(true);
+      // Ждём завершения суммаризации на уровне Meeting.
+      const meeting = await waitForSummaryStatus(meetingId, 'done');
+      expect(meeting.summaryStatus).toBe('done');
+      expect(meeting.summary).not.toBeNull();
+      expect(typeof meeting.summary).toBe('string');
+      expect(meeting.summary!.length).toBeGreaterThan(0);
+      expect(Array.isArray(meeting.decisions)).toBe(true);
     });
 
-    it('GET /meetings/:id/files/:fileId возвращает summaryStatus и summary', async () => {
+    it('GET /meetings/:id/files/:fileId возвращает файл, summary проверяется на Meeting', async () => {
       const meetingId = await createMeeting();
 
       const uploaded = await uploadRecording(meetingId, 'встреча.mp3');
       await waitForTranscriptDone(meetingId, uploaded.id);
-      const file = await waitForSummaryStatus(meetingId, uploaded.id, 'done');
+      const meeting = await waitForSummaryStatus(meetingId, 'done');
 
-      expect(file.summaryStatus).toBe('done');
-      expect(file.summary).not.toBeNull();
-      expect(file.summary?.summary).toBeTruthy();
-      expect(Array.isArray(file.summary?.decisions)).toBe(true);
-      expect(Array.isArray(file.summary?.actionItems)).toBe(true);
+      // Проверяем, что файл вернулся корректно.
+      const file = await getFile(meetingId, uploaded.id);
+      expect(file.id).toBe(uploaded.id);
+      expect(file.status).toBe('done');
+
+      // Проверяем summary на уровне Meeting.
+      expect(meeting.summaryStatus).toBe('done');
+      expect(meeting.summary).not.toBeNull();
+      expect(meeting.summary).toBeTruthy();
+      expect(Array.isArray(meeting.decisions)).toBe(true);
     });
 
-    it('GET /meetings/:id/files возвращает summaryStatus и summary для всех файлов', async () => {
+    it('GET /meetings/:id/files возвращает файлы, summary проверяется на Meeting', async () => {
       const meetingId = await createMeeting();
 
       const uploaded = await uploadRecording(meetingId, 'совещание.mp3');
       await waitForTranscriptDone(meetingId, uploaded.id);
-      await waitForSummaryStatus(meetingId, uploaded.id, 'done');
+      await waitForSummaryStatus(meetingId, 'done');
 
       const files = await listFiles(meetingId);
       const file = files.find((f) => f.id === uploaded.id);
 
       expect(file).toBeDefined();
-      expect(file?.summaryStatus).toBe('done');
-      expect(file?.summary).not.toBeNull();
-      expect(typeof file?.summary?.summary).toBe('string');
-      expect(Array.isArray(file?.summary?.decisions)).toBe(true);
-      expect(Array.isArray(file?.summary?.actionItems)).toBe(true);
+      expect(file?.status).toBe('done');
+
+      // Проверяем summary на уровне Meeting.
+      const meeting = await getMeeting(meetingId);
+      expect(meeting.summaryStatus).toBe('done');
+      expect(meeting.summary).not.toBeNull();
+      expect(typeof meeting.summary).toBe('string');
+      expect(Array.isArray(meeting.decisions)).toBe(true);
     });
 
-    it('attachment имеет summaryStatus=null и summary=null', async () => {
+    it('attachment не влияет на summaryStatus Meeting', async () => {
       const meetingId = await createMeeting();
 
       const res = await request(app.getHttpServer())
@@ -247,15 +260,13 @@ describe('Meeting summary (e2e)', () => {
 
       expect(res.body.type).toBe('attachment');
       expect(res.body.status).toBe('done');
-      expect(res.body.summaryStatus).toBeNull();
-      expect(res.body.summary).toBeNull();
 
-      // Подождём немного и убедимся, что ничего не изменилось.
+      // Подождём немного и убедимся, что Meeting не получил summaryStatus.
       await new Promise((resolve) => setTimeout(resolve, 200));
 
-      const file = await getFile(meetingId, res.body.id);
-      expect(file.summaryStatus).toBeNull();
-      expect(file.summary).toBeNull();
+      const meeting = await getMeeting(meetingId);
+      expect(meeting.summaryStatus).toBeNull();
+      expect(meeting.summary).toBeNull();
     });
 
     it('stub-движок возвращает детерминированное резюме с корректной структурой', async () => {
@@ -263,16 +274,14 @@ describe('Meeting summary (e2e)', () => {
 
       const uploaded = await uploadRecording(meetingId, 'квартальный-отчёт.mp3');
       await waitForTranscriptDone(meetingId, uploaded.id);
-      const file = await waitForSummaryStatus(meetingId, uploaded.id, 'done');
+      const meeting = await waitForSummaryStatus(meetingId, 'done');
 
-      expect(file.summary).not.toBeNull();
+      expect(meeting.summary).not.toBeNull();
       // Stub включает имя файла в summary для детерминированности.
-      expect(file.summary?.summary).toContain('квартальный-отчёт.mp3');
-      expect(file.summary?.decisions).toBeInstanceOf(Array);
-      expect(file.summary?.actionItems).toBeInstanceOf(Array);
-      // Stub генерирует хотя бы одно решение и одну задачу.
-      expect(file.summary?.decisions.length).toBeGreaterThan(0);
-      expect(file.summary?.actionItems.length).toBeGreaterThan(0);
+      expect(meeting.summary).toContain('квартальный-отчёт.mp3');
+      expect(meeting.decisions).toBeInstanceOf(Array);
+      // Stub генерирует хотя бы одно решение.
+      expect(meeting.decisions!.length).toBeGreaterThan(0);
     });
   });
 
@@ -283,24 +292,26 @@ describe('Meeting summary (e2e)', () => {
       // 1. Загрузка recording.
       const uploaded = await uploadRecording(meetingId, 'полный-цикл.mp3');
       expect(uploaded.status).toBe('pending');
-      expect(uploaded.summaryStatus).toBeNull();
 
       // 2. Транскрибация завершается.
       const transcribed = await waitForTranscriptDone(meetingId, uploaded.id);
       expect(transcribed.transcriptText).toBeTruthy();
 
-      // 3. Суммаризация автоматически запускается и завершается.
-      const summarized = await waitForSummaryStatus(meetingId, uploaded.id, 'done');
-      expect(summarized.summaryStatus).toBe('done');
-      expect(summarized.summary).not.toBeNull();
+      // 3. Суммаризация автоматически запускается и завершается на уровне Meeting.
+      const meeting = await waitForSummaryStatus(meetingId, 'done');
+      expect(meeting.summaryStatus).toBe('done');
+      expect(meeting.summary).not.toBeNull();
 
-      // 4. GET /meetings/:id/files показывает оба результата.
+      // 4. GET /meetings/:id/files показывает результат транскрибации.
       const files = await listFiles(meetingId);
       const file = files.find((f) => f.id === uploaded.id);
       expect(file?.status).toBe('done');
       expect(file?.transcriptText).toBeTruthy();
-      expect(file?.summaryStatus).toBe('done');
-      expect(file?.summary).not.toBeNull();
+
+      // 5. Summary доступен через Meeting.
+      const meetingCheck = await getMeeting(meetingId);
+      expect(meetingCheck.summaryStatus).toBe('done');
+      expect(meetingCheck.summary).not.toBeNull();
     });
   });
 
@@ -309,7 +320,7 @@ describe('Meeting summary (e2e)', () => {
       const meetingId = await createMeeting();
       const uploaded = await uploadRecording(meetingId, 'test.mp3');
       await waitForTranscriptDone(meetingId, uploaded.id);
-      await waitForSummaryStatus(meetingId, uploaded.id, 'done');
+      await waitForSummaryStatus(meetingId, 'done');
 
       await request(app.getHttpServer())
         .post(`/meetings/${meetingId}/files/${uploaded.id}/resummarize`)
@@ -347,7 +358,7 @@ describe('Meeting summary (e2e)', () => {
       // Если уже done (stub быстро обработался), пропускаем тест.
       if (res.status === 409) {
         const file = await getFile(meetingId, uploaded.id);
-        // Проверяем, что summary не был изменён (должен быть null или не изменился).
+        // Проверяем, что файл не завершён.
         expect(file.status).not.toBe('done');
       } else {
         // Файл уже done - stub обработался слишком быстро, тест не применим.
@@ -363,27 +374,26 @@ describe('Meeting summary (e2e)', () => {
       await waitForTranscriptDone(meetingId, uploaded.id);
 
       // Пытаемся запустить resummarize пока суммаризация в процессе.
-      // Может быть в pending или processing, поймём по первому запросу.
-      let file = await getFile(meetingId, uploaded.id);
-      if (file.summaryStatus === null) {
+      let meeting = await getMeeting(meetingId);
+      if (meeting.summaryStatus === null) {
         // Ждём, пока начнётся суммаризация.
         const deadline = Date.now() + 2000;
-        while (file.summaryStatus === null && Date.now() < deadline) {
+        while (meeting.summaryStatus === null && Date.now() < deadline) {
           await new Promise((resolve) => setTimeout(resolve, 25));
-          file = await getFile(meetingId, uploaded.id);
+          meeting = await getMeeting(meetingId);
         }
       }
 
       // Если summaryStatus в pending или processing, должен быть 409.
-      if (file.summaryStatus === 'pending' || file.summaryStatus === 'processing') {
-        const summaryBefore = file.summary;
+      if (meeting.summaryStatus === 'pending' || meeting.summaryStatus === 'processing') {
+        const summaryBefore = meeting.summary;
         await request(app.getHttpServer())
           .post(`/meetings/${meetingId}/files/${uploaded.id}/resummarize`)
           .set('Authorization', auth())
           .expect(409);
 
-        const fileAfter = await getFile(meetingId, uploaded.id);
-        expect(fileAfter.summary).toEqual(summaryBefore);
+        const meetingAfter = await getMeeting(meetingId);
+        expect(meetingAfter.summary).toEqual(summaryBefore);
       } else {
         // Если уже done, пропускаем этот тест.
         // (В production этот race condition маловероятен, но в e2e с stub может проскочить быстро.)
@@ -395,11 +405,11 @@ describe('Meeting summary (e2e)', () => {
       const uploaded = await uploadRecording(meetingId, 'resummarize-test.mp3');
 
       await waitForTranscriptDone(meetingId, uploaded.id);
-      const firstSummary = await waitForSummaryStatus(meetingId, uploaded.id, 'done');
+      const firstMeeting = await waitForSummaryStatus(meetingId, 'done');
 
-      expect(firstSummary.summaryStatus).toBe('done');
-      expect(firstSummary.summary).not.toBeNull();
-      const firstSummaryContent = firstSummary.summary?.summary;
+      expect(firstMeeting.summaryStatus).toBe('done');
+      expect(firstMeeting.summary).not.toBeNull();
+      const firstSummaryContent = firstMeeting.summary;
 
       // Запускаем повторную суммаризацию.
       await request(app.getHttpServer())
@@ -408,17 +418,16 @@ describe('Meeting summary (e2e)', () => {
         .expect(200);
 
       // Ждём завершения новой суммаризации.
-      const secondSummary = await waitForSummaryStatus(meetingId, uploaded.id, 'done');
+      const secondMeeting = await waitForSummaryStatus(meetingId, 'done');
 
-      expect(secondSummary.summaryStatus).toBe('done');
-      expect(secondSummary.summary).not.toBeNull();
+      expect(secondMeeting.summaryStatus).toBe('done');
+      expect(secondMeeting.summary).not.toBeNull();
 
       // Stub-движок должен генерировать уникальное резюме (с timestamp или счётчиком).
       // Проверяем, что summary изменилось.
-      expect(secondSummary.summary?.summary).not.toBe(firstSummaryContent);
-      expect(secondSummary.summary?.summary.length).toBeGreaterThan(0);
-      expect(Array.isArray(secondSummary.summary?.decisions)).toBe(true);
-      expect(Array.isArray(secondSummary.summary?.actionItems)).toBe(true);
+      expect(secondMeeting.summary).not.toBe(firstSummaryContent);
+      expect(secondMeeting.summary!.length).toBeGreaterThan(0);
+      expect(Array.isArray(secondMeeting.decisions)).toBe(true);
     });
   });
 
@@ -428,11 +437,11 @@ describe('Meeting summary (e2e)', () => {
       const uploaded = await uploadRecording(meetingId, 'reprocess-test.mp3');
 
       await waitForTranscriptDone(meetingId, uploaded.id);
-      const firstSummary = await waitForSummaryStatus(meetingId, uploaded.id, 'done');
+      const firstSummary = await waitForSummaryStatus(meetingId, 'done');
 
       expect(firstSummary.summaryStatus).toBe('done');
       expect(firstSummary.summary).not.toBeNull();
-      const firstSummaryContent = firstSummary.summary?.summary;
+      const firstSummaryContent = firstSummary.summary;
 
       // Для тестирования reprocess нужно перевести файл в status=failed.
       // Получаем PrismaService из приложения.
@@ -460,13 +469,13 @@ describe('Meeting summary (e2e)', () => {
       await waitForTranscriptDone(meetingId, uploaded.id);
 
       // Ждём завершения новой суммаризации.
-      const newSummary = await waitForSummaryStatus(meetingId, uploaded.id, 'done');
+      const newSummary = await waitForSummaryStatus(meetingId, 'done');
 
       expect(newSummary.summaryStatus).toBe('done');
       expect(newSummary.summary).not.toBeNull();
       // Новое резюме должно отличаться от первого (stub включает timestamp).
-      expect(newSummary.summary?.summary).not.toBe(firstSummaryContent);
-      expect(newSummary.summary?.summary.length).toBeGreaterThan(0);
+      expect(newSummary.summary).not.toBe(firstSummaryContent);
+      expect(newSummary.summary.length).toBeGreaterThan(0);
     });
   });
 
@@ -476,7 +485,7 @@ describe('Meeting summary (e2e)', () => {
       const uploaded = await uploadRecording(meetingId, 'to-delete.mp3');
 
       await waitForTranscriptDone(meetingId, uploaded.id);
-      await waitForSummaryStatus(meetingId, uploaded.id, 'done');
+      await waitForSummaryStatus(meetingId, 'done');
 
       // Удаляем файл.
       await request(app.getHttpServer())

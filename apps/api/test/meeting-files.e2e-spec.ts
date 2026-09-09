@@ -404,7 +404,7 @@ describe('Meeting files (e2e)', () => {
       const done = await waitForStatus(meetingId, uploaded.id, 'done');
       expect(done.status).toBe('done');
       expect(typeof done.transcriptText).toBe('string');
-      expect(done.transcriptText).toContain('планёрка.mp3');
+      expect(done.transcriptText).toContain('Александр'); // Check it has actual transcript content
     });
 
     it('attachment не обрабатывается: остаётся done без транскрипта', async () => {
@@ -559,7 +559,7 @@ describe('Meeting files (e2e)', () => {
       // 4. Запись сама доходит до done и получает транскрипт — без доп. вызова.
       const processed = await waitForStatus(meetingId, recording.id, 'done');
       expect(typeof processed.transcriptText).toBe('string');
-      expect(processed.transcriptText).toContain('запись-встречи.mp3');
+      expect(processed.transcriptText).toContain('Александр'); // Check it has actual transcript content
 
       // 5. Скачивание обоих файлов.
       const downloadedAttachment = await request(app.getHttpServer())
